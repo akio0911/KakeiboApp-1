@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4712FD5B2664820C00D11BF1 /* ExtensionString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712FD5A2664820C00D11BF1 /* ExtensionString.swift */; };
+		4712FD5D2664826E00D11BF1 /* ExtensionUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712FD5C2664826E00D11BF1 /* ExtensionUserDefaults.swift */; };
+		4712FD612664D0E800D11BF1 /* CalendarListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712FD602664D0E800D11BF1 /* CalendarListLayout.swift */; };
+		47815702266128C8005E1020 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47815701266128C8005E1020 /* AppDelegate.swift */; };
+		47815704266128C8005E1020 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47815703266128C8005E1020 /* SceneDelegate.swift */; };
+		47815709266128C8005E1020 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47815707266128C8005E1020 /* Main.storyboard */; };
+		4781570B266128C8005E1020 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4781570A266128C8005E1020 /* Assets.xcassets */; };
+		4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4781570C266128C8005E1020 /* LaunchScreen.storyboard */; };
+		4781572926612E22005E1020 /* extensionDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781572826612E22005E1020 /* extensionDate.swift */; };
+		4781572C26612E5D005E1020 /* extensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781572B26612E5D005E1020 /* extensionUIColor.swift */; };
+		4781573026612ED5005E1020 /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781572F26612ED5005E1020 /* CalendarDate.swift */; };
+		478157362661C686005E1020 /* CalendarCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478157352661C686005E1020 /* CalendarCellLayout.swift */; };
+		4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4785FD3426620E8700BAAD00 /* InputViewController.swift */; };
+		4785FD3D2662129600BAAD00 /* Input.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4785FD3C2662129600BAAD00 /* Input.storyboard */; };
+		4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDC82662878500FF6ADF /* CalendarViewController.swift */; };
+		4786EDCD266348FD00FF6ADF /* IncomeAndExpenditure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */; };
+		4786EDD4266357E100FF6ADF /* DataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDD3266357E100FF6ADF /* DataRepository.swift */; };
+		478C82F326689C4400E9D669 /* Gradation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C82F226689C4400E9D669 /* Gradation.swift */; };
+		478E53C726691D6800CDA9A8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478E53C626691D6800CDA9A8 /* Category.swift */; };
+		478E53CD2669436B00CDA9A8 /* ExpensesAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4712FD5A2664820C00D11BF1 /* ExtensionString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionString.swift; sourceTree = "<group>"; };
+		4712FD5C2664826E00D11BF1 /* ExtensionUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUserDefaults.swift; sourceTree = "<group>"; };
+		4712FD602664D0E800D11BF1 /* CalendarListLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarListLayout.swift; sourceTree = "<group>"; };
+		478156FE266128C8005E1020 /* KakeiboApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KakeiboApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		47815701266128C8005E1020 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		47815703266128C8005E1020 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		47815708266128C8005E1020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4781570A266128C8005E1020 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4781570D266128C8005E1020 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4781570F266128C8005E1020 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4781572826612E22005E1020 /* extensionDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensionDate.swift; sourceTree = "<group>"; };
+		4781572B26612E5D005E1020 /* extensionUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensionUIColor.swift; sourceTree = "<group>"; };
+		4781572F26612ED5005E1020 /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
+		478157352661C686005E1020 /* CalendarCellLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCellLayout.swift; sourceTree = "<group>"; };
+		4785FD3426620E8700BAAD00 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
+		4785FD3C2662129600BAAD00 /* Input.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Input.storyboard; sourceTree = "<group>"; };
+		4786EDC82662878500FF6ADF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
+		4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeAndExpenditure.swift; sourceTree = "<group>"; };
+		4786EDD3266357E100FF6ADF /* DataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRepository.swift; sourceTree = "<group>"; };
+		478C82F226689C4400E9D669 /* Gradation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradation.swift; sourceTree = "<group>"; };
+		478E53C626691D6800CDA9A8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpensesAlert.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/ExpensesAlert.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		478156FB266128C8005E1020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		478156F5266128C8005E1020 = {
+			isa = PBXGroup;
+			children = (
+				47815700266128C8005E1020 /* KakeiboApp */,
+				478156FF266128C8005E1020 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		478156FF266128C8005E1020 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				478156FE266128C8005E1020 /* KakeiboApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		47815700266128C8005E1020 /* KakeiboApp */ = {
+			isa = PBXGroup;
+			children = (
+				478157182661292B005E1020 /* Content */,
+				4781571B26612C48005E1020 /* Model */,
+				4781571A26612C3F005E1020 /* View */,
+				4781572326612CEE005E1020 /* Extension */,
+				47815701266128C8005E1020 /* AppDelegate.swift */,
+				47815703266128C8005E1020 /* SceneDelegate.swift */,
+				4781570A266128C8005E1020 /* Assets.xcassets */,
+				4781570C266128C8005E1020 /* LaunchScreen.storyboard */,
+				4781570F266128C8005E1020 /* Info.plist */,
+			);
+			path = KakeiboApp;
+			sourceTree = "<group>";
+		};
+		478157182661292B005E1020 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				4781571926612993005E1020 /* Calendar */,
+				4785FD3326620D6A00BAAD00 /* InputScreen */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
+		4781571926612993005E1020 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				47815707266128C8005E1020 /* Main.storyboard */,
+				4786EDC82662878500FF6ADF /* CalendarViewController.swift */,
+				4781571D26612C65005E1020 /* View */,
+				4781571C26612C5C005E1020 /* Model */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		4781571A26612C3F005E1020 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4781571B26612C48005E1020 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */,
+				4786EDD3266357E100FF6ADF /* DataRepository.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4781571C26612C5C005E1020 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4781572F26612ED5005E1020 /* CalendarDate.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4781571D26612C65005E1020 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				478157352661C686005E1020 /* CalendarCellLayout.swift */,
+				4712FD602664D0E800D11BF1 /* CalendarListLayout.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		4781572326612CEE005E1020 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4781572826612E22005E1020 /* extensionDate.swift */,
+				4781572B26612E5D005E1020 /* extensionUIColor.swift */,
+				4712FD5A2664820C00D11BF1 /* ExtensionString.swift */,
+				4712FD5C2664826E00D11BF1 /* ExtensionUserDefaults.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		4785FD3326620D6A00BAAD00 /* InputScreen */ = {
+			isa = PBXGroup;
+			children = (
+				4785FD3C2662129600BAAD00 /* Input.storyboard */,
+				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
+				478C82F126689C2500E9D669 /* View */,
+			);
+			path = InputScreen;
+			sourceTree = "<group>";
+		};
+		478C82F126689C2500E9D669 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				478C82F226689C4400E9D669 /* Gradation.swift */,
+				478E53C626691D6800CDA9A8 /* Category.swift */,
+				478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		478156FD266128C8005E1020 /* KakeiboApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 47815712266128C8005E1020 /* Build configuration list for PBXNativeTarget "KakeiboApp" */;
+			buildPhases = (
+				478156FA266128C8005E1020 /* Sources */,
+				478156FB266128C8005E1020 /* Frameworks */,
+				478156FC266128C8005E1020 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KakeiboApp;
+			productName = KakeiboApp;
+			productReference = 478156FE266128C8005E1020 /* KakeiboApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		478156F6266128C8005E1020 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					478156FD266128C8005E1020 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = 478156F9266128C8005E1020 /* Build configuration list for PBXProject "KakeiboApp" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 478156F5266128C8005E1020;
+			productRefGroup = 478156FF266128C8005E1020 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				478156FD266128C8005E1020 /* KakeiboApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		478156FC266128C8005E1020 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */,
+				4781570B266128C8005E1020 /* Assets.xcassets in Resources */,
+				47815709266128C8005E1020 /* Main.storyboard in Resources */,
+				4785FD3D2662129600BAAD00 /* Input.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		478156FA266128C8005E1020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4781573026612ED5005E1020 /* CalendarDate.swift in Sources */,
+				478E53CD2669436B00CDA9A8 /* ExpensesAlert.swift in Sources */,
+				4786EDD4266357E100FF6ADF /* DataRepository.swift in Sources */,
+				4712FD5D2664826E00D11BF1 /* ExtensionUserDefaults.swift in Sources */,
+				478157362661C686005E1020 /* CalendarCellLayout.swift in Sources */,
+				4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */,
+				4781572C26612E5D005E1020 /* extensionUIColor.swift in Sources */,
+				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
+				4786EDCD266348FD00FF6ADF /* IncomeAndExpenditure.swift in Sources */,
+				4712FD5B2664820C00D11BF1 /* ExtensionString.swift in Sources */,
+				478C82F326689C4400E9D669 /* Gradation.swift in Sources */,
+				4712FD612664D0E800D11BF1 /* CalendarListLayout.swift in Sources */,
+				478E53C726691D6800CDA9A8 /* Category.swift in Sources */,
+				4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */,
+				47815704266128C8005E1020 /* SceneDelegate.swift in Sources */,
+				4781572926612E22005E1020 /* extensionDate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		47815707266128C8005E1020 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				47815708266128C8005E1020 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4781570C266128C8005E1020 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4781570D266128C8005E1020 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		47815710266128C8005E1020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		47815711266128C8005E1020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		47815713266128C8005E1020 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HAMLUR4PQA;
+				INFOPLIST_FILE = KakeiboApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		47815714266128C8005E1020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = HAMLUR4PQA;
+				INFOPLIST_FILE = KakeiboApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		478156F9266128C8005E1020 /* Build configuration list for PBXProject "KakeiboApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47815710266128C8005E1020 /* Debug */,
+				47815711266128C8005E1020 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		47815712266128C8005E1020 /* Build configuration list for PBXNativeTarget "KakeiboApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				47815713266128C8005E1020 /* Debug */,
+				47815714266128C8005E1020 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 478156F6266128C8005E1020 /* Project object */;
+}
