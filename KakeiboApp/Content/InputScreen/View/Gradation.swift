@@ -12,7 +12,7 @@ struct Gradation {
     
     init() {
         let topColor = UIColor(red: 255 / 255, green: 129 / 255, blue: 51 / 255, alpha: 1)
-        let bottomColor = UIColor.white
+        let bottomColor = UIColor(red: 255 / 255, green: 230 / 255, blue: 214 / 255, alpha: 1)
         let gradientColors: [CGColor] = [topColor.cgColor, bottomColor.cgColor]
         gradientLayer.colors = gradientColors
         

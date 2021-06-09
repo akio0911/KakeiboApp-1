@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, CalendarFrameDelegate {
+class CalendarViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, CalendarFrameDelegate {
     
     @IBOutlet weak var barTitle: UINavigationItem!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -28,8 +28,9 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         collectionView.delegate = self
         collectionView.dataSource = self
         calendarDate.delegate = self
+        tableView.delegate = self
         tableView.dataSource = self
-        barTitle.title = calendarDate.carendarTitle
+        barTitle.title = "\(calendarDate.carendarTitle ?? "nil")\nYYYY"
         UserDefaults.standard.removeAll()
         collectionView.backgroundColor = UIColor.atomicTangerine
         
@@ -204,7 +205,31 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        calendarListLayout.monthData[section][0].date.string(dateFormat: "yyyy/MM/dd")
+        calendarListLayout.monthData[section][safe:0]?.date.string(dateFormat: "YYYY年MM月dd日")
+    }
+    
+    // MARK: - UITableViewDelegate
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete {
+            var count = -1
+            let data = calendarListLayout.monthData[indexPath.section][indexPath.row]
+            for d in dataRepository.data {
+                count += 1
+                if d.date.string(dateFormat: "YYYY/MM/dd") == data.date.string(dateFormat: "YYYY/MM/dd") {
+                    count += indexPath.row
+                    break
+                }
+            }
+            dataRepository.data.remove(at: count)
+            calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
+            tableView.reloadData()
+            collectionView.reloadData()
+            dataRepository.update()
+        }
     }
 }
 

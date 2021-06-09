@@ -15,13 +15,13 @@ struct CalendarListLayout {
         monthData.removeAll()
         let calendar = Calendar(identifier: .gregorian)
         var dayData = [IncomeAndExpenditure]()
-        let month = firstDay.string(dateFormat: "yyyy/MM")
+        let month = firstDay.string(dateFormat: "YYYY/MM")
         for i in 0...30{
             dayData.removeAll()
             let day = calendar.date(byAdding: .day, value: i, to: firstDay)
             for d in data {
-                if d.date.string(dateFormat: "yyyy/MM") == month &&
-                    d.date.string(dateFormat: "yyyy/MM/dd") == day!.string(dateFormat: "yyyy/MM/dd") {
+                if d.date.string(dateFormat: "YYYY/MM") == month &&
+                    d.date.string(dateFormat: "YYYY/MM/dd") == day!.string(dateFormat: "YYYY/MM/dd") {
                     dayData.append(d)
                 }
             }

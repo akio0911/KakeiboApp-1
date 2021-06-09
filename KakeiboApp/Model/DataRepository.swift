@@ -10,7 +10,7 @@ import Foundation
 class DataRepository {
     
     private let dataKey = "kakeibo"
-    private(set) var data = [IncomeAndExpenditure]()
+    var data = [IncomeAndExpenditure]()
     
     func loadData() {
         data.removeAll()
@@ -26,6 +26,22 @@ class DataRepository {
     func saveData(incomeAndExpenditure: IncomeAndExpenditure) {
         self.data.append(incomeAndExpenditure)
         self.data.sort { $0.date < $1.date}
+        var data = [[String : Any]]()
+        for i in self.data {
+            let dictionaries: [String : Any] = [
+                "date" : i.date,
+                "category" : i.category,
+                "expenses" : i.expenses,
+                "memo" : i.memo
+            ]
+            data.append(dictionaries)
+        }
+        let userDefaluts = UserDefaults.standard
+        userDefaluts.set(data, forKey: dataKey)
+        userDefaluts.synchronize()
+    }
+    
+    func update() {
         var data = [[String : Any]]()
         for i in self.data {
             let dictionaries: [String : Any] = [

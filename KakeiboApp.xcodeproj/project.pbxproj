@@ -24,6 +24,7 @@
 		4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDC82662878500FF6ADF /* CalendarViewController.swift */; };
 		4786EDCD266348FD00FF6ADF /* IncomeAndExpenditure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */; };
 		4786EDD4266357E100FF6ADF /* DataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDD3266357E100FF6ADF /* DataRepository.swift */; };
+		478C115A266B574400F93B7D /* ExrensionArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C1159266B574400F93B7D /* ExrensionArray.swift */; };
 		478C82F326689C4400E9D669 /* Gradation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C82F226689C4400E9D669 /* Gradation.swift */; };
 		478E53C726691D6800CDA9A8 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478E53C626691D6800CDA9A8 /* Category.swift */; };
 		478E53CD2669436B00CDA9A8 /* ExpensesAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */; };
@@ -49,6 +50,7 @@
 		4786EDC82662878500FF6ADF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeAndExpenditure.swift; sourceTree = "<group>"; };
 		4786EDD3266357E100FF6ADF /* DataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRepository.swift; sourceTree = "<group>"; };
+		478C1159266B574400F93B7D /* ExrensionArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExrensionArray.swift; sourceTree = "<group>"; };
 		478C82F226689C4400E9D669 /* Gradation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradation.swift; sourceTree = "<group>"; };
 		478E53C626691D6800CDA9A8 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpensesAlert.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/ExpensesAlert.swift"; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				4781572B26612E5D005E1020 /* extensionUIColor.swift */,
 				4712FD5A2664820C00D11BF1 /* ExtensionString.swift */,
 				4712FD5C2664826E00D11BF1 /* ExtensionUserDefaults.swift */,
+				478C1159266B574400F93B7D /* ExrensionArray.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				4712FD612664D0E800D11BF1 /* CalendarListLayout.swift in Sources */,
 				478E53C726691D6800CDA9A8 /* Category.swift in Sources */,
 				4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */,
+				478C115A266B574400F93B7D /* ExrensionArray.swift in Sources */,
 				47815704266128C8005E1020 /* SceneDelegate.swift in Sources */,
 				4781572926612E22005E1020 /* extensionDate.swift in Sources */,
 			);

@@ -25,7 +25,7 @@ class CalendarDate {
     
     var firstDay: Date! {
         didSet {
-            carendarTitle = firstDay.string(dateFormat: "yyyy年MM月")
+            carendarTitle = firstDay.string(dateFormat: "YYYY年MM月") 
             let beforeNumberOfWeeks = nuberOfWeeks
             days = setDays()
             if beforeNumberOfWeeks != nuberOfWeeks {
@@ -38,7 +38,7 @@ class CalendarDate {
         let component = carendar.dateComponents([.year, .month, .day], from: Date())
         today = carendar.date(from: DateComponents(year: component.year, month: component.month, day: component.day))
         firstDay = carendar.date(from: DateComponents(year: component.year, month: component.month, day: 1))
-        carendarTitle = firstDay.string(dateFormat: "yyyy年MM月")
+        carendarTitle = firstDay.string(dateFormat: "YYYY年MM月")
         days = setDays()
     }
     

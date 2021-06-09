@@ -22,7 +22,7 @@ struct CalendarCellLayout {
         var expenses: Int!
         var total = 0
         for d in saveData {
-            if date.string(dateFormat: "yyyy/MM/d") == d.date.string(dateFormat: "yyyy/MM/d") {
+            if date.string(dateFormat: "YYYY/MM/dd") == d.date.string(dateFormat: "YYYY/MM/dd") {
                 total += d.expenses
                 expenses = total
             }

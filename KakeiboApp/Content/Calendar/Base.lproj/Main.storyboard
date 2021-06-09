@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--calendar-->
+        <!--カレンダー-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="Calendar" id="BYZ-38-t0r" customClass="CalendarViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -22,23 +22,23 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="5aJ-Hl-3G0" detailTextLabel="lq1-wV-HXn" style="IBUITableViewCellStyleValue2" id="BHi-op-ilh">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="50.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BHi-op-ilh" id="UOk-hb-dDf">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5aJ-Hl-3G0">
-                                                    <rect key="frame" x="20" y="15" width="91" height="14.5"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5aJ-Hl-3G0">
+                                                    <rect key="frame" x="20" y="13" width="91" height="25.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lq1-wV-HXn">
-                                                    <rect key="frame" x="117" y="15" width="33" height="14.5"/>
+                                                    <rect key="frame" x="117" y="13" width="52.5" height="25.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -145,7 +145,7 @@
                             <constraint firstItem="83O-fg-oM6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wzI-Hn-Zxh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="calendar" image="calendar" catalog="system" id="ZzR-KQ-3N3"/>
+                    <tabBarItem key="tabBarItem" title="カレンダー" image="calendar" catalog="system" id="ZzR-KQ-3N3"/>
                     <connections>
                         <outlet property="barTitle" destination="0Gw-k7-IOM" id="65p-x2-vO7"/>
                         <outlet property="collectionView" destination="83O-fg-oM6" id="JWa-Qv-Tab"/>

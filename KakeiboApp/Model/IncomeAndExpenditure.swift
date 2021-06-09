@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct IncomeAndExpenditure {
+struct IncomeAndExpenditure: Equatable {
     
     let date: Date
     let category: String
