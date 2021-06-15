@@ -7,12 +7,12 @@
 
 import Foundation
 
-class DataRepository {
+struct DataRepository {
     
     private let dataKey = "kakeibo"
     var data = [IncomeAndExpenditure]()
     
-    func loadData() {
+    mutating func loadData() {
         data.removeAll()
         let userDefaluts = UserDefaults.standard
         let data = userDefaluts.object(forKey: dataKey) as? [[String : Any]]
@@ -23,7 +23,7 @@ class DataRepository {
         }
     }
     
-    func saveData(incomeAndExpenditure: IncomeAndExpenditure) {
+    mutating func saveData(incomeAndExpenditure: IncomeAndExpenditure) {
         self.data.append(incomeAndExpenditure)
         self.data.sort { $0.date < $1.date}
         var data = [[String : Any]]()

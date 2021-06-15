@@ -9,12 +9,12 @@ import UIKit
 
 class CalendarViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, CalendarFrameDelegate {
     
-    @IBOutlet weak var barTitle: UINavigationItem!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet private weak var barTitle: UINavigationItem!
+    @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var tableView: UITableView!
     
     let calendarDate = CalendarDate()
-    let dataRepository = DataRepository()
+    var dataRepository = DataRepository()
     private let calendarCellLayout = CalendarCellLayout()
     private var calendarListLayout = CalendarListLayout()
     
@@ -30,7 +30,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         calendarDate.delegate = self
         tableView.delegate = self
         tableView.dataSource = self
-        barTitle.title = "\(calendarDate.carendarTitle ?? "nil")\nYYYY"
+        barTitle.title = calendarDate.carendarTitle
         UserDefaults.standard.removeAll()
         collectionView.backgroundColor = UIColor.atomicTangerine
         
@@ -62,7 +62,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         tableView.reloadData()
     }
     
-    @IBAction func nextMonth(_ sender: Any) {
+    @IBAction private func nextMonth(_ sender: Any) {
         calendarDate.nextMonth()
         collectionView.reloadData()
         calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
@@ -70,7 +70,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         barTitle.title = calendarDate.carendarTitle
     }
     
-    @IBAction func lastMonth(_ sender: Any) {
+    @IBAction private func lastMonth(_ sender: Any) {
         calendarDate.lastMonth()
         collectionView.reloadData()
         calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
@@ -219,7 +219,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
             let data = calendarListLayout.monthData[indexPath.section][indexPath.row]
             for d in dataRepository.data {
                 count += 1
-                if d.date.string(dateFormat: "YYYY/MM/dd") == data.date.string(dateFormat: "YYYY/MM/dd") {
+                if d.date == data.date {
                     count += indexPath.row
                     break
                 }

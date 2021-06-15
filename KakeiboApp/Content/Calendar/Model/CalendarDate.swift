@@ -42,7 +42,7 @@ class CalendarDate {
         days = setDays()
     }
     
-    func setDays() -> [Date] {
+    private func setDays() -> [Date] {
         // 月の最初の曜日
         let firstWeekday = carendar.component(.weekday, from: firstDay)
         // 月の週の数

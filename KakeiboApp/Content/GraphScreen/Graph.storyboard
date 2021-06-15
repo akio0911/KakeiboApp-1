@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--chart-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="GraphViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="omi-ht-ckA">
+                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="T8J-mF-Hk8">
+                                        <barButtonItem key="leftBarButtonItem" title="Item" id="5YV-RC-qel"/>
+                                        <barButtonItem key="rightBarButtonItem" title="Item" id="kdM-Pv-73C"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lNT-tX-akm">
+                                <rect key="frame" x="0.0" y="88" width="414" height="414"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="414" id="VfH-r6-Pwd"/>
+                                </constraints>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jpe-pm-JZd">
+                                <rect key="frame" x="0.0" y="502" width="414" height="311"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GraphTableViewCell" id="xOo-WW-fif" customClass="GraphTableViewCell" customModule="KakeiboApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xOo-WW-fif" id="Bgr-Ho-Ern">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="omi-ht-ckA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="9MX-ym-bCW"/>
+                            <constraint firstItem="omi-ht-ckA" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="CEK-fe-VVI"/>
+                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="L65-CZ-yeb"/>
+                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="Qv0-mW-deE"/>
+                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="top" secondItem="lNT-tX-akm" secondAttribute="bottom" id="eD8-p3-hwM"/>
+                            <constraint firstItem="lNT-tX-akm" firstAttribute="top" secondItem="omi-ht-ckA" secondAttribute="bottom" id="feA-VP-hoO"/>
+                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="kMj-HB-d54"/>
+                            <constraint firstItem="omi-ht-ckA" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="lbp-R7-eZR"/>
+                            <constraint firstItem="lNT-tX-akm" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="tdQ-FU-Wtc"/>
+                            <constraint firstItem="lNT-tX-akm" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="wzr-hD-y22"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="chart" image="chart.pie" catalog="system" id="vg3-2i-Hvc"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="graphImageView" destination="lNT-tX-akm" id="rPm-Zg-ePg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="224.63768115942031" y="-339.50892857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chart.pie" catalog="system" width="128" height="121"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

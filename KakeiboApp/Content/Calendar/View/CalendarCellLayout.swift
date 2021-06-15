@@ -17,12 +17,12 @@ struct CalendarCellLayout {
     let fiveNumberOfWeeksHeight: CGFloat = 305.2
     let fourNumberOfWeeksHeight: CGFloat = 253.9
     
-
+    
     func expenses(date: Date, saveData: [IncomeAndExpenditure]) -> Int! {
         var expenses: Int!
         var total = 0
         for d in saveData {
-            if date.string(dateFormat: "YYYY/MM/dd") == d.date.string(dateFormat: "YYYY/MM/dd") {
+            if date == d.date {
                 total += d.expenses
                 expenses = total
             }

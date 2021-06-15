@@ -166,6 +166,16 @@
             </objects>
             <point key="canvasLocation" x="-1970" y="674"/>
         </scene>
+        <!--Graph-->
+        <scene sceneID="TYX-aY-YDl">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Graph" id="0VL-Hg-hnc" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="kTW-1V-k5J"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PaZ-O8-DtL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1966" y="763"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="coi-6D-4aj">
             <objects>
@@ -183,7 +193,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GnD-R1-fXV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2739" y="188"/>
+            <point key="canvasLocation" x="-2670" y="188"/>
         </scene>
     </scenes>
     <resources>

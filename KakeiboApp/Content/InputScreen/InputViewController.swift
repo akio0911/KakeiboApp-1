@@ -9,24 +9,24 @@ import UIKit
 
 class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    var calendarViewController: CalendarViewController!
-    let gradation = Gradation()
-    let expenses = ExpensesAlert()
+    private var calendarViewController: CalendarViewController!
+    private let gradation = Gradation()
+    private let expenses = ExpensesAlert()
+    private let category = Category.allCases.map { $0.name }
     
-    var editingField: UITextField?
-    var overlap: CGFloat = 0
-    var lastOffsetY: CGFloat = 0
+    private var editingField: UITextField?
+    private var overlap: CGFloat = 0
+    private var lastOffsetY: CGFloat = 0
     
-    @IBOutlet weak var navigationBar: UINavigationBar!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var contentView: UIView!
-    @IBOutlet var mosaicView: [UIView]!
-    @IBOutlet var textField: [UITextField]!
-    @IBOutlet weak var incomeAndExpenditure: UISegmentedControl!
-    @IBOutlet weak var saveBtn: UIButton!
-    @IBOutlet weak var datePicker: UIDatePicker!
-    @IBOutlet weak var categoryPickerView: UIPickerView!
-    private let category = Category()
+    @IBOutlet private weak var navigationBar: UINavigationBar!
+    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private var mosaicView: [UIView]!
+    @IBOutlet private var textField: [UITextField]!
+    @IBOutlet private weak var incomeAndExpenditure: UISegmentedControl!
+    @IBOutlet private weak var saveBtn: UIButton!
+    @IBOutlet private weak var datePicker: UIDatePicker!
+    @IBOutlet private weak var categoryPickerView: UIPickerView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,25 +83,25 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         
         let calendarDate = calendarViewController.calendarDate
         textField[0].text = calendarDate.today.string(dateFormat: "YYYY年MM月dd日")
-        textField[1].text = category.category[0]
+        textField[1].text = category[0]
         textField[2].text = ""
         textField[3].text = ""
     }
     
-    @IBAction func tappedView(_ sender: Any) {
+    @IBAction private func tappedView(_ sender: Any) {
         view.endEditing(true)
     }
     
-    @IBAction func detePicker(_ sender: UIDatePicker) {
+    @IBAction private func detePicker(_ sender: UIDatePicker) {
         textField[0].text = sender.date.string(dateFormat: "YYYY年MM月dd日")
     }
     
-    @IBAction func tappedCancel(_ sender: Any) {
+    @IBAction private func tappedCancel(_ sender: Any) {
         let calendarViewController = tabBarController?.viewControllers?[0]
         tabBarController?.selectedViewController = calendarViewController
     }
     
-    @IBAction func tappedSave(_ sender: Any) {
+    @IBAction private func tappedSave(_ sender: Any) {
         guard "" != textField[2].text else {
             present(expenses.alert, animated: true, completion: nil)
             return
@@ -117,7 +117,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         }
         let memo = String(textField[3].text ?? "")
         let incomeAndExpenditure = IncomeAndExpenditure(date: date, category: category, expenses: expenses, memo: memo)
-        let dataRepository = calendarViewController.dataRepository
+        var dataRepository = calendarViewController.dataRepository
         dataRepository.saveData(incomeAndExpenditure: incomeAndExpenditure)
         
         let calendarViewController = tabBarController?.viewControllers?[0]
@@ -152,17 +152,17 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        category.category.count
+        category.count
     }
     
     // MARK: - UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let category = category.category[row]
+        let category = category[row]
         textField[1].text = category
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        category.category[row]
+        category[row]
     }
     
     // MARK: - Selector
