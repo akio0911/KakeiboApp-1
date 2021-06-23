@@ -7,75 +7,76 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate, CalendarFrameDelegate {
-    
-    @IBOutlet private weak var barTitle: UINavigationItem!
-    @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet private weak var tableView: UITableView!
-    
+class CalendarViewController: UIViewController,
+                              UICollectionViewDelegate,
+                              UICollectionViewDataSource,
+                              UICollectionViewDelegateFlowLayout,
+                              UITableViewDataSource,
+                              UITableViewDelegate,
+                              CalendarFrameDelegate {
+
+    @IBOutlet private weak var calendarNavigationItem: UINavigationItem!
+    @IBOutlet private weak var calendarCollectionView: UICollectionView!
+    @IBOutlet private weak var calendarTableView: UITableView!
+
     let calendarDate = CalendarDate()
     var dataRepository = DataRepository()
     private let calendarCellLayout = CalendarCellLayout()
     private var calendarListLayout = CalendarListLayout()
-    
-    private var sixWeeksConstraint: NSLayoutConstraint!
-    private var fiveWeeksConstraint: NSLayoutConstraint!
-    private var fourWeeksConstraint: NSLayoutConstraint!
-    
+
+    // calendarHeightsのキー
+    private enum Weeks {
+        static let six = 6
+        static let five = 5
+        static let four = 4
+    }
+
+    // 週の数によってカレンダーの高さを変更するためのDictionary型
+    private lazy var calendarHeights: [Int : NSLayoutConstraint] = {
+        [Weeks.six : calendarCollectionView.heightAnchor.constraint(
+            equalToConstant: calendarCellLayout.sixWeeksHeight),
+         Weeks.five : calendarCollectionView.heightAnchor.constraint(
+            equalToConstant: calendarCellLayout.fiveWeeksHeight),
+         Weeks.four : calendarCollectionView.heightAnchor.constraint(
+            equalToConstant: calendarCellLayout.fourWeeksHeight)]
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        calendarCollectionView.delegate = self
+        calendarCollectionView.dataSource = self
         calendarDate.delegate = self
-        tableView.delegate = self
-        tableView.dataSource = self
-        barTitle.title = calendarDate.carendarTitle
+        calendarTableView.delegate = self
+        calendarTableView.dataSource = self
+        calendarNavigationItem.title = calendarDate.carendarTitle
         UserDefaults.standard.removeAll()
-        collectionView.backgroundColor = UIColor.atomicTangerine
-        
-        sixWeeksConstraint = collectionView.heightAnchor.constraint(
-            equalToConstant: calendarCellLayout.sixNumberOfWeeksHeight
-        )
-        fiveWeeksConstraint = collectionView.heightAnchor.constraint(
-            equalToConstant: calendarCellLayout.fiveNumberOfWeeksHeight
-        )
-        fourWeeksConstraint = collectionView.heightAnchor.constraint(
-            equalToConstant: calendarCellLayout.fourNumberOfWeeksHeight
-        )
-        
-        switch calendarDate.nuberOfWeeks {
-        case 6:
-            sixWeeksConstraint.isActive = true
-        case 5:
-            fiveWeeksConstraint.isActive = true
-        default:
-            fourWeeksConstraint.isActive = true
-        }
+        calendarCollectionView.backgroundColor = UIColor.atomicTangerine
+        calendarHeights[calendarDate.nuberOfWeeks]?.isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dataRepository.loadData()
-        collectionView.reloadData()
-        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
-        tableView.reloadData()
+        calendarCollectionView.reloadData()
+//        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
+        calendarTableView.reloadData()
     }
     
     @IBAction private func nextMonth(_ sender: Any) {
         calendarDate.nextMonth()
-        collectionView.reloadData()
-        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
-        tableView.reloadData()
-        barTitle.title = calendarDate.carendarTitle
+        calendarCollectionView.reloadData()
+//        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
+        calendarTableView.reloadData()
+        calendarNavigationItem.title = calendarDate.carendarTitle
     }
     
     @IBAction private func lastMonth(_ sender: Any) {
         calendarDate.lastMonth()
-        collectionView.reloadData()
-        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
-        tableView.reloadData()
-        barTitle.title = calendarDate.carendarTitle
+        calendarCollectionView.reloadData()
+//        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
+        calendarTableView.reloadData()
+        calendarNavigationItem.title = calendarDate.carendarTitle
     }
     
     // MARK: - UICollectionViewDelegate
@@ -102,7 +103,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
             let date = calendarDate.days[indexPath.row]
             label.text = date.string(dateFormat: "d")
             let expensesLabel = cell.contentView.viewWithTag(2) as? UILabel
-            if let expenses = calendarCellLayout.expenses(date: date, saveData: dataRepository.data) {
+            if let expenses = dataRepository.calcDateExpenses(date: date) {
                 expensesLabel?.text = String(expenses)
                 expensesLabel?.textColor = UIColor.orangeRedCrayola
             } else {
@@ -139,7 +140,7 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
         var height: CGFloat
         switch indexPath.section {
         case 0:
-            height = calendarCellLayout.WeekdayCellHeight
+            height = calendarCellLayout.weekdayCellHeight
         default:
             height = calendarCellLayout.daysCellHeight
         }
@@ -166,46 +167,30 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     }
     
     // MARK: - CalendarFrameDelegate
-    func calendarHeight(beforeNumberOfWeeks: Int, AfterNuberOfWeeks: Int) {
-        
-        switch beforeNumberOfWeeks {
-        case 6:
-            sixWeeksConstraint.isActive = false
-        case 5:
-            fiveWeeksConstraint.isActive = false
-        default:
-            fourWeeksConstraint.isActive = false
-        }
-        
-        switch AfterNuberOfWeeks {
-        case 6:
-            sixWeeksConstraint.isActive = true
-        case 5:
-            fiveWeeksConstraint.isActive = true
-        default:
-            fourWeeksConstraint.isActive = true
-        }
+    func calendarHeight(beforeNumberOfWeeks: Int, afterNumberOfWeeks: Int) {
+        calendarHeights[beforeNumberOfWeeks]?.isActive = false
+        calendarHeights[afterNumberOfWeeks]?.isActive = true
     }
     
     // MARK: - UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
-        calendarListLayout.monthData.count
+        dataRepository.countMonthData(monthFirstDay: calendarDate.firstDay)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        calendarListLayout.monthData[section].count
+        dataRepository.countDayData(monthFirstDay: calendarDate.firstDay, at: section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let data = calendarListLayout.monthData[indexPath.section][indexPath.row]
+        let data = dataRepository.fetchDayData(monthFirstDay: calendarDate.firstDay, at: indexPath)
         cell.textLabel?.text = data.category
         cell.detailTextLabel?.text = "\(data.expenses):\(data.memo)"
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        calendarListLayout.monthData[section][safe:0]?.date.string(dateFormat: "YYYY年MM月dd日")
+        dataRepository.presentDateFormat(monthFirstDay: calendarDate.firstDay, at: section)
     }
     
     // MARK: - UITableViewDelegate
@@ -215,20 +200,9 @@ class CalendarViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete {
-            var count = -1
-            let data = calendarListLayout.monthData[indexPath.section][indexPath.row]
-            for d in dataRepository.data {
-                count += 1
-                if d.date == data.date {
-                    count += indexPath.row
-                    break
-                }
-            }
-            dataRepository.data.remove(at: count)
-            calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
-            tableView.reloadData()
-            collectionView.reloadData()
-            dataRepository.update()
+            dataRepository.removeData(monthFirstDay: calendarDate.firstDay, at: indexPath)
+            calendarTableView.reloadData()
+            calendarCollectionView.reloadData()
         }
     }
 }

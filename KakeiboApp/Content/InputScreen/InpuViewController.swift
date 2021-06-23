@@ -46,9 +46,9 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
             categoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
         ])
         
-        for i in contentsView {
-            i.layer.cornerRadius = 8
-            i.layer.masksToBounds = true
+        for view in contentsView {
+            view.layer.cornerRadius = 8
+            view.layer.masksToBounds = true
         }
         
         expenses.alert.addAction(

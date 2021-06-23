@@ -11,19 +11,21 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     
     private var calendarViewController: CalendarViewController!
     private let gradation = Gradation()
-    private let expenses = ExpensesAlert()
     private let category = Category.allCases.map { $0.name }
     
     private var editingField: UITextField?
     private var overlap: CGFloat = 0
     private var lastOffsetY: CGFloat = 0
     
-    @IBOutlet private weak var navigationBar: UINavigationBar!
-    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet private weak var inputNavigationBar: UINavigationBar!
+    @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
-    @IBOutlet private var textField: [UITextField]!
-    @IBOutlet private weak var incomeAndExpenditure: UISegmentedControl!
+    @IBOutlet private weak var dateTextField: UITextField!
+    @IBOutlet private weak var categoryTextField: UITextField!
+    @IBOutlet private weak var expensesTextField: UITextField!
+    @IBOutlet private weak var memoTextField: UITextField!
+    @IBOutlet private weak var expensesSegmentControl: UISegmentedControl!
     @IBOutlet private weak var saveBtn: UIButton!
     @IBOutlet private weak var datePicker: UIDatePicker!
     @IBOutlet private weak var categoryPickerView: UIPickerView!
@@ -31,19 +33,17 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scrollView.frame = CGRect(x: 0, y: navigationBar.frame.maxY, width: view.frame.width, height: view.frame.height - navigationBar.frame.maxY)
-        scrollView.contentSize = CGSize(width: view.frame.width, height: contentView.frame.height)
+        baseScrollView.frame = CGRect(x: 0, y: inputNavigationBar.frame.maxY, width: view.frame.width, height: view.frame.height - inputNavigationBar.frame.maxY)
+        baseScrollView.contentSize = CGSize(width: view.frame.width, height: contentView.frame.height)
         
         calendarViewController = (tabBarController?.viewControllers![0] as! CalendarViewController)
         
-        for fld in textField {
-            fld.delegate = self
-        }
-        
+        dateTextField.delegate = self
+        categoryTextField.delegate = self
         categoryPickerView.delegate = self
         categoryPickerView.dataSource = self
-        textField[0].inputView = datePicker
-        textField[1].inputView = categoryPickerView
+        dateTextField.inputView = datePicker
+        categoryTextField.inputView = categoryPickerView
         
         saveBtn.layer.cornerRadius = 10
         saveBtn.layer.masksToBounds = true
@@ -54,17 +54,12 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
             datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
             categoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
         ])
-        
-        for i in mosaicView {
-            i.layer.cornerRadius = 8
-            i.layer.masksToBounds = true
+
+        // モザイク用のviewをフィレット
+        mosaicView.forEach {
+            $0.layer.cornerRadius = 8
+            $0.layer.masksToBounds = true
         }
-        
-        // アラートのボタンアクションを作る
-        expenses.alert.addAction(
-            UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
-                            self?.textField[2].becomeFirstResponder() })
-        )
         
         let notification = NotificationCenter.default
         notification.addObserver(self,
@@ -82,10 +77,10 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         super.viewWillAppear(animated)
         
         let calendarDate = calendarViewController.calendarDate
-        textField[0].text = calendarDate.today.string(dateFormat: "YYYY年MM月dd日")
-        textField[1].text = category[0]
-        textField[2].text = ""
-        textField[3].text = ""
+        dateTextField.text = calendarDate.today.string(dateFormat: "YYYY年MM月dd日")
+        categoryTextField.text = category[0]
+        expensesTextField.text = ""
+        memoTextField.text = ""
     }
     
     @IBAction private func tappedView(_ sender: Any) {
@@ -93,7 +88,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     }
     
     @IBAction private func detePicker(_ sender: UIDatePicker) {
-        textField[0].text = sender.date.string(dateFormat: "YYYY年MM月dd日")
+        dateTextField.text = sender.date.string(dateFormat: "YYYY年MM月dd日")
     }
     
     @IBAction private func tappedCancel(_ sender: Any) {
@@ -102,20 +97,20 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     }
     
     @IBAction private func tappedSave(_ sender: Any) {
-        guard "" != textField[2].text else {
-            present(expenses.alert, animated: true, completion: nil)
+        guard "" != expensesTextField.text else {
+            presentExpensesAlert()
             return
         }
-        let date = (textField[0].text?.date(dateFormat: "YYYY年MM月dd日"))!
-        let category = textField[1].text ?? ""
+        let date = (dateTextField.text?.date(dateFormat: "YYYY年MM月dd日"))!
+        let category = categoryTextField.text ?? ""
         let expenses: Int!
-        switch incomeAndExpenditure.selectedSegmentIndex {
+        switch expensesSegmentControl.selectedSegmentIndex {
         case 0:
-            expenses = -(Int(textField[2].text!) ?? 0)
+            expenses = -(Int(expensesTextField.text!) ?? 0)
         default:
-            expenses = Int(textField[2].text!) ?? 0
+            expenses = Int(expensesTextField.text!) ?? 0
         }
-        let memo = String(textField[3].text ?? "")
+        let memo = String(memoTextField.text ?? "")
         let incomeAndExpenditure = IncomeAndExpenditure(date: date, category: category, expenses: expenses, memo: memo)
         var dataRepository = calendarViewController.dataRepository
         dataRepository.saveData(incomeAndExpenditure: incomeAndExpenditure)
@@ -123,14 +118,27 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         let calendarViewController = tabBarController?.viewControllers?[0]
         tabBarController?.selectedViewController = calendarViewController
     }
+
+    private func presentExpensesAlert() {
+        let alert = UIAlertController(
+            title: "収支が未入力です。",
+            message: "支出または収入を入力して下さい",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(
+                            title: "OK",
+                            style: .default,
+                            handler: { [weak self] _ in
+                                self?.expensesTextField.becomeFirstResponder() }))
+        present(alert, animated: true, completion: nil)
+    }
     
     // MARK: - TextFieldDelegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
         editingField = textField
         switch textField {
-        case self.textField[0]:
+        case self.dateTextField:
             datePicker.isHidden = false
-        case self.textField[1]:
+        case self.categoryTextField:
             categoryPickerView.isHidden = false
         default:
             return
@@ -158,7 +166,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     // MARK: - UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let category = category[row]
-        textField[1].text = category
+        categoryTextField.text = category
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -177,18 +185,18 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         let fldFrame = view.convert(fld.frame, from: contentView)
         overlap = fldFrame.maxY - keybordFrame.minY + 18
         if overlap > 0 {
-            overlap += scrollView.contentOffset.y
-            scrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
+            overlap += baseScrollView.contentOffset.y
+            baseScrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
         }
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        lastOffsetY = scrollView.contentOffset.y
+        lastOffsetY = baseScrollView.contentOffset.y
     }
     
     @objc func keyboardDidHide(_ notification: Notification) {
-        let baseline = contentView.bounds.height - scrollView.bounds.height
+        let baseline = contentView.bounds.height - baseScrollView.bounds.height
         lastOffsetY = min(baseline, lastOffsetY)
-        scrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
+        baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
     }
 }

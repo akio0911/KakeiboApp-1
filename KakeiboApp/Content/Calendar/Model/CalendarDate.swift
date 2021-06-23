@@ -8,7 +8,7 @@
 import Foundation
 
 protocol CalendarFrameDelegate: AnyObject {
-    func calendarHeight(beforeNumberOfWeeks: Int, AfterNuberOfWeeks: Int)
+    func calendarHeight(beforeNumberOfWeeks: Int, afterNumberOfWeeks: Int)
 }
 
 class CalendarDate {
@@ -29,7 +29,7 @@ class CalendarDate {
             let beforeNumberOfWeeks = nuberOfWeeks
             days = setDays()
             if beforeNumberOfWeeks != nuberOfWeeks {
-                delegate?.calendarHeight(beforeNumberOfWeeks: beforeNumberOfWeeks!, AfterNuberOfWeeks: nuberOfWeeks)
+                delegate?.calendarHeight(beforeNumberOfWeeks: beforeNumberOfWeeks!, afterNumberOfWeeks: nuberOfWeeks)
             }
         }
     }
@@ -51,9 +51,9 @@ class CalendarDate {
         // カレンダーに表示するItemの数
         let numberOfItems = numberOfWeeks!.count * 7
         
-        return (1...numberOfItems).map { i in
+        return (1...numberOfItems).map { num in
             var dateComponents = DateComponents()
-            dateComponents.day = i - firstWeekday
+            dateComponents.day = num - firstWeekday
             return carendar.date(byAdding: dateComponents, to: firstDay)!
         }
     }

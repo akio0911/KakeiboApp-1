@@ -9,23 +9,23 @@ import UIKit
 
 struct CalendarListLayout {
     
-    var monthData = [[IncomeAndExpenditure]]()
-    
+    private var monthData = [[IncomeAndExpenditure]]()
+
     mutating func loadMonthData(firstDay: Date, data: [IncomeAndExpenditure]) {
         monthData.removeAll()
         let calendar = Calendar(identifier: .gregorian)
         var dayData = [IncomeAndExpenditure]()
-        for i in 0...30{
+        for num in 0...30{
             dayData.removeAll()
-            let day = calendar.date(byAdding: .day, value: i, to: firstDay)
-            for d in data {
-                if d.date == day {
-                    dayData.append(d)
+            let day = calendar.date(byAdding: .day, value: num, to: firstDay)
+            for data in data {
+                if data.date == day {
+                    dayData.append(data)
                 }
             }
             if dayData.count != 0 { monthData.append(dayData)}
         }
     }
-    
+
 }
 

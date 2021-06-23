@@ -9,24 +9,39 @@ import UIKit
 
 struct CalendarCellLayout {
     
-    let WeekdayCellHeight: CGFloat = 20
-    let daysCellHeight: CGFloat = 50
-    let spaceOfCell:CGFloat = 1.3
+    let weekdayCellHeight: CGFloat = 20 // 週を表示するセルの高さ
+    let daysCellHeight: CGFloat = 50 // 日付を表示するセルの高さ
+    let spaceOfCell:CGFloat = 1.3 // セルの間隔
     let insetForSection = UIEdgeInsets(top: 5, left: 10, bottom: 10, right: 10)
-    let sixNumberOfWeeksHeight: CGFloat = 356.5
-    let fiveNumberOfWeeksHeight: CGFloat = 305.2
-    let fourNumberOfWeeksHeight: CGFloat = 253.9
+
+    var sixWeeksHeight: CGFloat {
+        calcCalendarHeight(weeksNumber: 6)
+    }
+    var fiveWeeksHeight: CGFloat {
+        calcCalendarHeight(weeksNumber: 5)
+    }
+    var fourWeeksHeight: CGFloat {
+        calcCalendarHeight(weeksNumber: 4)
+    }
     
-    
-    func expenses(date: Date, saveData: [IncomeAndExpenditure]) -> Int! {
-        var expenses: Int!
-        var total = 0
-        for d in saveData {
-            if date == d.date {
-                total += d.expenses
-                expenses = total
-            }
-        }
-        return expenses
+//    // セーブデータから日付が一致する収支を合計
+//    func calcDateExpenses(date: Date, saveData: [IncomeAndExpenditure]) -> Int? {
+//        var dateExpenses: Int? = nil
+//        let filteredData = saveData.filter { $0.date == date }
+//        if filteredData != [] {
+//            dateExpenses = filteredData.reduce(0) { $0 + $1.expenses }
+//        }
+//        return dateExpenses
+//    }
+
+    // 週の数からカレンダーの高さを計算
+    private func calcCalendarHeight(weeksNumber: CGFloat) -> CGFloat {
+        var height: CGFloat = 0
+        height += weekdayCellHeight
+            + daysCellHeight * weeksNumber
+            + spaceOfCell * (weeksNumber - 1)
+            + (insetForSection.top * 2)
+            + (insetForSection.bottom * 2)
+        return height
     }
 }

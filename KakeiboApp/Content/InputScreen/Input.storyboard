@@ -283,20 +283,20 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <size key="freeformSize" width="414" height="896"/>
                     <connections>
+                        <outlet property="baseScrollView" destination="8v6-SN-pXE" id="94K-DQ-dHd"/>
                         <outlet property="categoryPickerView" destination="DtT-eU-YfT" id="qco-qr-KCl"/>
+                        <outlet property="categoryTextField" destination="AXC-Er-xII" id="euI-Wh-08b"/>
                         <outlet property="contentView" destination="OoE-Bz-ape" id="2Ig-kd-HLM"/>
                         <outlet property="datePicker" destination="Ttg-hx-Rhb" id="KYP-aJ-5QP"/>
-                        <outlet property="incomeAndExpenditure" destination="ioJ-gf-8Be" id="H08-4g-ccY"/>
-                        <outlet property="navigationBar" destination="Gi9-Fp-eFz" id="FcT-R1-O9Z"/>
+                        <outlet property="dateTextField" destination="esq-nA-M11" id="A9F-Zv-aNj"/>
+                        <outlet property="expensesSegmentControl" destination="ioJ-gf-8Be" id="e5d-FR-TVT"/>
+                        <outlet property="expensesTextField" destination="YLf-Gn-ur2" id="12H-cv-UvA"/>
+                        <outlet property="inputNavigationBar" destination="Gi9-Fp-eFz" id="YXb-pL-ogC"/>
+                        <outlet property="memoTextField" destination="tdg-so-0Vl" id="VuK-TF-Wjj"/>
                         <outlet property="saveBtn" destination="aBe-81-lsg" id="q5Q-XY-c7g"/>
-                        <outlet property="scrollView" destination="8v6-SN-pXE" id="NG4-6p-g4O"/>
                         <outletCollection property="mosaicView" destination="5Df-Kg-7hJ" collectionClass="NSMutableArray" id="wnd-iB-hPU"/>
                         <outletCollection property="mosaicView" destination="HZq-ya-Q1t" collectionClass="NSMutableArray" id="8mP-gb-BX3"/>
                         <outletCollection property="mosaicView" destination="ewW-RP-Gov" collectionClass="NSMutableArray" id="a07-zA-kwE"/>
-                        <outletCollection property="textField" destination="esq-nA-M11" collectionClass="NSMutableArray" id="n0f-uL-7CE"/>
-                        <outletCollection property="textField" destination="AXC-Er-xII" collectionClass="NSMutableArray" id="sxn-qB-Ofw"/>
-                        <outletCollection property="textField" destination="YLf-Gn-ur2" collectionClass="NSMutableArray" id="0bD-Hr-h7j"/>
-                        <outletCollection property="textField" destination="tdg-so-0Vl" collectionClass="NSMutableArray" id="9oc-KN-c18"/>
                         <outletCollection property="mosaicView" destination="aPj-v7-dMK" collectionClass="NSMutableArray" id="MAW-Pz-G0G"/>
                     </connections>
                 </viewController>
@@ -307,7 +307,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="674" y="-821"/>
+            <point key="canvasLocation" x="468" y="-820"/>
         </scene>
     </scenes>
     <resources>

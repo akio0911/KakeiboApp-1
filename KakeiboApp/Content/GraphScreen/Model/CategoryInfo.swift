@@ -13,9 +13,9 @@ struct CategoryInfo {
     var listExpensesArray: [CategoryListInfo] = []
     
     func setArray(data: [IncomeAndExpenditure], firstDay: Date) {
-        let monthData = data.filter{
-            $0.date.string(dateFormat: "MM") == firstDay.string(dateFormat: "MM")
-        }
+//        let monthData = data.filter{
+//            $0.date.string(dateFormat: "MM") == firstDay.string(dateFormat: "MM")
+//        }
         
         
     }
