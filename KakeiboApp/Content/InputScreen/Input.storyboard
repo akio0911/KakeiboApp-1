@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pic-yh-C9X">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="33G-SO-zVH">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--入力-->
+        <!--Input View Controller-->
         <scene sceneID="ZZH-jq-u2t">
             <objects>
                 <viewController id="Pic-yh-C9X" customClass="InputViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,26 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gi9-Fp-eFz">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="dnp-sl-pMF"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="収支入力" id="IK0-rk-6Sb">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="IQ7-mj-Y1F">
-                                            <connections>
-                                                <action selector="tappedCancel:" destination="Pic-yh-C9X" id="ovn-9x-8qo"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="CHt-u1-5gA">
-                                            <connections>
-                                                <action selector="tappedSave:" destination="Pic-yh-C9X" id="m1t-ph-N94"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8v6-SN-pXE">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <subviews>
@@ -266,20 +246,28 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="8v6-SN-pXE" firstAttribute="top" secondItem="Gi9-Fp-eFz" secondAttribute="bottom" id="5rI-HQ-E08"/>
-                            <constraint firstItem="Gi9-Fp-eFz" firstAttribute="top" secondItem="zu7-0y-zFd" secondAttribute="top" id="N0j-8A-aGe"/>
-                            <constraint firstItem="Gi9-Fp-eFz" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="Nag-K6-5bS"/>
-                            <constraint firstItem="8v6-SN-pXE" firstAttribute="leading" secondItem="Gi9-Fp-eFz" secondAttribute="leading" id="OX5-Op-buC"/>
-                            <constraint firstItem="8v6-SN-pXE" firstAttribute="trailing" secondItem="Gi9-Fp-eFz" secondAttribute="trailing" id="WHF-sa-gdo"/>
+                            <constraint firstItem="8v6-SN-pXE" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="CkF-dw-Ury"/>
+                            <constraint firstItem="8v6-SN-pXE" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="I2i-q6-TfG"/>
                             <constraint firstItem="8v6-SN-pXE" firstAttribute="bottom" secondItem="zu7-0y-zFd" secondAttribute="bottom" id="dve-OX-Cfe"/>
                             <constraint firstItem="OoE-Bz-ape" firstAttribute="width" secondItem="Ehq-3R-DMH" secondAttribute="width" id="eCc-4X-vAg"/>
-                            <constraint firstItem="Gi9-Fp-eFz" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="tLd-Aa-Pqn"/>
+                            <constraint firstItem="8v6-SN-pXE" firstAttribute="top" secondItem="zu7-0y-zFd" secondAttribute="top" id="lgL-cz-G7I"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="OFZ-xI-Op6" appends="YES" id="rMa-I1-uv2"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="入力" image="pencil" catalog="system" id="BIA-6S-dbs"/>
+                    <navigationItem key="navigationItem" id="qHw-oo-zIL">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="IQ7-mj-Y1F">
+                            <connections>
+                                <action selector="tappedCancel:" destination="Pic-yh-C9X" id="ovn-9x-8qo"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="CHt-u1-5gA">
+                            <connections>
+                                <action selector="tappedSave:" destination="Pic-yh-C9X" id="m1t-ph-N94"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <size key="freeformSize" width="414" height="896"/>
                     <connections>
@@ -291,7 +279,6 @@
                         <outlet property="dateTextField" destination="esq-nA-M11" id="A9F-Zv-aNj"/>
                         <outlet property="expensesSegmentControl" destination="ioJ-gf-8Be" id="e5d-FR-TVT"/>
                         <outlet property="expensesTextField" destination="YLf-Gn-ur2" id="12H-cv-UvA"/>
-                        <outlet property="inputNavigationBar" destination="Gi9-Fp-eFz" id="YXb-pL-ogC"/>
                         <outlet property="memoTextField" destination="tdg-so-0Vl" id="VuK-TF-Wjj"/>
                         <outlet property="saveBtn" destination="aBe-81-lsg" id="q5Q-XY-c7g"/>
                         <outletCollection property="mosaicView" destination="5Df-Kg-7hJ" collectionClass="NSMutableArray" id="wnd-iB-hPU"/>
@@ -307,7 +294,26 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="468" y="-820"/>
+            <point key="canvasLocation" x="1374" y="-821"/>
+        </scene>
+        <!--入力-->
+        <scene sceneID="QdT-Rq-EpR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="33G-SO-zVH" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="入力" image="pencil" catalog="system" id="BIA-6S-dbs"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="S04-w4-QL4">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Pic-yh-C9X" kind="relationship" relationship="rootViewController" id="zWV-UW-vdn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="96n-89-Z0M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="466.66666666666669" y="-820.3125"/>
         </scene>
     </scenes>
     <resources>

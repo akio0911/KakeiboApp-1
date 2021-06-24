@@ -12,9 +12,9 @@ protocol CalendarFrameDelegate: AnyObject {
 }
 
 class CalendarDate {
-    
+
     weak var delegate: CalendarFrameDelegate?
-    
+
     private var days = [Date]()
     private let weekday = ["日", "月", "火", "水", "木", "金", "土"]
     private let carendar = Calendar(identifier: .gregorian)
@@ -29,13 +29,13 @@ class CalendarDate {
             }
         }
     }
-    
+
     init() {
         let component = carendar.dateComponents([.year, .month], from: Date())
         firstDay = carendar.date(from: DateComponents(year: component.year, month: component.month, day: 1))
         days = setDays()
     }
-    
+
     private func setDays() -> [Date] {
         // 月の最初の曜日
         let firstWeekday = carendar.component(.weekday, from: firstDay)
@@ -44,19 +44,19 @@ class CalendarDate {
         self.numberOfWeeks = numberOfWeeks?.count
         // カレンダーに表示するItemの数
         let numberOfItems = self.numberOfWeeks * 7
-        
+
         return (1...numberOfItems).map { num in
             var dateComponents = DateComponents()
             dateComponents.day = num - firstWeekday
             return carendar.date(byAdding: dateComponents, to: firstDay)!
         }
     }
-    
+
     func nextMonth() {
         days.removeAll()
         firstDay = carendar.date(byAdding: .month, value: 1, to: firstDay)
     }
-    
+
     func lastMonth() {
         days.removeAll()
         firstDay = carendar.date(byAdding: .month, value: -1, to: firstDay)

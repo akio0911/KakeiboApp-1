@@ -10,9 +10,9 @@ import UIKit
 class GraphViewController: UIViewController {
     
     @IBOutlet private weak var graphImageView: UIImageView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
     }
 }

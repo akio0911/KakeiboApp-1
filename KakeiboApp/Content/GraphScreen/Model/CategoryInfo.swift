@@ -11,12 +11,10 @@ struct CategoryInfo {
     var graphArray: [CategoryGraphInfo] = []
     var listIncomeArray: [CategoryListInfo] = []
     var listExpensesArray: [CategoryListInfo] = []
-    
+
     func setArray(data: [IncomeAndExpenditure], firstDay: Date) {
 //        let monthData = data.filter{
 //            $0.date.string(dateFormat: "MM") == firstDay.string(dateFormat: "MM")
 //        }
-        
-        
     }
 }

@@ -8,10 +8,10 @@
 import UIKit
 
 struct CalendarCellLayout {
-    
+
     let weekdayCellHeight: CGFloat = 20 // 週を表示するセルの高さ
     let daysCellHeight: CGFloat = 50 // 日付を表示するセルの高さ
-    let spaceOfCell:CGFloat = 1.3 // セルの間隔
+    let spaceOfCell: CGFloat = 1.3 // セルの間隔
     let insetForSection = UIEdgeInsets(top: 5, left: 10, bottom: 10, right: 10)
 
     var sixWeeksHeight: CGFloat {

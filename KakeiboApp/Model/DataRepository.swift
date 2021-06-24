@@ -16,7 +16,7 @@ struct DataRepository {
     mutating func loadData() {
         data.removeAll()
         let userDefaluts = UserDefaults.standard
-        let data = userDefaluts.object(forKey: dataKey) as? [[String : Any]]
+        let data = userDefaluts.object(forKey: dataKey) as? [[String: Any]]
         guard let data = data else { return }
         data.forEach {
             let incomeAndExpenditure = IncomeAndExpenditure(from: $0)
@@ -28,13 +28,13 @@ struct DataRepository {
     mutating func saveData(incomeAndExpenditure: IncomeAndExpenditure) {
         self.data.append(incomeAndExpenditure)
         self.data.sort { $0.date < $1.date}
-        var data = [[String : Any]]()
+        var data = [[String: Any]]()
         self.data.forEach {
-            let dictionary: [String : Any] = [
-                "date" : $0.date,
-                "category" : $0.category,
-                "expenses" : $0.expenses,
-                "memo" : $0.memo
+            let dictionary: [String: Any] = [
+                "date": $0.date,
+                "category": $0.category,
+                "expenses": $0.expenses,
+                "memo": $0.memo
             ]
             data.append(dictionary)
         }
@@ -42,8 +42,6 @@ struct DataRepository {
         let userDefaluts = UserDefaults.standard
         userDefaluts.set(data, forKey: dataKey)
     }
-
-
 
     /*月の初日を引数から受け取り、
       その月のデータを日付別に配列で返す*/
@@ -55,7 +53,7 @@ struct DataRepository {
             let day = calendar.date(byAdding: .day, value: num, to: monthFirstDay)
             monthData.append(data.filter { $0.date == day })
         }
-        return monthData.filter{ !$0.isEmpty }
+        return monthData.filter { !$0.isEmpty }
     }
 
     /* UITableViewDataSourceのnumberOfSections(in:) -> Intで呼ばれるメソッド
@@ -76,6 +74,11 @@ struct DataRepository {
         fetchMonthData(monthFirstDay: monthFirstDay)[indexPath.section][indexPath.row]
     }
 
+    // 日付の最初のデータを返す
+    func fetchFirstDayData(monthFirstDay: Date, at section: Int) -> IncomeAndExpenditure {
+        fetchMonthData(monthFirstDay: monthFirstDay)[section][0]
+    }
+
     /* UITableViewDataSourceのtableView(_:,titleForHeaderInSection:)で呼ばれるメソッド
        日付をString型で返す*/
     func presentDateFormat(monthFirstDay: Date, at section: Int) -> String {
@@ -85,7 +88,7 @@ struct DataRepository {
     /*UICollectionViewDataSourceのcollectionView(_:,cellForItemAt)内で呼ばれるメソッド
      データから日付が一致する収支を合計*/
     func calcDateExpenses(date: Date) -> Int? {
-        var dateExpenses: Int? = nil
+        var dateExpenses: Int?
         let filteredData = data.filter { $0.date == date }
         if !filteredData.isEmpty {
             dateExpenses = filteredData.reduce(0) { $0 + $1.expenses }
@@ -106,15 +109,15 @@ struct DataRepository {
                 break
             }
         }
-        //配列dataを保存するメソッド
+        // 配列dataを保存するメソッド
         func updateSaveData() {
-            var data = [[String : Any]]()
+            var data = [[String: Any]]()
             self.data.forEach {
-                let dictionary: [String : Any] = [
-                    "date" : $0.date,
-                    "category" : $0.category,
-                    "expenses" : $0.expenses,
-                    "memo" : $0.memo
+                let dictionary: [String: Any] = [
+                    "date": $0.date,
+                    "category": $0.category,
+                    "expenses": $0.expenses,
+                    "memo": $0.memo
                 ]
                 data.append(dictionary)
             }
