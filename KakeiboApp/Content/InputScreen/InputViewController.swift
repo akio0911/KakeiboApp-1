@@ -13,8 +13,6 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     private let category = Category.allCases.map { $0.name }
 
     private var editingField: UITextField?
-    private var overlap: CGFloat = 0
-    private var lastOffsetY: CGFloat = 0
 
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var contentView: UIView!
@@ -33,6 +31,8 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
 
         dateTextField.delegate = self
         categoryTextField.delegate = self
+        expensesTextField.delegate = self
+        memoTextField.delegate = self
         categoryPickerView.delegate = self
         categoryPickerView.dataSource = self
         dateTextField.inputView = datePicker
@@ -96,6 +96,18 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         memoTextField.text = ""
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let contentSize = CGSize(width: view.frame.width
+                                    - view.safeAreaInsets.left
+                                    - view.safeAreaInsets.right,
+                                 height: view.frame.height
+                                    - view.safeAreaInsets.top
+                                    - view.safeAreaInsets.bottom)
+        baseScrollView.contentSize = contentSize // スクロールできなくするための設定
+    }
+
     @IBAction private func tappedView(_ sender: Any) {
         view.endEditing(true)
     }
@@ -132,6 +144,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         tabBarController?.selectedViewController = calendarViewController // 画面遷移
     }
 
+    // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
     private func showExpensesAlert() {
         let alert = UIAlertController(
             title: "収支が未入力です。",
@@ -149,9 +162,9 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     func textFieldDidBeginEditing(_ textField: UITextField) {
         editingField = textField
         switch textField {
-        case self.dateTextField:
+        case dateTextField:
             datePicker.isHidden = false
-        case self.categoryTextField:
+        case categoryTextField:
             categoryPickerView.isHidden = false
         default:
             return
@@ -160,6 +173,14 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         editingField = nil
+        switch textField {
+        case dateTextField:
+            datePicker.isHidden = true
+        case categoryTextField:
+            categoryPickerView.isHidden = true
+        default:
+            return
+        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -189,25 +210,32 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     // MARK: - Selector
     @objc func keyboardChangeFrame(_ notification: Notification) {
 
+        var overlap: CGFloat = 0 // 重なっている高さ
         guard let fld = editingField else { return }
+        // キーボードのframeを調べる
         let userInfo = (notification as NSNotification).userInfo!
         // swiftlint:disable:next force_cast
         let keybordFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        // textFieldのframeをキーボードと同じ座標系にする
         let fldFrame = view.convert(fld.frame, from: contentView)
+        // 編集中のtextFieldがキーボードと重なっていないか調べる
         overlap = fldFrame.maxY - keybordFrame.minY + 18
         if overlap > 0 {
+            // キーボードで隠れている分だけスクロールする
             overlap += baseScrollView.contentOffset.y
             baseScrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
         }
     }
 
+    private var lastOffsetY: CGFloat = 0 // キーボードが表示される前のスクロール量(現時点不要)
+    // (現時点不要)
     @objc func keyboardWillShow(_ notification: Notification) {
         lastOffsetY = baseScrollView.contentOffset.y
     }
 
     @objc func keyboardDidHide(_ notification: Notification) {
-        let baseline = contentView.bounds.height - baseScrollView.bounds.height
-        lastOffsetY = min(baseline, lastOffsetY)
+        let baseline: CGFloat = 0
+        lastOffsetY = min(baseline, lastOffsetY) // (現時点不要)
         baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
     }
 }
