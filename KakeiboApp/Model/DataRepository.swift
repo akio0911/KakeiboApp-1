@@ -106,6 +106,7 @@ struct DataRepository {
                 break
             }
         }
+        //配列dataを保存するメソッド
         func updateSaveData() {
             var data = [[String : Any]]()
             self.data.forEach {

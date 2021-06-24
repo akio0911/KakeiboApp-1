@@ -23,16 +23,6 @@ struct CalendarCellLayout {
     var fourWeeksHeight: CGFloat {
         calcCalendarHeight(weeksNumber: 4)
     }
-    
-//    // セーブデータから日付が一致する収支を合計
-//    func calcDateExpenses(date: Date, saveData: [IncomeAndExpenditure]) -> Int? {
-//        var dateExpenses: Int? = nil
-//        let filteredData = saveData.filter { $0.date == date }
-//        if filteredData != [] {
-//            dateExpenses = filteredData.reduce(0) { $0 + $1.expenses }
-//        }
-//        return dateExpenses
-//    }
 
     // 週の数からカレンダーの高さを計算
     private func calcCalendarHeight(weeksNumber: CGFloat) -> CGFloat {

@@ -10,7 +10,6 @@ import UIKit
 class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     private var calendarViewController: CalendarViewController!
-    private let gradation = Gradation()
     private let category = Category.allCases.map { $0.name }
     
     private var editingField: UITextField?
@@ -47,8 +46,12 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         
         saveBtn.layer.cornerRadius = 10
         saveBtn.layer.masksToBounds = true
-        gradation.gradientLayer.frame = contentView.bounds
-        contentView.layer.insertSublayer(gradation.gradientLayer, at: 0)
+        let _:Gradation = {
+            let gradation = Gradation()
+            gradation.layer.frame = contentView.bounds
+            contentView.layer.insertSublayer(gradation.layer, at: 0)
+            return gradation
+        }()
         
         NSLayoutConstraint.activate([
             datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
@@ -76,8 +79,13 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let calendarDate = calendarViewController.calendarDate
-        dateTextField.text = calendarDate.today.string(dateFormat: "YYYY年MM月dd日")
+        let today: Date? = {
+            let calendar = Calendar(identifier: .gregorian)
+            let component = calendar.dateComponents([.year, .month, .day], from: Date())
+            let today = calendar.date(from: DateComponents(year: component.year, month: component.month, day: component.day))
+            return today
+        }()
+        dateTextField.text = today?.string(dateFormat: "YYYY年MM月dd日")
         categoryTextField.text = category[0]
         expensesTextField.text = ""
         memoTextField.text = ""
@@ -98,7 +106,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     
     @IBAction private func tappedSave(_ sender: Any) {
         guard "" != expensesTextField.text else {
-            presentExpensesAlert()
+            showExpensesAlert()
             return
         }
         let date = (dateTextField.text?.date(dateFormat: "YYYY年MM月dd日"))!
@@ -119,7 +127,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         tabBarController?.selectedViewController = calendarViewController
     }
 
-    private func presentExpensesAlert() {
+    private func showExpensesAlert() {
         let alert = UIAlertController(
             title: "収支が未入力です。",
             message: "支出または収入を入力して下さい",

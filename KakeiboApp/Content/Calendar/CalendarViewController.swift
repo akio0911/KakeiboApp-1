@@ -22,10 +22,9 @@ class CalendarViewController: UIViewController,
     let calendarDate = CalendarDate()
     var dataRepository = DataRepository()
     private let calendarCellLayout = CalendarCellLayout()
-    private var calendarListLayout = CalendarListLayout()
-
-    // calendarHeightsのキー
     private enum Weeks {
+
+        // calendarHeightsのキー
         static let six = 6
         static let five = 5
         static let four = 4
@@ -49,34 +48,31 @@ class CalendarViewController: UIViewController,
         calendarDate.delegate = self
         calendarTableView.delegate = self
         calendarTableView.dataSource = self
-        calendarNavigationItem.title = calendarDate.carendarTitle
+        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
         UserDefaults.standard.removeAll()
         calendarCollectionView.backgroundColor = UIColor.atomicTangerine
-        calendarHeights[calendarDate.nuberOfWeeks]?.isActive = true
+        calendarHeights[calendarDate.numberOfWeeks]?.isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dataRepository.loadData()
         calendarCollectionView.reloadData()
-//        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
         calendarTableView.reloadData()
     }
     
     @IBAction private func nextMonth(_ sender: Any) {
         calendarDate.nextMonth()
         calendarCollectionView.reloadData()
-//        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
         calendarTableView.reloadData()
-        calendarNavigationItem.title = calendarDate.carendarTitle
+        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
     }
     
     @IBAction private func lastMonth(_ sender: Any) {
         calendarDate.lastMonth()
         calendarCollectionView.reloadData()
-//        calendarListLayout.loadMonthData(firstDay: calendarDate.firstDay, data: dataRepository.data)
         calendarTableView.reloadData()
-        calendarNavigationItem.title = calendarDate.carendarTitle
+        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
     }
     
     // MARK: - UICollectionViewDelegate
@@ -85,7 +81,7 @@ class CalendarViewController: UIViewController,
     
     // MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return section == 0 ? calendarDate.weekday.count : calendarDate.days.count
+        calendarDate.countSectionItems(at: section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -96,11 +92,11 @@ class CalendarViewController: UIViewController,
         if indexPath.section == 0 {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekdayCell", for: indexPath)
             label = cell.contentView.viewWithTag(3) as? UILabel
-            label.text = calendarDate.weekday[indexPath.row]
+            label.text = calendarDate.presentWeekday(at: indexPath.row)
         } else if indexPath.section == 1 {
             cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DayCell", for: indexPath)
             label = cell.contentView.viewWithTag(1) as? UILabel
-            let date = calendarDate.days[indexPath.row]
+            let date = calendarDate.presentDate(at: indexPath.row)
             label.text = date.string(dateFormat: "d")
             let expensesLabel = cell.contentView.viewWithTag(2) as? UILabel
             if let expenses = dataRepository.calcDateExpenses(date: date) {
@@ -118,12 +114,11 @@ class CalendarViewController: UIViewController,
         default:
             label.textColor = UIColor.spaceCadet
         }
-        if indexPath.section == 1 {
-            if calendarDate.firstDay.string(dateFormat: "MM") !=
-                calendarDate.days[indexPath.row].string(dateFormat: "MM"){
-                label.textColor = .gray
-            }
+        if indexPath.section == 1, calendarDate.convertStringFirstDay(dateFormat: "MM") !=
+            calendarDate.presentDate(at: indexPath.row).string(dateFormat: "MM"){
+            label.textColor = .gray
         }
+
         
         cell.backgroundColor = UIColor.cultured
         return cell
@@ -136,7 +131,7 @@ class CalendarViewController: UIViewController,
     // MARK: - UICollectionViewDelegateFlowLayout
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let weekdayCount:CGFloat = CGFloat(calendarDate.weekday.count)
+        let weekdayCount:CGFloat = CGFloat(calendarDate.countWeekday())
         var height: CGFloat
         switch indexPath.section {
         case 0:
