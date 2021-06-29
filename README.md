@@ -6,7 +6,7 @@
 ![kakeiboApp](https://user-images.githubusercontent.com/82946608/123735888-077cf800-d8db-11eb-9f9f-e1a7dcd1f4ae.gif)
 
 # 環境
-Xcode Version 12.5.1   
+Xcode version 12.5.1   
 
 Swift version 5.4.2
 
