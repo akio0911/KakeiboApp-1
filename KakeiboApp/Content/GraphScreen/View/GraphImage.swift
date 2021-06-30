@@ -8,13 +8,13 @@
 import UIKit
 
 struct GraphImage {
-    
+
     func drawLine(radius: CGFloat, view: UIImageView, categoryGraphArray: [CategoryGraphInfo]) -> UIImage {
         let center = CGPoint(x: view.center.x, y: view.center.y - radius / 2)
         // イメージ処理の開始
         let size = CGSize(width: view.bounds.width, height: view.bounds.width)
         UIGraphicsBeginImageContextWithOptions(size, false, 1)
-        
+
         for category in categoryGraphArray {
             // 円弧のパスを作る
             let arcPath = UIBezierPath(arcCenter: center,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pic-yh-C9X">
-    <device id="retina6_5" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="33G-SO-zVH">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -8,39 +8,28 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--入力-->
+        <!--Input View Controller-->
         <scene sceneID="ZZH-jq-u2t">
             <objects>
                 <viewController id="Pic-yh-C9X" customClass="InputViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ehq-3R-DMH">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="847"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gi9-Fp-eFz">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="dnp-sl-pMF"/>
-                                </constraints>
-                                <items>
-                                    <navigationItem title="収支入力" id="IK0-rk-6Sb">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="IQ7-mj-Y1F">
-                                            <connections>
-                                                <action selector="tappedCancel:" destination="Pic-yh-C9X" id="ovn-9x-8qo"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="CHt-u1-5gA">
-                                            <connections>
-                                                <action selector="tappedSave:" destination="Pic-yh-C9X" id="m1t-ph-N94"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
+                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DtT-eU-YfT">
+                                <rect key="frame" x="0.0" y="631" width="414" height="216"/>
+                            </pickerView>
+                            <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="Ttg-hx-Rhb">
+                                <rect key="frame" x="0.0" y="631" width="414" height="216"/>
+                                <connections>
+                                    <action selector="detePicker:" destination="Pic-yh-C9X" eventType="valueChanged" id="MRR-mL-GMw"/>
+                                </connections>
+                            </datePicker>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8v6-SN-pXE">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="803"/>
                                 <subviews>
                                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OoE-Bz-ape">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="803"/>
                                         <subviews>
                                             <view alpha="0.20000000298023224" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Df-Kg-7hJ">
                                                 <rect key="frame" x="41" y="100" width="332" height="50"/>
@@ -125,7 +114,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ioJ-gf-8Be">
-                                                <rect key="frame" x="161.66666666666666" y="170" width="91" height="32"/>
+                                                <rect key="frame" x="161.5" y="170" width="91" height="32"/>
                                                 <segments>
                                                     <segment title="支出"/>
                                                     <segment title="収入"/>
@@ -226,6 +215,7 @@
                                             <constraint firstItem="HZq-ya-Q1t" firstAttribute="leading" secondItem="OoE-Bz-ape" secondAttribute="leading" constant="41" id="mkj-Lg-uRc"/>
                                             <constraint firstItem="4Lp-MR-N44" firstAttribute="leading" secondItem="OoE-Bz-ape" secondAttribute="leading" constant="50" id="muK-cM-yoo"/>
                                             <constraint firstItem="zFP-fV-h4N" firstAttribute="trailing" secondItem="tdg-so-0Vl" secondAttribute="trailing" id="pgZ-sc-LZi"/>
+                                            <constraint firstAttribute="height" constant="803" id="qMC-da-iJU"/>
                                             <constraint firstItem="esq-nA-M11" firstAttribute="leading" secondItem="4Lp-MR-N44" secondAttribute="trailing" constant="9" id="rWc-gy-3UV"/>
                                             <constraint firstItem="iLz-hU-9QJ" firstAttribute="leading" secondItem="4Lp-MR-N44" secondAttribute="leading" id="sWQ-eR-CYM"/>
                                             <constraint firstItem="t50-L1-OCS" firstAttribute="trailing" secondItem="YLf-Gn-ur2" secondAttribute="trailing" id="tyL-VQ-R8j"/>
@@ -241,62 +231,63 @@
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="bottom" secondItem="VYP-ph-3Ui" secondAttribute="bottom" id="9pB-dR-3HD"/>
-                                    <constraint firstAttribute="trailing" secondItem="OoE-Bz-ape" secondAttribute="trailing" id="Knw-pN-5fP"/>
-                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="top" secondItem="u3V-FG-kE2" secondAttribute="top" id="Y9B-1C-462"/>
-                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="centerX" secondItem="8v6-SN-pXE" secondAttribute="centerX" id="i7H-I1-2ni"/>
-                                    <constraint firstAttribute="bottom" secondItem="OoE-Bz-ape" secondAttribute="bottom" id="wRJ-2J-2zc"/>
+                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="leading" secondItem="u3V-FG-kE2" secondAttribute="leading" id="CvM-QH-les"/>
+                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="trailing" secondItem="u3V-FG-kE2" secondAttribute="trailing" id="Mg2-vZ-AJ2"/>
+                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="width" secondItem="VYP-ph-3Ui" secondAttribute="width" id="NBW-OT-7Xy"/>
+                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="bottom" secondItem="u3V-FG-kE2" secondAttribute="bottom" id="SwM-lB-4xc"/>
+                                    <constraint firstItem="OoE-Bz-ape" firstAttribute="top" secondItem="u3V-FG-kE2" secondAttribute="top" id="YTe-Xv-S80"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="u3V-FG-kE2"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="VYP-ph-3Ui"/>
                             </scrollView>
-                            <datePicker hidden="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="Ttg-hx-Rhb">
-                                <rect key="frame" x="0.0" y="513" width="414" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="detePicker:" destination="Pic-yh-C9X" eventType="valueChanged" id="MRR-mL-GMw"/>
-                                </connections>
-                            </datePicker>
-                            <pickerView hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DtT-eU-YfT">
-                                <rect key="frame" x="0.0" y="513" width="414" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </pickerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="zu7-0y-zFd"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="8v6-SN-pXE" firstAttribute="top" secondItem="Gi9-Fp-eFz" secondAttribute="bottom" id="5rI-HQ-E08"/>
-                            <constraint firstItem="Gi9-Fp-eFz" firstAttribute="top" secondItem="zu7-0y-zFd" secondAttribute="top" id="N0j-8A-aGe"/>
-                            <constraint firstItem="Gi9-Fp-eFz" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="Nag-K6-5bS"/>
-                            <constraint firstItem="8v6-SN-pXE" firstAttribute="leading" secondItem="Gi9-Fp-eFz" secondAttribute="leading" id="OX5-Op-buC"/>
-                            <constraint firstItem="8v6-SN-pXE" firstAttribute="trailing" secondItem="Gi9-Fp-eFz" secondAttribute="trailing" id="WHF-sa-gdo"/>
-                            <constraint firstItem="8v6-SN-pXE" firstAttribute="bottom" secondItem="zu7-0y-zFd" secondAttribute="bottom" id="dve-OX-Cfe"/>
-                            <constraint firstItem="OoE-Bz-ape" firstAttribute="width" secondItem="Ehq-3R-DMH" secondAttribute="width" id="eCc-4X-vAg"/>
-                            <constraint firstItem="Gi9-Fp-eFz" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="tLd-Aa-Pqn"/>
+                            <constraint firstItem="zu7-0y-zFd" firstAttribute="bottom" secondItem="Ttg-hx-Rhb" secondAttribute="bottom" id="9Gl-GB-E0V"/>
+                            <constraint firstItem="8v6-SN-pXE" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="CkF-dw-Ury"/>
+                            <constraint firstItem="8v6-SN-pXE" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="I2i-q6-TfG"/>
+                            <constraint firstItem="Ttg-hx-Rhb" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="MGr-jq-FsV"/>
+                            <constraint firstItem="DtT-eU-YfT" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="OEe-Vd-kXl"/>
+                            <constraint firstItem="zu7-0y-zFd" firstAttribute="bottom" secondItem="DtT-eU-YfT" secondAttribute="bottom" id="QqC-Py-qG2"/>
+                            <constraint firstItem="Ttg-hx-Rhb" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="SNO-vv-gme"/>
+                            <constraint firstItem="8v6-SN-pXE" firstAttribute="bottom" secondItem="zu7-0y-zFd" secondAttribute="bottom" id="Z8b-42-tlc"/>
+                            <constraint firstItem="DtT-eU-YfT" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="pjB-oU-UQC"/>
+                            <constraint firstItem="8v6-SN-pXE" firstAttribute="top" secondItem="zu7-0y-zFd" secondAttribute="top" id="qMv-rg-xFU"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="OFZ-xI-Op6" appends="YES" id="rMa-I1-uv2"/>
                         </connections>
                     </view>
-                    <tabBarItem key="tabBarItem" title="入力" image="pencil" catalog="system" id="BIA-6S-dbs"/>
+                    <navigationItem key="navigationItem" id="qHw-oo-zIL">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="IQ7-mj-Y1F">
+                            <connections>
+                                <action selector="tappedCancel:" destination="Pic-yh-C9X" id="ovn-9x-8qo"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="CHt-u1-5gA">
+                            <connections>
+                                <action selector="tappedSave:" destination="Pic-yh-C9X" id="m1t-ph-N94"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <size key="freeformSize" width="414" height="896"/>
                     <connections>
+                        <outlet property="baseScrollView" destination="8v6-SN-pXE" id="94K-DQ-dHd"/>
                         <outlet property="categoryPickerView" destination="DtT-eU-YfT" id="qco-qr-KCl"/>
+                        <outlet property="categoryTextField" destination="AXC-Er-xII" id="euI-Wh-08b"/>
                         <outlet property="contentView" destination="OoE-Bz-ape" id="2Ig-kd-HLM"/>
                         <outlet property="datePicker" destination="Ttg-hx-Rhb" id="KYP-aJ-5QP"/>
-                        <outlet property="incomeAndExpenditure" destination="ioJ-gf-8Be" id="H08-4g-ccY"/>
-                        <outlet property="navigationBar" destination="Gi9-Fp-eFz" id="FcT-R1-O9Z"/>
+                        <outlet property="dateTextField" destination="esq-nA-M11" id="A9F-Zv-aNj"/>
+                        <outlet property="expensesSegmentControl" destination="ioJ-gf-8Be" id="e5d-FR-TVT"/>
+                        <outlet property="expensesTextField" destination="YLf-Gn-ur2" id="12H-cv-UvA"/>
+                        <outlet property="memoTextField" destination="tdg-so-0Vl" id="VuK-TF-Wjj"/>
                         <outlet property="saveBtn" destination="aBe-81-lsg" id="q5Q-XY-c7g"/>
-                        <outlet property="scrollView" destination="8v6-SN-pXE" id="NG4-6p-g4O"/>
                         <outletCollection property="mosaicView" destination="5Df-Kg-7hJ" collectionClass="NSMutableArray" id="wnd-iB-hPU"/>
                         <outletCollection property="mosaicView" destination="HZq-ya-Q1t" collectionClass="NSMutableArray" id="8mP-gb-BX3"/>
                         <outletCollection property="mosaicView" destination="ewW-RP-Gov" collectionClass="NSMutableArray" id="a07-zA-kwE"/>
-                        <outletCollection property="textField" destination="esq-nA-M11" collectionClass="NSMutableArray" id="n0f-uL-7CE"/>
-                        <outletCollection property="textField" destination="AXC-Er-xII" collectionClass="NSMutableArray" id="sxn-qB-Ofw"/>
-                        <outletCollection property="textField" destination="YLf-Gn-ur2" collectionClass="NSMutableArray" id="0bD-Hr-h7j"/>
-                        <outletCollection property="textField" destination="tdg-so-0Vl" collectionClass="NSMutableArray" id="9oc-KN-c18"/>
                         <outletCollection property="mosaicView" destination="aPj-v7-dMK" collectionClass="NSMutableArray" id="MAW-Pz-G0G"/>
                     </connections>
                 </viewController>
@@ -307,7 +298,26 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="674" y="-821"/>
+            <point key="canvasLocation" x="1365" y="-821"/>
+        </scene>
+        <!--入力-->
+        <scene sceneID="QdT-Rq-EpR">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="33G-SO-zVH" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="入力" image="pencil" catalog="system" id="BIA-6S-dbs"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="S04-w4-QL4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Pic-yh-C9X" kind="relationship" relationship="rootViewController" id="zWV-UW-vdn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="96n-89-Z0M" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="466.66666666666669" y="-820.3125"/>
         </scene>
     </scenes>
     <resources>

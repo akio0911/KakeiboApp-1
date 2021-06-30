@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--カレンダー-->
+        <!--Calendar View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="Calendar" id="BYZ-38-t0r" customClass="CalendarViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -17,36 +17,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BkY-uY-mpy">
-                                <rect key="frame" x="0.0" y="452.5" width="414" height="360.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="5aJ-Hl-3G0" detailTextLabel="lq1-wV-HXn" style="IBUITableViewCellStyleValue2" id="BHi-op-ilh">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="50.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="BHi-op-ilh" id="UOk-hb-dDf">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="50.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5aJ-Hl-3G0">
-                                                    <rect key="frame" x="20" y="13" width="91" height="25.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lq1-wV-HXn">
-                                                    <rect key="frame" x="117" y="13" width="52.5" height="25.5"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="83O-fg-oM6">
                                 <rect key="frame" x="0.0" y="88" width="414" height="356.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -73,8 +43,8 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x6l-pu-E4O">
-                                                    <rect key="frame" x="64" y="32" width="0.0" height="0.0"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="x6l-pu-E4O">
+                                                    <rect key="frame" x="64" y="31" width="0.0" height="0.0"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -85,7 +55,7 @@
                                                 <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="AHm-eb-Def" secondAttribute="trailing" constant="87.5" id="9l9-Ta-iLa"/>
                                                 <constraint firstItem="x6l-pu-E4O" firstAttribute="centerX" secondItem="eAt-MP-Jdy" secondAttribute="centerX" id="Dyi-A9-gkK"/>
                                                 <constraint firstItem="AHm-eb-Def" firstAttribute="leading" secondItem="eAt-MP-Jdy" secondAttribute="leading" constant="5" id="PFk-H3-tAH"/>
-                                                <constraint firstItem="x6l-pu-E4O" firstAttribute="top" secondItem="AHm-eb-Def" secondAttribute="bottom" constant="10" id="y5i-x3-7Mq"/>
+                                                <constraint firstItem="x6l-pu-E4O" firstAttribute="top" secondItem="AHm-eb-Def" secondAttribute="bottom" constant="9" id="y5i-x3-7Mq"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                     </collectionViewCell>
@@ -111,50 +81,44 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U98-4f-2fR">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <color key="backgroundColor" red="1" green="0.55866979825826135" blue="0.041986324695268307" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <items>
-                                    <navigationItem title="Title" id="0Gw-k7-IOM">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.left" catalog="system" id="vTM-kQ-bgZ">
-                                            <connections>
-                                                <action selector="lastMonth:" destination="BYZ-38-t0r" id="CzY-Qf-yBH"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Item" image="chevron.right" catalog="system" id="vSo-Y8-zlm">
-                                            <connections>
-                                                <action selector="nextMonth:" destination="BYZ-38-t0r" id="Msd-Og-qi8"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BkY-uY-mpy">
+                                <rect key="frame" x="0.0" y="452.5" width="414" height="360.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="83O-fg-oM6" firstAttribute="top" secondItem="U98-4f-2fR" secondAttribute="bottom" id="2fj-pI-pxI"/>
                             <constraint firstItem="BkY-uY-mpy" firstAttribute="top" secondItem="83O-fg-oM6" secondAttribute="bottom" constant="8" symbolic="YES" id="BfB-X1-GlU"/>
                             <constraint firstItem="BkY-uY-mpy" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="FHF-IX-qz7"/>
                             <constraint firstItem="BkY-uY-mpy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ToB-qR-ZhB"/>
-                            <constraint firstItem="U98-4f-2fR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Vlc-zA-jfR"/>
-                            <constraint firstItem="U98-4f-2fR" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ZuF-Dm-aPU"/>
                             <constraint firstItem="83O-fg-oM6" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="apC-J5-XlQ"/>
-                            <constraint firstItem="U98-4f-2fR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="cFN-Zg-nvb"/>
                             <constraint firstItem="BkY-uY-mpy" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="iPR-bF-A11"/>
+                            <constraint firstItem="83O-fg-oM6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="tDr-4a-9pK"/>
                             <constraint firstItem="83O-fg-oM6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wzI-Hn-Zxh"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="カレンダー" image="calendar" catalog="system" id="ZzR-KQ-3N3"/>
+                    <navigationItem key="navigationItem" id="AVQ-I4-z0Y">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.left" catalog="system" id="vTM-kQ-bgZ">
+                            <connections>
+                                <action selector="lastMonth:" destination="BYZ-38-t0r" id="CzY-Qf-yBH"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="chevron.right" catalog="system" id="vSo-Y8-zlm">
+                            <connections>
+                                <action selector="nextMonth:" destination="BYZ-38-t0r" id="Msd-Og-qi8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="barTitle" destination="0Gw-k7-IOM" id="65p-x2-vO7"/>
-                        <outlet property="collectionView" destination="83O-fg-oM6" id="JWa-Qv-Tab"/>
-                        <outlet property="tableView" destination="BkY-uY-mpy" id="ljS-bK-6mC"/>
+                        <outlet property="calendarCollectionView" destination="83O-fg-oM6" id="8tz-ev-qVZ"/>
+                        <outlet property="calendarNavigationItem" destination="AVQ-I4-z0Y" id="t8p-Gk-URa"/>
+                        <outlet property="calendarTableView" destination="BkY-uY-mpy" id="c5z-Ff-pzt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1970" y="188"/>
+            <point key="canvasLocation" x="-1281" y="188"/>
         </scene>
         <!--Input-->
         <scene sceneID="EJu-09-C8Q">
@@ -187,13 +151,33 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="VkQ-a6-Nes"/>
+                        <segue destination="HpR-m0-uFt" kind="relationship" relationship="viewControllers" id="VkQ-a6-Nes"/>
                         <segue destination="Txj-IV-F3w" kind="relationship" relationship="viewControllers" id="RtS-Da-5Zi"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GnD-R1-fXV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2670" y="188"/>
+        </scene>
+        <!--カレンダー-->
+        <scene sceneID="4HO-2e-Pm9">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="HpR-m0-uFt" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="カレンダー" image="calendar" catalog="system" id="ZzR-KQ-3N3"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="YKh-JX-7Zn">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="1" green="0.7408261169" blue="0.4665163772" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="HPU-v4-m95"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X75-v1-9e8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1971.0144927536232" y="187.5"/>
         </scene>
     </scenes>
     <resources>

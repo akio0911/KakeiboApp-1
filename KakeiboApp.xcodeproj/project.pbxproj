@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		4712FD5B2664820C00D11BF1 /* ExtensionString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712FD5A2664820C00D11BF1 /* ExtensionString.swift */; };
 		4712FD5D2664826E00D11BF1 /* ExtensionUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712FD5C2664826E00D11BF1 /* ExtensionUserDefaults.swift */; };
-		4712FD612664D0E800D11BF1 /* CalendarListLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4712FD602664D0E800D11BF1 /* CalendarListLayout.swift */; };
 		475B8AA22672E14D00B0AB8D /* Graph.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 475B8AA12672E14D00B0AB8D /* Graph.storyboard */; };
 		475B8AA42672E8F800B0AB8D /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B8AA32672E8F800B0AB8D /* GraphTableViewCell.swift */; };
 		475B8AA62672E96100B0AB8D /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B8AA52672E96100B0AB8D /* GraphViewController.swift */; };
@@ -31,16 +30,18 @@
 		4785FD3D2662129600BAAD00 /* Input.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4785FD3C2662129600BAAD00 /* Input.storyboard */; };
 		4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDC82662878500FF6ADF /* CalendarViewController.swift */; };
 		4786EDCD266348FD00FF6ADF /* IncomeAndExpenditure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */; };
-		4786EDD4266357E100FF6ADF /* DataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDD3266357E100FF6ADF /* DataRepository.swift */; };
-		478C115A266B574400F93B7D /* ExrensionArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C1159266B574400F93B7D /* ExrensionArray.swift */; };
 		478C82F326689C4400E9D669 /* Gradation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C82F226689C4400E9D669 /* Gradation.swift */; };
-		478E53CD2669436B00CDA9A8 /* ExpensesAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */; };
+		47A5063426831A1B008B2545 /* DataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A5063326831A1B008B2545 /* DataRepository.swift */; };
+		47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */; };
+		47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */; };
+		47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */; };
+		47C7A35826846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C7A35726846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib */; };
+		A0FE98566C571733636113B5 /* Pods_KakeiboApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4712FD5A2664820C00D11BF1 /* ExtensionString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionString.swift; sourceTree = "<group>"; };
 		4712FD5C2664826E00D11BF1 /* ExtensionUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUserDefaults.swift; sourceTree = "<group>"; };
-		4712FD602664D0E800D11BF1 /* CalendarListLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarListLayout.swift; sourceTree = "<group>"; };
 		475B8AA12672E14D00B0AB8D /* Graph.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Graph.storyboard; sourceTree = "<group>"; };
 		475B8AA32672E8F800B0AB8D /* GraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
 		475B8AA52672E96100B0AB8D /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
@@ -64,10 +65,15 @@
 		4785FD3C2662129600BAAD00 /* Input.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Input.storyboard; sourceTree = "<group>"; };
 		4786EDC82662878500FF6ADF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeAndExpenditure.swift; sourceTree = "<group>"; };
-		4786EDD3266357E100FF6ADF /* DataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRepository.swift; sourceTree = "<group>"; };
-		478C1159266B574400F93B7D /* ExrensionArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExrensionArray.swift; sourceTree = "<group>"; };
 		478C82F226689C4400E9D669 /* Gradation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradation.swift; sourceTree = "<group>"; };
-		478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ExpensesAlert.swift; path = "../../../../../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/ExpensesAlert.swift"; sourceTree = "<group>"; };
+		47A5063326831A1B008B2545 /* DataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRepository.swift; sourceTree = "<group>"; };
+		47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
+		47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewCell.xib; sourceTree = "<group>"; };
+		47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
+		47C7A35726846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewHeaderFooterView.xib; sourceTree = "<group>"; };
+		4CA78BE969024FB289D67417 /* Pods-KakeiboApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KakeiboApp.release.xcconfig"; path = "Target Support Files/Pods-KakeiboApp/Pods-KakeiboApp.release.xcconfig"; sourceTree = "<group>"; };
+		7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KakeiboApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8374A06BF5FB26D14592739D /* Pods-KakeiboApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KakeiboApp.debug.xcconfig"; path = "Target Support Files/Pods-KakeiboApp/Pods-KakeiboApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,12 +81,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A0FE98566C571733636113B5 /* Pods_KakeiboApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42EE7307A682EE180F9C5FAD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8374A06BF5FB26D14592739D /* Pods-KakeiboApp.debug.xcconfig */,
+				4CA78BE969024FB289D67417 /* Pods-KakeiboApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		475B8AA02672E0E700B0AB8D /* GraphScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +132,8 @@
 			children = (
 				47815700266128C8005E1020 /* KakeiboApp */,
 				478156FF266128C8005E1020 /* Products */,
+				42EE7307A682EE180F9C5FAD /* Pods */,
+				F80E1A3A0C6B7344DB421BF8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -159,7 +177,6 @@
 				47815707266128C8005E1020 /* Main.storyboard */,
 				4786EDC82662878500FF6ADF /* CalendarViewController.swift */,
 				4781571D26612C65005E1020 /* View */,
-				4781571C26612C5C005E1020 /* Model */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -175,8 +192,8 @@
 			isa = PBXGroup;
 			children = (
 				4786EDCC266348FD00FF6ADF /* IncomeAndExpenditure.swift */,
-				4786EDD3266357E100FF6ADF /* DataRepository.swift */,
 				475B8AC026737C5900B0AB8D /* Category.swift */,
+				47A5063326831A1B008B2545 /* DataRepository.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,7 +210,11 @@
 			isa = PBXGroup;
 			children = (
 				478157352661C686005E1020 /* CalendarCellLayout.swift */,
-				4712FD602664D0E800D11BF1 /* CalendarListLayout.swift */,
+				47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */,
+				47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */,
+				47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */,
+				47C7A35726846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib */,
+				4781571C26612C5C005E1020 /* Model */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -205,7 +226,6 @@
 				4781572B26612E5D005E1020 /* extensionUIColor.swift */,
 				4712FD5A2664820C00D11BF1 /* ExtensionString.swift */,
 				4712FD5C2664826E00D11BF1 /* ExtensionUserDefaults.swift */,
-				478C1159266B574400F93B7D /* ExrensionArray.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -224,9 +244,16 @@
 			isa = PBXGroup;
 			children = (
 				478C82F226689C4400E9D669 /* Gradation.swift */,
-				478E53CC2669436B00CDA9A8 /* ExpensesAlert.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		F80E1A3A0C6B7344DB421BF8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,9 +263,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 47815712266128C8005E1020 /* Build configuration list for PBXNativeTarget "KakeiboApp" */;
 			buildPhases = (
+				D777A9B962C71507BE0EAD5E /* [CP] Check Pods Manifest.lock */,
 				478156FA266128C8005E1020 /* Sources */,
 				478156FB266128C8005E1020 /* Frameworks */,
 				478156FC266128C8005E1020 /* Resources */,
+				4711605D26833B970032C4A8 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -287,6 +316,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */,
+				47C7A35826846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib in Resources */,
+				47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */,
 				4781570B266128C8005E1020 /* Assets.xcassets in Resources */,
 				475B8AA22672E14D00B0AB8D /* Graph.storyboard in Resources */,
 				47815709266128C8005E1020 /* Main.storyboard in Resources */,
@@ -295,6 +326,49 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4711605D26833B970032C4A8 /* Run Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
+		D777A9B962C71507BE0EAD5E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-KakeiboApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		478156FA266128C8005E1020 /* Sources */ = {
@@ -305,8 +379,6 @@
 				4781573026612ED5005E1020 /* CalendarDate.swift in Sources */,
 				475B8ABE267371D700B0AB8D /* CategoryInfo.swift in Sources */,
 				475B8ABA267356AF00B0AB8D /* CategoryGraphInfo.swift in Sources */,
-				478E53CD2669436B00CDA9A8 /* ExpensesAlert.swift in Sources */,
-				4786EDD4266357E100FF6ADF /* DataRepository.swift in Sources */,
 				4712FD5D2664826E00D11BF1 /* ExtensionUserDefaults.swift in Sources */,
 				478157362661C686005E1020 /* CalendarCellLayout.swift in Sources */,
 				4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */,
@@ -316,11 +388,12 @@
 				475B8ABC2673572100B0AB8D /* CategoryListInfo.swift in Sources */,
 				475B8AA62672E96100B0AB8D /* GraphViewController.swift in Sources */,
 				4712FD5B2664820C00D11BF1 /* ExtensionString.swift in Sources */,
+				47A5063426831A1B008B2545 /* DataRepository.swift in Sources */,
 				478C82F326689C4400E9D669 /* Gradation.swift in Sources */,
-				4712FD612664D0E800D11BF1 /* CalendarListLayout.swift in Sources */,
 				4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */,
-				478C115A266B574400F93B7D /* ExrensionArray.swift in Sources */,
 				47815704266128C8005E1020 /* SceneDelegate.swift in Sources */,
+				47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */,
+				47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */,
 				4781572926612E22005E1020 /* extensionDate.swift in Sources */,
 				475B8AB02672FB5F00B0AB8D /* GraphImage.swift in Sources */,
 				475B8AC126737C5900B0AB8D /* Category.swift in Sources */,
@@ -467,6 +540,7 @@
 		};
 		47815713266128C8005E1020 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8374A06BF5FB26D14592739D /* Pods-KakeiboApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -480,6 +554,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -487,6 +562,7 @@
 		};
 		47815714266128C8005E1020 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4CA78BE969024FB289D67417 /* Pods-KakeiboApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -500,6 +576,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

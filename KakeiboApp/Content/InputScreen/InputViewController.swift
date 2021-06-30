@@ -8,187 +8,234 @@
 import UIKit
 
 class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    private var calendarViewController: CalendarViewController!
-    private let gradation = Gradation()
-    private let expenses = ExpensesAlert()
+
+    private var dataRepository = DataRepository()
     private let category = Category.allCases.map { $0.name }
-    
+
     private var editingField: UITextField?
-    private var overlap: CGFloat = 0
-    private var lastOffsetY: CGFloat = 0
-    
-    @IBOutlet private weak var navigationBar: UINavigationBar!
-    @IBOutlet private weak var scrollView: UIScrollView!
+
+    @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
-    @IBOutlet private var textField: [UITextField]!
-    @IBOutlet private weak var incomeAndExpenditure: UISegmentedControl!
+    @IBOutlet private weak var dateTextField: UITextField!
+    @IBOutlet private weak var categoryTextField: UITextField!
+    @IBOutlet private weak var expensesTextField: UITextField!
+    @IBOutlet private weak var memoTextField: UITextField!
+    @IBOutlet private weak var expensesSegmentControl: UISegmentedControl!
     @IBOutlet private weak var saveBtn: UIButton!
     @IBOutlet private weak var datePicker: UIDatePicker!
     @IBOutlet private weak var categoryPickerView: UIPickerView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        scrollView.frame = CGRect(x: 0, y: navigationBar.frame.maxY, width: view.frame.width, height: view.frame.height - navigationBar.frame.maxY)
-        scrollView.contentSize = CGSize(width: view.frame.width, height: contentView.frame.height)
-        
-        calendarViewController = (tabBarController?.viewControllers![0] as! CalendarViewController)
-        
-        for fld in textField {
-            fld.delegate = self
-        }
-        
+
+        dateTextField.delegate = self
+        categoryTextField.delegate = self
+        expensesTextField.delegate = self
+        memoTextField.delegate = self
         categoryPickerView.delegate = self
         categoryPickerView.dataSource = self
-        textField[0].inputView = datePicker
-        textField[1].inputView = categoryPickerView
-        
+        dateTextField.inputView = datePicker
+        categoryTextField.inputView = categoryPickerView
+
         saveBtn.layer.cornerRadius = 10
         saveBtn.layer.masksToBounds = true
-        gradation.gradientLayer.frame = contentView.bounds
-        contentView.layer.insertSublayer(gradation.gradientLayer, at: 0)
-        
+
+        let _:Gradation = {
+            let gradation = Gradation()
+            gradation.layer.frame = contentView.bounds
+            contentView.layer.insertSublayer(gradation.layer, at: 0)
+            return gradation
+        }()
+
         NSLayoutConstraint.activate([
             datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
             categoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
         ])
-        
-        for i in mosaicView {
-            i.layer.cornerRadius = 8
-            i.layer.masksToBounds = true
+
+        // モザイク用のviewをフィレット
+        mosaicView.forEach {
+            $0.layer.cornerRadius = 8
+            $0.layer.masksToBounds = true
         }
-        
-        // アラートのボタンアクションを作る
-        expenses.alert.addAction(
-            UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
-                            self?.textField[2].becomeFirstResponder() })
-        )
-        
+
         let notification = NotificationCenter.default
         notification.addObserver(self,
-                                 selector: #selector(self.keyboardChangeFrame(_:)), name: UIResponder.keyboardDidChangeFrameNotification, object: nil)
-        
+                                 selector: #selector(self.keyboardChangeFrame(_:)),
+                                 name: UIResponder.keyboardDidChangeFrameNotification,
+                                 object: nil)
+
         notification.addObserver(self,
-                                 selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
+                                 selector: #selector(self.keyboardWillShow(_:)),
+                                 name: UIResponder.keyboardWillShowNotification,
+                                 object: nil)
+
         notification.addObserver(self,
-                                 selector: #selector(self.keyboardDidHide(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
-        
+                                 selector: #selector(self.keyboardDidHide(_:)),
+                                 name: UIResponder.keyboardDidHideNotification,
+                                 object: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let calendarDate = calendarViewController.calendarDate
-        textField[0].text = calendarDate.today.string(dateFormat: "YYYY年MM月dd日")
-        textField[1].text = category[0]
-        textField[2].text = ""
-        textField[3].text = ""
+
+        let today: Date? = {
+            let calendar = Calendar(identifier: .gregorian)
+            let component = calendar.dateComponents([.year, .month, .day], from: Date())
+            let today = calendar.date(
+                from: DateComponents(
+                    year: component.year,
+                    month: component.month,
+                    day: component.day)
+            )
+            return today
+        }()
+        dateTextField.text = today?.string(dateFormat: "YYYY年MM月dd日")
+        categoryTextField.text = category[0]
+        expensesTextField.text = ""
+        memoTextField.text = ""
     }
-    
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let contentSize = CGSize(width: view.frame.width
+                                    - view.safeAreaInsets.left
+                                    - view.safeAreaInsets.right,
+                                 height: view.frame.height
+                                    - view.safeAreaInsets.top
+                                    - view.safeAreaInsets.bottom)
+        baseScrollView.contentSize = contentSize // スクロールできなくするための設定
+    }
+
     @IBAction private func tappedView(_ sender: Any) {
         view.endEditing(true)
     }
-    
+
     @IBAction private func detePicker(_ sender: UIDatePicker) {
-        textField[0].text = sender.date.string(dateFormat: "YYYY年MM月dd日")
+        dateTextField.text = sender.date.string(dateFormat: "YYYY年MM月dd日")
     }
-    
+
     @IBAction private func tappedCancel(_ sender: Any) {
         let calendarViewController = tabBarController?.viewControllers?[0]
-        tabBarController?.selectedViewController = calendarViewController
+        tabBarController?.selectedViewController = calendarViewController // 画面遷移
     }
-    
+
     @IBAction private func tappedSave(_ sender: Any) {
-        guard "" != textField[2].text else {
-            present(expenses.alert, animated: true, completion: nil)
+        guard "" != expensesTextField.text else {
+            showExpensesAlert()
             return
         }
-        let date = (textField[0].text?.date(dateFormat: "YYYY年MM月dd日"))!
-        let category = textField[1].text ?? ""
+        let date = (dateTextField.text?.date(dateFormat: "YYYY年MM月dd日"))!
+        let category = categoryTextField.text ?? ""
         let expenses: Int!
-        switch incomeAndExpenditure.selectedSegmentIndex {
+        switch expensesSegmentControl.selectedSegmentIndex {
         case 0:
-            expenses = -(Int(textField[2].text!) ?? 0)
+            expenses = -(Int(expensesTextField.text!) ?? 0)
         default:
-            expenses = Int(textField[2].text!) ?? 0
+            expenses = Int(expensesTextField.text!) ?? 0
         }
-        let memo = String(textField[3].text ?? "")
+        let memo = String(memoTextField.text ?? "")
         let incomeAndExpenditure = IncomeAndExpenditure(date: date, category: category, expenses: expenses, memo: memo)
-        var dataRepository = calendarViewController.dataRepository
+        dataRepository.loadData() // UserDefaultのデータを上書きしないためにデータを読み込む
         dataRepository.saveData(incomeAndExpenditure: incomeAndExpenditure)
-        
+
         let calendarViewController = tabBarController?.viewControllers?[0]
-        tabBarController?.selectedViewController = calendarViewController
+        tabBarController?.selectedViewController = calendarViewController // 画面遷移
     }
-    
+
+    // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
+    private func showExpensesAlert() {
+        let alert = UIAlertController(
+            title: "収支が未入力です。",
+            message: "支出または収入を入力して下さい",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(
+                            title: "OK",
+                            style: .default,
+                            handler: { [weak self] _ in
+                                self?.expensesTextField.becomeFirstResponder() }))
+        present(alert, animated: true, completion: nil)
+    }
+
     // MARK: - TextFieldDelegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
         editingField = textField
         switch textField {
-        case self.textField[0]:
+        case dateTextField:
             datePicker.isHidden = false
-        case self.textField[1]:
+        case categoryTextField:
             categoryPickerView.isHidden = false
         default:
             return
         }
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         editingField = nil
+        switch textField {
+        case dateTextField:
+            datePicker.isHidden = true
+        case categoryTextField:
+            categoryPickerView.isHidden = true
+        default:
+            return
+        }
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return false
     }
-    
+
     // MARK: - UIPickerViewDataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         category.count
     }
-    
+
     // MARK: - UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let category = category[row]
-        textField[1].text = category
+        categoryTextField.text = category
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         category[row]
     }
-    
+
     // MARK: - Selector
     @objc func keyboardChangeFrame(_ notification: Notification) {
-        
-        guard let fld = editingField else {
-            return
-        }
-        
+
+        var overlap: CGFloat = 0 // 重なっている高さ
+        guard let fld = editingField else { return }
+        // キーボードのframeを調べる
         let userInfo = (notification as NSNotification).userInfo!
+        // swiftlint:disable:next force_cast
         let keybordFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        // textFieldのframeをキーボードと同じ座標系にする
         let fldFrame = view.convert(fld.frame, from: contentView)
+        // 編集中のtextFieldがキーボードと重なっていないか調べる
         overlap = fldFrame.maxY - keybordFrame.minY + 18
         if overlap > 0 {
-            overlap += scrollView.contentOffset.y
-            scrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
+            // キーボードで隠れている分だけスクロールする
+            overlap += baseScrollView.contentOffset.y
+            baseScrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
         }
     }
-    
+
+    private var lastOffsetY: CGFloat = 0 // キーボードが表示される前のスクロール量(現時点不要)
+    // (現時点不要)
     @objc func keyboardWillShow(_ notification: Notification) {
-        lastOffsetY = scrollView.contentOffset.y
+        lastOffsetY = baseScrollView.contentOffset.y
     }
-    
+
     @objc func keyboardDidHide(_ notification: Notification) {
-        let baseline = contentView.bounds.height - scrollView.bounds.height
-        lastOffsetY = min(baseline, lastOffsetY)
-        scrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
+        let baseline: CGFloat = 0
+        lastOffsetY = min(baseline, lastOffsetY) // (現時点不要)
+        baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
     }
 }

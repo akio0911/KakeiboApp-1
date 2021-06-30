@@ -17,7 +17,7 @@ enum Category: CaseIterable {
     case vehicleFee
     case entertainment
     case other
-    
+
     var name: String {
         switch self {
         case .consumption: return "飲食費"
