@@ -23,21 +23,23 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     @IBOutlet private weak var memoTextField: UITextField!
     @IBOutlet private weak var expensesSegmentControl: UISegmentedControl!
     @IBOutlet private weak var saveBtn: UIButton!
-    @IBOutlet private weak var datePicker: UIDatePicker!
-    @IBOutlet private weak var categoryPickerView: UIPickerView!
+
+    private var datePicker: UIDatePicker!
+    private var categoryPickerView: UIPickerView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // textField.delegateを設定
         dateTextField.delegate = self
         categoryTextField.delegate = self
         expensesTextField.delegate = self
         memoTextField.delegate = self
-        categoryPickerView.delegate = self
-        categoryPickerView.dataSource = self
-        dateTextField.inputView = datePicker
-        categoryTextField.inputView = categoryPickerView
 
+        // pickerViewをキーボードに設定
+        configurePickerKeybord()
+
+        // セーブボタンをフィレット
         saveBtn.layer.cornerRadius = 10
         saveBtn.layer.masksToBounds = true
 
@@ -76,6 +78,26 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
                                  object: nil)
     }
 
+    // キーボードの設定
+    private func configurePickerKeybord() {
+        // datePickerViewを設定
+        datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date // 日付を月、日、年で表示
+        datePicker.preferredDatePickerStyle = .wheels // ホイールピッカーとして表示
+        datePicker.timeZone = .autoupdatingCurrent // システムが現在使用しているタイムゾーン
+        datePicker.locale = .autoupdatingCurrent  // ユーザーの現在の設定を追跡するロケール
+        datePicker.addTarget(self,
+                             action: #selector(datePickerValueChange),
+                             for: .valueChanged)
+        dateTextField.inputView = datePicker
+
+        // categoryPickerViewを設定
+        categoryPickerView = UIPickerView()
+        categoryPickerView.delegate = self
+        categoryPickerView.dataSource = self
+        categoryTextField.inputView = categoryPickerView
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -110,10 +132,6 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
 
     @IBAction private func tappedView(_ sender: Any) {
         view.endEditing(true)
-    }
-
-    @IBAction private func detePicker(_ sender: UIDatePicker) {
-        dateTextField.text = sender.date.string(dateFormat: "YYYY年MM月dd日")
     }
 
     @IBAction private func tappedCancel(_ sender: Any) {
@@ -161,26 +179,10 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     // MARK: - TextFieldDelegate
     func textFieldDidBeginEditing(_ textField: UITextField) {
         editingField = textField
-        switch textField {
-        case dateTextField:
-            datePicker.isHidden = false
-        case categoryTextField:
-            categoryPickerView.isHidden = false
-        default:
-            return
-        }
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         editingField = nil
-        switch textField {
-        case dateTextField:
-            datePicker.isHidden = true
-        case categoryTextField:
-            categoryPickerView.isHidden = true
-        default:
-            return
-        }
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -207,7 +209,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         category[row]
     }
 
-    // MARK: - Selector
+    // MARK: - notificationのSelector
     @objc func keyboardChangeFrame(_ notification: Notification) {
 
         var overlap: CGFloat = 0 // 重なっている高さ
@@ -237,5 +239,12 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         let baseline: CGFloat = 0
         lastOffsetY = min(baseline, lastOffsetY) // (現時点不要)
         baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
+    }
+
+    // MARK: - detePickerのSelector
+    @objc func datePickerValueChange() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY年MM月dd日"
+        dateTextField.text = "\(formatter.string(from: datePicker.date))"
     }
 }

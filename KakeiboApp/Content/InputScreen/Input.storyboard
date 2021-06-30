@@ -16,15 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="847"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <pickerView hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DtT-eU-YfT">
-                                <rect key="frame" x="0.0" y="631" width="414" height="216"/>
-                            </pickerView>
-                            <datePicker hidden="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" style="wheels" translatesAutoresizingMaskIntoConstraints="NO" id="Ttg-hx-Rhb">
-                                <rect key="frame" x="0.0" y="631" width="414" height="216"/>
-                                <connections>
-                                    <action selector="detePicker:" destination="Pic-yh-C9X" eventType="valueChanged" id="MRR-mL-GMw"/>
-                                </connections>
-                            </datePicker>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8v6-SN-pXE">
                                 <rect key="frame" x="0.0" y="44" width="414" height="803"/>
                                 <subviews>
@@ -245,15 +236,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="zu7-0y-zFd" firstAttribute="bottom" secondItem="Ttg-hx-Rhb" secondAttribute="bottom" id="9Gl-GB-E0V"/>
                             <constraint firstItem="8v6-SN-pXE" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="CkF-dw-Ury"/>
                             <constraint firstItem="8v6-SN-pXE" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="I2i-q6-TfG"/>
-                            <constraint firstItem="Ttg-hx-Rhb" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="MGr-jq-FsV"/>
-                            <constraint firstItem="DtT-eU-YfT" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="OEe-Vd-kXl"/>
-                            <constraint firstItem="zu7-0y-zFd" firstAttribute="bottom" secondItem="DtT-eU-YfT" secondAttribute="bottom" id="QqC-Py-qG2"/>
-                            <constraint firstItem="Ttg-hx-Rhb" firstAttribute="trailing" secondItem="zu7-0y-zFd" secondAttribute="trailing" id="SNO-vv-gme"/>
                             <constraint firstItem="8v6-SN-pXE" firstAttribute="bottom" secondItem="zu7-0y-zFd" secondAttribute="bottom" id="Z8b-42-tlc"/>
-                            <constraint firstItem="DtT-eU-YfT" firstAttribute="leading" secondItem="zu7-0y-zFd" secondAttribute="leading" id="pjB-oU-UQC"/>
                             <constraint firstItem="8v6-SN-pXE" firstAttribute="top" secondItem="zu7-0y-zFd" secondAttribute="top" id="qMv-rg-xFU"/>
                         </constraints>
                         <connections>
@@ -276,10 +261,8 @@
                     <size key="freeformSize" width="414" height="896"/>
                     <connections>
                         <outlet property="baseScrollView" destination="8v6-SN-pXE" id="94K-DQ-dHd"/>
-                        <outlet property="categoryPickerView" destination="DtT-eU-YfT" id="qco-qr-KCl"/>
                         <outlet property="categoryTextField" destination="AXC-Er-xII" id="euI-Wh-08b"/>
                         <outlet property="contentView" destination="OoE-Bz-ape" id="2Ig-kd-HLM"/>
-                        <outlet property="datePicker" destination="Ttg-hx-Rhb" id="KYP-aJ-5QP"/>
                         <outlet property="dateTextField" destination="esq-nA-M11" id="A9F-Zv-aNj"/>
                         <outlet property="expensesSegmentControl" destination="ioJ-gf-8Be" id="e5d-FR-TVT"/>
                         <outlet property="expensesTextField" destination="YLf-Gn-ur2" id="12H-cv-UvA"/>
@@ -307,7 +290,7 @@
                     <tabBarItem key="tabBarItem" title="入力" image="pencil" catalog="system" id="BIA-6S-dbs"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="S04-w4-QL4">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
