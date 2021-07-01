@@ -13,7 +13,8 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
     @IBOutlet weak var expensesHeaderLabel: UILabel!
 
     static var identifier: String { String(describing: self) }
-    static var nib: UINib { UINib(nibName: String(describing: self), bundle: nil)}
+    static var nib: UINib { UINib(nibName: String(describing: self),
+                                  bundle: nil) }
 
     func setObject(title: String, expenses: Int) {
         titleHeaderLabel.text = title

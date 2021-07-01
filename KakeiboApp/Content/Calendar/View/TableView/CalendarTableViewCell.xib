@@ -22,8 +22,8 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3t-Kw-gI6">
-                        <rect key="frame" x="247.5" y="7" width="41.5" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N3t-Kw-gI6">
+                        <rect key="frame" x="184" y="7" width="105" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -34,14 +34,23 @@
                             <constraint firstAttribute="width" constant="40" id="V6E-nK-ynp"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vp3-G0-RHe">
+                        <rect key="frame" x="127" y="7" width="41.5" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="N8x-dE-0a4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="3x5-sL-u1l"/>
+                    <constraint firstItem="Vp3-G0-RHe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="C7p-3B-Epz"/>
                     <constraint firstAttribute="bottom" secondItem="N8x-dE-0a4" secondAttribute="bottom" constant="3" id="Out-ih-Zxo"/>
                     <constraint firstItem="N3t-Kw-gI6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="PtH-Lk-NY7"/>
                     <constraint firstItem="N8x-dE-0a4" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ybn-KP-BHS"/>
                     <constraint firstItem="N8x-dE-0a4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="bPo-hm-tOq"/>
                     <constraint firstItem="ZEQ-c9-Gwa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="c6c-US-y18"/>
+                    <constraint firstItem="N3t-Kw-gI6" firstAttribute="leading" secondItem="Vp3-G0-RHe" secondAttribute="trailing" constant="15.5" id="cSM-9Z-Ynm"/>
+                    <constraint firstItem="Vp3-G0-RHe" firstAttribute="leading" secondItem="ZEQ-c9-Gwa" secondAttribute="trailing" constant="15.5" id="dyd-fY-NyE"/>
                     <constraint firstItem="ZEQ-c9-Gwa" firstAttribute="leading" secondItem="N8x-dE-0a4" secondAttribute="trailing" constant="10" id="eUO-ak-SDW"/>
                     <constraint firstAttribute="trailing" secondItem="N3t-Kw-gI6" secondAttribute="trailing" constant="5.5" id="mBx-8k-0HG"/>
                 </constraints>
@@ -51,8 +60,9 @@
                 <outlet property="categoryLabel" destination="ZEQ-c9-Gwa" id="RwC-3d-UHI"/>
                 <outlet property="expensesImageView" destination="N8x-dE-0a4" id="7Sj-ou-l46"/>
                 <outlet property="expensesLabel" destination="N3t-Kw-gI6" id="PNv-wf-fT8"/>
+                <outlet property="memoLabel" destination="Vp3-G0-RHe" id="3HG-PL-0Ci"/>
             </connections>
-            <point key="canvasLocation" x="-29" y="50"/>
+            <point key="canvasLocation" x="267" y="86"/>
         </tableViewCell>
     </objects>
 </document>

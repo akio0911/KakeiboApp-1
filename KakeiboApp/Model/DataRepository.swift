@@ -87,12 +87,10 @@ struct DataRepository {
 
     /*UICollectionViewDataSourceのcollectionView(_:,cellForItemAt)内で呼ばれるメソッド
      データから日付が一致する収支を合計*/
-    func calcDateExpenses(date: Date) -> Int? {
-        var dateExpenses: Int?
+    func calcDateExpenses(date: Date) -> Int {
+        var dateExpenses: Int
         let filteredData = data.filter { $0.date == date }
-        if !filteredData.isEmpty {
             dateExpenses = filteredData.reduce(0) { $0 + $1.expenses }
-        }
         return dateExpenses
     }
 

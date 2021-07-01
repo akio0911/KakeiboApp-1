@@ -43,8 +43,7 @@ class CalendarViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        calendarCollectionView.delegate = self
-        calendarCollectionView.dataSource = self
+        settingCollectionView() // collectionViewの設定をするメソッド
         calendarDate.delegate = self
         calendarTableView.delegate = self
         calendarTableView.dataSource = self
@@ -57,6 +56,16 @@ class CalendarViewController: UIViewController,
         UserDefaults.standard.removeAll()
         calendarCollectionView.backgroundColor = UIColor.atomicTangerine
         calendarHeights[calendarDate.numberOfWeeks]?.isActive = true
+    }
+
+    // collectionViewの設定
+    private func settingCollectionView() {
+        calendarCollectionView.delegate = self
+        calendarCollectionView.dataSource = self
+        calendarCollectionView.register(CalendarWeekdayCollectionViewCell.nib,
+                                        forCellWithReuseIdentifier: CalendarWeekdayCollectionViewCell.identifier)
+        calendarCollectionView.register(CalendarDayCollectionViewCell.nib,
+                                        forCellWithReuseIdentifier: CalendarDayCollectionViewCell.identifier)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -92,43 +101,34 @@ class CalendarViewController: UIViewController,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)
     -> UICollectionViewCell {
 
-        var cell: UICollectionViewCell!
-        var label: UILabel!
-
-        if indexPath.section == 0 {
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekdayCell", for: indexPath)
-            label = cell.contentView.viewWithTag(3) as? UILabel
-            label.text = calendarDate.presentWeekday(at: indexPath.row)
-        } else if indexPath.section == 1 {
-            cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DayCell", for: indexPath)
-            label = cell.contentView.viewWithTag(1) as? UILabel
-            let date = calendarDate.presentDate(at: indexPath.row)
-            label.text = date.string(dateFormat: "d")
-            let expensesLabel = cell.contentView.viewWithTag(2) as? UILabel
-            if let expenses = dataRepository.calcDateExpenses(date: date) {
-                expensesLabel?.text = String(expenses)
-                expensesLabel?.textColor = UIColor.orangeRedCrayola
-            } else {
-                expensesLabel?.text = ""
-            }
-        }
-        // 日付のテキストカラーを曜日毎に色分けしている
-        switch indexPath.row % 7 {
+        switch indexPath.section {
         case 0:
-            label.textColor = UIColor.orangeRedCrayola
-        case 6:
-            label.textColor = UIColor.celadonBlue
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CalendarWeekdayCollectionViewCell.identifier,
+                for: indexPath
+            ) as! CalendarWeekdayCollectionViewCell // swiftlint:disable:this force_cast
+            let weekday: String = calendarDate.presentWeekday(at: indexPath.row)
+            cell.configure(weekday: weekday, at: indexPath.row)
+            cell.backgroundColor = UIColor.cultured
+            return cell
         default:
-            label.textColor = UIColor.spaceCadet
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CalendarDayCollectionViewCell.identifier,
+                for: indexPath
+            ) as! CalendarDayCollectionViewCell // swiftlint:disable:this force_cast
+            let date = calendarDate.presentDate(at: indexPath.row)
+            let expenses = dataRepository.calcDateExpenses(date: date)
+            // 表示月と月が同じ場合trueを返す
+            let isDisplayedMonth =
+                calendarDate.convertStringFirstDay(dateFormat: "MM") ==
+                date.string(dateFormat: "MM") ? true : false
+            cell.configure(date: date,
+                           expenses: expenses,
+                           at: indexPath.row,
+                           isDisplayedMonth: isDisplayedMonth)
+            cell.backgroundColor = UIColor.cultured
+            return cell
         }
-        // 表示月ではない日付のテキストカラーをグレーにしている
-        if indexPath.section == 1,
-           calendarDate.convertStringFirstDay(dateFormat: "MM") !=
-            calendarDate.presentDate(at: indexPath.row).string(dateFormat: "MM") {
-            label.textColor = .gray
-        }
-        cell.backgroundColor = UIColor.cultured
-        return cell
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -224,7 +224,7 @@ class CalendarViewController: UIViewController,
         let title = dataRepository.presentDateFormat(monthFirstDay: calendarDate.firstDay, at: section)
         let data = dataRepository.fetchFirstDayData(monthFirstDay: calendarDate.firstDay, at: section)
         let expenses = dataRepository.calcDateExpenses(date: data.date)
-        if let expenses = expenses { headerView.setObject(title: title, expenses: expenses)}
+        if expenses != 0 { headerView.setObject(title: title, expenses: expenses) }
         return headerView
     }
 }

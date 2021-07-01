@@ -12,6 +12,7 @@ class CalendarTableViewCell: UITableViewCell {
     @IBOutlet private weak var expensesImageView: UIImageView!
     @IBOutlet private weak var categoryLabel: UILabel!
     @IBOutlet private weak var expensesLabel: UILabel!
+    @IBOutlet weak var memoLabel: UILabel!
 
     static var identifier: String { String(describing: self) }
     static var nib: UINib { UINib(nibName: String(describing: self), bundle: nil) }
@@ -26,6 +27,7 @@ class CalendarTableViewCell: UITableViewCell {
 
     func setCellObject(data: IncomeAndExpenditure) {
         categoryLabel.text = data.category
+        memoLabel.text = data.memo
         expensesLabel.text = String(data.expenses)
         expensesLabel.textColor =
             data.expenses >= 0 ? UIColor.celadonBlue : UIColor.orangeRedCrayola
