@@ -7,4 +7,5 @@ target 'KakeiboApp' do
 
   # Pods for KakeiboApp
 pod 'SwiftLint'
+pod 'Charts'
 end

@@ -7,10 +7,12 @@
 
 import UIKit
 
-class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+final class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     private var dataRepository = DataRepository()
-    private let category = Category.allCases.map { $0.name }
+    private let category = Category.allCases
+    private lazy var categoryString = category.map { $0.rawValue }
+    private var didSelectCategory: Category = .consumption
 
     private var editingField: UITextField?
 
@@ -27,40 +29,58 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     private var datePicker: UIDatePicker!
     private var categoryPickerView: UIPickerView!
 
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // textField.delegateを設定
+        settingTextFieldDelegate() // textField.delegateを設定
+        settingPickerKeybord() // pickerViewをキーボードに設定
+        configureSaveBtnLayer() // セーブボタンをフィレット
+        insertGradationLayer() // グラデーション設定
+        settingHeightPicker() // pickerViewの高さ設定
+        configureMosaicViewLayer() // モザイク用のviewをフィレット
+        settingKeyboardNotification() // Keyboardのnotification設定
+    }
+
+    // textFieldDelegateの設定
+    private func settingTextFieldDelegate() {
         dateTextField.delegate = self
         categoryTextField.delegate = self
         expensesTextField.delegate = self
         memoTextField.delegate = self
+    }
 
-        // pickerViewをキーボードに設定
-        configurePickerKeybord()
-
-        // セーブボタンをフィレット
+    // セーブボタンをフィレット
+    private func configureSaveBtnLayer() {
         saveBtn.layer.cornerRadius = 10
         saveBtn.layer.masksToBounds = true
+    }
 
-        let _:Gradation = {
-            let gradation = Gradation()
-            gradation.layer.frame = contentView.bounds
-            contentView.layer.insertSublayer(gradation.layer, at: 0)
-            return gradation
-        }()
+    // グラデーションを設定
+    private func insertGradationLayer() {
+        let gradation = Gradation()
+        gradation.layer.frame = contentView.bounds
+        contentView.layer.insertSublayer(gradation.layer, at: 0)
+    }
 
+    // pickerViewの高さ設定
+    private func settingHeightPicker() {
         NSLayoutConstraint.activate([
             datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
             categoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
         ])
+    }
 
-        // モザイク用のviewをフィレット
+    // モザイク用のveiwをフィレット
+    private func configureMosaicViewLayer() {
         mosaicView.forEach {
             $0.layer.cornerRadius = 8
             $0.layer.masksToBounds = true
         }
+    }
 
+    // Keyboardのnotificationの設定
+    private func settingKeyboardNotification() {
         let notification = NotificationCenter.default
         notification.addObserver(self,
                                  selector: #selector(self.keyboardChangeFrame(_:)),
@@ -79,7 +99,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
     }
 
     // キーボードの設定
-    private func configurePickerKeybord() {
+    private func settingPickerKeybord() {
         // datePickerViewを設定
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date // 日付を月、日、年で表示
@@ -98,6 +118,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
         categoryTextField.inputView = categoryPickerView
     }
 
+    // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -113,11 +134,13 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
             return today
         }()
         dateTextField.text = today?.string(dateFormat: "YYYY年MM月dd日")
-        categoryTextField.text = category[0]
+        categoryTextField.text = categoryString[0]
         expensesTextField.text = ""
         memoTextField.text = ""
+        didSelectCategory = .consumption
     }
 
+    // MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -145,7 +168,7 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
             return
         }
         let date = (dateTextField.text?.date(dateFormat: "YYYY年MM月dd日"))!
-        let category = categoryTextField.text ?? ""
+        let category = didSelectCategory
         let expenses: Int!
         switch expensesSegmentControl.selectedSegmentIndex {
         case 0:
@@ -201,12 +224,13 @@ class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDe
 
     // MARK: - UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let category = category[row]
-        categoryTextField.text = category
+        let categoryString = categoryString[row]
+        categoryTextField.text = categoryString
+        didSelectCategory = category[row]
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        category[row]
+        categoryString[row]
     }
 
     // MARK: - notificationのSelector

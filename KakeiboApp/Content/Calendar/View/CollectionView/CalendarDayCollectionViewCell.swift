@@ -12,10 +12,6 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var expensesLabel: UILabel!
 
-    static var identifier: String { String(describing: self) }
-    static var nib: UINib { UINib(nibName: String(describing: self),
-                                  bundle: nil) }
-
     override func awakeFromNib() {
         super.awakeFromNib()
     }

@@ -14,32 +14,20 @@ struct DataRepository {
 
     // UserDefaultに保存されているデータを取り出す
     mutating func loadData() {
-        data.removeAll()
-        let userDefaluts = UserDefaults.standard
-        let data = userDefaluts.object(forKey: dataKey) as? [[String: Any]]
-        guard let data = data else { return }
-        data.forEach {
-            let incomeAndExpenditure = IncomeAndExpenditure(from: $0)
-            self.data.append(incomeAndExpenditure)
+        let userDefaults = UserDefaults.standard
+        guard let data = userDefaults.data(forKey: dataKey) else { return }
+        self.data.removeAll()
+        if let incomeAndExpenditure = try? PropertyListDecoder().decode(Array<IncomeAndExpenditure>.self, from: data) {
+            self.data += incomeAndExpenditure
         }
     }
 
     // UserDefaultにデータを保存する
     mutating func saveData(incomeAndExpenditure: IncomeAndExpenditure) {
         self.data.append(incomeAndExpenditure)
-        self.data.sort { $0.date < $1.date}
-        var data = [[String: Any]]()
-        self.data.forEach {
-            let dictionary: [String: Any] = [
-                "date": $0.date,
-                "category": $0.category,
-                "expenses": $0.expenses,
-                "memo": $0.memo
-            ]
-            data.append(dictionary)
-        }
-
+        self.data.sort { $0.date < $1.date }
         let userDefaluts = UserDefaults.standard
+        let data = try? PropertyListEncoder().encode(self.data)
         userDefaluts.set(data, forKey: dataKey)
     }
 
@@ -109,18 +97,49 @@ struct DataRepository {
         }
         // 配列dataを保存するメソッド
         func updateSaveData() {
-            var data = [[String: Any]]()
-            self.data.forEach {
-                let dictionary: [String: Any] = [
-                    "date": $0.date,
-                    "category": $0.category,
-                    "expenses": $0.expenses,
-                    "memo": $0.memo
-                ]
-                data.append(dictionary)
-            }
+
             let userDefaluts = UserDefaults.standard
+            let data = try? PropertyListEncoder().encode(self.data)
             userDefaluts.set(data, forKey: dataKey)
         }
+    }
+
+    //　表示月のデータをカテゴリー別で返す
+    private func presentCategoryMonthData(monthFirstDay: Date) -> [[IncomeAndExpenditure]] {
+        var categoryMonthData = [[IncomeAndExpenditure]]()
+        let monthData = data.filter {
+            Calendar(identifier: .gregorian)
+                .isDate($0.date, equalTo: monthFirstDay, toGranularity: .month)
+        }
+        let category = Category.allCases
+        category.forEach {
+            let category = $0
+            categoryMonthData.append( monthData.filter { category == $0.category })
+        }
+        return categoryMonthData.filter { !$0.isEmpty }
+    }
+
+    /* 表示月のデータをカテゴリー別で分け、
+       さらに、収入と支出で分ける*/
+    func presentCategoryData(monthFirstDay: Date) -> [GraphData] {
+        var categoryData = [GraphData]()
+        let categoryMonthData = presentCategoryMonthData(monthFirstDay: monthFirstDay)
+        categoryMonthData.forEach {
+            let category = $0[0].category
+            var income = 0 // 収入
+            var expenses = 0 // 支出
+            $0.forEach {
+                if $0.expenses >= 0 {
+                    income += $0.expenses
+                } else {
+                    expenses -= $0.expenses
+                }
+            }
+            let graphData = GraphData(category: category,
+                                      income: income,
+                                      expenses: expenses)
+            categoryData.append(graphData)
+        }
+        return categoryData
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CalendarViewController: UIViewController,
+final class CalendarViewController: UIViewController,
                               UICollectionViewDelegate,
                               UICollectionViewDataSource,
                               UICollectionViewDelegateFlowLayout,
@@ -19,8 +19,8 @@ class CalendarViewController: UIViewController,
     @IBOutlet private weak var calendarCollectionView: UICollectionView!
     @IBOutlet private weak var calendarTableView: UITableView!
 
-    let calendarDate = CalendarDate()
-    var dataRepository = DataRepository()
+    private(set) var calendarDate = CalendarDate()
+    private var dataRepository = DataRepository()
     private let calendarCellLayout = CalendarCellLayout()
 
     // calendarHeightsのキー
@@ -40,18 +40,14 @@ class CalendarViewController: UIViewController,
             equalToConstant: calendarCellLayout.fourWeeksHeight)]
     }()
 
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
 
         settingCollectionView() // collectionViewの設定をするメソッド
+        settingTableView() // tableViewの設定をするメソッド
         calendarDate.delegate = self
-        calendarTableView.delegate = self
-        calendarTableView.dataSource = self
-        calendarTableView.register(CalendarTableViewCell.nib,
-                                   forCellReuseIdentifier: CalendarTableViewCell.identifier)
-        calendarTableView.rowHeight = 50 // TableViewのCellの高さを指定
-        calendarTableView.register(CalendarTableViewHeaderFooterView.nib,
-                                   forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier)
+
         calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
         UserDefaults.standard.removeAll()
         calendarCollectionView.backgroundColor = UIColor.atomicTangerine
@@ -68,22 +64,35 @@ class CalendarViewController: UIViewController,
                                         forCellWithReuseIdentifier: CalendarDayCollectionViewCell.identifier)
     }
 
+    // tableViewの設定
+    private func settingTableView() {
+        calendarTableView.delegate = self
+        calendarTableView.dataSource = self
+        calendarTableView.register(CalendarTableViewCell.nib,
+                                   forCellReuseIdentifier: CalendarTableViewCell.identifier)
+        calendarTableView.rowHeight = 50 // TableViewのCellの高さを指定
+        calendarTableView.register(CalendarTableViewHeaderFooterView.nib,
+                                   forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier)
+    }
+
+    // MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dataRepository.loadData()
-        calendarCollectionView.reloadData()
-        calendarTableView.reloadData()
+        reloadCalendar()
     }
 
     @IBAction private func nextMonth(_ sender: Any) {
         calendarDate.nextMonth()
-        calendarCollectionView.reloadData()
-        calendarTableView.reloadData()
-        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
+        reloadCalendar()
     }
 
     @IBAction private func lastMonth(_ sender: Any) {
         calendarDate.lastMonth()
+        reloadCalendar()
+    }
+
+    private func reloadCalendar() {
         calendarCollectionView.reloadData()
         calendarTableView.reloadData()
         calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
@@ -120,8 +129,8 @@ class CalendarViewController: UIViewController,
             let expenses = dataRepository.calcDateExpenses(date: date)
             // 表示月と月が同じ場合trueを返す
             let isDisplayedMonth =
-                calendarDate.convertStringFirstDay(dateFormat: "MM") ==
-                date.string(dateFormat: "MM") ? true : false
+                Calendar(identifier: .gregorian)
+                .isDate(calendarDate.firstDay, equalTo: date, toGranularity: .month)
             cell.configure(date: date,
                            expenses: expenses,
                            at: indexPath.row,

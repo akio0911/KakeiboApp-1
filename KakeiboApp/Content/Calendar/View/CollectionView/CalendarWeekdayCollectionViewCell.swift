@@ -11,10 +11,6 @@ class CalendarWeekdayCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var weekdayLabel: UILabel!
 
-    static var identifier: String { String(describing: self) }
-    static var nib: UINib { UINib(nibName: String(describing: self),
-                                  bundle: nil) }
-
     // ラベルのテキストを設定
     func configure(weekday: String, at index: Int) {
         weekdayLabel.text = weekday

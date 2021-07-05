@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1br-cT-Dy4">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
@@ -8,73 +8,86 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--chart-->
+        <!--Graph View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" customClass="GraphViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Graph" id="Y6W-OH-hqX" customClass="GraphViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="omi-ht-ckA">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="T8J-mF-Hk8">
-                                        <barButtonItem key="leftBarButtonItem" title="Item" id="5YV-RC-qel"/>
-                                        <barButtonItem key="rightBarButtonItem" title="Item" id="kdM-Pv-73C"/>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lNT-tX-akm">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sde-zt-hH0" customClass="PieChartView" customModule="Charts">
                                 <rect key="frame" x="0.0" y="88" width="414" height="414"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="414" id="VfH-r6-Pwd"/>
-                                </constraints>
-                            </imageView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jpe-pm-JZd">
-                                <rect key="frame" x="0.0" y="502" width="414" height="311"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="GraphTableViewCell" id="xOo-WW-fif" customClass="GraphTableViewCell" customModule="KakeiboApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xOo-WW-fif" id="Bgr-Ho-Ern">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="750" constant="414" id="KGm-08-yyg"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7NI-oT-yt2">
+                                <rect key="frame" x="0.0" y="510" width="414" height="303"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="omi-ht-ckA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="9MX-ym-bCW"/>
-                            <constraint firstItem="omi-ht-ckA" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="CEK-fe-VVI"/>
-                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="L65-CZ-yeb"/>
-                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="Qv0-mW-deE"/>
-                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="top" secondItem="lNT-tX-akm" secondAttribute="bottom" id="eD8-p3-hwM"/>
-                            <constraint firstItem="lNT-tX-akm" firstAttribute="top" secondItem="omi-ht-ckA" secondAttribute="bottom" id="feA-VP-hoO"/>
-                            <constraint firstItem="Jpe-pm-JZd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="kMj-HB-d54"/>
-                            <constraint firstItem="omi-ht-ckA" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="lbp-R7-eZR"/>
-                            <constraint firstItem="lNT-tX-akm" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="tdQ-FU-Wtc"/>
-                            <constraint firstItem="lNT-tX-akm" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="wzr-hD-y22"/>
+                            <constraint firstItem="sde-zt-hH0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="XEs-Ju-pY7"/>
+                            <constraint firstItem="7NI-oT-yt2" firstAttribute="top" secondItem="sde-zt-hH0" secondAttribute="bottom" constant="8" id="YbO-uT-xb4"/>
+                            <constraint firstItem="7NI-oT-yt2" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="maN-fg-6TX"/>
+                            <constraint firstItem="7NI-oT-yt2" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="sAg-nQ-tka"/>
+                            <constraint firstItem="7NI-oT-yt2" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="sd2-km-idj"/>
+                            <constraint firstItem="sde-zt-hH0" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="uCs-yu-nqZ"/>
+                            <constraint firstItem="sde-zt-hH0" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="v0V-9D-HSU"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="chart" image="chart.pie" catalog="system" id="vg3-2i-Hvc"/>
-                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="zXd-Ja-lEa">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.left" catalog="system" id="0cy-bW-Mu8">
+                            <connections>
+                                <action selector="lastMonth:" destination="Y6W-OH-hqX" id="G7b-W8-l5L"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="chevron.right" catalog="system" id="QvG-kT-Xuq">
+                            <connections>
+                                <action selector="nextMonth:" destination="Y6W-OH-hqX" id="Ehk-VA-NGU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="graphImageView" destination="lNT-tX-akm" id="rPm-Zg-ePg"/>
+                        <outlet property="categoryPieChartView" destination="sde-zt-hH0" id="2xA-4d-ToP"/>
+                        <outlet property="graphNavigationItem" destination="zXd-Ja-lEa" id="1hJ-tO-v8W"/>
+                        <outlet property="graphTableView" destination="7NI-oT-yt2" id="5bT-Rx-aHj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="224.63768115942031" y="-339.50892857142856"/>
+            <point key="canvasLocation" x="1021.7391304347827" y="60.9375"/>
+        </scene>
+        <!--グラフ-->
+        <scene sceneID="Dxo-fM-Mzm">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1br-cT-Dy4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="グラフ" image="chart.pie" catalog="system" id="fwV-a2-Ow2"/>
+                    <toolbarItems/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RfH-uC-YMf">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="ltJ-HJ-bKC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="oOC-U6-cXI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="111.59420289855073" y="60.9375"/>
         </scene>
     </scenes>
     <resources>
         <image name="chart.pie" catalog="system" width="128" height="121"/>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

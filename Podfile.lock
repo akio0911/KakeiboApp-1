@@ -1,16 +1,22 @@
 PODS:
+  - Charts (3.6.0):
+    - Charts/Core (= 3.6.0)
+  - Charts/Core (3.6.0)
   - SwiftLint (0.43.1)
 
 DEPENDENCIES:
+  - Charts
   - SwiftLint
 
 SPEC REPOS:
   trunk:
+    - Charts
     - SwiftLint
 
 SPEC CHECKSUMS:
+  Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: e8a3ee014ce85f39a30e69cfc60dd48094e770d0
+PODFILE CHECKSUM: 7c375d685bfc0903f5b2d132dd86264e7c099b2d
 
 COCOAPODS: 1.10.1
