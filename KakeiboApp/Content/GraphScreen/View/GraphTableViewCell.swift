@@ -21,9 +21,16 @@ class GraphTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func configure(graphData: GraphData) {
+    func configure(graphData: GraphData, segmentedNumber: Int) {
+        switch segmentedNumber {
+                case 0:
+                    guard graphData.expenses != 0 else { return }
+                    expensesLabel.text = String(graphData.expenses)
+                default:
+                    guard graphData.income != 0 else { return }
+                    expensesLabel.text = String(graphData.income)
+                }
         categoryColorView.backgroundColor = graphData.category.color
         categoryLabel.text = graphData.category.rawValue
-        expensesLabel.text = String(graphData.expenses)
     }
 }

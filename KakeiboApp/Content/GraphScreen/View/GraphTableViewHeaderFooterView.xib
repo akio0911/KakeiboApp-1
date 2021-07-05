@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GraphTableViewHeaderFooterView" customModule="KakeiboApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="31"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jvo-oO-aWw">
+                    <rect key="frame" x="20" y="5" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YMK-2y-lm8">
+                    <rect key="frame" x="352" y="5" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QgK-MB-grJ">
+                    <rect key="frame" x="305" y="5" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="YMK-2y-lm8" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="BwP-aZ-scY"/>
+                <constraint firstAttribute="trailing" secondItem="YMK-2y-lm8" secondAttribute="trailing" constant="20" id="EsT-Si-KWw"/>
+                <constraint firstItem="YMK-2y-lm8" firstAttribute="leading" secondItem="QgK-MB-grJ" secondAttribute="trailing" constant="5" id="Is9-9i-dEn"/>
+                <constraint firstItem="Jvo-oO-aWw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="Nw5-MM-ob0"/>
+                <constraint firstItem="Jvo-oO-aWw" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Ppj-cD-LLz"/>
+                <constraint firstItem="QgK-MB-grJ" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="sBa-Fx-J0x"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="dateLabel" destination="Jvo-oO-aWw" id="NHX-K8-uyg"/>
+                <outlet property="incomeAndExpenditureLabel" destination="QgK-MB-grJ" id="8T0-T9-OYd"/>
+                <outlet property="valueLabel" destination="YMK-2y-lm8" id="qDx-Kc-TuW"/>
+            </connections>
+            <point key="canvasLocation" x="259" y="107"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

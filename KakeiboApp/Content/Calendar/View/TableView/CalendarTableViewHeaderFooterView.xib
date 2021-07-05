@@ -42,7 +42,7 @@
                 <outlet property="expensesHeaderLabel" destination="lDK-Ds-Fcj" id="ljD-Gy-ZJI"/>
                 <outlet property="titleHeaderLabel" destination="tGj-ih-5ly" id="Rjp-Bd-uPb"/>
             </connections>
-            <point key="canvasLocation" x="190" y="113"/>
+            <point key="canvasLocation" x="119" y="-18"/>
         </view>
     </objects>
     <resources>

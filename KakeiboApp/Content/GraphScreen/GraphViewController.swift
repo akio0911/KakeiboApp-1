@@ -11,6 +11,7 @@ import Charts
 final class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet private weak var graphNavigationItem: UINavigationItem!
+    @IBOutlet private weak var pieChartSegmentedControl: UISegmentedControl!
     @IBOutlet private weak var categoryPieChartView: PieChartView!
     @IBOutlet private weak var graphTableView: UITableView!
 
@@ -39,6 +40,8 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
         graphTableView.dataSource = self
         graphTableView.register(GraphTableViewCell.nib,
                                 forCellReuseIdentifier: GraphTableViewCell.identifier)
+        graphTableView.register(GraphTableViewHeaderFooterView.nib,
+                                forHeaderFooterViewReuseIdentifier: GraphTableViewHeaderFooterView.identifier)
     }
 
     // MARK: - viewWillAppear
@@ -48,61 +51,147 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
         dataRepository.loadData()
         pieChartData = dataRepository.presentCategoryData(
             monthFirstDay: calendarDate.firstDay)
-        settingPieChart()
+        switch pieChartSegmentedControl.tag {
+        case 0:
+            settingExpensesPieChart()
+        default:
+            settingIncomePieChart()
+        }
         graphNavigationItem.title =
             calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
         graphTableView.reloadData()
     }
-    
-    private func settingPieChart() {
+
+    // 支出グラフの設定
+    private func settingExpensesPieChart() {
         var chartDataEntry = [ChartDataEntry]()
         pieChartData.forEach {
-            chartDataEntry.append(
+            if $0.expenses != 0 { chartDataEntry.append(
                 PieChartDataEntry(value: Double($0.expenses),
                                   label: $0.category.rawValue,
                                   data: $0.expenses)
-            )
+            ) }
         }
         let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
         categoryPieChartView.data = PieChartData(dataSet: pieChartDataSet)
         
         var colors = [UIColor]()
         pieChartData.forEach {
-            colors.append($0.category.color)
+            if $0.expenses != 0 { colors.append($0.category.color) }
         }
         pieChartDataSet.colors = colors
         categoryPieChartView.legend.enabled = false
     }
 
-    @IBAction func nextMonth(_ sender: Any) {
+    // 収入グラフの設定
+    private func settingIncomePieChart() {
+        var chartDataEntry = [ChartDataEntry]()
+        pieChartData.forEach {
+            if $0.income != 0 { chartDataEntry.append(
+                PieChartDataEntry(value: Double($0.income),
+                                  label: $0.category.rawValue,
+                                  data: $0.income)
+            ) }
+        }
+        let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
+        categoryPieChartView.data = PieChartData(dataSet: pieChartDataSet)
+
+        var colors = [UIColor]()
+        pieChartData.forEach {
+            if $0.income != 0 { colors.append($0.category.color) }
+            }
+        pieChartDataSet.colors = colors
+        categoryPieChartView.legend.enabled = false
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        categoryPieChartView.frame = CGRect(x: view.safeAreaInsets.left + 30,
+                                            y: view.safeAreaInsets.top + 50,
+                                            width: view.frame.width - 60,
+                                            height: view.frame.width - 60)
+        graphTableView.frame = CGRect(x: view.frame.minX,
+                                      y: categoryPieChartView.frame.maxY + 8,
+                                      width: view.frame.width,
+                                      height: view.frame.height
+                                        - view.safeAreaInsets.top
+                                        - categoryPieChartView.frame.height)
+    }
+
+    // MARK: - @IBAction
+    @IBAction private func nextMonth(_ sender: Any) {
         calendarDate.nextMonth()
         pieChartData = dataRepository.presentCategoryData(
             monthFirstDay: calendarDate.firstDay)
-        settingPieChart()
+        switch pieChartSegmentedControl.tag {
+        case 0:
+            settingExpensesPieChart()
+        default:
+            settingIncomePieChart()
+        }
         graphNavigationItem.title =
             calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
         graphTableView.reloadData()
     }
 
-    @IBAction func lastMonth(_ sender: Any) {
+    @IBAction private func lastMonth(_ sender: Any) {
         calendarDate.lastMonth()
         pieChartData = dataRepository.presentCategoryData(
             monthFirstDay: calendarDate.firstDay)
-        settingPieChart()
+        switch pieChartSegmentedControl.tag {
+        case 0:
+            settingExpensesPieChart()
+        default:
+            settingIncomePieChart()
+        }
         graphNavigationItem.title =
             calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
+        graphTableView.reloadData()
+    }
+
+    @IBAction private func pieChartSegmentedControl(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            settingExpensesPieChart()
+        default:
+            settingIncomePieChart()
+        }
+        pieChartSegmentedControl.tag = sender.selectedSegmentIndex
         graphTableView.reloadData()
     }
 
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        pieChartData.count
+        var numberOfRowsInSection = 0
+        switch pieChartSegmentedControl.tag {
+        case 0:
+            pieChartData.forEach {
+                if $0.expenses != 0 { numberOfRowsInSection += 1 }
+            }
+        default:
+            pieChartData.forEach {
+                if $0.income != 0 { numberOfRowsInSection += 1 }
+            }
+        }
+        return numberOfRowsInSection
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GraphTableViewCell.identifier)
             as! GraphTableViewCell // swiftlint:disable:this force_cast
-        cell.configure(graphData: pieChartData[indexPath.row])
+        cell.configure(graphData: pieChartData[indexPath.row], segmentedNumber: pieChartSegmentedControl.tag)
         return cell
+    }
+
+    // MARK: - UITableViewDelegate
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+                withIdentifier: GraphTableViewHeaderFooterView.identifier)
+            as? GraphTableViewHeaderFooterView else { return nil }
+        headerView.configure(segmentIndex: pieChartSegmentedControl.tag,
+                             pieChartData: pieChartData,
+                             monthFirstDay: calendarDate.firstDay)
+        return headerView
     }
 }
