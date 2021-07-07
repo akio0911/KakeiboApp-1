@@ -30,7 +30,9 @@ final class GraphTableViewHeaderFooterView: UITableViewHeaderFooterView {
             case 0:
                 valueLabel.text = ""
             default:
-                valueLabel.text = String(totalExpenses)
+                valueLabel.text =
+                    String.localizedStringWithFormat(
+                        "%d", totalExpenses) + "円"
             }
         default:
             incomeAndExpenditureLabel.text = income
@@ -42,7 +44,9 @@ final class GraphTableViewHeaderFooterView: UITableViewHeaderFooterView {
             case 0:
                 valueLabel.text = ""
             default:
-                valueLabel.text = String(totalIncome)
+                valueLabel.text =
+                    String.localizedStringWithFormat(
+                        "%d", totalIncome) + "円"
             }
         }
     }

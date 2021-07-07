@@ -14,7 +14,8 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     func setObject(title: String, expenses: Int) {
         titleHeaderLabel.text = title
-        expensesHeaderLabel.text = String(expenses)
+        expensesHeaderLabel.text =
+            String.localizedStringWithFormat("%d", expenses) + "円"
         expensesHeaderLabel.textColor =
             expenses >= 0 ? UIColor.celadonBlue : UIColor.orangeRedCrayola
     }

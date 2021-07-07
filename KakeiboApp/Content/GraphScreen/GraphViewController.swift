@@ -58,7 +58,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
             settingIncomePieChart()
         }
         graphNavigationItem.title =
-            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
+            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         graphTableView.reloadData()
     }
 
@@ -131,7 +131,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
             settingIncomePieChart()
         }
         graphNavigationItem.title =
-            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
+            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         graphTableView.reloadData()
     }
 
@@ -146,7 +146,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
             settingIncomePieChart()
         }
         graphNavigationItem.title =
-            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
+            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         graphTableView.reloadData()
     }
 

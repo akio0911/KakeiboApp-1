@@ -48,7 +48,7 @@ final class CalendarViewController: UIViewController,
         settingTableView() // tableViewの設定をするメソッド
         calendarDate.delegate = self
 
-        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
+        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         UserDefaults.standard.removeAll()
         calendarCollectionView.backgroundColor = UIColor.atomicTangerine
         calendarHeights[calendarDate.numberOfWeeks]?.isActive = true
@@ -70,7 +70,7 @@ final class CalendarViewController: UIViewController,
         calendarTableView.dataSource = self
         calendarTableView.register(CalendarTableViewCell.nib,
                                    forCellReuseIdentifier: CalendarTableViewCell.identifier)
-        calendarTableView.rowHeight = 50 // TableViewのCellの高さを指定
+        calendarTableView.rowHeight = 40 // TableViewのCellの高さを指定
         calendarTableView.register(CalendarTableViewHeaderFooterView.nib,
                                    forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier)
     }
@@ -95,7 +95,7 @@ final class CalendarViewController: UIViewController,
     private func reloadCalendar() {
         calendarCollectionView.reloadData()
         calendarTableView.reloadData()
-        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM日")
+        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
     }
 
     // MARK: - UICollectionViewDelegate

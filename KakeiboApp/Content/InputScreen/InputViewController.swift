@@ -9,9 +9,15 @@ import UIKit
 
 final class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    enum Mode {
+            case add
+            case edit
+        }
+
     private var dataRepository = DataRepository()
     private let category = Category.allCases
-    private lazy var categoryString = category.map { $0.rawValue }
+    private(set) lazy var categoryString = category.map { $0.rawValue }
+    private(set) lazy var didSelectDate: Date = today
     private var didSelectCategory: Category = .consumption
 
     private var editingField: UITextField?
@@ -28,6 +34,19 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
 
     private var datePicker: UIDatePicker!
     private var categoryPickerView: UIPickerView!
+
+    // 今日の日付を取得する
+   private let today: Date = {
+        let calendar = Calendar(identifier: .gregorian)
+        let component = calendar.dateComponents([.year, .month, .day], from: Date())
+        let today = calendar.date(
+            from: DateComponents(
+                year: component.year,
+                month: component.month,
+                day: component.day)
+        )
+        return today!
+    }()
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -122,22 +141,10 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let today: Date? = {
-            let calendar = Calendar(identifier: .gregorian)
-            let component = calendar.dateComponents([.year, .month, .day], from: Date())
-            let today = calendar.date(
-                from: DateComponents(
-                    year: component.year,
-                    month: component.month,
-                    day: component.day)
-            )
-            return today
-        }()
-        dateTextField.text = today?.string(dateFormat: "YYYY年MM月dd日")
-        categoryTextField.text = categoryString[0]
+        dateTextField.text = didSelectDate.string(dateFormat: "YYYY年MM月dd日")
+        categoryTextField.text = didSelectCategory.rawValue
         expensesTextField.text = ""
         memoTextField.text = ""
-        didSelectCategory = .consumption
     }
 
     // MARK: - viewDidLayoutSubviews
@@ -153,6 +160,7 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         baseScrollView.contentSize = contentSize // スクロールできなくするための設定
     }
 
+    // MARK: - @IBAction
     @IBAction private func tappedView(_ sender: Any) {
         view.endEditing(true)
     }
@@ -167,7 +175,7 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
             showExpensesAlert()
             return
         }
-        let date = (dateTextField.text?.date(dateFormat: "YYYY年MM月dd日"))!
+        let date = didSelectDate
         let category = didSelectCategory
         let expenses: Int!
         switch expensesSegmentControl.selectedSegmentIndex {
@@ -267,6 +275,14 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
 
     // MARK: - detePickerのSelector
     @objc func datePickerValueChange() {
+        let calendar = Calendar(identifier: .gregorian)
+        let dateComponent = calendar.dateComponents([.year, .month, .day], from: datePicker.date)
+        didSelectDate = calendar.date(
+            from: DateComponents(
+                year: dateComponent.year,
+                month: dateComponent.month,
+                day:dateComponent.day)
+        )!
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY年MM月dd日"
         dateTextField.text = "\(formatter.string(from: datePicker.date))"

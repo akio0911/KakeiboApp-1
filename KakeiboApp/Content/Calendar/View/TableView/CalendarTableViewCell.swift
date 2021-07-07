@@ -25,7 +25,7 @@ class CalendarTableViewCell: UITableViewCell {
     func setCellObject(data: IncomeAndExpenditure) {
         categoryLabel.text = data.category.rawValue
         memoLabel.text = data.memo
-        expensesLabel.text = String(data.expenses)
+        expensesLabel.text = String.localizedStringWithFormat("%d", data.expenses) + "円"
         expensesLabel.textColor =
             data.expenses >= 0 ? UIColor.celadonBlue : UIColor.orangeRedCrayola
         expensesImageView.image =

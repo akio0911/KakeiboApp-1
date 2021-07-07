@@ -10,14 +10,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CalendarDayCollectionViewCell" customModule="KakeiboApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="118" height="127"/>
+            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="118" height="127"/>
+                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-xK-nSR">
-                        <rect key="frame" x="41.5" y="32" width="35.5" height="17"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-xK-nSR">
+                        <rect key="frame" x="7.5" y="29" width="35.5" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -32,17 +33,15 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="NA9-xK-nSR" firstAttribute="top" secondItem="h4W-cZ-x4O" secondAttribute="bottom" constant="10" id="9NX-ce-JLk"/>
-                <constraint firstItem="h4W-cZ-x4O" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="NFQ-Wc-Blg"/>
-                <constraint firstItem="h4W-cZ-x4O" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="QUl-OD-N52"/>
-                <constraint firstItem="NA9-xK-nSR" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="fQ1-Xr-94m"/>
+                <constraint firstItem="h4W-cZ-x4O" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="bv6-eJ-hEh"/>
+                <constraint firstItem="h4W-cZ-x4O" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="jeO-Ld-d2p"/>
             </constraints>
-            <size key="customSize" width="118" height="127"/>
+            <size key="customSize" width="50" height="51"/>
             <connections>
                 <outlet property="dayLabel" destination="h4W-cZ-x4O" id="2SG-YZ-7Gp"/>
                 <outlet property="expensesLabel" destination="NA9-xK-nSR" id="QQa-ph-4Sc"/>
             </connections>
-            <point key="canvasLocation" x="84.057971014492765" y="152.34375"/>
+            <point key="canvasLocation" x="-226.08695652173915" y="84.375"/>
         </collectionViewCell>
     </objects>
 </document>

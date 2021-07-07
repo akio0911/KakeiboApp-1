@@ -16,6 +16,16 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        expensesLabel.frame = CGRect(x: contentView.center.x
+                                        - contentView.bounds.width / 2,
+                                     y: dayLabel.frame.maxY + 7,
+                                     width: contentView.bounds.width,
+                                     height: 17)
+    }
+
     // ラベルのテキストを設定
     func configure(date: Date, expenses: Int, at index: Int, isDisplayedMonth: Bool) {
 
@@ -31,8 +41,9 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         }
         // 表示月でない時、日付のテキストカラーをグレーにする
         if !isDisplayedMonth { dayLabel.textColor = .gray }
-        expensesLabel.text =
-            expenses != 0 ? String(expenses) : ""
+        expensesLabel.text = expenses != 0 ?
+            String.localizedStringWithFormat(
+                "%d", expenses) + "円" : ""
         expensesLabel.textColor =
             expenses >= 0 ? UIColor.celadonBlue : UIColor.orangeRedCrayola
     }
