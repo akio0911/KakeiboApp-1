@@ -104,6 +104,24 @@ struct DataRepository {
         }
     }
 
+    /* tableViewで選択したデータと同じデータを変更し、
+       変更内容をUserDefaultに保存するメソッド*/
+    mutating func saveEditData(monthFirstDay: Date, at indexPath: IndexPath, saveData: IncomeAndExpenditure) {
+        var count = -1
+        let editingData = fetchDayData(monthFirstDay: monthFirstDay, at: indexPath)
+        self.data.forEach {
+            count += 1
+            if $0 == editingData {
+                self.data[count] = saveData // データを上書き
+                // データを並び替えて保存
+                self.data.sort { $0.date < $1.date }
+                let userDefaluts = UserDefaults.standard
+                let data = try? PropertyListEncoder().encode(self.data)
+                userDefaluts.set(data, forKey: dataKey)
+            }
+        }
+    }
+
     //　表示月のデータをカテゴリー別で返す
     private func presentCategoryMonthData(monthFirstDay: Date) -> [[IncomeAndExpenditure]] {
         var categoryMonthData = [[IncomeAndExpenditure]]()

@@ -236,4 +236,16 @@ final class CalendarViewController: UIViewController,
         if expenses != 0 { headerView.setObject(title: title, expenses: expenses) }
         return headerView
     }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let navigationController = tabBarController?.viewControllers?[1]
+            as! UINavigationController // swiftlint:disable:this force_cast
+        let inputViewController = navigationController.topViewController
+            as! InputViewController // swiftlint:disable:this force_cast
+
+        inputViewController.mode = .edit
+        inputViewController.editingIndexpath = indexPath
+        inputViewController.editingFirstDay = calendarDate.firstDay
+        tabBarController?.selectedViewController = navigationController // 画面遷移
+    }
 }

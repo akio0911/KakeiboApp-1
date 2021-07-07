@@ -14,10 +14,14 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
             case edit
         }
 
+    var mode: Mode = .add
+    var editingIndexpath = IndexPath() // .editの際に使用する
+    var editingFirstDay = Date() // .editの際に使用する
+
     private var dataRepository = DataRepository()
-    private let category = Category.allCases
-    private(set) lazy var categoryString = category.map { $0.rawValue }
-    private(set) lazy var didSelectDate: Date = today
+    private let categoryArray = Category.allCases
+    private lazy var categoryString = categoryArray.map { $0.rawValue }
+    private lazy var didSelectDate: Date = getToday()
     private var didSelectCategory: Category = .consumption
 
     private var editingField: UITextField?
@@ -35,8 +39,8 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
     private var datePicker: UIDatePicker!
     private var categoryPickerView: UIPickerView!
 
-    // 今日の日付を取得する
-   private let today: Date = {
+    // 今日の日付を返す
+    private func getToday() -> Date {
         let calendar = Calendar(identifier: .gregorian)
         let component = calendar.dateComponents([.year, .month, .day], from: Date())
         let today = calendar.date(
@@ -46,7 +50,7 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
                 day: component.day)
         )
         return today!
-    }()
+    }
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -141,10 +145,22 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        switch mode {
+        case .add:
+            expensesTextField.text = ""
+            memoTextField.text = ""
+        case .edit:
+            let data = dataRepository.fetchDayData(monthFirstDay: editingFirstDay, at: editingIndexpath)
+            didSelectDate = data.date
+            didSelectCategory = data.category
+            expensesTextField.text =
+                data.expenses >= 0 ? String(data.expenses) : String(-data.expenses)
+            memoTextField.text = data.memo
+            expensesSegmentControl.selectedSegmentIndex =
+                data.expenses < 0 ? 0 : 1
+        }
         dateTextField.text = didSelectDate.string(dateFormat: "YYYY年MM月dd日")
         categoryTextField.text = didSelectCategory.rawValue
-        expensesTextField.text = ""
-        memoTextField.text = ""
     }
 
     // MARK: - viewDidLayoutSubviews
@@ -166,6 +182,7 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
     }
 
     @IBAction private func tappedCancel(_ sender: Any) {
+        mode = .add // 画面遷移する前に初期化
         let calendarViewController = tabBarController?.viewControllers?[0]
         tabBarController?.selectedViewController = calendarViewController // 画面遷移
     }
@@ -186,9 +203,18 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         }
         let memo = String(memoTextField.text ?? "")
         let incomeAndExpenditure = IncomeAndExpenditure(date: date, category: category, expenses: expenses, memo: memo)
-        dataRepository.loadData() // UserDefaultのデータを上書きしないためにデータを読み込む
-        dataRepository.saveData(incomeAndExpenditure: incomeAndExpenditure)
+        switch mode {
+        case .add:
+            dataRepository.loadData() // UserDefaultのデータを上書きしないためにデータを読み込む
+            dataRepository.saveData(incomeAndExpenditure: incomeAndExpenditure)
+        case .edit:
+            dataRepository.loadData() // UserDefaultのデータを読み込む
+            dataRepository.saveEditData(monthFirstDay: editingFirstDay,
+                                        at: editingIndexpath,
+                                        saveData: incomeAndExpenditure)
+        }
 
+        mode = .add // 画面遷移する前に初期化
         let calendarViewController = tabBarController?.viewControllers?[0]
         tabBarController?.selectedViewController = calendarViewController // 画面遷移
     }
@@ -227,14 +253,14 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        category.count
+        categoryArray.count
     }
 
     // MARK: - UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let categoryString = categoryString[row]
         categoryTextField.text = categoryString
-        didSelectCategory = category[row]
+        didSelectCategory = categoryArray[row]
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
