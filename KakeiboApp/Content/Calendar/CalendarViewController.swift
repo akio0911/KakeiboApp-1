@@ -18,6 +18,10 @@ final class CalendarViewController: UIViewController,
     @IBOutlet private weak var calendarNavigationItem: UINavigationItem!
     @IBOutlet private weak var calendarCollectionView: UICollectionView!
     @IBOutlet private weak var calendarTableView: UITableView!
+    @IBOutlet private weak var incomeLabel: UILabel! // 収入ラベル
+    @IBOutlet private weak var expenseLabel: UILabel! // 支出ラベル
+    @IBOutlet private weak var totalLabel: UILabel! // 収支ラベル
+    @IBOutlet var costView: [UIView]!
 
     private(set) var calendarDate = CalendarDate()
     private var dataRepository = DataRepository()
@@ -52,7 +56,15 @@ final class CalendarViewController: UIViewController,
         UserDefaults.standard.removeAll()
         calendarCollectionView.backgroundColor = UIColor.atomicTangerine
         calendarHeights[calendarDate.numberOfWeeks]?.isActive = true
+//        setBorderColorCostView()
     }
+// TODO - ボーダーカラーを設定
+//    private func setBorderColorCostView() {
+//        costView.forEach {
+//            $0.layer.borderWidth = 1
+//            $0.layer.borderColor = UIColor.gray.cgColor
+//        }
+//    }
 
     // collectionViewの設定
     private func settingCollectionView() {
@@ -80,6 +92,16 @@ final class CalendarViewController: UIViewController,
         super.viewWillAppear(animated)
         dataRepository.loadData()
         reloadCalendar()
+        settingLabel()
+    }
+
+    private func settingLabel() {
+        let cost = dataRepository.presentCostValue(monthFirstDay: calendarDate.firstDay)
+        incomeLabel.text = String(cost["income"]!) + "円"
+        incomeLabel.textColor = .celadonBlue
+        expenseLabel.text = String(cost["expense"]!) + "円"
+        expenseLabel.textColor = .orangeRedCrayola
+        totalLabel.text = String(cost["total"]!) + "円"
     }
 
     @IBAction private func nextMonth(_ sender: Any) {

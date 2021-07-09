@@ -160,4 +160,20 @@ struct DataRepository {
         }
         return categoryData
     }
+
+    // 表示月のデータの収入、支出、合計を返す
+    func presentCostValue(monthFirstDay: Date) -> [String: Int] {
+        var income = 0
+        var expense = 0
+        var total: Int { income + expense }
+        let filterData = data.filter { $0.date == monthFirstDay }
+        filterData.forEach {
+            if $0.expenses >= 0 {
+                income += $0.expenses
+            } else {
+                expense += $0.expenses
+            }
+        }
+        return ["income": income, "expense": expense, "total": total]
+    }
 }
