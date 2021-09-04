@@ -15,7 +15,6 @@ final class CalendarViewController: UIViewController,
                               UITableViewDelegate,
                               CalendarFrameDelegate {
 
-    @IBOutlet private weak var calendarNavigationItem: UINavigationItem!
     @IBOutlet private weak var calendarCollectionView: UICollectionView!
     @IBOutlet private weak var calendarTableView: UITableView!
     @IBOutlet private weak var incomeLabel: UILabel! // 収入ラベル
@@ -48,11 +47,13 @@ final class CalendarViewController: UIViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupBarButtonItem()
+
         settingCollectionView() // collectionViewの設定をするメソッド
         settingTableView() // tableViewの設定をするメソッド
         calendarDate.delegate = self
 
-        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
+        navigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         UserDefaults.standard.removeAll()
         calendarCollectionView.backgroundColor = UIColor.atomicTangerine
         calendarHeights[calendarDate.numberOfWeeks]?.isActive = true
@@ -65,6 +66,26 @@ final class CalendarViewController: UIViewController,
 //            $0.layer.borderColor = UIColor.gray.cgColor
 //        }
 //    }
+
+    private func setupBarButtonItem() {
+        let nextBarButton =
+            UIBarButtonItem(
+                image:UIImage(systemName: "chevron.right"),
+                style: .plain,
+                target: self,
+                action: #selector(didTapNextBarButton)
+            )
+        navigationItem.rightBarButtonItem = nextBarButton
+
+        let lastBarButton =
+            UIBarButtonItem(
+                image: UIImage(systemName: "chevron.left"),
+                style: .plain,
+                target: self,
+                action: #selector(didTapLastBarButton)
+            )
+        navigationItem.leftBarButtonItem = lastBarButton
+    }
 
     // collectionViewの設定
     private func settingCollectionView() {
@@ -104,12 +125,12 @@ final class CalendarViewController: UIViewController,
         totalLabel.text = String(cost["total"]!) + "円"
     }
 
-    @IBAction private func nextMonth(_ sender: Any) {
+    @objc private func didTapNextBarButton() {
         calendarDate.nextMonth()
         reloadCalendar()
     }
 
-    @IBAction private func lastMonth(_ sender: Any) {
+    @objc private func didTapLastBarButton() {
         calendarDate.lastMonth()
         reloadCalendar()
     }
@@ -117,7 +138,7 @@ final class CalendarViewController: UIViewController,
     private func reloadCalendar() {
         calendarCollectionView.reloadData()
         calendarTableView.reloadData()
-        calendarNavigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
+        navigationItem.title = calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
     }
 
     // MARK: - UICollectionViewDelegate

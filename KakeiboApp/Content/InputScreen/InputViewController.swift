@@ -56,6 +56,8 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupBarButtonItem()
+        
         settingTextFieldDelegate() // textField.delegateを設定
         settingPickerKeybord() // pickerViewをキーボードに設定
         configureSaveBtnLayer() // セーブボタンをフィレット
@@ -63,6 +65,22 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         settingHeightPicker() // pickerViewの高さ設定
         configureMosaicViewLayer() // モザイク用のviewをフィレット
         settingKeyboardNotification() // Keyboardのnotification設定
+    }
+
+    private func setupBarButtonItem() {
+        let saveBarButton = UIBarButtonItem(
+            barButtonSystemItem: .save,
+            target: self,
+            action: #selector(tappedSave)
+        )
+        navigationItem.rightBarButtonItem = saveBarButton
+
+        let cancelBarButton = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(tappedCancel)
+        )
+        navigationItem.leftBarButtonItem = cancelBarButton
     }
 
     // textFieldDelegateの設定
@@ -181,13 +199,13 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         view.endEditing(true)
     }
 
-    @IBAction private func tappedCancel(_ sender: Any) {
+    @objc private func tappedCancel() {
         mode = .add // 画面遷移する前に初期化
         let calendarViewController = tabBarController?.viewControllers?[0]
         tabBarController?.selectedViewController = calendarViewController // 画面遷移
     }
 
-    @IBAction private func tappedSave(_ sender: Any) {
+    @objc private func tappedSave() {
         guard "" != expensesTextField.text else {
             showExpensesAlert()
             return

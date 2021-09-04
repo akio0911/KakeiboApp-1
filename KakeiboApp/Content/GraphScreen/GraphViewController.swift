@@ -10,7 +10,6 @@ import Charts
 
 final class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
-    @IBOutlet private weak var graphNavigationItem: UINavigationItem!
     @IBOutlet private weak var pieChartSegmentedControl: UISegmentedControl!
     @IBOutlet private weak var categoryPieChartView: PieChartView!
     @IBOutlet private weak var graphTableView: UITableView!
@@ -22,10 +21,30 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupBarButtonItem()
+        
         settingCalendarData() // CalendarViewControllerからcalendarDateを取り出す
         settingGraphTableView()
     }
 
+    private func setupBarButtonItem() {
+        let nextBarButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.right"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapNextBarButton)
+        )
+        navigationItem.rightBarButtonItem = nextBarButton
+
+        let lastBarButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapLastBarButton)
+        )
+        navigationItem.leftBarButtonItem = lastBarButton
+    }
     // CalendarViewControllerからcalendarDateを取り出す
     private func settingCalendarData() {
         let navigationController = tabBarController?.viewControllers?[0]
@@ -57,7 +76,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
         default:
             settingIncomePieChart()
         }
-        graphNavigationItem.title =
+        navigationItem.title =
             calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         graphTableView.reloadData()
     }
@@ -120,7 +139,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
     }
 
     // MARK: - @IBAction
-    @IBAction private func nextMonth(_ sender: Any) {
+    @objc private func didTapNextBarButton() {
         calendarDate.nextMonth()
         pieChartData = dataRepository.presentCategoryData(
             monthFirstDay: calendarDate.firstDay)
@@ -130,12 +149,12 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
         default:
             settingIncomePieChart()
         }
-        graphNavigationItem.title =
+        navigationItem.title =
             calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         graphTableView.reloadData()
     }
 
-    @IBAction private func lastMonth(_ sender: Any) {
+    @objc private func didTapLastBarButton() {
         calendarDate.lastMonth()
         pieChartData = dataRepository.presentCategoryData(
             monthFirstDay: calendarDate.firstDay)
@@ -145,7 +164,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, UITableV
         default:
             settingIncomePieChart()
         }
-        graphNavigationItem.title =
+        navigationItem.title =
             calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
         graphTableView.reloadData()
     }
