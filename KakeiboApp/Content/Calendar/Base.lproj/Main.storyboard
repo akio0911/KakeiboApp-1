@@ -113,6 +113,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="0v8-yB-alA"/>
+                                    <constraint firstItem="Ymk-Lj-Evo" firstAttribute="leading" secondItem="d2f-M5-czW" secondAttribute="trailing" id="16v-TV-aWl"/>
                                     <constraint firstItem="Ymk-Lj-Evo" firstAttribute="height" secondItem="d2f-M5-czW" secondAttribute="height" id="2mS-8s-DVp"/>
                                     <constraint firstAttribute="bottom" secondItem="Dv5-5w-X3q" secondAttribute="bottom" id="KNr-ng-k4X"/>
                                     <constraint firstItem="Dv5-5w-X3q" firstAttribute="width" secondItem="d2f-M5-czW" secondAttribute="width" id="Lk7-tZ-9a8"/>
@@ -124,6 +125,9 @@
                                     <constraint firstItem="Dv5-5w-X3q" firstAttribute="top" secondItem="8sO-YH-4oW" secondAttribute="top" id="Z1k-Kq-btP"/>
                                     <constraint firstAttribute="trailing" secondItem="Dv5-5w-X3q" secondAttribute="trailing" id="cXG-cK-xIL"/>
                                     <constraint firstItem="Dv5-5w-X3q" firstAttribute="leading" secondItem="Ymk-Lj-Evo" secondAttribute="trailing" id="dhX-nM-JFu"/>
+                                    <constraint firstItem="d2f-M5-czW" firstAttribute="top" secondItem="8sO-YH-4oW" secondAttribute="top" id="ecT-ha-epP"/>
+                                    <constraint firstItem="d2f-M5-czW" firstAttribute="leading" secondItem="8sO-YH-4oW" secondAttribute="leading" id="emU-5Q-o0a"/>
+                                    <constraint firstAttribute="bottom" secondItem="d2f-M5-czW" secondAttribute="bottom" id="h9m-fz-U2l"/>
                                     <constraint firstItem="Ymk-Lj-Evo" firstAttribute="leading" secondItem="d2f-M5-czW" secondAttribute="trailing" id="jJK-cv-Q88"/>
                                     <constraint firstItem="Ymk-Lj-Evo" firstAttribute="width" secondItem="d2f-M5-czW" secondAttribute="width" id="rAh-2K-mFb"/>
                                     <constraint firstItem="d2f-M5-czW" firstAttribute="leading" secondItem="8sO-YH-4oW" secondAttribute="leading" id="tpr-pp-lPD"/>
@@ -169,7 +173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1196" y="188"/>
+            <point key="canvasLocation" x="-1197.1014492753625" y="187.5"/>
         </scene>
         <!--Input-->
         <scene sceneID="EJu-09-C8Q">
