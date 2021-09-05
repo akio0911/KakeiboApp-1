@@ -179,10 +179,10 @@
 		47815700266128C8005E1020 /* KakeiboApp */ = {
 			isa = PBXGroup;
 			children = (
-				47DC3EE926E44D8600693980 /* New Group-Utility */,
 				47DC3EDC26E34DDF00693980 /* New Group-Model */,
 				47DC3EDB26E34DD400693980 /* New Group-ViewModel */,
 				47DC3EDA26E34DB300693980 /* New Group-View */,
+				47DC3EE926E44D8600693980 /* New Group-Utility */,
 				478157182661292B005E1020 /* Content */,
 				4781571B26612C48005E1020 /* Model */,
 				4781571A26612C3F005E1020 /* View */,

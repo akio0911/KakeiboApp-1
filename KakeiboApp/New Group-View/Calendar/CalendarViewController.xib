@@ -152,7 +152,7 @@
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-            <point key="canvasLocation" x="-523" y="93"/>
+            <point key="canvasLocation" x="249" y="-15"/>
         </view>
     </objects>
     <resources>
