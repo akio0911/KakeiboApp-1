@@ -71,7 +71,7 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         let saveBarButton = UIBarButtonItem(
             barButtonSystemItem: .save,
             target: self,
-            action: #selector(tappedSave)
+            action: #selector(tappedSaveBarButton)
         )
         navigationItem.rightBarButtonItem = saveBarButton
 
@@ -205,7 +205,11 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         tabBarController?.selectedViewController = calendarViewController // 画面遷移
     }
 
-    @objc private func tappedSave() {
+    @objc private func tappedSaveBarButton() {
+        save()
+    }
+
+    private func save() {
         guard "" != expensesTextField.text else {
             showExpensesAlert()
             return

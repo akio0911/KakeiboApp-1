@@ -137,7 +137,6 @@
 		475B8AA02672E0E700B0AB8D /* GraphScreen */ = {
 			isa = PBXGroup;
 			children = (
-				47EB81F1268EFD96008FA088 /* GraphViewController.swift */,
 				475B8AB12673556900B0AB8D /* Model */,
 				475B8AA72672E97300B0AB8D /* View */,
 			);
@@ -147,10 +146,6 @@
 		475B8AA72672E97300B0AB8D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */,
-				47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */,
-				4739958D2692C8E500BD1286 /* GraphTableViewHeaderFooterView.swift */,
-				4739958F2692D22200BD1286 /* GraphTableViewHeaderFooterView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -184,13 +179,13 @@
 		47815700266128C8005E1020 /* KakeiboApp */ = {
 			isa = PBXGroup;
 			children = (
+				47DC3EE926E44D8600693980 /* New Group-Utility */,
 				47DC3EDC26E34DDF00693980 /* New Group-Model */,
 				47DC3EDB26E34DD400693980 /* New Group-ViewModel */,
 				47DC3EDA26E34DB300693980 /* New Group-View */,
 				478157182661292B005E1020 /* Content */,
 				4781571B26612C48005E1020 /* Model */,
 				4781571A26612C3F005E1020 /* View */,
-				4781572326612CEE005E1020 /* Extension */,
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
 				4781570A266128C8005E1020 /* Assets.xcassets */,
@@ -213,7 +208,6 @@
 		4781571926612993005E1020 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				4786EDC82662878500FF6ADF /* CalendarViewController.swift */,
 				4781571C26612C5C005E1020 /* Model */,
 				4781571D26612C65005E1020 /* View */,
 			);
@@ -248,8 +242,6 @@
 		4781571D26612C65005E1020 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				47480070268D5C5F0077EC08 /* CollectionView */,
-				4748006F268D5C1D0077EC08 /* TableView */,
 				478157352661C686005E1020 /* CalendarCellLayout.swift */,
 			);
 			path = View;
@@ -270,7 +262,6 @@
 		4785FD3326620D6A00BAAD00 /* InputScreen */ = {
 			isa = PBXGroup;
 			children = (
-				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
 				478C82F126689C2500E9D669 /* View */,
 			);
 			path = InputScreen;
@@ -313,6 +304,9 @@
 			isa = PBXGroup;
 			children = (
 				47DC3EDD26E34E3800693980 /* CalendarViewController.xib */,
+				4786EDC82662878500FF6ADF /* CalendarViewController.swift */,
+				4748006F268D5C1D0077EC08 /* TableView */,
+				47480070268D5C5F0077EC08 /* CollectionView */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -321,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				47DC3EDF26E34E6A00693980 /* InputViewController.xib */,
+				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
 			);
 			path = InputScreen;
 			sourceTree = "<group>";
@@ -329,8 +324,29 @@
 			isa = PBXGroup;
 			children = (
 				47DC3EE126E34E8C00693980 /* GraphViewController.xib */,
+				47EB81F1268EFD96008FA088 /* GraphViewController.swift */,
+				47DC3EE826E44D5600693980 /* TableView */,
 			);
 			path = GraphScreen;
+			sourceTree = "<group>";
+		};
+		47DC3EE826E44D5600693980 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */,
+				47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */,
+				4739958D2692C8E500BD1286 /* GraphTableViewHeaderFooterView.swift */,
+				4739958F2692D22200BD1286 /* GraphTableViewHeaderFooterView.xib */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		47DC3EE926E44D8600693980 /* New Group-Utility */ = {
+			isa = PBXGroup;
+			children = (
+				4781572326612CEE005E1020 /* Extension */,
+			);
+			path = "New Group-Utility";
 			sourceTree = "<group>";
 		};
 		F80E1A3A0C6B7344DB421BF8 /* Frameworks */ = {
