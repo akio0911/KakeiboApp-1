@@ -39,6 +39,8 @@
 		47DC3EE026E34E6A00693980 /* InputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EDF26E34E6A00693980 /* InputViewController.xib */; };
 		47DC3EE226E34E8C00693980 /* GraphViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EE126E34E8C00693980 /* GraphViewController.xib */; };
 		47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EE626E3928F00693980 /* MainTabBarController.swift */; };
+		47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEA26E45AC400693980 /* KakeiboModel.swift */; };
+		47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEC26E45C3B00693980 /* KakeiboData.swift */; };
 		47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F1268EFD96008FA088 /* GraphViewController.swift */; };
 		47EB81F4268FF1B2008FA088 /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F3268FF1B2008FA088 /* GraphData.swift */; };
 		47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */; };
@@ -81,6 +83,8 @@
 		47DC3EDF26E34E6A00693980 /* InputViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputViewController.xib; sourceTree = "<group>"; };
 		47DC3EE126E34E8C00693980 /* GraphViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphViewController.xib; sourceTree = "<group>"; };
 		47DC3EE626E3928F00693980 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		47DC3EEA26E45AC400693980 /* KakeiboModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboModel.swift; sourceTree = "<group>"; };
+		47DC3EEC26E45C3B00693980 /* KakeiboData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboData.swift; sourceTree = "<group>"; };
 		47EB81F1268EFD96008FA088 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		47EB81F3268FF1B2008FA088 /* GraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
 		47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
@@ -296,6 +300,8 @@
 		47DC3EDC26E34DDF00693980 /* New Group-Model */ = {
 			isa = PBXGroup;
 			children = (
+				47DC3EEA26E45AC400693980 /* KakeiboModel.swift */,
+				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
 			);
 			path = "New Group-Model";
 			sourceTree = "<group>";
@@ -500,6 +506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */,
 				4781573026612ED5005E1020 /* CalendarDate.swift in Sources */,
 				4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */,
 				47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */,
@@ -510,6 +517,7 @@
 				4781572C26612E5D005E1020 /* extensionUIColor.swift in Sources */,
 				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
 				4786EDCD266348FD00FF6ADF /* IncomeAndExpenditure.swift in Sources */,
+				47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */,
 				47A5063426831A1B008B2545 /* DataRepository.swift in Sources */,
 				478C82F326689C4400E9D669 /* Gradation.swift in Sources */,
 				47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */,
