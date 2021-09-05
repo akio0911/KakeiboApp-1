@@ -41,6 +41,7 @@
 		47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EE626E3928F00693980 /* MainTabBarController.swift */; };
 		47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEA26E45AC400693980 /* KakeiboModel.swift */; };
 		47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEC26E45C3B00693980 /* KakeiboData.swift */; };
+		47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEE26E4700B00693980 /* ModelLocator.swift */; };
 		47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F1268EFD96008FA088 /* GraphViewController.swift */; };
 		47EB81F4268FF1B2008FA088 /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F3268FF1B2008FA088 /* GraphData.swift */; };
 		47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */; };
@@ -85,6 +86,7 @@
 		47DC3EE626E3928F00693980 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		47DC3EEA26E45AC400693980 /* KakeiboModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboModel.swift; sourceTree = "<group>"; };
 		47DC3EEC26E45C3B00693980 /* KakeiboData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboData.swift; sourceTree = "<group>"; };
+		47DC3EEE26E4700B00693980 /* ModelLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLocator.swift; sourceTree = "<group>"; };
 		47EB81F1268EFD96008FA088 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
 		47EB81F3268FF1B2008FA088 /* GraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
 		47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 			children = (
 				47DC3EEA26E45AC400693980 /* KakeiboModel.swift */,
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
+				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 			);
 			path = "New Group-Model";
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */,
 				4739958E2692C8E500BD1286 /* GraphTableViewHeaderFooterView.swift in Sources */,
 				4712FD5D2664826E00D11BF1 /* ExtensionUserDefaults.swift in Sources */,
+				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,
 				478157362661C686005E1020 /* CalendarCellLayout.swift in Sources */,
 				4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */,
 				4781572C26612E5D005E1020 /* extensionUIColor.swift in Sources */,
