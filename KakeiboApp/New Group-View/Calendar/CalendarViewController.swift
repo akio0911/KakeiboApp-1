@@ -11,7 +11,8 @@ import RxCocoa
 
 final class CalendarViewController: UIViewController,
                               UICollectionViewDelegateFlowLayout,
-                              UITableViewDelegate, CalendarTableViewDataSourceDelegate {
+                              UITableViewDelegate,
+                              CalendarTableViewDataSourceDelegate {
 
     @IBOutlet private weak var calendarCollectionView: UICollectionView!
     @IBOutlet private weak var calendarTableView: UITableView!
@@ -25,6 +26,7 @@ final class CalendarViewController: UIViewController,
     private let calendarCollectionViewDataSource = CalendarCollectionViewDataSource()
     private let calendarTableViewDataSource = CalendarTableViewDataSource()
     private var tableViewHeaderData: [TableViewHeaderData] = []
+    private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
 
     init(viewModel: CalendarViewModelType = CalendarViewModel()) {
         self.viewModel = viewModel
@@ -34,23 +36,6 @@ final class CalendarViewController: UIViewController,
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // calendarHeightsのキー
-//    private enum Weeks {
-//        static let six = 6
-//        static let five = 5
-//        static let four = 4
-//    }
-
-//    // カレンダーの高さを週の数によって変更するためのDictionary
-//    private lazy var calendarHeights: [Int: NSLayoutConstraint] = {
-//        [Weeks.six: calendarCollectionView.heightAnchor.constraint(
-//            equalToConstant: calendarCellLayout.sixWeeksHeight),
-//         Weeks.five: calendarCollectionView.heightAnchor.constraint(
-//            equalToConstant: calendarCellLayout.fiveWeeksHeight),
-//         Weeks.four: calendarCollectionView.heightAnchor.constraint(
-//            equalToConstant: calendarCellLayout.fourWeeksHeight)]
-//    }()
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -62,7 +47,6 @@ final class CalendarViewController: UIViewController,
         viewModel.inputs.loadData()
 
 //        UserDefaults.standard.removeAll()
-//        calendarHeights[calendarDate.numberOfWeeks]?.isActive = true
     }
 
     private func setupBarButtonItem() {
@@ -86,8 +70,29 @@ final class CalendarViewController: UIViewController,
     }
 
     private func setupBinding() {
-        viewModel.outputs.collectionViewDataObservable
+        let collectionViewDataObservable = viewModel.outputs.collectionViewDataObservable
+            .share()
+
+        collectionViewDataObservable
             .bind(to: calendarCollectionView.rx.items(dataSource: calendarCollectionViewDataSource))
+            .disposed(by: disposeBag)
+
+        collectionViewDataObservable
+            .subscribe(onNext: { [weak self] secondSectionItemData in
+                guard let self = self else { return }
+                let numberOfWeeksInMonth: CGFloat = ceil(CGFloat(secondSectionItemData.count / 7))
+                self.collectionViewNSLayoutConstraint?.isActive = false
+                self.collectionViewNSLayoutConstraint =
+                    self.calendarCollectionView.heightAnchor.constraint(
+                        equalToConstant:
+                            self.weekdayCellHeight
+                            + self.dayCellHeight * numberOfWeeksInMonth
+                            + self.spaceOfCell * (numberOfWeeksInMonth - 1)
+                            + self.insetForSection.bottom * 2
+                            + self.insetForSection.top * 2
+                    )
+                self.collectionViewNSLayoutConstraint?.isActive = true
+            })
             .disposed(by: disposeBag)
 
         viewModel.outputs.tableViewCellDataObservable

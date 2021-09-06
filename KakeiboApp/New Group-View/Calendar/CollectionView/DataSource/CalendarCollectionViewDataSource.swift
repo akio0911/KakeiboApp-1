@@ -11,9 +11,9 @@ import RxCocoa
 
 final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSource, RxCollectionViewDataSourceType {
 
-    typealias Element = [SecondSectionCellData]
+    typealias Element = [SecondSectionItemData]
     private var items: Element = []
-    private let firstSectionCellData = FirstSectionCellData()
+    private let firstSectionCellData = FirstSectionItemData()
 
     // MARK: - UICollectionViewDataSource
     // TODO: numberOfSectionsのreturnがマジックナンバーになっている
@@ -67,7 +67,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
     }
 
     // MARK: - RxCollectionViewDataSourceType
-    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[SecondSectionCellData]>) {
+    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[SecondSectionItemData]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
             collectionView.reloadData()

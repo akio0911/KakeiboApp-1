@@ -16,7 +16,7 @@ protocol CalendarViewModelInput {
 }
 
 protocol CalendarViewModelOutput {
-    var collectionViewDataObservable: Observable<[SecondSectionCellData]> { get }
+    var collectionViewDataObservable: Observable<[SecondSectionItemData]> { get }
     var tableViewCellDataObservable: Observable<[[TableViewCellData]]> { get }
     var tableViewHeaderObservable: Observable<[TableViewHeaderData]> { get }
     var event: Driver<CalendarViewModel.Event> { get }
@@ -39,7 +39,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private var navigationTitle = ""
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
-    private let collectionViewDataRelay = PublishRelay<[SecondSectionCellData]>()
+    private let collectionViewDataRelay = PublishRelay<[SecondSectionItemData]>()
     private let tableViewCellDataRelay = PublishRelay<[[TableViewCellData]]>()
     private let tableViewHeaderDataRelay = PublishRelay<[TableViewHeaderData]>()
     private let eventRelay = PublishRelay<Event>()
@@ -84,14 +84,14 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         dataObservable
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let self = self else { return }
-                var secondSectionCellDataArray: [SecondSectionCellData] = []
+                var secondSectionCellDataArray: [SecondSectionItemData] = []
 
                 self.collectionViewDateArray.forEach {
                     let date = $0
                     let totalBalance = kakeiboDataArray
                         .filter { $0.date == date }
                         .reduce(0) { $0 + $1.balance.signConversion }
-                    let secondSectionCellData = SecondSectionCellData(
+                    let secondSectionCellData = SecondSectionItemData(
                         date: date, totalBalance: totalBalance
                     )
                     secondSectionCellDataArray.append(secondSectionCellData)
@@ -177,7 +177,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .disposed(by: disposeBag)
     }
 
-    var collectionViewDataObservable: Observable<[SecondSectionCellData]> {
+    var collectionViewDataObservable: Observable<[SecondSectionItemData]> {
         collectionViewDataRelay.asObservable()
     }
 

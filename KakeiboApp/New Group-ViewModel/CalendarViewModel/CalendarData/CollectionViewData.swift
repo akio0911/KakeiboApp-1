@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct FirstSectionCellData {
+struct FirstSectionItemData {
     let weekdays = ["日", "月", "火", "水", "木", "金", "土"]
 }
 
-struct SecondSectionCellData {
+struct SecondSectionItemData {
     let stringDay: String // 日
     let stringTotalBalance: String // totalの収支
 
