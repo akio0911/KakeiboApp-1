@@ -8,6 +8,7 @@ target 'KakeiboApp' do
   # Pods for KakeiboApp
 pod 'SwiftLint'
 pod 'Charts'
-pod'RxSwift'
-pod'RxCocoa'
+pod 'RxSwift'
+pod 'RxCocoa'
+pod 'RealmSwift', '~>10'
 end

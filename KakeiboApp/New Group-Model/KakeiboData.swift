@@ -6,20 +6,36 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct KakeiboData {
-    let date: Date //　日付
-    let category: Category // カテゴリー
-    let balance: Balance // 収支
-    let memo: String //　メモ
+final class KakeiboData: Object {
+    @Persisted var date: Date = Date() //　日付
+    @Persisted var category: Category = .consumption // カテゴリー
+    @Persisted var balance: Balance? // 収支
+    @Persisted var memo: String = "" //　メモ
+
+    convenience init(date: Date, category: Category, balance: Balance, memo: String) {
+        self.init()
+        self.date = date
+        self.category = category
+        self.balance = balance
+        self.memo = memo
+    }
 }
 
-enum Balance: Equatable {
-    case income(Int)
-    case expense(Int)
+final class Balance: Object {
+    @Persisted var income: Int = 0
+    @Persisted var expense: Int = 0
+
+    convenience init(income: Int, expense: Int) {
+        self.init()
+        self.income = income
+        self.expense = expense
+    }
 }
+
 // TODO: Categoryをここで実装する。stringやcolorは使用するViewModelでextensionとして実装し、ここでは書かない。
-enum Category {
+enum Category: String, PersistableEnum {
     case consumption
     case life
     case miscellaneous

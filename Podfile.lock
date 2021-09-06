@@ -2,6 +2,11 @@ PODS:
   - Charts (3.6.0):
     - Charts/Core (= 3.6.0)
   - Charts/Core (3.6.0)
+  - Realm (10.10.0):
+    - Realm/Headers (= 10.10.0)
+  - Realm/Headers (10.10.0)
+  - RealmSwift (10.10.0):
+    - Realm (= 10.10.0)
   - RxCocoa (6.2.0):
     - RxRelay (= 6.2.0)
     - RxSwift (= 6.2.0)
@@ -12,6 +17,7 @@ PODS:
 
 DEPENDENCIES:
   - Charts
+  - RealmSwift (~> 10)
   - RxCocoa
   - RxSwift
   - SwiftLint
@@ -19,6 +25,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Charts
+    - Realm
+    - RealmSwift
     - RxCocoa
     - RxRelay
     - RxSwift
@@ -26,11 +34,13 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
+  Realm: f501df41a4222c67850c77cf135d472192ecf294
+  RealmSwift: c69aadfc7db0d60075178d037c2f34ada73d5201
   RxCocoa: 4baf94bb35f2c0ab31bc0cb9f1900155f646ba42
   RxRelay: e72dbfd157807478401ef1982e1c61c945c94b2f
   RxSwift: d356ab7bee873611322f134c5f9ef379fa183d8f
   SwiftLint: 99f82d07b837b942dd563c668de129a03fc3fb52
 
-PODFILE CHECKSUM: e8325ce01df9dee72fac8682706683cac4f007bc
+PODFILE CHECKSUM: 7324cfaa6020a324592b12026001e2e4cb208c82
 
 COCOAPODS: 1.10.1
