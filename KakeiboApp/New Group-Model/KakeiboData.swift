@@ -12,11 +12,21 @@ struct KakeiboData {
     let category: Category // カテゴリー
     let balance: Balance // 収支
     let memo: String //　メモ
-
-    enum Balance {
-        case income(Int)
-        case expense(Int)
-    }
 }
 
+enum Balance: Equatable {
+    case income(Int)
+    case expense(Int)
+}
 // TODO: Categoryをここで実装する。stringやcolorは使用するViewModelでextensionとして実装し、ここでは書かない。
+enum Category {
+    case consumption
+    case life
+    case miscellaneous
+    case transpotation
+    case medical
+    case communication
+    case vehicleFee
+    case entertainment
+    case other
+}

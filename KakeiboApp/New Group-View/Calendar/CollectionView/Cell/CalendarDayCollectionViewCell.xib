@@ -38,8 +38,8 @@
             </constraints>
             <size key="customSize" width="50" height="51"/>
             <connections>
+                <outlet property="balanceLabel" destination="NA9-xK-nSR" id="SHQ-EY-6uG"/>
                 <outlet property="dayLabel" destination="h4W-cZ-x4O" id="2SG-YZ-7Gp"/>
-                <outlet property="expensesLabel" destination="NA9-xK-nSR" id="QQa-ph-4Sc"/>
             </connections>
             <point key="canvasLocation" x="-226.08695652173915" y="84.375"/>
         </collectionViewCell>

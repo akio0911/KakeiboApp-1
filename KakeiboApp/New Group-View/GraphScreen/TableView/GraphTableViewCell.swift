@@ -34,7 +34,7 @@ class GraphTableViewCell: UITableViewCell {
                         String.localizedStringWithFormat(
                             "%d", graphData.income) + "円"
                 }
-        categoryColorView.backgroundColor = graphData.category.color
-        categoryLabel.text = graphData.category.rawValue
+//        categoryColorView.backgroundColor = graphData.category.color
+//        categoryLabel.text = graphData.category.rawValue
     }
 }

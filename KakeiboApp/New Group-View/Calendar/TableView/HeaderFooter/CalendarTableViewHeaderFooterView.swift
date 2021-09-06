@@ -12,11 +12,11 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
     @IBOutlet weak var titleHeaderLabel: UILabel!
     @IBOutlet weak var expensesHeaderLabel: UILabel!
 
-    func setObject(title: String, expenses: Int) {
-        titleHeaderLabel.text = title
+    func configure(data: TableViewHeaderData) {
+        titleHeaderLabel.text = data.stringDate
         expensesHeaderLabel.text =
-            String.localizedStringWithFormat("%d", expenses) + "円"
+            data.stringTotalBalance
         expensesHeaderLabel.textColor =
-            expenses >= 0 ? UIColor.celadonBlue : UIColor.orangeRedCrayola
+            UIColor(named: data.totalBalanceColorName)
     }
 }

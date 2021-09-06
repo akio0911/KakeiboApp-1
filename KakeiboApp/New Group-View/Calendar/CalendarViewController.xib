@@ -10,11 +10,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CalendarViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
+                <outlet property="balanceLabel" destination="CBO-NN-D8L" id="CG5-aI-BIj"/>
                 <outlet property="calendarCollectionView" destination="kKl-BA-o3X" id="Sd7-Ot-KJA"/>
                 <outlet property="calendarTableView" destination="6uA-Ck-8az" id="ToX-Ab-0Pj"/>
                 <outlet property="expenseLabel" destination="ydB-5A-llr" id="jbA-mz-kRF"/>
                 <outlet property="incomeLabel" destination="NmP-f9-F6q" id="nhs-IZ-UhH"/>
-                <outlet property="totalLabel" destination="CBO-NN-D8L" id="GsF-9f-szS"/>
                 <outlet property="view" destination="iN0-l3-epB" id="FQB-sw-XQb"/>
                 <outletCollection property="costView" destination="S24-3n-8wX" collectionClass="NSMutableArray" id="trI-9M-D0t"/>
                 <outletCollection property="costView" destination="ray-ur-KdL" collectionClass="NSMutableArray" id="tsp-TF-GGf"/>
@@ -27,10 +27,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="kKl-BA-o3X">
-                    <rect key="frame" x="0.0" y="88" width="414" height="356.5"/>
+                    <rect key="frame" x="0.0" y="88" width="414" height="278"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" priority="750" constant="356.5" id="z1e-qF-8T9"/>
+                        <constraint firstAttribute="height" priority="750" constant="278" id="z1e-qF-8T9"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="e8w-Gw-BKd">
                         <size key="itemSize" width="128" height="128"/>
@@ -40,7 +40,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfh-8o-Sra">
-                    <rect key="frame" x="0.0" y="452" width="414" height="40"/>
+                    <rect key="frame" x="0.0" y="373.5" width="414" height="40"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S24-3n-8wX">
                             <rect key="frame" x="0.0" y="0.0" width="138" height="40"/>
@@ -51,7 +51,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmP-f9-F6q">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="IncomeLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmP-f9-F6q">
                                     <rect key="frame" x="51.5" y="19" width="35.5" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <nil key="textColor"/>
@@ -75,7 +75,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydB-5A-llr">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="ExpenseLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydB-5A-llr">
                                     <rect key="frame" x="51.5" y="19" width="35.5" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <nil key="textColor"/>
@@ -99,7 +99,7 @@
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-NN-D8L">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="BalanceLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-NN-D8L">
                                     <rect key="frame" x="51.5" y="19" width="35.5" height="17"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <nil key="textColor"/>
@@ -132,7 +132,7 @@
                     </constraints>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6uA-Ck-8az">
-                    <rect key="frame" x="0.0" y="500" width="414" height="313"/>
+                    <rect key="frame" x="0.0" y="421.5" width="414" height="391.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
             </subviews>

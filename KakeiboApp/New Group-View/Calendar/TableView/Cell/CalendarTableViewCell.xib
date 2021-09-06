@@ -57,12 +57,12 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="balanceImageView" destination="N8x-dE-0a4" id="vgh-cr-jPp"/>
+                <outlet property="balanceLabel" destination="N3t-Kw-gI6" id="Vb3-xB-45q"/>
                 <outlet property="categoryLabel" destination="ZEQ-c9-Gwa" id="RwC-3d-UHI"/>
-                <outlet property="expensesImageView" destination="N8x-dE-0a4" id="7Sj-ou-l46"/>
-                <outlet property="expensesLabel" destination="N3t-Kw-gI6" id="PNv-wf-fT8"/>
                 <outlet property="memoLabel" destination="Vp3-G0-RHe" id="3HG-PL-0Ci"/>
             </connections>
-            <point key="canvasLocation" x="267" y="86"/>
+            <point key="canvasLocation" x="-336" y="97"/>
         </tableViewCell>
     </objects>
 </document>

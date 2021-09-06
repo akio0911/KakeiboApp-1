@@ -25,21 +25,21 @@ final class MainTabBarController: UITabBarController {
         )
         viewControllers.append(calendarViewController)
 
-        let inputViewController = InputViewController()
-        inputViewController.tabBarItem = UITabBarItem(
-            title: "入力",
-            image: UIImage(systemName: "pencil"),
-            tag: 1
-        )
-        viewControllers.append(inputViewController)
-
-        let graphViewController = GraphViewController()
-        graphViewController.tabBarItem = UITabBarItem(
-            title: "グラフ",
-            image: UIImage(systemName: "chart.pie"),
-            tag: 2
-        )
-        viewControllers.append(graphViewController)
+//        let inputViewController = InputViewController()
+//        inputViewController.tabBarItem = UITabBarItem(
+//            title: "入力",
+//            image: UIImage(systemName: "pencil"),
+//            tag: 1
+//        )
+//        viewControllers.append(inputViewController)
+//
+//        let graphViewController = GraphViewController()
+//        graphViewController.tabBarItem = UITabBarItem(
+//            title: "グラフ",
+//            image: UIImage(systemName: "chart.pie"),
+//            tag: 2
+//        )
+//        viewControllers.append(graphViewController)
 
         let navigationControllers =
             viewControllers.map {
