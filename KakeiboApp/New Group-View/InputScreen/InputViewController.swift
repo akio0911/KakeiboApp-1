@@ -1,44 +1,42 @@
-////
-////  InputViewController.swift
-////  KakeiboApp
-////
-////  Created by 今村京平 on 2021/05/29.
-////
 //
-//import UIKit
+//  InputViewController.swift
+//  KakeiboApp
 //
-//final class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+//  Created by 今村京平 on 2021/05/29.
 //
-//    enum Mode {
-//            case add
-//            case edit
-//        }
-//
-//    var mode: Mode = .add
-//    var editingIndexpath = IndexPath() // .editの際に使用する
-//    var editingFirstDay = Date() // .editの際に使用する
-//
-//    private var dataRepository = DataRepository()
-//    private let categoryArray = Category.allCases
-//    private lazy var categoryString = categoryArray.map { $0.rawValue }
-//    private lazy var didSelectDate: Date = getToday()
-//    private var didSelectCategory: Category = .consumption
-//
-//    private var editingField: UITextField?
-//
-//    @IBOutlet private weak var baseScrollView: UIScrollView!
-//    @IBOutlet private weak var contentView: UIView!
-//    @IBOutlet private var mosaicView: [UIView]!
-//    @IBOutlet private weak var dateTextField: UITextField!
-//    @IBOutlet private weak var categoryTextField: UITextField!
-//    @IBOutlet private weak var expensesTextField: UITextField!
-//    @IBOutlet private weak var memoTextField: UITextField!
-//    @IBOutlet private weak var expensesSegmentControl: UISegmentedControl!
-//    @IBOutlet private weak var saveBtn: UIButton!
-//
-//    private var datePicker: UIDatePicker!
-//    private var categoryPickerView: UIPickerView!
-//
+
+import UIKit
+import RxSwift
+import RxCocoa
+
+final class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+
+    private let stringCategoryArray = Category.allCases.map { $0.rawValue }
+
+    @IBOutlet private weak var baseScrollView: UIScrollView!
+    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private var mosaicView: [UIView]!
+    @IBOutlet private weak var dateTextField: UITextField!
+    @IBOutlet private weak var categoryTextField: UITextField!
+    @IBOutlet private weak var balanceTextField: UITextField!
+    @IBOutlet private weak var memoTextField: UITextField!
+    @IBOutlet private weak var balanceSegmentControl: UISegmentedControl!
+    @IBOutlet private weak var saveButton: UIButton!
+
+    private var datePicker: UIDatePicker!
+    private var categoryPickerView: UIPickerView!
+    private let viewModel: InputViewModelType
+    private let disposeBag = DisposeBag()
+
+    init(viewModel: InputViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 //    // 今日の日付を返す
 //    private func getToday() -> Date {
 //        let calendar = Calendar(identifier: .gregorian)
@@ -51,75 +49,94 @@
 //        )
 //        return today!
 //    }
-//
-//    // MARK: - viewDidLoad
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        setupBarButtonItem()
-//
-//        settingTextFieldDelegate() // textField.delegateを設定
-//        settingPickerKeybord() // pickerViewをキーボードに設定
-//        configureSaveBtnLayer() // セーブボタンをフィレット
-//        insertGradationLayer() // グラデーション設定
-//        settingHeightPicker() // pickerViewの高さ設定
-//        configureMosaicViewLayer() // モザイク用のviewをフィレット
+
+    // MARK: - viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupBinding()
+        setupBarButtonItem()
+
+        settingTextFieldDelegate() // textField.delegateを設定
+        settingPickerKeybord() // pickerViewをキーボードに設定
+        configureSaveBtnLayer() // セーブボタンをフィレット
+        insertGradationLayer() // グラデーション設定
+        settingHeightPicker() // pickerViewの高さ設定
+        configureMosaicViewLayer() // モザイク用のviewをフィレット
 //        settingKeyboardNotification() // Keyboardのnotification設定
-//    }
-//
-//    private func setupBarButtonItem() {
-//        let saveBarButton = UIBarButtonItem(
-//            barButtonSystemItem: .save,
-//            target: self,
-//            action: #selector(tappedSaveBarButton)
-//        )
-//        navigationItem.rightBarButtonItem = saveBarButton
-//
-//        let cancelBarButton = UIBarButtonItem(
-//            barButtonSystemItem: .cancel,
-//            target: self,
-//            action: #selector(tappedCancel)
-//        )
-//        navigationItem.leftBarButtonItem = cancelBarButton
-//    }
-//
-//    // textFieldDelegateの設定
-//    private func settingTextFieldDelegate() {
-//        dateTextField.delegate = self
-//        categoryTextField.delegate = self
-//        expensesTextField.delegate = self
-//        memoTextField.delegate = self
-//    }
-//
-//    // セーブボタンをフィレット
-//    private func configureSaveBtnLayer() {
-//        saveBtn.layer.cornerRadius = 10
-//        saveBtn.layer.masksToBounds = true
-//    }
-//
-//    // グラデーションを設定
-//    private func insertGradationLayer() {
-//        let gradation = Gradation()
-//        gradation.layer.frame = contentView.bounds
-//        contentView.layer.insertSublayer(gradation.layer, at: 0)
-//    }
-//
-//    // pickerViewの高さ設定
-//    private func settingHeightPicker() {
-//        NSLayoutConstraint.activate([
-//            datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-//            categoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
-//        ])
-//    }
-//
-//    // モザイク用のveiwをフィレット
-//    private func configureMosaicViewLayer() {
-//        mosaicView.forEach {
-//            $0.layer.cornerRadius = 8
-//            $0.layer.masksToBounds = true
-//        }
-//    }
-//
+    }
+
+    private func setupBinding() {
+        saveButton.rx.tap
+            .bind(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.didTapSaveButton()
+            })
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.event
+            .drive(onNext: { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .dismiss:
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func setupBarButtonItem() {
+        let saveBarButton = UIBarButtonItem(
+            barButtonSystemItem: .save,
+            target: self,
+            action: #selector(didTapSaveBarButton)
+        )
+        navigationItem.rightBarButtonItem = saveBarButton
+
+        let cancelBarButton = UIBarButtonItem(
+            barButtonSystemItem: .cancel,
+            target: self,
+            action: #selector(didTapCancelBarButton)
+        )
+        navigationItem.leftBarButtonItem = cancelBarButton
+    }
+
+    // textFieldDelegateの設定
+    private func settingTextFieldDelegate() {
+        dateTextField.delegate = self
+        categoryTextField.delegate = self
+        balanceTextField.delegate = self
+        memoTextField.delegate = self
+    }
+
+    // セーブボタンをフィレット
+    private func configureSaveBtnLayer() {
+        saveButton.layer.cornerRadius = 10
+        saveButton.layer.masksToBounds = true
+    }
+
+    // グラデーションを設定
+    private func insertGradationLayer() {
+        let gradation = Gradation()
+        gradation.layer.frame = contentView.bounds
+        contentView.layer.insertSublayer(gradation.layer, at: 0)
+    }
+
+    // pickerViewの高さ設定
+    private func settingHeightPicker() {
+        NSLayoutConstraint.activate([
+            datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            categoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
+        ])
+    }
+
+    // モザイク用のveiwをフィレット
+    private func configureMosaicViewLayer() {
+        mosaicView.forEach {
+            $0.layer.cornerRadius = 8
+            $0.layer.masksToBounds = true
+        }
+    }
+
 //    // Keyboardのnotificationの設定
 //    private func settingKeyboardNotification() {
 //        let notification = NotificationCenter.default
@@ -138,49 +155,27 @@
 //                                 name: UIResponder.keyboardDidHideNotification,
 //                                 object: nil)
 //    }
-//
-//    // キーボードの設定
-//    private func settingPickerKeybord() {
-//        // datePickerViewを設定
-//        datePicker = UIDatePicker()
-//        datePicker.datePickerMode = .date // 日付を月、日、年で表示
-//        datePicker.preferredDatePickerStyle = .wheels // ホイールピッカーとして表示
-//        datePicker.timeZone = .autoupdatingCurrent // システムが現在使用しているタイムゾーン
-//        datePicker.locale = .autoupdatingCurrent  // ユーザーの現在の設定を追跡するロケール
-//        datePicker.addTarget(self,
-//                             action: #selector(datePickerValueChange),
-//                             for: .valueChanged)
-//        dateTextField.inputView = datePicker
-//
-//        // categoryPickerViewを設定
-//        categoryPickerView = UIPickerView()
-//        categoryPickerView.delegate = self
-//        categoryPickerView.dataSource = self
-//        categoryTextField.inputView = categoryPickerView
-//    }
-//
-//    // MARK: - viewWillAppear
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        switch mode {
-//        case .add:
-//            expensesTextField.text = ""
-//            memoTextField.text = ""
-//        case .edit:
-//            let data = dataRepository.fetchDayData(monthFirstDay: editingFirstDay, at: editingIndexpath)
-//            didSelectDate = data.date
-//            didSelectCategory = data.category
-//            expensesTextField.text =
-//                data.expenses >= 0 ? String(data.expenses) : String(-data.expenses)
-//            memoTextField.text = data.memo
-//            expensesSegmentControl.selectedSegmentIndex =
-//                data.expenses < 0 ? 0 : 1
-//        }
-//        dateTextField.text = didSelectDate.string(dateFormat: "YYYY年MM月dd日")
-//        categoryTextField.text = didSelectCategory.rawValue
-//    }
-//
+
+    // キーボードの設定
+    private func settingPickerKeybord() {
+        // datePickerViewを設定
+        datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date // 日付を月、日、年で表示
+        datePicker.preferredDatePickerStyle = .wheels // ホイールピッカーとして表示
+        datePicker.timeZone = .autoupdatingCurrent // システムが現在使用しているタイムゾーン
+        datePicker.locale = .autoupdatingCurrent  // ユーザーの現在の設定を追跡するロケール
+        datePicker.addTarget(self,
+                             action: #selector(datePickerValueChange),
+                             for: .valueChanged)
+        dateTextField.inputView = datePicker
+
+        // categoryPickerViewを設定
+        categoryPickerView = UIPickerView()
+        categoryPickerView.delegate = self
+        categoryPickerView.dataSource = self
+        categoryTextField.inputView = categoryPickerView
+    }
+
 //    // MARK: - viewDidLayoutSubviews
 //    override func viewDidLayoutSubviews() {
 //        super.viewDidLayoutSubviews()
@@ -193,69 +188,50 @@
 //                                    - view.safeAreaInsets.bottom)
 //        baseScrollView.contentSize = contentSize // スクロールできなくするための設定
 //    }
-//
-//    // MARK: - @IBAction
+
+    // MARK: - @IBAction
 //    @IBAction private func tappedView(_ sender: Any) {
 //        view.endEditing(true)
 //    }
-//
-//    @objc private func tappedCancel() {
-//        mode = .add // 画面遷移する前に初期化
-//        let calendarViewController = tabBarController?.viewControllers?[0]
-//        tabBarController?.selectedViewController = calendarViewController // 画面遷移
-//    }
-//
-//    @objc private func tappedSaveBarButton() {
-//        save()
-//    }
-//
-//    private func save() {
-//        guard "" != expensesTextField.text else {
-//            showExpensesAlert()
-//            return
-//        }
-//        let date = didSelectDate
-//        let category = didSelectCategory
-//        let expenses: Int!
-//        switch expensesSegmentControl.selectedSegmentIndex {
-//        case 0:
-//            expenses = -(Int(expensesTextField.text!) ?? 0)
-//        default:
-//            expenses = Int(expensesTextField.text!) ?? 0
-//        }
-//        let memo = String(memoTextField.text ?? "")
-//        let incomeAndExpenditure = IncomeAndExpenditure(date: date, category: category, expenses: expenses, memo: memo)
-//        switch mode {
-//        case .add:
-//            dataRepository.loadData() // UserDefaultのデータを上書きしないためにデータを読み込む
-//            dataRepository.saveData(incomeAndExpenditure: incomeAndExpenditure)
-//        case .edit:
-//            dataRepository.loadData() // UserDefaultのデータを読み込む
-//            dataRepository.saveEditData(monthFirstDay: editingFirstDay,
-//                                        at: editingIndexpath,
-//                                        saveData: incomeAndExpenditure)
-//        }
-//
-//        mode = .add // 画面遷移する前に初期化
-//        let calendarViewController = tabBarController?.viewControllers?[0]
-//        tabBarController?.selectedViewController = calendarViewController // 画面遷移
-//    }
-//
-//    // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
-//    private func showExpensesAlert() {
-//        let alert = UIAlertController(
-//            title: "収支が未入力です。",
-//            message: "支出または収入を入力して下さい",
-//            preferredStyle: .alert)
-//        alert.addAction(UIAlertAction(
-//                            title: "OK",
-//                            style: .default,
-//                            handler: { [weak self] _ in
-//                                self?.expensesTextField.becomeFirstResponder() }))
-//        present(alert, animated: true, completion: nil)
-//    }
-//
-//    // MARK: - TextFieldDelegate
+
+    @objc private func didTapCancelBarButton() {
+        viewModel.inputs.didTapCancelButton()
+    }
+
+    @objc private func didTapSaveBarButton() {
+        didTapSaveButton()
+    }
+
+    private func didTapSaveButton() {
+        guard let balanceText = balanceTextField.text else { return showBalanceAlert() }
+        let dateText = dateTextField.text!
+        let categoryText = categoryTextField.text!
+        let segmentIndex = balanceSegmentControl.selectedSegmentIndex
+        let memo = memoTextField.text!
+        viewModel.inputs.didTapSaveButton(
+            dateText: dateText, categoryText: categoryText,
+            balanceText: balanceText, segmentIndex: segmentIndex, memo: memo
+        )
+    }
+
+    // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
+    private func showBalanceAlert() {
+        let alert = UIAlertController(
+            title: "収支が未入力です。",
+            message: "支出または収入を入力して下さい",
+            preferredStyle: .alert)
+        alert.addAction(
+            UIAlertAction(
+                title: "OK",
+                style: .default,
+                handler: { [weak self] _ in
+                    self?.balanceTextField.becomeFirstResponder() }
+            )
+        )
+        present(alert, animated: true, completion: nil)
+    }
+
+    // MARK: - TextFieldDelegate
 //    func textFieldDidBeginEditing(_ textField: UITextField) {
 //        editingField = textField
 //    }
@@ -268,28 +244,27 @@
 //        view.endEditing(true)
 //        return false
 //    }
-//
-//    // MARK: - UIPickerViewDataSource
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        return 1
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        categoryArray.count
-//    }
-//
-//    // MARK: - UIPickerViewDelegate
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        let categoryString = categoryString[row]
-//        categoryTextField.text = categoryString
-//        didSelectCategory = categoryArray[row]
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        categoryString[row]
-//    }
-//
-//    // MARK: - notificationのSelector
+
+    // MARK: - UIPickerViewDataSource
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        stringCategoryArray.count
+    }
+
+    // MARK: - UIPickerViewDelegate
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let stringCategory = stringCategoryArray[row]
+        categoryTextField.text = stringCategory
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        stringCategoryArray[row]
+    }
+
+    // MARK: - notificationのSelector
 //    @objc func keyboardChangeFrame(_ notification: Notification) {
 //
 //        var overlap: CGFloat = 0 // 重なっている高さ
@@ -320,9 +295,9 @@
 //        lastOffsetY = min(baseline, lastOffsetY) // (現時点不要)
 //        baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
 //    }
-//
-//    // MARK: - detePickerのSelector
-//    @objc func datePickerValueChange() {
+
+    // MARK: - detePickerのSelector
+    @objc func datePickerValueChange() {
 //        let calendar = Calendar(identifier: .gregorian)
 //        let dateComponent = calendar.dateComponents([.year, .month, .day], from: datePicker.date)
 //        didSelectDate = calendar.date(
@@ -331,8 +306,8 @@
 //                month: dateComponent.month,
 //                day:dateComponent.day)
 //        )!
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "YYYY年MM月dd日"
-//        dateTextField.text = "\(formatter.string(from: datePicker.date))"
-//    }
-//}
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYY年MM月dd日"
+        dateTextField.text = dateFormatter.string(from: datePicker.date)
+    }
+}

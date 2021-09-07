@@ -10,14 +10,14 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InputViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
+                <outlet property="balanceSegmentControl" destination="vJz-OY-NgD" id="WBZ-oe-I0a"/>
+                <outlet property="balanceTextField" destination="iHQ-z8-Hde" id="hsD-81-Cd7"/>
                 <outlet property="baseScrollView" destination="nEe-hj-Gi0" id="dRs-yz-n5w"/>
                 <outlet property="categoryTextField" destination="R4S-Wv-My3" id="0dv-td-Rxn"/>
                 <outlet property="contentView" destination="5mu-OS-oAK" id="nll-bn-HB3"/>
                 <outlet property="dateTextField" destination="Z8V-bR-xzb" id="T9Z-ga-M3p"/>
-                <outlet property="expensesSegmentControl" destination="vJz-OY-NgD" id="CUr-0X-jwG"/>
-                <outlet property="expensesTextField" destination="iHQ-z8-Hde" id="i0n-wg-fwc"/>
                 <outlet property="memoTextField" destination="tzD-id-t9F" id="4hK-GQ-KaF"/>
-                <outlet property="saveBtn" destination="cqj-Vc-Ssg" id="RjC-1Z-aSS"/>
+                <outlet property="saveButton" destination="cqj-Vc-Ssg" id="6fI-wo-Qgp"/>
                 <outlet property="view" destination="iN0-l3-epB" id="X1n-sZ-ADx"/>
                 <outletCollection property="mosaicView" destination="zdR-Y7-jxy" collectionClass="NSMutableArray" id="r9T-kc-IYF"/>
                 <outletCollection property="mosaicView" destination="ZRI-Uh-tWe" collectionClass="NSMutableArray" id="ZvC-OW-Pb2"/>
@@ -295,7 +295,7 @@
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="81" y="-20"/>
+            <point key="canvasLocation" x="-306" y="-19"/>
         </view>
     </objects>
     <resources>
