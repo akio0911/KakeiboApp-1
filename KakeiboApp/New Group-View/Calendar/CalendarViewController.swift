@@ -63,7 +63,7 @@ final class CalendarViewController: UIViewController,
 
     private func setupBinding() {
         nextBarButtonItem.rx.tap
-            .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
+            .subscribe(onNext: viewModel.inputs.didTapNextBarButton)
             .disposed(by: disposeBag)
 
         lastBarButtonItem.rx.tap
@@ -220,13 +220,13 @@ final class CalendarViewController: UIViewController,
 
     // MARK: - UITableViewDelegate
     // ヘッダーのタイトルを設定
-    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-    //        guard let headerView = tableView.dequeueReusableHeaderFooterView(
-    //                withIdentifier: CalendarTableViewHeaderFooterView.identifier)
-    //                as? CalendarTableViewHeaderFooterView else { return nil }
-    //        headerView.configure(data: tableViewHeaderData[section])
-    //        return headerView
-    //    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+                withIdentifier: CalendarTableViewHeaderFooterView.identifier)
+                as? CalendarTableViewHeaderFooterView else { return nil }
+        headerView.configure(data: tableViewHeaderData[section])
+        return headerView
+    }
     //
     //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     //        let navigationController = tabBarController?.viewControllers?[1]

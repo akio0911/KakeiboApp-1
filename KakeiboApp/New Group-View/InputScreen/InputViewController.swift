@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class InputViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
     private let stringCategoryArray = Category.allCases.map { $0.rawValue }
 
@@ -37,32 +37,16 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         fatalError("init(coder:) has not been implemented")
     }
 
-//    // 今日の日付を返す
-//    private func getToday() -> Date {
-//        let calendar = Calendar(identifier: .gregorian)
-//        let component = calendar.dateComponents([.year, .month, .day], from: Date())
-//        let today = calendar.date(
-//            from: DateComponents(
-//                year: component.year,
-//                month: component.month,
-//                day: component.day)
-//        )
-//        return today!
-//    }
-
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
         setupBarButtonItem()
-
-        settingTextFieldDelegate() // textField.delegateを設定
         settingPickerKeybord() // pickerViewをキーボードに設定
         configureSaveBtnLayer() // セーブボタンをフィレット
         insertGradationLayer() // グラデーション設定
         settingHeightPicker() // pickerViewの高さ設定
         configureMosaicViewLayer() // モザイク用のviewをフィレット
-//        settingKeyboardNotification() // Keyboardのnotification設定
     }
 
     private func setupBinding() {
@@ -97,14 +81,6 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         navigationItem.leftBarButtonItem = cancelBarButton
     }
 
-    // textFieldDelegateの設定
-    private func settingTextFieldDelegate() {
-        dateTextField.delegate = self
-        categoryTextField.delegate = self
-        balanceTextField.delegate = self
-        memoTextField.delegate = self
-    }
-
     // セーブボタンをフィレット
     private func configureSaveBtnLayer() {
         saveButton.layer.cornerRadius = 10
@@ -134,25 +110,6 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         }
     }
 
-//    // Keyboardのnotificationの設定
-//    private func settingKeyboardNotification() {
-//        let notification = NotificationCenter.default
-//        notification.addObserver(self,
-//                                 selector: #selector(self.keyboardChangeFrame(_:)),
-//                                 name: UIResponder.keyboardDidChangeFrameNotification,
-//                                 object: nil)
-//
-//        notification.addObserver(self,
-//                                 selector: #selector(self.keyboardWillShow(_:)),
-//                                 name: UIResponder.keyboardWillShowNotification,
-//                                 object: nil)
-//
-//        notification.addObserver(self,
-//                                 selector: #selector(self.keyboardDidHide(_:)),
-//                                 name: UIResponder.keyboardDidHideNotification,
-//                                 object: nil)
-//    }
-
     // キーボードの設定
     private func settingPickerKeybord() {
         // datePickerViewを設定
@@ -172,19 +129,6 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         categoryPickerView.dataSource = self
         categoryTextField.inputView = categoryPickerView
     }
-
-//    // MARK: - viewDidLayoutSubviews
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//
-//        let contentSize = CGSize(width: view.frame.width
-//                                    - view.safeAreaInsets.left
-//                                    - view.safeAreaInsets.right,
-//                                 height: view.frame.height
-//                                    - view.safeAreaInsets.top
-//                                    - view.safeAreaInsets.bottom)
-//        baseScrollView.contentSize = contentSize // スクロールできなくするための設定
-//    }
 
     // MARK: - @IBAction
 //    @IBAction private func tappedView(_ sender: Any) {
@@ -228,20 +172,6 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         present(alert, animated: true, completion: nil)
     }
 
-    // MARK: - TextFieldDelegate
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        editingField = textField
-//    }
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        editingField = nil
-//    }
-//
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        view.endEditing(true)
-//        return false
-//    }
-
     // MARK: - UIPickerViewDataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -261,48 +191,8 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
         stringCategoryArray[row]
     }
 
-    // MARK: - notificationのSelector
-//    @objc func keyboardChangeFrame(_ notification: Notification) {
-//
-//        var overlap: CGFloat = 0 // 重なっている高さ
-//        guard let fld = editingField else { return }
-//        // キーボードのframeを調べる
-//        let userInfo = (notification as NSNotification).userInfo!
-//        // swiftlint:disable:next force_cast
-//        let keybordFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-//        // textFieldのframeをキーボードと同じ座標系にする
-//        let fldFrame = view.convert(fld.frame, from: contentView)
-//        // 編集中のtextFieldがキーボードと重なっていないか調べる
-//        overlap = fldFrame.maxY - keybordFrame.minY + 18
-//        if overlap > 0 {
-//            // キーボードで隠れている分だけスクロールする
-//            overlap += baseScrollView.contentOffset.y
-//            baseScrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
-//        }
-//    }
-//
-//    private var lastOffsetY: CGFloat = 0 // キーボードが表示される前のスクロール量(現時点不要)
-//    // (現時点不要)
-//    @objc func keyboardWillShow(_ notification: Notification) {
-//        lastOffsetY = baseScrollView.contentOffset.y
-//    }
-//
-//    @objc func keyboardDidHide(_ notification: Notification) {
-//        let baseline: CGFloat = 0
-//        lastOffsetY = min(baseline, lastOffsetY) // (現時点不要)
-//        baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
-//    }
-
     // MARK: - detePickerのSelector
     @objc func datePickerValueChange() {
-//        let calendar = Calendar(identifier: .gregorian)
-//        let dateComponent = calendar.dateComponents([.year, .month, .day], from: datePicker.date)
-//        didSelectDate = calendar.date(
-//            from: DateComponents(
-//                year: dateComponent.year,
-//                month: dateComponent.month,
-//                day:dateComponent.day)
-//        )!
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY年MM月dd日"
         dateTextField.text = dateFormatter.string(from: datePicker.date)

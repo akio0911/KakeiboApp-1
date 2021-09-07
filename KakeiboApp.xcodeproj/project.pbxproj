@@ -267,7 +267,6 @@
 		478C82F126689C2500E9D669 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				478C82F226689C4400E9D669 /* Gradation.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -319,6 +318,7 @@
 			children = (
 				47DC3EDF26E34E6A00693980 /* InputViewController.xib */,
 				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
+				478C82F226689C4400E9D669 /* Gradation.swift */,
 			);
 			path = InputScreen;
 			sourceTree = "<group>";

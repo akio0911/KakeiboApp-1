@@ -167,7 +167,7 @@
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-            <point key="canvasLocation" x="247.82608695652175" y="-15.401785714285714"/>
+            <point key="canvasLocation" x="617" y="-40"/>
         </view>
         <navigationItem title="Title" id="H6A-kV-Di7"/>
         <navigationItem title="Title" id="cJ8-2U-Oi8"/>
