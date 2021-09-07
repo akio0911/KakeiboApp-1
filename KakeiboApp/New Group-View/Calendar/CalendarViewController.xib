@@ -12,9 +12,12 @@
             <connections>
                 <outlet property="balanceLabel" destination="CBO-NN-D8L" id="CG5-aI-BIj"/>
                 <outlet property="calendarCollectionView" destination="kKl-BA-o3X" id="Sd7-Ot-KJA"/>
+                <outlet property="calendarNavigationItem" destination="ePB-8j-JKY" id="Rof-76-NF7"/>
                 <outlet property="calendarTableView" destination="6uA-Ck-8az" id="ToX-Ab-0Pj"/>
                 <outlet property="expenseLabel" destination="ydB-5A-llr" id="jbA-mz-kRF"/>
                 <outlet property="incomeLabel" destination="NmP-f9-F6q" id="nhs-IZ-UhH"/>
+                <outlet property="lastBarButtonItem" destination="ikT-oM-U46" id="MvZ-rX-ZEF"/>
+                <outlet property="nextBarButtonItem" destination="uHT-1A-JgP" id="JGt-1h-hC9"/>
                 <outlet property="view" destination="iN0-l3-epB" id="FQB-sw-XQb"/>
                 <outletCollection property="costView" destination="S24-3n-8wX" collectionClass="NSMutableArray" id="trI-9M-D0t"/>
                 <outletCollection property="costView" destination="ray-ur-KdL" collectionClass="NSMutableArray" id="tsp-TF-GGf"/>
@@ -27,7 +30,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="kKl-BA-o3X">
-                    <rect key="frame" x="0.0" y="88" width="414" height="278"/>
+                    <rect key="frame" x="0.0" y="132" width="414" height="278"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="750" constant="278" id="z1e-qF-8T9"/>
@@ -40,7 +43,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfh-8o-Sra">
-                    <rect key="frame" x="0.0" y="373.5" width="414" height="40"/>
+                    <rect key="frame" x="0.0" y="417.5" width="414" height="40"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S24-3n-8wX">
                             <rect key="frame" x="0.0" y="0.0" width="138" height="40"/>
@@ -132,9 +135,18 @@
                     </constraints>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6uA-Ck-8az">
-                    <rect key="frame" x="0.0" y="421.5" width="414" height="391.5"/>
+                    <rect key="frame" x="0.0" y="465.5" width="414" height="347.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e4j-tC-DU8">
+                    <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="ePB-8j-JKY">
+                            <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ikT-oM-U46"/>
+                            <barButtonItem key="rightBarButtonItem" image="chevron.right" catalog="system" id="uHT-1A-JgP"/>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -142,20 +154,27 @@
                 <constraint firstItem="6uA-Ck-8az" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="Bre-3k-YFy"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Tfh-8o-Sra" secondAttribute="trailing" id="F8c-Ca-QcY"/>
                 <constraint firstItem="Tfh-8o-Sra" firstAttribute="top" secondItem="kKl-BA-o3X" secondAttribute="bottom" constant="7.5" id="FrI-he-IVn"/>
-                <constraint firstItem="kKl-BA-o3X" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="YW9-ds-Z0W"/>
+                <constraint firstItem="e4j-tC-DU8" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="NZp-Yj-LZV"/>
+                <constraint firstItem="kKl-BA-o3X" firstAttribute="top" secondItem="e4j-tC-DU8" secondAttribute="bottom" id="OBo-VC-D8i"/>
+                <constraint firstItem="e4j-tC-DU8" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="TDC-Vw-41k"/>
                 <constraint firstItem="Tfh-8o-Sra" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="bWC-sh-HvY"/>
                 <constraint firstItem="6uA-Ck-8az" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="fpj-vN-QuU"/>
                 <constraint firstItem="6uA-Ck-8az" firstAttribute="top" secondItem="Tfh-8o-Sra" secondAttribute="bottom" constant="8" id="iQu-7K-PNi"/>
                 <constraint firstItem="kKl-BA-o3X" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="ino-Dg-Lgj"/>
                 <constraint firstItem="kKl-BA-o3X" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="jU7-CP-d8Z"/>
+                <constraint firstItem="e4j-tC-DU8" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="q0s-Co-V2E"/>
                 <constraint firstItem="6uA-Ck-8az" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="v7a-YZ-gT8"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-            <point key="canvasLocation" x="249" y="-15"/>
+            <point key="canvasLocation" x="247.82608695652175" y="-15.401785714285714"/>
         </view>
+        <navigationItem title="Title" id="H6A-kV-Di7"/>
+        <navigationItem title="Title" id="cJ8-2U-Oi8"/>
     </objects>
     <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

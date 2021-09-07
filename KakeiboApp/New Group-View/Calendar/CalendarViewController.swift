@@ -10,10 +10,13 @@ import RxSwift
 import RxCocoa
 
 final class CalendarViewController: UIViewController,
-                              UICollectionViewDelegateFlowLayout,
-                              UITableViewDelegate,
-                              CalendarTableViewDataSourceDelegate {
+                                    UICollectionViewDelegateFlowLayout,
+                                    UITableViewDelegate,
+                                    CalendarTableViewDataSourceDelegate {
 
+    @IBOutlet private weak var calendarNavigationItem: UINavigationItem!
+    @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var calendarCollectionView: UICollectionView!
     @IBOutlet private weak var calendarTableView: UITableView!
     @IBOutlet private weak var incomeLabel: UILabel! // 収入ラベル
@@ -44,29 +47,29 @@ final class CalendarViewController: UIViewController,
         setupBarButtonItem()
         setupCollectionView() // collectionViewの設定をするメソッド
         setupTableView() // tableViewの設定をするメソッド
+        navigationItem.title = "カレンダー"
     }
 
     private func setupBarButtonItem() {
         let nextBarButton =
             UIBarButtonItem(
-                image:UIImage(systemName: "chevron.right"),
+                image:UIImage(systemName: "square.and.pencil"),
                 style: .plain,
                 target: self,
-                action: #selector(didTapNextBarButton)
+                action: #selector(didTapInputBarButton)
             )
         navigationItem.rightBarButtonItem = nextBarButton
-
-        let lastBarButton =
-            UIBarButtonItem(
-                image: UIImage(systemName: "chevron.left"),
-                style: .plain,
-                target: self,
-                action: #selector(didTapLastBarButton)
-            )
-        navigationItem.leftBarButtonItem = lastBarButton
     }
 
     private func setupBinding() {
+        nextBarButtonItem.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
+            .disposed(by: disposeBag)
+
+        lastBarButtonItem.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
+            .disposed(by: disposeBag)
+
         let collectionViewDataObservable = viewModel.outputs.collectionViewDataObservable
             .share()
 
@@ -104,7 +107,7 @@ final class CalendarViewController: UIViewController,
             .disposed(by: disposeBag)
 
         viewModel.outputs.navigationTitle
-            .drive(navigationItem.rx.title)
+            .drive(calendarNavigationItem.rx.title)
             .disposed(by: disposeBag)
 
         viewModel.outputs.incomeText
@@ -122,6 +125,13 @@ final class CalendarViewController: UIViewController,
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
+                let inputViewController = InputViewController(
+                    viewModel: InputViewModel(mode: InputViewModel.Mode(event: event))
+                )
+                let navigationController = UINavigationController(
+                    rootViewController: inputViewController
+                )
+                self.present(navigationController, animated: true, completion: nil)
             })
             .disposed(by: disposeBag)
     }
@@ -155,12 +165,8 @@ final class CalendarViewController: UIViewController,
     }
 
     // MARK: - @objc(BarButtonItem)
-    @objc private func didTapNextBarButton() {
-        viewModel.inputs.didTapNextBarButton()
-    }
-
-    @objc private func didTapLastBarButton() {
-        viewModel.inputs.didTapLastBarButton()
+    @objc private func didTapInputBarButton() {
+        viewModel.inputs.didTapInputBarButton()
     }
 
     // MARK: - UICollectionViewDelegateFlowLayout
@@ -214,28 +220,40 @@ final class CalendarViewController: UIViewController,
 
     // MARK: - UITableViewDelegate
     // ヘッダーのタイトルを設定
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard let headerView = tableView.dequeueReusableHeaderFooterView(
-//                withIdentifier: CalendarTableViewHeaderFooterView.identifier)
-//                as? CalendarTableViewHeaderFooterView else { return nil }
-//        headerView.configure(data: tableViewHeaderData[section])
-//        return headerView
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let navigationController = tabBarController?.viewControllers?[1]
-//            as! UINavigationController // swiftlint:disable:this force_cast
-//        let inputViewController = navigationController.topViewController
-//            as! InputViewController // swiftlint:disable:this force_cast
-//
-//        inputViewController.mode = .edit
-//        inputViewController.editingIndexpath = indexPath
-//        inputViewController.editingFirstDay = calendarDate.firstDay
-//        tabBarController?.selectedViewController = navigationController // 画面遷移
-//    }
+    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+    //                withIdentifier: CalendarTableViewHeaderFooterView.identifier)
+    //                as? CalendarTableViewHeaderFooterView else { return nil }
+    //        headerView.configure(data: tableViewHeaderData[section])
+    //        return headerView
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //        let navigationController = tabBarController?.viewControllers?[1]
+    //            as! UINavigationController // swiftlint:disable:this force_cast
+    //        let inputViewController = navigationController.topViewController
+    //            as! InputViewController // swiftlint:disable:this force_cast
+    //
+    //        inputViewController.mode = .edit
+    //        inputViewController.editingIndexpath = indexPath
+    //        inputViewController.editingFirstDay = calendarDate.firstDay
+    //        tabBarController?.selectedViewController = navigationController // 画面遷移
+    //    }
 
     // MARK: - CalendarTableViewDataSourceDelegate
     // 自作delegate
     func didDeleteCell(indexRow: Int) {
+    }
+}
+
+// MARK: - extension InputViewModel.Mode
+extension InputViewModel.Mode {
+    init(event: CalendarViewModel.Event) {
+        switch event {
+        case .presentAdd:
+            self = .add
+        case .presentEdit(let index):
+            self = .edit(index)
+        }
     }
 }

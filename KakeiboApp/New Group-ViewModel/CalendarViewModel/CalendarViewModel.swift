@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol CalendarViewModelInput {
+    func didTapInputBarButton()
     func didTapNextBarButton()
     func didTapLastBarButton()
     func didSelectRowAt()
@@ -32,6 +33,8 @@ protocol CalendarViewModelType {
 
 final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     enum Event {
+        case presentAdd
+        case presentEdit(Int)
     }
 
     private let calendarDate: CalendarDateProtocol
@@ -79,7 +82,6 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .disposed(by: disposeBag)
 
         model.dataObservable
-//            .skip(1) // 初期値がれるためスキップ
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let self = self else { return }
                 self.kakeiboDataArray = kakeiboDataArray
@@ -191,6 +193,10 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    func didTapInputBarButton() {
+        eventRelay.accept(.presentAdd)
     }
 
     func didTapNextBarButton() {

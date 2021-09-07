@@ -67,10 +67,7 @@ final class InputViewController: UIViewController, UITextFieldDelegate, UIPicker
 
     private func setupBinding() {
         saveButton.rx.tap
-            .bind(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.didTapSaveButton()
-            })
+            .subscribe(onNext: didTapSaveButton)
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
