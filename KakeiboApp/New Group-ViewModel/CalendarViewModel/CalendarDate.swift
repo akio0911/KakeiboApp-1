@@ -65,10 +65,11 @@ class CalendarDate: CalendarDateProtocol {
         }
         collectionViewDateRelay.accept(collectionViewDateArray)
 
-        let tableViewDateArray: [Date] = (1...numberOfItems).map { num in
-            var dateComponents = DateComponents()
-            dateComponents.day = num
-            return carendar.date(byAdding: dateComponents, to: firstDay)!
+        let tableViewDateArray: [Date] = collectionViewDateArray.filter {
+            Calendar(identifier: .gregorian)
+                .isDate(firstDay, equalTo: $0, toGranularity: .year)
+                && Calendar(identifier: .gregorian)
+                .isDate(firstDay, equalTo: $0, toGranularity: .month)
         }
         tableViewDateRelay.accept(tableViewDateArray)
     }
@@ -98,30 +99,4 @@ class CalendarDate: CalendarDateProtocol {
         acceptDateArray()
         acceptNavigationTitle()
     }
-
-    /*UICollectionViewDataSourceのnumberOfItemsInSectionで呼ばれるメソッド
-      曜日のセクションには曜日の数を、日付のセクションには日付の数を返す*/
-//    func countSectionItems(at section: Int) -> Int {
-//        section == 0 ? weekday.count : days.count
-//    }
-
-    // 指定された曜日をString型で返す
-//    func presentWeekday(at index: Int) -> String {
-//        weekday[index]
-//    }
-
-    // 曜日の数を返す
-//    func countWeekday() -> Int {
-//        weekday.count
-//    }
-
-    // すでに設定されているfirstDayをString型で返す
-//    func convertStringFirstDay(dateFormat: String) -> String {
-//        firstDay.string(dateFormat: dateFormat)
-//    }
-
-    // days配列から引数のindexで指定されたDateを返す
-//    func presentDate(at index: Int) -> Date {
-//        days[index]
-//    }
 }

@@ -1,5 +1,5 @@
 //
-//  CalendarColor.swift
+//  CalendarColorName.swift
 //  KakeiboApp
 //
 //  Created by 今村京平 on 2021/09/06.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CalendarColor: String {
+enum CalendarColorName: String {
     case AtomicTangerine // オレンジ系
     case BattleshipGrey // グレー系
     case CeladonBlue // ブルー系

@@ -22,7 +22,7 @@ struct TableViewHeaderData {
             String.localizedStringWithFormat("%d", totalBalance) + "円"
         self.stringTotalBalance = stringTotalBalance
         let totalBalanceColorName = totalBalance >= 0 ?
-            CalendarColor.CeladonBlue.rawValue : CalendarColor.OrangeRedCrayola.rawValue
+            CalendarColorName.CeladonBlue.rawValue : CalendarColorName.OrangeRedCrayola.rawValue
         self.totalBalanceColorName = totalBalanceColorName
     }
 }

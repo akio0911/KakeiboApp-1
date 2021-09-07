@@ -18,7 +18,7 @@ final class GraphTableViewHeaderFooterView: UITableViewHeaderFooterView {
     private let expenses = "支出"
 
     func configure(segmentIndex: Int, pieChartData: [GraphData], monthFirstDay: Date) {
-        dateLabel.text = monthFirstDay.string(dateFormat: "YYYY年MM月")
+//        dateLabel.text = monthFirstDay.string(dateFormat: "YYYY年MM月")
         switch segmentIndex {
         case 0:
             incomeAndExpenditureLabel.text = expenses

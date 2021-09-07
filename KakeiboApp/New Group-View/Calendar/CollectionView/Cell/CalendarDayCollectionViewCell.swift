@@ -34,11 +34,11 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         // 日付のテキストカラーを曜日毎に色分けしている
         switch index % 7 {
         case 0:
-            dayLabel.textColor = UIColor(named: CalendarColor.OrangeRedCrayola.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.OrangeRedCrayola.rawValue)
         case 6:
-            dayLabel.textColor = UIColor(named: CalendarColor.CeladonBlue.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.CeladonBlue.rawValue)
         default:
-            dayLabel.textColor = UIColor(named: CalendarColor.SpaceCadet.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.SpaceCadet.rawValue)
         }
 //        // 表示月でない時、日付のテキストカラーをグレーにする
 //        if !isDisplayedMonth { dayLabel.textColor = .gray }

@@ -21,6 +21,7 @@ struct SecondSectionItemData {
         let stringDay =
             dateFormatter.string(from: date)
         self.stringDay = stringDay
-        self.stringTotalBalance = String(totalBalance)
+        let stringTotalBalance = totalBalance == 0 ? "" : String(totalBalance)
+        self.stringTotalBalance = stringTotalBalance
     }
 }

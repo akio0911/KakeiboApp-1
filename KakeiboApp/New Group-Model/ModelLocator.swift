@@ -10,6 +10,6 @@ import Foundation
 // modelを共有するための構造体
 struct ModelLocator {
     static let shared = ModelLocator()
-    let model = KakeiboModel()
+    let model = KakeiboModel(repository: KakeiboDataRepository())
     private init() {}
 }

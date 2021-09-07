@@ -16,11 +16,11 @@ class CalendarWeekdayCollectionViewCell: UICollectionViewCell {
         weekdayLabel.text = weekday
         switch index % 7 {
         case 0:
-            weekdayLabel.textColor = UIColor(named: CalendarColor.OrangeRedCrayola.rawValue)
+            weekdayLabel.textColor = UIColor(named: CalendarColorName.OrangeRedCrayola.rawValue)
         case 6:
-            weekdayLabel.textColor = UIColor(named: CalendarColor.CeladonBlue.rawValue)
+            weekdayLabel.textColor = UIColor(named: CalendarColorName.CeladonBlue.rawValue)
         default:
-            weekdayLabel.textColor = UIColor(named: CalendarColor.SpaceCadet.rawValue)
+            weekdayLabel.textColor = UIColor(named: CalendarColorName.SpaceCadet.rawValue)
         }
     }
 }

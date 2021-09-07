@@ -44,9 +44,6 @@ final class CalendarViewController: UIViewController,
         setupBarButtonItem()
         setupCollectionView() // collectionViewの設定をするメソッド
         setupTableView() // tableViewの設定をするメソッド
-        viewModel.inputs.loadData()
-
-//        UserDefaults.standard.removeAll()
     }
 
     private func setupBarButtonItem() {
@@ -106,17 +103,25 @@ final class CalendarViewController: UIViewController,
             })
             .disposed(by: disposeBag)
 
+        viewModel.outputs.navigationTitle
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.incomeText
+            .drive(incomeLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.expenseText
+            .drive(expenseLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.balanceTxet
+            .drive(balanceLabel.rx.text)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
-                switch event {
-                case .setNavigationTitle(let navigationTitle):
-                    self.navigationItem.title = navigationTitle
-                case .setLabel(let dictionary):
-                    self.incomeLabel.text = dictionary[CalendarLabel.IncomeLabel.rawValue]
-                    self.expenseLabel.text = dictionary[CalendarLabel.ExpenseLabel.rawValue]
-                    self.balanceLabel.text = dictionary[CalendarLabel.BalanceLabel.rawValue]
-                }
             })
             .disposed(by: disposeBag)
     }
@@ -132,7 +137,7 @@ final class CalendarViewController: UIViewController,
             forCellWithReuseIdentifier: CalendarDayCollectionViewCell.identifier
         )
         calendarCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        calendarCollectionView.backgroundColor = UIColor(named: CalendarColor.AtomicTangerine.rawValue)
+        calendarCollectionView.backgroundColor = UIColor(named: CalendarColorName.AtomicTangerine.rawValue)
     }
 
     // tableViewの設定
@@ -209,13 +214,13 @@ final class CalendarViewController: UIViewController,
 
     // MARK: - UITableViewDelegate
     // ヘッダーのタイトルを設定
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: CalendarTableViewHeaderFooterView.identifier)
-                as? CalendarTableViewHeaderFooterView else { return nil }
-        headerView.configure(data: tableViewHeaderData[section])
-        return headerView
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+//                withIdentifier: CalendarTableViewHeaderFooterView.identifier)
+//                as? CalendarTableViewHeaderFooterView else { return nil }
+//        headerView.configure(data: tableViewHeaderData[section])
+//        return headerView
+//    }
 //
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        let navigationController = tabBarController?.viewControllers?[1]

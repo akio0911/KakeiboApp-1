@@ -48,7 +48,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
                 weekday: firstSectionCellData.weekdays[indexPath.row],
                 at: indexPath.row
             )
-            cell.backgroundColor = UIColor(named: CalendarColor.Cultured.rawValue)
+            cell.backgroundColor = UIColor(named: CalendarColorName.Cultured.rawValue)
             return cell
         case 1:
             let cell = collectionView.dequeueReusableCell(
@@ -59,7 +59,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
                 data: items[indexPath.row],
                 index: indexPath.row
             )
-            cell.backgroundColor = UIColor(named: CalendarColor.Cultured.rawValue)
+            cell.backgroundColor = UIColor(named: CalendarColorName.Cultured.rawValue)
             return cell
         default:
             fatalError("collectionViewで想定していないsection")

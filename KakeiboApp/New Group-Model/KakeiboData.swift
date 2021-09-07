@@ -27,7 +27,7 @@ final class Balance: Object {
     @Persisted var income: Int = 0
     @Persisted var expense: Int = 0
 
-    convenience init(income: Int, expense: Int) {
+    convenience init(income: Int = 0, expense: Int = 0) {
         self.init()
         self.income = income
         self.expense = expense
