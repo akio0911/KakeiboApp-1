@@ -144,30 +144,6 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
-		475B8AA02672E0E700B0AB8D /* GraphScreen */ = {
-			isa = PBXGroup;
-			children = (
-				475B8AB12673556900B0AB8D /* Model */,
-				475B8AA72672E97300B0AB8D /* View */,
-			);
-			path = GraphScreen;
-			sourceTree = "<group>";
-		};
-		475B8AA72672E97300B0AB8D /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		475B8AB12673556900B0AB8D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				47EB81F3268FF1B2008FA088 /* GraphData.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		47793EF626E76A8C0004E5F6 /* InputViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,12 +181,10 @@
 		47815700266128C8005E1020 /* KakeiboApp */ = {
 			isa = PBXGroup;
 			children = (
-				47DC3EDC26E34DDF00693980 /* New Group-Model */,
-				47DC3EDB26E34DD400693980 /* New Group-ViewModel */,
-				47DC3EDA26E34DB300693980 /* New Group-View */,
-				47DC3EE926E44D8600693980 /* New Group-Utility */,
-				478157182661292B005E1020 /* Content */,
-				4781571B26612C48005E1020 /* Model */,
+				47DC3EDC26E34DDF00693980 /* Model */,
+				47DC3EDB26E34DD400693980 /* ViewModel */,
+				47DC3EDA26E34DB300693980 /* View */,
+				47DC3EE926E44D8600693980 /* Utility */,
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
 				4781570A266128C8005E1020 /* Assets.xcassets */,
@@ -219,23 +193,6 @@
 				4781570F266128C8005E1020 /* Info.plist */,
 			);
 			path = KakeiboApp;
-			sourceTree = "<group>";
-		};
-		478157182661292B005E1020 /* Content */ = {
-			isa = PBXGroup;
-			children = (
-				4785FD3326620D6A00BAAD00 /* InputScreen */,
-				475B8AA02672E0E700B0AB8D /* GraphScreen */,
-			);
-			path = Content;
-			sourceTree = "<group>";
-		};
-		4781571B26612C48005E1020 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				475B8AC026737C5900B0AB8D /* Category.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		4781572326612CEE005E1020 /* Extension */ = {
@@ -248,14 +205,6 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		4785FD3326620D6A00BAAD00 /* InputScreen */ = {
-			isa = PBXGroup;
-			children = (
-				478C82F126689C2500E9D669 /* View */,
-			);
-			path = InputScreen;
-			sourceTree = "<group>";
-		};
 		47898BB326E6661600497613 /* ColorName */ = {
 			isa = PBXGroup;
 			children = (
@@ -264,34 +213,27 @@
 			path = ColorName;
 			sourceTree = "<group>";
 		};
-		478C82F126689C2500E9D669 /* View */ = {
+		47DC3EDA26E34DB300693980 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				47DC3EF826E4BE9000693980 /* TabBarController */,
+				47DC3EE326E3733400693980 /* CalendarScreen */,
+				47DC3EE426E3734000693980 /* InputScreen */,
+				47DC3EE526E3735300693980 /* GraphScreen */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		47DC3EDA26E34DB300693980 /* New Group-View */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EF826E4BE9000693980 /* TabBarController */,
-				47DC3EE326E3733400693980 /* Calendar */,
-				47DC3EE426E3734000693980 /* InputScreen */,
-				47DC3EE526E3735300693980 /* GraphScreen */,
-			);
-			path = "New Group-View";
-			sourceTree = "<group>";
-		};
-		47DC3EDB26E34DD400693980 /* New Group-ViewModel */ = {
+		47DC3EDB26E34DD400693980 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				47DC3EF726E4AEBF00693980 /* CalendarViewModel */,
 				47793EF626E76A8C0004E5F6 /* InputViewModel */,
 			);
-			path = "New Group-ViewModel";
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		47DC3EDC26E34DDF00693980 /* New Group-Model */ = {
+		47DC3EDC26E34DDF00693980 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				47DC3EEA26E45AC400693980 /* KakeiboModel.swift */,
@@ -299,10 +241,10 @@
 				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 				477C3F4A26E6252B00FFCB64 /* DataRepository */,
 			);
-			path = "New Group-Model";
+			path = Model;
 			sourceTree = "<group>";
 		};
-		47DC3EE326E3733400693980 /* Calendar */ = {
+		47DC3EE326E3733400693980 /* CalendarScreen */ = {
 			isa = PBXGroup;
 			children = (
 				47DC3EDD26E34E3800693980 /* CalendarViewController.xib */,
@@ -310,7 +252,7 @@
 				4748006F268D5C1D0077EC08 /* TableView */,
 				47480070268D5C5F0077EC08 /* CollectionView */,
 			);
-			path = Calendar;
+			path = CalendarScreen;
 			sourceTree = "<group>";
 		};
 		47DC3EE426E3734000693980 /* InputScreen */ = {
@@ -328,6 +270,8 @@
 			children = (
 				47DC3EE126E34E8C00693980 /* GraphViewController.xib */,
 				47EB81F1268EFD96008FA088 /* GraphViewController.swift */,
+				47EB81F3268FF1B2008FA088 /* GraphData.swift */,
+				475B8AC026737C5900B0AB8D /* Category.swift */,
 				47DC3EE826E44D5600693980 /* TableView */,
 			);
 			path = GraphScreen;
@@ -344,14 +288,14 @@
 			path = TableView;
 			sourceTree = "<group>";
 		};
-		47DC3EE926E44D8600693980 /* New Group-Utility */ = {
+		47DC3EE926E44D8600693980 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
 				47898BB326E6661600497613 /* ColorName */,
 				4781572326612CEE005E1020 /* Extension */,
 				47793EF926E781FB0004E5F6 /* DateUtility.swift */,
 			);
-			path = "New Group-Utility";
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		47DC3EF426E477E300693980 /* CalendarData */ = {
