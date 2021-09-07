@@ -57,7 +57,7 @@
 //        super.viewDidLoad()
 //
 //        setupBarButtonItem()
-//        
+//
 //        settingTextFieldDelegate() // textField.delegateを設定
 //        settingPickerKeybord() // pickerViewをキーボードに設定
 //        configureSaveBtnLayer() // セーブボタンをフィレット

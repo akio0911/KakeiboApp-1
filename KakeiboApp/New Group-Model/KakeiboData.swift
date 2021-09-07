@@ -14,10 +14,10 @@ final class KakeiboData: Object {
     @Persisted var balance: Balance? // 収支
     @Persisted var memo: String = "" //　メモ
 
-    convenience init(date: Date, category: Category, balance: Balance, memo: String) {
+    convenience init(stringDate: String, category: String, balance: Balance, memo: String) {
         self.init()
-        self.date = date
-        self.category = category
+        self.date = DateUtility.dateFromString(stringDate: stringDate, format: "YYYY年MM月dd日")
+        self.category = Category(rawValue: category) ?? .consumption
         self.balance = balance
         self.memo = memo
     }
@@ -27,22 +27,21 @@ final class Balance: Object {
     @Persisted var income: Int = 0
     @Persisted var expense: Int = 0
 
-    convenience init(income: Int = 0, expense: Int = 0) {
+    convenience init(income: String = "0", expense: String = "0") {
         self.init()
-        self.income = income
-        self.expense = expense
+        self.income = Int(income) ?? 0
+        self.expense = Int(expense) ?? 0
     }
 }
 
-// TODO: Categoryをここで実装する。stringやcolorは使用するViewModelでextensionとして実装し、ここでは書かない。
 enum Category: String, PersistableEnum {
-    case consumption
-    case life
-    case miscellaneous
-    case transpotation
-    case medical
-    case communication
-    case vehicleFee
-    case entertainment
-    case other
+    case consumption = "飲食費"
+    case life = "生活費"
+    case miscellaneous = "雑費"
+    case transpotation = "交通費"
+    case medical = "医療費"
+    case communication = "通信費"
+    case vehicleFee = "車両費"
+    case entertainment = "交際費"
+    case other = "その他"
 }

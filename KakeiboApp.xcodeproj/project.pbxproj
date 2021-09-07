@@ -17,7 +17,8 @@
 		47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */; };
 		47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */; };
 		475B8AC126737C5900B0AB8D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475B8AC026737C5900B0AB8D /* Category.swift */; };
-		477C3F2526E5D42C00FFCB64 /* CalendarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477C3F2426E5D42C00FFCB64 /* CalendarLabel.swift */; };
+		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
+		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		477C3F2726E5E3B400FFCB64 /* CalendarColor.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 477C3F2626E5E3B400FFCB64 /* CalendarColor.xcassets */; };
 		477C3F2926E5E60600FFCB64 /* CalendarColorName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477C3F2826E5E60600FFCB64 /* CalendarColorName.swift */; };
 		477C3F4C26E6256E00FFCB64 /* KakeiboDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477C3F4B26E6256E00FFCB64 /* KakeiboDataRepository.swift */; };
@@ -63,7 +64,8 @@
 		47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarDayCollectionViewCell.xib; sourceTree = "<group>"; };
 		475B8AC026737C5900B0AB8D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		477C3F2426E5D42C00FFCB64 /* CalendarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarLabel.swift; sourceTree = "<group>"; };
+		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
+		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		477C3F2626E5E3B400FFCB64 /* CalendarColor.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CalendarColor.xcassets; sourceTree = "<group>"; };
 		477C3F2826E5E60600FFCB64 /* CalendarColorName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarColorName.swift; sourceTree = "<group>"; };
 		477C3F4B26E6256E00FFCB64 /* KakeiboDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboDataRepository.swift; sourceTree = "<group>"; };
@@ -164,6 +166,14 @@
 				47EB81F3268FF1B2008FA088 /* GraphData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		47793EF626E76A8C0004E5F6 /* InputViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				47793EF726E76ABE0004E5F6 /* InputViewModel.swift */,
+			);
+			path = InputViewModel;
 			sourceTree = "<group>";
 		};
 		477C3F4A26E6252B00FFCB64 /* DataRepository */ = {
@@ -277,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				47DC3EF726E4AEBF00693980 /* CalendarViewModel */,
+				47793EF626E76A8C0004E5F6 /* InputViewModel */,
 			);
 			path = "New Group-ViewModel";
 			sourceTree = "<group>";
@@ -338,6 +349,7 @@
 			children = (
 				47898BB326E6661600497613 /* ColorName */,
 				4781572326612CEE005E1020 /* Extension */,
+				47793EF926E781FB0004E5F6 /* DateUtility.swift */,
 			);
 			path = "New Group-Utility";
 			sourceTree = "<group>";
@@ -356,7 +368,6 @@
 			children = (
 				47DC3EF026E4723E00693980 /* CalendarViewModel.swift */,
 				4781572F26612ED5005E1020 /* CalendarDate.swift */,
-				477C3F2426E5D42C00FFCB64 /* CalendarLabel.swift */,
 				47DC3EF426E477E300693980 /* CalendarData */,
 			);
 			path = CalendarViewModel;
@@ -588,14 +599,15 @@
 				47DC3F0326E4E8C900693980 /* CalendarCollectionViewDataSource.swift in Sources */,
 				47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */,
 				47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */,
+				47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */,
 				47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */,
 				4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */,
-				477C3F2526E5D42C00FFCB64 /* CalendarLabel.swift in Sources */,
 				47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */,
 				47EB81F4268FF1B2008FA088 /* GraphData.swift in Sources */,
 				477C3F4C26E6256E00FFCB64 /* KakeiboDataRepository.swift in Sources */,
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
 				47DC3EF126E4723E00693980 /* CalendarViewModel.swift in Sources */,
+				47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */,
 				475B8AC126737C5900B0AB8D /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
