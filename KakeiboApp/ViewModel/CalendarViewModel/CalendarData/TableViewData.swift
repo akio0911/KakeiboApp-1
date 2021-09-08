@@ -35,14 +35,13 @@ struct TableViewCellData {
 
     init(category: Category, balance: Balance, memo: String) {
         stringCategory = category.name
-        if balance.expense != 0 {
-            imageName = ImageName.Expense.rawValue
-            stringBalance =
-                String.localizedStringWithFormat("%d", balance.expense) + "円"
-        } else {
+        switch balance {
+        case .income(let income):
             imageName = ImageName.Income.rawValue
-            stringBalance =
-                String.localizedStringWithFormat("%d", balance.income) + "円"
+            stringBalance = String.localizedStringWithFormat("%d", income) + "円"
+        case .expense(let expense):
+            imageName = ImageName.Expense.rawValue
+            stringBalance = String.localizedStringWithFormat("%d", expense) + "円"
         }
         self.memo = memo
     }

@@ -6,35 +6,20 @@
 //
 
 import Foundation
-import RealmSwift
 
-final class KakeiboData: Object {
-    @Persisted var date: Date = Date() //　日付
-    @Persisted var category: Category = .consumption // カテゴリー
-    @Persisted var balance: Balance? // 収支
-    @Persisted var memo: String = "" //　メモ
-
-    convenience init(stringDate: String, category: String, balance: Balance, memo: String) {
-        self.init()
-        self.date = DateUtility.dateFromString(stringDate: stringDate, format: "YYYY年MM月dd日")
-        self.category = Category(rawValue: category) ?? .consumption
-        self.balance = balance
-        self.memo = memo
-    }
+struct KakeiboData {
+    let date: Date //　日付
+    let category: Category // カテゴリー
+    let balance: Balance // 収支
+    let memo: String //　メモ
 }
 
-final class Balance: Object {
-    @Persisted var income: Int = 0
-    @Persisted var expense: Int = 0
-
-    convenience init(income: String = "0", expense: String = "0") {
-        self.init()
-        self.income = Int(income) ?? 0
-        self.expense = Int(expense) ?? 0
-    }
+enum Balance {
+    case income(Int)
+    case expense(Int)
 }
 
-enum Category: String, PersistableEnum {
+enum Category: String, CaseIterable {
     case consumption = "飲食費"
     case life = "生活費"
     case miscellaneous = "雑費"

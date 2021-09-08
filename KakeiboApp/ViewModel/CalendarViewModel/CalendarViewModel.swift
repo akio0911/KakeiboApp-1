@@ -12,7 +12,7 @@ protocol CalendarViewModelInput {
     func didTapInputBarButton()
     func didTapNextBarButton()
     func didTapLastBarButton()
-    func didSelectRowAt()
+    func didSelectRowAt(index: IndexPath)
 }
 
 protocol CalendarViewModelOutput {
@@ -34,7 +34,7 @@ protocol CalendarViewModelType {
 final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     enum Event {
         case presentAdd
-        case presentEdit(Int)
+        case presentEdit(KakeiboData)
     }
 
     private let calendarDate: CalendarDateProtocol
@@ -99,7 +99,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             let date = $0
             let totalBalance = kakeiboDataArray
                 .filter { $0.date == date }
-                .reduce(0) { $0 + ($1.balance!.income - $1.balance!.expense) }
+                .reduce(0) { $0 + ($1.balance.signConversion) }
             let secondSectionCellData = SecondSectionItemData(
                 date: date, totalBalance: totalBalance
             )
@@ -122,14 +122,14 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 dateFilterData.forEach {
                     tableViewCellData.append(
                         TableViewCellData(
-                            category: $0.category, balance: $0.balance!, memo: $0.memo
+                            category: $0.category, balance: $0.balance, memo: $0.memo
                         )
                     )
                 }
                 tableViewCellDataArray.append(tableViewCellData)
 
                 let totalBalance = dateFilterData
-                    .reduce(0) { $0 + ($1.balance!.income - $1.balance!.expense) }
+                    .reduce(0) { $0 + ($1.balance.signConversion) }
                 tableViewHeaderDataArray.append(
                     TableViewHeaderData(date: date, totalBalance: totalBalance)
                 )
@@ -150,13 +150,23 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         }
 
         let totalIncome = dateFilterData
-            .filter { $0.balance!.income != 0 }
-            .reduce(0) { $0 + $1.balance!.income }
+            .filter {
+                switch $0.balance {
+                case .income(_): return true
+                case .expense(_): return false
+                }
+            }
+            .reduce(0) { $0 + $1.balance.signConversion }
         incomeTextRelay.accept(String(totalIncome))
 
         let totalExpense = dateFilterData
-            .filter { $0.balance!.expense != 0 }
-            .reduce(0) { $0 - $1.balance!.expense }
+            .filter {
+                switch $0.balance {
+                case .income(_): return true
+                case .expense(_): return false
+                }
+            }
+            .reduce(0) { $0 + $1.balance.signConversion }
         expenseTextRelay.accept(String(totalExpense))
 
         let totalBalance = totalIncome + totalExpense
@@ -207,7 +217,8 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         calendarDate.lastMonth()
     }
 
-    func didSelectRowAt() {
+    // TODO: didSelectRowAtを実装
+    func didSelectRowAt(index: IndexPath) {
     }
 }
 
@@ -219,5 +230,16 @@ extension CalendarViewModel: CalendarViewModelType {
 
     var outputs: CalendarViewModelOutput {
         return self
+    }
+}
+
+extension Balance {
+    var signConversion: Int {
+        switch self {
+        case .income(let income):
+            return income
+        case .expense(let expense):
+            return -expense
+        }
     }
 }

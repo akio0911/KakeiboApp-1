@@ -10,5 +10,4 @@ pod 'SwiftLint'
 pod 'Charts'
 pod 'RxSwift'
 pod 'RxCocoa'
-pod 'RealmSwift', '~>10'
 end

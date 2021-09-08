@@ -18,13 +18,13 @@ protocol KakeiboModelProtocol {
 final class KakeiboModel: KakeiboModelProtocol {
 
     private let dataRelay = BehaviorRelay<[KakeiboData]>(value: [])
-    private let repository: KakeiboDataRepositoryProtocol
+//    private let repository: KakeiboDataRepositoryProtocol
 
-    init(repository: KakeiboDataRepositoryProtocol) {
-        self.repository = repository
-        let kakeiboData = repository.loadData()
-        dataRelay.accept(kakeiboData)
-    }
+//    init(repository: KakeiboDataRepositoryProtocol) {
+//        self.repository = repository
+//        let kakeiboData = repository.loadData()
+//        dataRelay.accept(kakeiboData)
+//    }
 
     var dataObservable: Observable<[KakeiboData]> {
         dataRelay.asObservable()
@@ -34,20 +34,20 @@ final class KakeiboModel: KakeiboModelProtocol {
         var kakeiboData = dataRelay.value
         kakeiboData.append(data)
         dataRelay.accept(kakeiboData)
-        repository.saveData(data: kakeiboData)
+//        repository.saveData(data: kakeiboData)
     }
 
     func deleteData(index: Int) {
         var kakeiboData = dataRelay.value
         kakeiboData.remove(at: index)
         dataRelay.accept(kakeiboData)
-        repository.saveData(data: kakeiboData)
+//        repository.saveData(data: kakeiboData)
     }
 
     func updateData(index: Int, data: KakeiboData) {
         var kakeiboData = dataRelay.value
         kakeiboData[index] = data
         dataRelay.accept(kakeiboData)
-        repository.saveData(data: kakeiboData)
+//        repository.saveData(data: kakeiboData)
     }
 }

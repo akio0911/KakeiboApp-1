@@ -9,13 +9,17 @@ import RxSwift
 import RxCocoa
 
 protocol InputViewModelInput {
-    func didTapSaveButton(dateText: String, categoryText: String,
-                          balanceText: String, segmentIndex: Int, memo: String)
+    func didTapSaveButton()
     func didTapCancelButton()
 }
 
 protocol InputViewModelOutput {
     var event: Driver<InputViewModel.Event> { get }
+    var mode: InputViewModel.Mode { get }
+    var date: Driver<String> { get }
+    var category: Driver<String> { get }
+    var balance: Driver<String> { get }
+    var memo: Driver<String> { get }
 }
 
 protocol InputViewModelType {
@@ -30,13 +34,18 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     enum Mode {
         case add
-        case edit(Int)
+        case edit(KakeiboData)
     }
 
-    private let mode: Mode
+    let mode: Mode
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
+    private var kakeiboDataArray: [KakeiboData] = []
+    private let dateRelay = PublishRelay<String>()
+    private let categoryRelay = PublishRelay<String>()
+    private let balanceRelay = PublishRelay<String>()
+    private let memoRelay = PublishRelay<String>()
 
     init(model: KakeiboModelProtocol = ModelLocator.shared.model,
          mode: Mode) {
@@ -44,32 +53,36 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         self.mode = mode
     }
 
+    private func setupBinding() {
+        model.dataObservable
+            .subscribe(onNext: { [weak self] kakeiboDataArray in
+                guard let self = self else { return }
+                self.kakeiboDataArray = kakeiboDataArray
+            })
+            .disposed(by: disposeBag)
+    }
+
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func didTapSaveButton(dateText: String, categoryText: String,
-                          balanceText: String, segmentIndex: Int, memo: String) {
-        let balance: Balance
-        switch segmentIndex {
-        case 0:
-            balance = Balance(expense: balanceText)
-        case 1:
-            balance = Balance(income: balanceText)
-        default:
-            fatalError("segmentIndexで想定していないIndex")
-        }
+    var date: Driver<String> {
+        dateRelay.asDriver(onErrorDriveWith: .empty())
+    }
 
-        let kakeiboData = KakeiboData(
-            stringDate: dateText, category: categoryText, balance: balance, memo: memo
-        )
+    var category: Driver<String> {
+        categoryRelay.asDriver(onErrorDriveWith: .empty())
+    }
 
-        switch mode {
-        case .add:
-            model.addData(data: kakeiboData)
-        case .edit(let index):
-            model.updateData(index: index, data: kakeiboData)
-        }
+    var balance: Driver<String> {
+        balanceRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    var memo: Driver<String> {
+        memoRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    func didTapSaveButton() {
         eventRelay.accept(.dismiss)
     }
 

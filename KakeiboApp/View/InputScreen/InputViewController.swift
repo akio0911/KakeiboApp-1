@@ -63,6 +63,22 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
                 }
             })
             .disposed(by: disposeBag)
+
+        viewModel.outputs.date
+            .drive(dateTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.category
+            .drive(categoryTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.balance
+            .drive(balanceTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.memo
+            .drive(memoTextField.rx.text)
+            .disposed(by: disposeBag)
     }
 
     private func setupBarButtonItem() {
@@ -143,16 +159,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         didTapSaveButton()
     }
 
+    // TODO: save機能を要実装
     private func didTapSaveButton() {
-        guard let balanceText = balanceTextField.text else { return showBalanceAlert() }
-        let dateText = dateTextField.text!
-        let categoryText = categoryTextField.text!
-        let segmentIndex = balanceSegmentControl.selectedSegmentIndex
-        let memo = memoTextField.text!
-        viewModel.inputs.didTapSaveButton(
-            dateText: dateText, categoryText: categoryText,
-            balanceText: balanceText, segmentIndex: segmentIndex, memo: memo
-        )
+        viewModel.inputs.didTapSaveButton()
     }
 
     // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
