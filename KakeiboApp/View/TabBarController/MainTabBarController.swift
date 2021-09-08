@@ -25,13 +25,13 @@ final class MainTabBarController: UITabBarController {
         )
         viewControllers.append(calendarViewController)
 
-//        let graphViewController = GraphViewController()
-//        graphViewController.tabBarItem = UITabBarItem(
-//            title: "グラフ",
-//            image: UIImage(systemName: "chart.pie"),
-//            tag: 2
-//        )
-//        viewControllers.append(graphViewController)
+        let graphViewController = GraphViewController()
+        graphViewController.tabBarItem = UITabBarItem(
+            title: "グラフ",
+            image: UIImage(systemName: "chart.pie"),
+            tag: 1
+        )
+        viewControllers.append(graphViewController)
 
         let navigationControllers =
             viewControllers.map {

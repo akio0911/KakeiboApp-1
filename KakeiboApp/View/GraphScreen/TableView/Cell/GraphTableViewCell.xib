@@ -51,11 +51,11 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="balanceLabel" destination="kOZ-No-BdE" id="kFF-sT-1XP"/>
                 <outlet property="categoryColorView" destination="Ult-Kp-v1s" id="ORR-as-rPw"/>
                 <outlet property="categoryLabel" destination="1zq-hg-6mh" id="Zbs-8d-q5r"/>
-                <outlet property="expensesLabel" destination="kOZ-No-BdE" id="niz-FF-T0q"/>
             </connections>
-            <point key="canvasLocation" x="387" y="165"/>
+            <point key="canvasLocation" x="168" y="38"/>
         </tableViewCell>
     </objects>
     <resources>

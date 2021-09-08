@@ -12,10 +12,12 @@ protocol GraphViewModelInput {
     func didTapNextBarButton()
     func didTapLastBarButton()
     func didSelectRowAt(index: IndexPath)
+    func didChangeSegmentIndex(index: Int)
 }
 
 protocol GraphViewModelOutput {
     var cellCategoryDataObservable: Observable<[CellCategoryKakeiboData]> { get }
+    var graphData: Driver<[GraphData]> { get }
     var navigationTitle: Driver<String> { get }
 }
 
@@ -29,13 +31,15 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let calendarDate: CalendarDateProtocol
     private var monthDateArray: [Date] = [] // 月の日付
     private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
+    private var balanceSegmentIndex: Int = 0
     private let categoryArray: [Category] = Category.allCases
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
     private let cellCategoryDataRelay = BehaviorRelay<[CellCategoryKakeiboData]>(value: [])
+    private let graphDataRelay = PublishRelay<[GraphData]>()
 
     init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
-        model: KakeiboModelProtocol = ModelLocator.shared.model) {
+         model: KakeiboModelProtocol = ModelLocator.shared.model) {
         self.calendarDate = calendarDate
         self.model = model
         setupBinding()
@@ -46,7 +50,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
             .subscribe(onNext: { [weak self] dateArray in
                 guard let self = self else { return }
                 self.monthDateArray = dateArray
-                self.acceptCellCategoryData()
+                self.acceptGraphData()
             })
             .disposed(by: disposeBag)
 
@@ -54,13 +58,14 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let self = self else { return }
                 self.kakeiboDataArray = kakeiboDataArray
-                self.acceptCellCategoryData()
+                self.acceptGraphData()
             })
             .disposed(by: disposeBag)
     }
 
-    private func acceptCellCategoryData() {
+    private func acceptGraphData() {
         var cellCategoryData: [CellCategoryKakeiboData] = []
+        var graphData: [GraphData] = []
         let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
         let dateFilterData = kakeiboDataArray.filter {
             Calendar(identifier: .gregorian)
@@ -71,18 +76,57 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
 
         categoryArray.forEach {
             let category = $0
-            let totalBalance = dateFilterData
+            let categoryFilterData = dateFilterData
                 .filter { $0.category == category }
+            let totalIncome = categoryFilterData
+                .filter {
+                    switch $0.balance {
+                    case .income(_): return true
+                    case .expense(_): return false
+                    }
+                }
                 .reduce(0) { $0 + $1.balance.signConversion }
-            cellCategoryData.append(
-                CellCategoryKakeiboData(category: category, totalBalance: totalBalance)
-            )
+            let totalExpense = categoryFilterData
+                .filter {
+                    switch $0.balance {
+                    case .income(_): return false
+                    case .expense(_): return true
+                    }
+                }
+                .reduce(0) { $0 + $1.balance.signConversion }
+            switch balanceSegmentIndex {
+            case 0:
+                cellCategoryData.append(
+                    CellCategoryKakeiboData(
+                        category: category, totalBalance: totalExpense
+                    )
+                )
+                graphData.append(
+                    GraphData(category: category, totalBalance: totalExpense)
+                )
+            case 1:
+                cellCategoryData.append(
+                    CellCategoryKakeiboData(
+                        category: category, totalBalance: totalIncome
+                    )
+                )
+                graphData.append(
+                    GraphData(category: category, totalBalance: totalIncome)
+                )
+            default:
+                fatalError("想定していないsegmentIndex")
+            }
         }
         cellCategoryDataRelay.accept(cellCategoryData)
+        graphDataRelay.accept(graphData)
     }
 
     var cellCategoryDataObservable: Observable<[CellCategoryKakeiboData]> {
         cellCategoryDataRelay.asObservable()
+    }
+
+    var graphData: Driver<[GraphData]> {
+        graphDataRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var navigationTitle: Driver<String> {
@@ -98,6 +142,11 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     func didSelectRowAt(index: IndexPath) {
+    }
+
+    func didChangeSegmentIndex(index: Int) {
+        balanceSegmentIndex = index
+        acceptGraphData()
     }
 }
 

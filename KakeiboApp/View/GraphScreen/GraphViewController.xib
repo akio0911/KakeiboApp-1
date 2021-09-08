@@ -11,7 +11,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GraphViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
                 <outlet property="categoryPieChartView" destination="8xh-5E-VUY" id="Re7-ED-2y7"/>
+                <outlet property="graphNavigationItem" destination="fCY-jE-4aa" id="kqP-pD-sLo"/>
                 <outlet property="graphTableView" destination="uu1-Jd-H43" id="Bvu-iD-KKF"/>
+                <outlet property="lastBarButtonItem" destination="chs-EQ-RU1" id="0nC-S2-9Cd"/>
+                <outlet property="nextBarButtonItem" destination="gUv-zT-baX" id="ibx-rc-6rN"/>
                 <outlet property="pieChartSegmentedControl" destination="S4e-73-0AO" id="YKX-84-Tkc"/>
                 <outlet property="view" destination="iN0-l3-epB" id="EcZ-sl-ubW"/>
             </connections>
@@ -27,9 +30,6 @@
                         <segment title="支出"/>
                         <segment title="収入"/>
                     </segments>
-                    <connections>
-                        <action selector="pieChartSegmentedControl:" destination="-1" eventType="valueChanged" id="hxr-ha-sKA"/>
-                    </connections>
                 </segmentedControl>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
                     <rect key="frame" x="0.0" y="553" width="414" height="260"/>

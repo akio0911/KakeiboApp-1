@@ -1,186 +1,110 @@
-////
-////  GraphViewController.swift
-////  KakeiboApp
-////
-////  Created by 今村京平 on 2021/07/02.
-////
 //
-//import UIKit
-//import Charts
+//  GraphViewController.swift
+//  KakeiboApp
 //
-//final class GraphViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+//  Created by 今村京平 on 2021/07/02.
 //
-//    @IBOutlet private weak var pieChartSegmentedControl: UISegmentedControl!
-//    @IBOutlet private weak var categoryPieChartView: PieChartView!
-//    @IBOutlet private weak var graphTableView: UITableView!
-//
-//    private var calendarDate: CalendarDate!
-//    private var dataRepository = DataRepository()
-//    private var pieChartData = [GraphData]()
-//
-//    // MARK: - viewDidLoad
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        setupBarButtonItem()
-//        
-//        settingCalendarData() // CalendarViewControllerからcalendarDateを取り出す
-//        settingGraphTableView()
-//    }
-//
-//    private func setupBarButtonItem() {
-//        let nextBarButton = UIBarButtonItem(
-//            image: UIImage(systemName: "chevron.right"),
-//            style: .plain,
-//            target: self,
-//            action: #selector(didTapNextBarButton)
-//        )
-//        navigationItem.rightBarButtonItem = nextBarButton
-//
-//        let lastBarButton = UIBarButtonItem(
-//            image: UIImage(systemName: "chevron.left"),
-//            style: .plain,
-//            target: self,
-//            action: #selector(didTapLastBarButton)
-//        )
-//        navigationItem.leftBarButtonItem = lastBarButton
-//    }
-//    // CalendarViewControllerからcalendarDateを取り出す
-//    private func settingCalendarData() {
-//        let navigationController = tabBarController?.viewControllers?[0]
-//            as! UINavigationController // swiftlint:disable:this force_cast
-//        let calendarViewController = navigationController.topViewController
-//            as! CalendarViewController // swiftlint:disable:this force_cast
-//        calendarDate = calendarViewController.calendarDate
-//    }
-//
-//    private func settingGraphTableView() {
-//        graphTableView.delegate = self
-//        graphTableView.dataSource = self
-//        graphTableView.register(GraphTableViewCell.nib,
-//                                forCellReuseIdentifier: GraphTableViewCell.identifier)
-//        graphTableView.register(GraphTableViewHeaderFooterView.nib,
-//                                forHeaderFooterViewReuseIdentifier: GraphTableViewHeaderFooterView.identifier)
-//    }
-//
-//    // MARK: - viewWillAppear
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        dataRepository.loadData()
-//        pieChartData = dataRepository.presentCategoryData(
-//            monthFirstDay: calendarDate.firstDay)
-//        switch pieChartSegmentedControl.tag {
-//        case 0:
-//            settingExpensesPieChart()
-//        default:
-//            settingIncomePieChart()
-//        }
-//        navigationItem.title =
-//            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
-//        graphTableView.reloadData()
-//    }
-//
-//    // 支出グラフの設定
-//    private func settingExpensesPieChart() {
-//        var chartDataEntry = [ChartDataEntry]()
-//        pieChartData.forEach {
-//            if $0.expenses != 0 { chartDataEntry.append(
-//                PieChartDataEntry(value: Double($0.expenses),
-//                                  label: $0.category.rawValue,
-//                                  data: $0.expenses)
-//            ) }
-//        }
-//        let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
-//        categoryPieChartView.data = PieChartData(dataSet: pieChartDataSet)
-//
-//        var colors = [UIColor]()
-//        pieChartData.forEach {
-//            if $0.expenses != 0 { colors.append($0.category.color) }
-//        }
-//        pieChartDataSet.colors = colors
-//        categoryPieChartView.legend.enabled = false
-//    }
-//
-//    // 収入グラフの設定
-//    private func settingIncomePieChart() {
-//        var chartDataEntry = [ChartDataEntry]()
-//        pieChartData.forEach {
-//            if $0.income != 0 { chartDataEntry.append(
-//                PieChartDataEntry(value: Double($0.income),
-//                                  label: $0.category.rawValue,
-//                                  data: $0.income)
-//            ) }
-//        }
-//        let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
-//        categoryPieChartView.data = PieChartData(dataSet: pieChartDataSet)
-//
-//        var colors = [UIColor]()
-//        pieChartData.forEach {
-//            if $0.income != 0 { colors.append($0.category.color) }
-//            }
-//        pieChartDataSet.colors = colors
-//        categoryPieChartView.legend.enabled = false
-//    }
-//
-//    // MARK: - viewDidLayoutSubviews
-//    override func viewDidLayoutSubviews() {
-//        super.viewDidLayoutSubviews()
-//        categoryPieChartView.frame = CGRect(x: view.safeAreaInsets.left + 30,
-//                                            y: view.safeAreaInsets.top + 50,
-//                                            width: view.frame.width - 60,
-//                                            height: view.frame.width - 60)
-//        graphTableView.frame = CGRect(x: view.frame.minX,
-//                                      y: categoryPieChartView.frame.maxY + 8,
-//                                      width: view.frame.width,
-//                                      height: view.frame.height
-//                                        - view.safeAreaInsets.top
-//                                        - categoryPieChartView.frame.height)
-//    }
-//
-//    // MARK: - @IBAction
-//    @objc private func didTapNextBarButton() {
-//        calendarDate.nextMonth()
-//        pieChartData = dataRepository.presentCategoryData(
-//            monthFirstDay: calendarDate.firstDay)
-//        switch pieChartSegmentedControl.tag {
-//        case 0:
-//            settingExpensesPieChart()
-//        default:
-//            settingIncomePieChart()
-//        }
-//        navigationItem.title =
-//            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
-//        graphTableView.reloadData()
-//    }
-//
-//    @objc private func didTapLastBarButton() {
-//        calendarDate.lastMonth()
-//        pieChartData = dataRepository.presentCategoryData(
-//            monthFirstDay: calendarDate.firstDay)
-//        switch pieChartSegmentedControl.tag {
-//        case 0:
-//            settingExpensesPieChart()
-//        default:
-//            settingIncomePieChart()
-//        }
-//        navigationItem.title =
-//            calendarDate.convertStringFirstDay(dateFormat: "YYYY年MM月")
-//        graphTableView.reloadData()
-//    }
-//
-//    @IBAction private func pieChartSegmentedControl(_ sender: UISegmentedControl) {
-//        switch sender.selectedSegmentIndex {
-//        case 0:
-//            settingExpensesPieChart()
-//        default:
-//            settingIncomePieChart()
-//        }
-//        pieChartSegmentedControl.tag = sender.selectedSegmentIndex
-//        graphTableView.reloadData()
-//    }
-//
-//    // MARK: - UITableViewDataSource
+
+import UIKit
+import Charts
+import RxSwift
+import RxCocoa
+
+final class GraphViewController: UIViewController, UITableViewDelegate {
+
+    @IBOutlet private weak var graphNavigationItem: UINavigationItem!
+    @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var pieChartSegmentedControl: UISegmentedControl!
+    @IBOutlet private weak var categoryPieChartView: PieChartView!
+    @IBOutlet private weak var graphTableView: UITableView!
+
+    private let viewModel: GraphViewModelType
+    private let disposeBag = DisposeBag()
+    private let graphTableViewDataSource = GraphTableViewDataSource()
+    private var calendarDate: CalendarDate!
+    private var pieChartData = [GraphData]()
+
+    init(viewModel: GraphViewModelType = GraphViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupBinding()
+        setupGraphTableView()
+        navigationItem.title = "グラフ"
+    }
+
+    private func setupBinding() {
+        nextBarButtonItem.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapNextBarButton)
+            .disposed(by: disposeBag)
+
+        lastBarButtonItem.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
+            .disposed(by: disposeBag)
+
+        // TODO: 動作確認必要
+        pieChartSegmentedControl.rx.selectedSegmentIndex
+            .subscribe(onNext: viewModel.inputs.didChangeSegmentIndex(index:))
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.navigationTitle
+            .drive(graphNavigationItem.rx.title)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.cellCategoryDataObservable
+            .bind(to: graphTableView.rx.items(dataSource: graphTableViewDataSource))
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.graphData
+            .drive(onNext: { [weak self] graphData in
+                guard let self = self else { return }
+                let chartDataEntry = graphData
+                    .map {
+                        PieChartDataEntry(value: Double($0.totalBalance), label: $0.category.rawValue)
+                    }
+                let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
+                self.categoryPieChartView.data = PieChartData(dataSet: pieChartDataSet)
+
+                let colors = graphData
+                    .map {
+                        UIColor(named: $0.category.colorName)!
+                    }
+                pieChartDataSet.colors = colors
+                self.categoryPieChartView.legend.enabled = false
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func setupGraphTableView() {
+        graphTableView.register(GraphTableViewCell.nib,
+                                forCellReuseIdentifier: GraphTableViewCell.identifier)
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        categoryPieChartView.frame = CGRect(x: view.safeAreaInsets.left + 30,
+                                            y: view.safeAreaInsets.top + 50,
+                                            width: view.frame.width - 60,
+                                            height: view.frame.width - 60)
+        graphTableView.frame = CGRect(x: view.frame.minX,
+                                      y: categoryPieChartView.frame.maxY + 8,
+                                      width: view.frame.width,
+                                      height: view.frame.height
+                                        - view.safeAreaInsets.top
+                                        - categoryPieChartView.frame.height)
+    }
+
+    // MARK: - UITableViewDataSource
 //    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 //        var numberOfRowsInSection = 0
 //        switch pieChartSegmentedControl.tag {
@@ -201,16 +125,4 @@
 //            as! GraphTableViewCell // swiftlint:disable:this force_cast
 //        cell.configure(graphData: pieChartData[indexPath.row], segmentedNumber: pieChartSegmentedControl.tag)
 //        return cell
-//    }
-//
-//    // MARK: - UITableViewDelegate
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard let headerView = tableView.dequeueReusableHeaderFooterView(
-//                withIdentifier: GraphTableViewHeaderFooterView.identifier)
-//            as? GraphTableViewHeaderFooterView else { return nil }
-//        headerView.configure(segmentIndex: pieChartSegmentedControl.tag,
-//                             pieChartData: pieChartData,
-//                             monthFirstDay: calendarDate.firstDay)
-//        return headerView
-//    }
-//}
+    }
