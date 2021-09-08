@@ -28,7 +28,7 @@ final class CalendarViewController: UIViewController,
     private let disposeBag = DisposeBag()
     private let calendarCollectionViewDataSource = CalendarCollectionViewDataSource()
     private let calendarTableViewDataSource = CalendarTableViewDataSource()
-    private var tableViewHeaderData: [TableViewHeaderData] = []
+    private var headerDataArray: [HeaderDateKakeiboData] = []
     private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
 
     init(viewModel: CalendarViewModelType = CalendarViewModel()) {
@@ -70,7 +70,7 @@ final class CalendarViewController: UIViewController,
             .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
             .disposed(by: disposeBag)
 
-        let collectionViewDataObservable = viewModel.outputs.collectionViewDataObservable
+        let collectionViewDataObservable = viewModel.outputs.dayItemDataObservable
             .share()
 
         collectionViewDataObservable
@@ -95,14 +95,14 @@ final class CalendarViewController: UIViewController,
             })
             .disposed(by: disposeBag)
 
-        viewModel.outputs.tableViewCellDataObservable
+        viewModel.outputs.cellDateDataObservable
             .bind(to: calendarTableView.rx.items(dataSource: calendarTableViewDataSource))
             .disposed(by: disposeBag)
 
-        viewModel.outputs.tableViewHeaderObservable
+        viewModel.outputs.headerDateDataObservable
             .subscribe(onNext: { [weak self] data in
                 guard let self = self else { return }
-                self.tableViewHeaderData = data
+                self.headerDataArray = data
             })
             .disposed(by: disposeBag)
 
@@ -224,7 +224,7 @@ final class CalendarViewController: UIViewController,
         guard let headerView = tableView.dequeueReusableHeaderFooterView(
                 withIdentifier: CalendarTableViewHeaderFooterView.identifier)
                 as? CalendarTableViewHeaderFooterView else { return nil }
-        headerView.configure(data: tableViewHeaderData[section])
+        headerView.configure(data: headerDataArray[section])
         return headerView
     }
 

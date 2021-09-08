@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TableViewHeaderData {
+struct HeaderDateKakeiboData {
     let stringDate: String // 日付
     let stringTotalBalance: String // totalの収支
     let totalBalanceColorName: String // 収支textの色
@@ -24,7 +24,7 @@ struct TableViewHeaderData {
     }
 }
 
-struct TableViewCellData {
+struct CellDateKakeiboData {
     let stringCategory: String // カテゴリー
     let imageName: String // 収支imageName
     let stringBalance: String // 収支

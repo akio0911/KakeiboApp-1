@@ -15,7 +15,7 @@ protocol CalendarTableViewDataSourceDelegate: AnyObject {
 
 final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
 
-    typealias Element = [[TableViewCellData]]
+    typealias Element = [[CellDateKakeiboData]]
     private var items: Element = [[]]
 
     weak var delegate: CalendarTableViewDataSourceDelegate?
@@ -47,7 +47,7 @@ final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     }
 
     // MARK: - RxTableViewDataSourceType
-    func tableView(_ tableView: UITableView, observedEvent: Event<[[TableViewCellData]]>) {
+    func tableView(_ tableView: UITableView, observedEvent: Event<[[CellDateKakeiboData]]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
             tableView.reloadData()

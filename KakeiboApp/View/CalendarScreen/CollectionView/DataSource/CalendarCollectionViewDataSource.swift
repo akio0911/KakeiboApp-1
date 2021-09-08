@@ -11,9 +11,9 @@ import RxCocoa
 
 final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSource, RxCollectionViewDataSourceType {
 
-    typealias Element = [SecondSectionItemData]
+    typealias Element = [DayItemData]
     private var items: Element = []
-    private let firstSectionCellData = FirstSectionItemData()
+    private let weekdayItemData = WeekdayItemData()
 
     // MARK: - UICollectionViewDataSource
     // TODO: numberOfSectionsのreturnがマジックナンバーになっている
@@ -29,7 +29,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return firstSectionCellData.weekdays.count
+            return weekdayItemData.weekdays.count
         case 1:
             return items.count
         default:
@@ -45,7 +45,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
                 for: indexPath
             ) as! CalendarWeekdayCollectionViewCell
             cell.configure(
-                weekday: firstSectionCellData.weekdays[indexPath.row],
+                weekday: weekdayItemData.weekdays[indexPath.row],
                 at: indexPath.row
             )
             cell.backgroundColor = UIColor(named: CalendarColorName.Cultured.rawValue)
@@ -67,7 +67,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
     }
 
     // MARK: - RxCollectionViewDataSourceType
-    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[SecondSectionItemData]>) {
+    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[DayItemData]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
             collectionView.reloadData()

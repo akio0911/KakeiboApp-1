@@ -27,7 +27,7 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
     }
 
     // ラベルのテキストを設定
-    func configure(data: SecondSectionItemData, index: Int) {
+    func configure(data: DayItemData, index: Int) {
         dayLabel.text = data.stringDay
         balanceLabel.text = data.stringTotalBalance
 

@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-73-0AO">
-                    <rect key="frame" x="161.5" y="99" width="91" height="32"/>
+                    <rect key="frame" x="161.5" y="142" width="91" height="32"/>
                     <segments>
                         <segment title="支出"/>
                         <segment title="収入"/>
@@ -32,12 +32,21 @@
                     </connections>
                 </segmentedControl>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
-                    <rect key="frame" x="0.0" y="513" width="414" height="300"/>
+                    <rect key="frame" x="0.0" y="553" width="414" height="260"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-HV-JkJ">
+                    <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="fCY-jE-4aa">
+                            <barButtonItem key="leftBarButtonItem" title="Item" image="chevron.left" catalog="system" id="chs-EQ-RU1"/>
+                            <barButtonItem key="rightBarButtonItem" title="Item" image="chevron.right" catalog="system" id="gUv-zT-baX"/>
+                        </navigationItem>
+                    </items>
+                </navigationBar>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="Charts">
-                    <rect key="frame" x="33" y="157" width="348" height="335"/>
+                    <rect key="frame" x="33" y="195" width="348" height="335"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
@@ -45,15 +54,20 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="D4U-HV-JkJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="0Jy-29-sjh"/>
+                <constraint firstItem="S4e-73-0AO" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" constant="10" id="DzX-vs-KOX"/>
+                <constraint firstItem="D4U-HV-JkJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="IDq-8e-eEw"/>
                 <constraint firstItem="S4e-73-0AO" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="RxS-rZ-NSY"/>
-                <constraint firstItem="S4e-73-0AO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="11" id="lfG-yJ-L2U"/>
+                <constraint firstItem="D4U-HV-JkJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kP0-4R-CPS"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-            <point key="canvasLocation" x="-948" y="64"/>
+            <point key="canvasLocation" x="-949.27536231884062" y="63.616071428571423"/>
         </view>
     </objects>
     <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

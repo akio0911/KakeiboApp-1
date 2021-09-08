@@ -16,9 +16,9 @@ protocol CalendarViewModelInput {
 }
 
 protocol CalendarViewModelOutput {
-    var collectionViewDataObservable: Observable<[SecondSectionItemData]> { get }
-    var tableViewCellDataObservable: Observable<[[TableViewCellData]]> { get }
-    var tableViewHeaderObservable: Observable<[TableViewHeaderData]> { get }
+    var dayItemDataObservable: Observable<[DayItemData]> { get }
+    var cellDateDataObservable: Observable<[[CellDateKakeiboData]]> { get }
+    var headerDateDataObservable: Observable<[HeaderDateKakeiboData]> { get }
     var navigationTitle: Driver<String> { get }
     var incomeText: Driver<String> { get }
     var expenseText: Driver<String> { get }
@@ -38,21 +38,20 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     private let calendarDate: CalendarDateProtocol
-    private var collectionViewDateArray: [Date] = [] // カレンダーに表示する日付
-    private var tableViewDateArray: [Date] = [] // titleに表示されてる月の日付
+    private var calendarDateArray: [Date] = [] // カレンダーに表示する日付
+    private var monthDateArray: [Date] = [] // 月の日付
     private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
-    private let collectionViewDataRelay = BehaviorRelay<[SecondSectionItemData]>(value: [])
-    private let tableViewCellDataRelay = BehaviorRelay<[[TableViewCellData]]>(value: [])
-    private let tableViewHeaderDataRelay = BehaviorRelay<[TableViewHeaderData]>(value: [])
-    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
+    private let dayItemDataRelay = BehaviorRelay<[DayItemData]>(value: [])
+    private let cellDateDataRelay = BehaviorRelay<[[CellDateKakeiboData]]>(value: [])
+    private let headerDateDataRelay = BehaviorRelay<[HeaderDateKakeiboData]>(value: [])
     private let incomeTextRelay = BehaviorRelay<String>(value: "")
     private let expenseTextRelay = BehaviorRelay<String>(value: "")
     private let balanceTextRelay = BehaviorRelay<String>(value: "")
     private let eventRelay = PublishRelay<Event>()
 
-    init(calendarDate: CalendarDateProtocol = CalendarDate(),
+    init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
         self.calendarDate = calendarDate
         self.model = model
@@ -60,88 +59,84 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     private func setupBinding() {
-        calendarDate.collectionViewDateArray
+        calendarDate.calendarDate
             .subscribe(onNext: { [weak self] dateArray in
                 guard let self = self else { return }
-                self.collectionViewDateArray = dateArray
-                self.acceptSecondSectionCellData()
+                self.calendarDateArray = dateArray
+                self.acceptDayItemData()
             })
             .disposed(by: disposeBag)
 
-        calendarDate.tableViewDateArray
+        calendarDate.monthDate
             .subscribe(onNext: { [weak self] dateArray in
                 guard let self = self else { return }
-                self.tableViewDateArray = dateArray
+                self.monthDateArray = dateArray
                 self.acceptTableViewData()
                 self.acceptSetLabelEvent()
             })
-            .disposed(by: disposeBag)
-
-        calendarDate.navigationTitle
-            .bind(to: navigationTitleRelay)
             .disposed(by: disposeBag)
 
         model.dataObservable
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let self = self else { return }
                 self.kakeiboDataArray = kakeiboDataArray
-                self.acceptSecondSectionCellData()
+                self.acceptDayItemData()
                 self.acceptTableViewData()
                 self.acceptSetLabelEvent()
             })
             .disposed(by: disposeBag)
     }
 
-    private func acceptSecondSectionCellData() {
-        var secondSectionCellDataArray: [SecondSectionItemData] = []
+    private func acceptDayItemData() {
+        var dayItemDataArray: [DayItemData] = []
 
-        self.collectionViewDateArray.forEach {
+        self.calendarDateArray.forEach {
             let date = $0
             let totalBalance = kakeiboDataArray
                 .filter { $0.date == date }
-                .reduce(0) { $0 + ($1.balance.signConversion) }
-            let secondSectionCellData = SecondSectionItemData(
+                .reduce(0) { $0 + $1.balance.signConversion }
+            let dayItemData = DayItemData(
                 date: date, totalBalance: totalBalance
             )
-            secondSectionCellDataArray.append(secondSectionCellData)
+            dayItemDataArray.append(dayItemData)
         }
-        self.collectionViewDataRelay.accept(secondSectionCellDataArray)
+        self.dayItemDataRelay.accept(dayItemDataArray)
     }
 
     private func acceptTableViewData() {
-        var tableViewCellDataArray: [[TableViewCellData]] = [[]]
-        var tableViewHeaderDataArray: [TableViewHeaderData] = []
+        var cellDataArray: [[CellDateKakeiboData]] = [[]]
+        var headerDataArray: [HeaderDateKakeiboData] = []
 
-        self.tableViewDateArray.forEach {
+        self.monthDateArray.forEach {
             let date = $0
-            var tableViewCellData: [TableViewCellData] = []
+            var cellData: [CellDateKakeiboData] = []
             let dateFilterData = kakeiboDataArray
                 .filter { $0.date == date }
 
             if !dateFilterData.isEmpty {
                 dateFilterData.forEach {
-                    tableViewCellData.append(
-                        TableViewCellData(
+                    cellData.append(
+                        CellDateKakeiboData(
                             category: $0.category, balance: $0.balance, memo: $0.memo
                         )
                     )
                 }
-                tableViewCellDataArray.append(tableViewCellData)
+                cellDataArray.append(cellData)
 
                 let totalBalance = dateFilterData
-                    .reduce(0) { $0 + ($1.balance.signConversion) }
-                tableViewHeaderDataArray.append(
-                    TableViewHeaderData(date: date, totalBalance: totalBalance)
+                    .reduce(0) { $0 + $1.balance.signConversion }
+                headerDataArray.append(
+                    HeaderDateKakeiboData(date: date, totalBalance: totalBalance)
                 )
             }
         }
 
-        self.tableViewCellDataRelay.accept(tableViewCellDataArray.filter { !$0.isEmpty })
-        self.tableViewHeaderDataRelay.accept(tableViewHeaderDataArray)
+        self.cellDateDataRelay.accept(cellDataArray.filter { !$0.isEmpty })
+        self.headerDateDataRelay.accept(headerDataArray)
     }
 
     private func acceptSetLabelEvent() {
-        let firstDay = self.tableViewDateArray[0] // titleに表示されている月の1日(ついたち)
+        let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
         let dateFilterData = kakeiboDataArray.filter {
             Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .year)
@@ -173,20 +168,20 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         balanceTextRelay.accept(String(totalBalance))
     }
 
-    var collectionViewDataObservable: Observable<[SecondSectionItemData]> {
-        collectionViewDataRelay.asObservable()
+    var dayItemDataObservable: Observable<[DayItemData]> {
+        dayItemDataRelay.asObservable()
     }
 
-    var tableViewCellDataObservable: Observable<[[TableViewCellData]]> {
-        tableViewCellDataRelay.asObservable()
+    var cellDateDataObservable: Observable<[[CellDateKakeiboData]]> {
+        cellDateDataRelay.asObservable()
     }
 
-    var tableViewHeaderObservable: Observable<[TableViewHeaderData]> {
-        tableViewHeaderDataRelay.asObservable()
+    var headerDateDataObservable: Observable<[HeaderDateKakeiboData]> {
+        headerDateDataRelay.asObservable()
     }
 
     var navigationTitle: Driver<String> {
-        navigationTitleRelay.asDriver()
+        calendarDate.navigationTitle.asDriver(onErrorDriveWith: .empty())
     }
 
     var incomeText: Driver<String> {
@@ -230,17 +225,5 @@ extension CalendarViewModel: CalendarViewModelType {
 
     var outputs: CalendarViewModelOutput {
         return self
-    }
-}
-
-// MARK: - extension Balance
-extension Balance {
-    var signConversion: Int {
-        switch self {
-        case .income(let income):
-            return income
-        case .expense(let expense):
-            return -expense
-        }
     }
 }

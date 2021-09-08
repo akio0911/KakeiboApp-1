@@ -12,7 +12,7 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
     @IBOutlet weak var titleHeaderLabel: UILabel!
     @IBOutlet weak var expensesHeaderLabel: UILabel!
 
-    func configure(data: TableViewHeaderData) {
+    func configure(data: HeaderDateKakeiboData) {
         titleHeaderLabel.text = data.stringDate
         expensesHeaderLabel.text =
             data.stringTotalBalance

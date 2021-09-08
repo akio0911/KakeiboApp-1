@@ -17,6 +17,15 @@ struct KakeiboData {
 enum Balance {
     case income(Int)
     case expense(Int)
+
+    var signConversion: Int {
+        switch self {
+        case .income(let income):
+            return income
+        case .expense(let expense):
+            return -expense
+        }
+    }
 }
 
 enum Category: String, CaseIterable {

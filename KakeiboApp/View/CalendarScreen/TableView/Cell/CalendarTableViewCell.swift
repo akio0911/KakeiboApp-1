@@ -22,7 +22,7 @@ class CalendarTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func configure(data: TableViewCellData) {
+    func configure(data: CellDateKakeiboData) {
         balanceImageView.image = UIImage(named: data.imageName)
         categoryLabel.text = data.stringCategory
         balanceLabel.text = data.stringBalance

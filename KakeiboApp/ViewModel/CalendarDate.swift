@@ -9,17 +9,17 @@ import RxSwift
 import RxRelay
 
 protocol CalendarDateProtocol {
-    var collectionViewDateArray: Observable<[Date]> { get } // calendarに表示する日付
-    var tableViewDateArray: Observable<[Date]> { get } // titleに表示される月の日付
-    var navigationTitle: Observable<String> { get } // titleの表示(〇〇年〇〇月を表示)
+    var calendarDate: Observable<[Date]> { get } // calendarの日付
+    var monthDate: Observable<[Date]> { get } // 月の日付
+    var navigationTitle: Observable<String> { get } // title(〇〇年〇〇月)
     func nextMonth()
     func lastMonth()
 }
 
 class CalendarDate: CalendarDateProtocol {
 
-    private let collectionViewDateRelay = BehaviorRelay<[Date]>(value: [])
-    private let tableViewDateRelay = BehaviorRelay<[Date]>(value: [])
+    private let calendarDateRelay = BehaviorRelay<[Date]>(value: [])
+    private let monthDateRelay = BehaviorRelay<[Date]>(value: [])
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
     private let carendar = Calendar(identifier: .gregorian)
     // TODO: エラーが出たため強制オプショナルアンラップ
@@ -35,12 +35,12 @@ class CalendarDate: CalendarDateProtocol {
         acceptNavigationTitle()
     }
 
-    var collectionViewDateArray: Observable<[Date]> {
-           collectionViewDateRelay.asObservable()
+    var calendarDate: Observable<[Date]> {
+           calendarDateRelay.asObservable()
        }
 
-    var tableViewDateArray: Observable<[Date]> {
-        tableViewDateRelay.asObservable()
+    var monthDate: Observable<[Date]> {
+        monthDateRelay.asObservable()
     }
 
     var navigationTitle: Observable<String> {
@@ -58,20 +58,20 @@ class CalendarDate: CalendarDateProtocol {
         // カレンダーに表示するItemの数
         let numberOfItems = numberOfWeeks.count * 7
 
-        let collectionViewDateArray: [Date] = (1...numberOfItems).map { num in
+        let calendarDateArray: [Date] = (1...numberOfItems).map { num in
             var dateComponents = DateComponents()
             dateComponents.day = num - firstWeekday
             return carendar.date(byAdding: dateComponents, to: firstDay)!
         }
-        collectionViewDateRelay.accept(collectionViewDateArray)
+        calendarDateRelay.accept(calendarDateArray)
 
-        let tableViewDateArray: [Date] = collectionViewDateArray.filter {
+        let monthDateArray: [Date] = calendarDateArray.filter {
             Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0, toGranularity: .year)
                 && Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0, toGranularity: .month)
         }
-        tableViewDateRelay.accept(tableViewDateArray)
+        monthDateRelay.accept(monthDateArray)
     }
 
     // TODO: firstDayに依存
@@ -82,7 +82,7 @@ class CalendarDate: CalendarDateProtocol {
 
     func nextMonth() {
         guard let firstDay = carendar.date(
-                byAdding: .month, value: 1, to: firstDay
+            byAdding: .month, value: 1, to: firstDay
         ) else { return }
         self.firstDay = firstDay
         acceptDateArray()
