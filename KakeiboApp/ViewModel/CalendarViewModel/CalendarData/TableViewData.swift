@@ -13,10 +13,7 @@ struct TableViewHeaderData {
     let totalBalanceColorName: String // 収支textの色
 
     init(date: Date, totalBalance: Int) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY年MM月dd日"
-        let stringDate =
-            dateFormatter.string(from: date)
+        let stringDate = DateUtility.stringFromDate(date: date, format: "YYYY年MM月dd日")
         self.stringDate = stringDate
         let stringTotalBalance =
             String.localizedStringWithFormat("%d", totalBalance) + "円"
@@ -34,7 +31,7 @@ struct TableViewCellData {
     let memo: String // メモ
 
     init(category: Category, balance: Balance, memo: String) {
-        stringCategory = category.name
+        stringCategory = category.rawValue
         switch balance {
         case .income(let income):
             imageName = ImageName.Income.rawValue
@@ -44,23 +41,6 @@ struct TableViewCellData {
             stringBalance = String.localizedStringWithFormat("%d", expense) + "円"
         }
         self.memo = memo
-    }
-}
-
-// MARK: - extension Category
-extension Category {
-    var name: String {
-        switch self {
-        case .consumption: return "飲食費"
-        case .life: return "生活費"
-        case .miscellaneous: return "雑費"
-        case .transpotation: return "交通費"
-        case .medical: return "医療費"
-        case .communication: return "通信費"
-        case .vehicleFee: return "車両費"
-        case .entertainment: return "交際費"
-        case .other: return "その他"
-        }
     }
 }
 

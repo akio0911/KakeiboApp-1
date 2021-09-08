@@ -16,10 +16,7 @@ struct SecondSectionItemData {
     let stringTotalBalance: String // totalの収支
 
     init(date: Date, totalBalance: Int) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d"
-        let stringDay =
-            dateFormatter.string(from: date)
+        let stringDay = DateUtility.stringFromDate(date: date, format: "d")
         self.stringDay = stringDay
         let stringTotalBalance = totalBalance == 0 ? "" : String(totalBalance)
         self.stringTotalBalance = stringTotalBalance

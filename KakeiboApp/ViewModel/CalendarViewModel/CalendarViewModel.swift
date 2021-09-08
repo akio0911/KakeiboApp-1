@@ -233,6 +233,7 @@ extension CalendarViewModel: CalendarViewModelType {
     }
 }
 
+// MARK: - extension Balance
 extension Balance {
     var signConversion: Int {
         switch self {

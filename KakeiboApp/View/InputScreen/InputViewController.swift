@@ -204,6 +204,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @objc func datePickerValueChange() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYY年MM月dd日"
-        dateTextField.text = dateFormatter.string(from: datePicker.date)
+        dateTextField.text = DateUtility.stringFromDate(
+            date: datePicker.date, format: "YYYY年MM月dd日"
+        )
     }
 }

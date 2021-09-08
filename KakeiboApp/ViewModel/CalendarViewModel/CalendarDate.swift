@@ -76,9 +76,7 @@ class CalendarDate: CalendarDateProtocol {
 
     // TODO: firstDayに依存
     private func acceptNavigationTitle() {
-        let dateformatter = DateFormatter()
-        dateformatter.dateFormat = "YYYY年MM月"
-        let navigationTitle = dateformatter.string(from: firstDay)
+        let navigationTitle = DateUtility.stringFromDate(date: firstDay, format: "YYYY年MM月")
         navigationTitleRelay.accept(navigationTitle)
     }
 
