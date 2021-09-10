@@ -10,4 +10,7 @@ pod 'SwiftLint'
 pod 'Charts'
 pod 'RxSwift'
 pod 'RxCocoa'
+pod 'Firebase/Firestore'
+pod 'FirebaseFirestoreSwift'
+
 end

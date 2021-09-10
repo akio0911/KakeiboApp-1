@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		472189BA26EB3AF3006C10EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 472189B926EB3AF3006C10EF /* GoogleService-Info.plist */; };
 		4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */; };
 		4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */; };
 		473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		472189B926EB3AF3006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
 		473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				478156FF266128C8005E1020 /* Products */,
 				42EE7307A682EE180F9C5FAD /* Pods */,
 				F80E1A3A0C6B7344DB421BF8 /* Frameworks */,
+				472189B926EB3AF3006C10EF /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -219,15 +222,13 @@
 		47815700266128C8005E1020 /* KakeiboApp */ = {
 			isa = PBXGroup;
 			children = (
+				47CC7D1D26E9F8590049C488 /* Assets */,
 				47DC3EDC26E34DDF00693980 /* Model */,
 				47DC3EDB26E34DD400693980 /* ViewModel */,
 				47DC3EDA26E34DB300693980 /* View */,
 				47DC3EE926E44D8600693980 /* Utility */,
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
-				4781570A266128C8005E1020 /* Assets.xcassets */,
-				477C3F2626E5E3B400FFCB64 /* CalendarColor.xcassets */,
-				47793F0926E8817B0004E5F6 /* GraphColor.xcassets */,
 				4781570C266128C8005E1020 /* LaunchScreen.storyboard */,
 				4781570F266128C8005E1020 /* Info.plist */,
 			);
@@ -251,6 +252,16 @@
 				47793F0B26E8847D0004E5F6 /* GraphColorName.swift */,
 			);
 			path = ColorName;
+			sourceTree = "<group>";
+		};
+		47CC7D1D26E9F8590049C488 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				4781570A266128C8005E1020 /* Assets.xcassets */,
+				477C3F2626E5E3B400FFCB64 /* CalendarColor.xcassets */,
+				47793F0926E8817B0004E5F6 /* GraphColor.xcassets */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		47DC3EDA26E34DB300693980 /* View */ = {
@@ -488,6 +499,7 @@
 				47DC3EDE26E34E3800693980 /* CalendarViewController.xib in Resources */,
 				47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */,
 				47DC3EE026E34E6A00693980 /* InputViewController.xib in Resources */,
+				472189BA26EB3AF3006C10EF /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

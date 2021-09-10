@@ -103,26 +103,4 @@ final class GraphViewController: UIViewController, UITableViewDelegate {
                                         - view.safeAreaInsets.top
                                         - categoryPieChartView.frame.height)
     }
-
-    // MARK: - UITableViewDataSource
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        var numberOfRowsInSection = 0
-//        switch pieChartSegmentedControl.tag {
-//        case 0:
-//            pieChartData.forEach {
-//                if $0.expenses != 0 { numberOfRowsInSection += 1 }
-//            }
-//        default:
-//            pieChartData.forEach {
-//                if $0.income != 0 { numberOfRowsInSection += 1 }
-//            }
-//        }
-//        return numberOfRowsInSection
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: GraphTableViewCell.identifier)
-//            as! GraphTableViewCell // swiftlint:disable:this force_cast
-//        cell.configure(graphData: pieChartData[indexPath.row], segmentedNumber: pieChartSegmentedControl.tag)
-//        return cell
-    }
+}
