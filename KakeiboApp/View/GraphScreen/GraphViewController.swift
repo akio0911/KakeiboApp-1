@@ -92,15 +92,10 @@ final class GraphViewController: UIViewController, UITableViewDelegate {
     // MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        categoryPieChartView.frame = CGRect(x: view.safeAreaInsets.left + 30,
-                                            y: view.safeAreaInsets.top + 50,
-                                            width: view.frame.width - 60,
-                                            height: view.frame.width - 60)
-        graphTableView.frame = CGRect(x: view.frame.minX,
-                                      y: categoryPieChartView.frame.maxY + 8,
-                                      width: view.frame.width,
-                                      height: view.frame.height
-                                        - view.safeAreaInsets.top
-                                        - categoryPieChartView.frame.height)
+        NSLayoutConstraint.activate([
+            categoryPieChartView.widthAnchor.constraint(
+                equalToConstant: view.frame.width - 90
+            )
+        ])
     }
 }

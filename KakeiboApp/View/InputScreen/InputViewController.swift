@@ -41,6 +41,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
+        setupMode()
         setupBarButtonItem()
         settingPickerKeybord() // pickerViewをキーボードに設定
         configureSaveBtnLayer() // セーブボタンをフィレット
@@ -72,6 +73,10 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
             .drive(categoryTextField.rx.text)
             .disposed(by: disposeBag)
 
+        viewModel.outputs.segmentIndex
+            .drive(balanceSegmentControl.rx.selectedSegmentIndex)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.balance
             .drive(balanceTextField.rx.text)
             .disposed(by: disposeBag)
@@ -79,6 +84,15 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         viewModel.outputs.memo
             .drive(memoTextField.rx.text)
             .disposed(by: disposeBag)
+    }
+
+    private func setupMode() {
+        switch viewModel.outputs.mode {
+        case .add:
+            break
+        case .edit(let kakeiboData):
+            viewModel.inputs.editData(data: kakeiboData)
+        }
     }
 
     private func setupBarButtonItem() {
@@ -161,7 +175,24 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     // TODO: save機能を要実装
     private func didTapSaveButton() {
-        viewModel.inputs.didTapSaveButton()
+        guard dateTextField.text != "" else { return }
+        guard categoryTextField.text != "" else { return }
+        guard balanceTextField.text != "" else { return }
+        guard memoTextField.text != "" else { return }
+        let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")
+        let category = Category(rawValue: categoryTextField.text!)!
+        var balance: Balance
+        switch balanceSegmentControl.selectedSegmentIndex {
+        case 0:
+            balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
+        case 1:
+            balance = Balance.income(Int(balanceTextField.text!) ?? 0)
+        default:
+            fatalError("想定していないsegmentIndex")
+        }
+        viewModel.inputs.didTapSaveButton(
+            data: KakeiboData(date: date, category: category, balance: balance, memo: memoTextField.text!)
+        )
     }
 
     // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
@@ -202,8 +233,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     // MARK: - detePickerのSelector
     @objc func datePickerValueChange() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "YYYY年MM月dd日"
         dateTextField.text = DateUtility.stringFromDate(
             date: datePicker.date, format: "YYYY年MM月dd日"
         )

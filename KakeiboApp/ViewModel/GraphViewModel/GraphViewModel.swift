@@ -36,7 +36,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
     private let cellCategoryDataRelay = BehaviorRelay<[CellCategoryKakeiboData]>(value: [])
-    private let graphDataRelay = PublishRelay<[GraphData]>()
+    private let graphDataRelay = BehaviorRelay<[GraphData]>(value: [])
 
     init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
@@ -78,45 +78,53 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
             let category = $0
             let categoryFilterData = dateFilterData
                 .filter { $0.category == category }
-            let totalIncome = categoryFilterData
-                .filter {
-                    switch $0.balance {
-                    case .income(_): return true
-                    case .expense(_): return false
+            if !categoryFilterData.isEmpty {
+                let totalIncome = categoryFilterData
+                    .filter {
+                        switch $0.balance {
+                        case .income(_): return true
+                        case .expense(_): return false
+                        }
                     }
-                }
-                .reduce(0) { $0 + $1.balance.signConversion }
-            let totalExpense = categoryFilterData
-                .filter {
-                    switch $0.balance {
-                    case .income(_): return false
-                    case .expense(_): return true
+                    .reduce(0) { $0 + $1.balance.fetchValue }
+                let totalExpense = categoryFilterData
+                    .filter {
+                        switch $0.balance {
+                        case .income(_): return false
+                        case .expense(_): return true
+                        }
                     }
+                    .reduce(0) { $0 + $1.balance.fetchValue }
+                switch balanceSegmentIndex {
+                case 0:
+                    if totalExpense != 0 {
+                        cellCategoryData.append(
+                            CellCategoryKakeiboData(
+                                category: category, totalBalance: totalExpense
+                            )
+                        )
+                        graphData.append(
+                            GraphData(category: category, totalBalance: totalExpense)
+                        )
+                    }
+                case 1:
+                    if totalIncome != 0 {
+                        cellCategoryData.append(
+                            CellCategoryKakeiboData(
+                                category: category, totalBalance: totalIncome
+                            )
+                        )
+                        graphData.append(
+                            GraphData(category: category, totalBalance: totalIncome)
+                        )
+                    }
+                default:
+                    fatalError("想定していないsegmentIndex")
                 }
-                .reduce(0) { $0 + $1.balance.signConversion }
-            switch balanceSegmentIndex {
-            case 0:
-                cellCategoryData.append(
-                    CellCategoryKakeiboData(
-                        category: category, totalBalance: totalExpense
-                    )
-                )
-                graphData.append(
-                    GraphData(category: category, totalBalance: totalExpense)
-                )
-            case 1:
-                cellCategoryData.append(
-                    CellCategoryKakeiboData(
-                        category: category, totalBalance: totalIncome
-                    )
-                )
-                graphData.append(
-                    GraphData(category: category, totalBalance: totalIncome)
-                )
-            default:
-                fatalError("想定していないsegmentIndex")
             }
         }
+        print("----\(cellCategoryData)----")
+        print("----\(graphData)----")
         cellCategoryDataRelay.accept(cellCategoryData)
         graphDataRelay.accept(graphData)
     }

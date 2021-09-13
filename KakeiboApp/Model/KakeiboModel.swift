@@ -18,13 +18,15 @@ protocol KakeiboModelProtocol {
 final class KakeiboModel: KakeiboModelProtocol {
 
     private let dataRelay = BehaviorRelay<[KakeiboData]>(value: [])
-//    private let repository: KakeiboDataRepositoryProtocol
+    private let repository: DataRepositoryProtocol
 
-//    init(repository: KakeiboDataRepositoryProtocol) {
-//        self.repository = repository
-//        let kakeiboData = repository.loadData()
-//        dataRelay.accept(kakeiboData)
-//    }
+    init(repository: DataRepositoryProtocol = KakeiboDataRepository()) {
+        self.repository = repository
+        repository.loadData { [weak self] kakeiboData in
+            guard let self = self else { return }
+            self.dataRelay.accept(kakeiboData)
+        }
+    }
 
     var dataObservable: Observable<[KakeiboData]> {
         dataRelay.asObservable()
@@ -34,20 +36,23 @@ final class KakeiboModel: KakeiboModelProtocol {
         var kakeiboData = dataRelay.value
         kakeiboData.append(data)
         dataRelay.accept(kakeiboData)
-//        repository.saveData(data: kakeiboData)
+        repository.addData(data: data)
     }
 
     func deleteData(index: Int) {
         var kakeiboData = dataRelay.value
         kakeiboData.remove(at: index)
         dataRelay.accept(kakeiboData)
-//        repository.saveData(data: kakeiboData)
+        let data = kakeiboData[index]
+        repository.deleteData(data: data)
     }
 
     func updateData(index: Int, data: KakeiboData) {
         var kakeiboData = dataRelay.value
         kakeiboData[index] = data
         dataRelay.accept(kakeiboData)
-//        repository.saveData(data: kakeiboData)
+        let beforeData = kakeiboData[index]
+        repository.deleteData(data: beforeData)
+        repository.addData(data: data)
     }
 }

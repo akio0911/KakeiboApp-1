@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		472189BA26EB3AF3006C10EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 472189B926EB3AF3006C10EF /* GoogleService-Info.plist */; };
+		47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */; };
 		4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */; };
 		4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */; };
 		473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */; };
@@ -58,6 +59,7 @@
 
 /* Begin PBXFileReference section */
 		472189B926EB3AF3006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboDataRepository.swift; sourceTree = "<group>"; };
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
 		473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -131,6 +133,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		47218A1526EEC64F006C10EF /* DataRepository */ = {
+			isa = PBXGroup;
+			children = (
+				47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */,
+			);
+			path = DataRepository;
+			sourceTree = "<group>";
+		};
 		4748006F268D5C1D0077EC08 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -191,13 +201,6 @@
 				47793F0726E8770E0004E5F6 /* GraphTableViewDataSource.swift */,
 			);
 			path = DataSource;
-			sourceTree = "<group>";
-		};
-		477C3F4A26E6252B00FFCB64 /* DataRepository */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = DataRepository;
 			sourceTree = "<group>";
 		};
 		478156F5266128C8005E1020 = {
@@ -293,7 +296,7 @@
 				47DC3EEA26E45AC400693980 /* KakeiboModel.swift */,
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
 				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
-				477C3F4A26E6252B00FFCB64 /* DataRepository */,
+				47218A1526EEC64F006C10EF /* DataRepository */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				47793F0826E8770E0004E5F6 /* GraphTableViewDataSource.swift in Sources */,
 				47793F0C26E8847D0004E5F6 /* GraphColorName.swift in Sources */,
 				477C3F2926E5E60600FFCB64 /* CalendarColorName.swift in Sources */,
+				47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */,
 				47793F0026E84BB80004E5F6 /* CellCategoryKakeiboData.swift in Sources */,
 				47DC3EF626E4780100693980 /* TableViewData.swift in Sources */,
 				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,

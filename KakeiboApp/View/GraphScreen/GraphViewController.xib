@@ -31,9 +31,8 @@
                         <segment title="収入"/>
                     </segments>
                 </segmentedControl>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
-                    <rect key="frame" x="0.0" y="553" width="414" height="260"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
+                    <rect key="frame" x="0.0" y="513" width="414" height="300"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-HV-JkJ">
@@ -45,20 +44,29 @@
                         </navigationItem>
                     </items>
                 </navigationBar>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="Charts">
-                    <rect key="frame" x="33" y="195" width="348" height="335"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="Charts">
+                    <rect key="frame" x="45" y="181" width="324" height="324"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="8xh-5E-VUY" secondAttribute="height" multiplier="1:1" id="4q3-IZ-iXo"/>
+                        <constraint firstAttribute="width" priority="750" constant="324" id="sU5-OE-ykJ"/>
+                    </constraints>
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="0Jy-29-sjh"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="6gi-2E-2Yc"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="BWG-yY-Hxz"/>
                 <constraint firstItem="S4e-73-0AO" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" constant="10" id="DzX-vs-KOX"/>
+                <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="S4e-73-0AO" secondAttribute="bottom" constant="8" id="HgD-Zf-OOO"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="IDq-8e-eEw"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="8xh-5E-VUY" secondAttribute="bottom" priority="750" constant="8" id="PvK-fN-14x"/>
                 <constraint firstItem="S4e-73-0AO" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="RxS-rZ-NSY"/>
+                <constraint firstItem="8xh-5E-VUY" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="b3X-yg-cgO"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kP0-4R-CPS"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="v7u-MO-606"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>

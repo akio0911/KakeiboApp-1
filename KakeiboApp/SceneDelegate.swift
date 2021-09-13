@@ -6,17 +6,28 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        let mainTabBarController = MainTabBarController()
-        window?.rootViewController = mainTabBarController
-        window?.makeKeyAndVisible()
+        Auth.auth().signInAnonymously(completion: { [weak self] userResult, error in
+            print("Anonymouslyコールバック")
+            guard let self = self else { return }
+            if let error = error {
+                print("----Error 匿名認証に失敗しました \(error)----")
+            } else if let user = userResult?.user {
+                let uid = user.uid
+                print("----\(uid)----")
+            }
+            guard let windowScene = (scene as? UIWindowScene) else { return }
+            self.window = UIWindow(windowScene: windowScene)
+            let mainTabBarController = MainTabBarController()
+            self.window?.rootViewController = mainTabBarController
+            self.window?.makeKeyAndVisible()
+        })
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

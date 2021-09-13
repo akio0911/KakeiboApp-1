@@ -13,6 +13,7 @@ protocol CalendarViewModelInput {
     func didTapNextBarButton()
     func didTapLastBarButton()
     func didSelectRowAt(index: IndexPath)
+    func didDeleateCell(index: Int)
 }
 
 protocol CalendarViewModelOutput {
@@ -94,7 +95,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             let date = $0
             let totalBalance = kakeiboDataArray
                 .filter { $0.date == date }
-                .reduce(0) { $0 + $1.balance.signConversion }
+                .reduce(0) { $0 + $1.balance.fetchValueSigned }
             let dayItemData = DayItemData(
                 date: date, totalBalance: totalBalance
             )
@@ -124,7 +125,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 cellDataArray.append(cellData)
 
                 let totalBalance = dateFilterData
-                    .reduce(0) { $0 + $1.balance.signConversion }
+                    .reduce(0) { $0 + $1.balance.fetchValueSigned }
                 headerDataArray.append(
                     HeaderDateKakeiboData(date: date, totalBalance: totalBalance)
                 )
@@ -151,17 +152,17 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 case .expense(_): return false
                 }
             }
-            .reduce(0) { $0 + $1.balance.signConversion }
+            .reduce(0) { $0 + $1.balance.fetchValue }
         incomeTextRelay.accept(String(totalIncome))
 
         let totalExpense = dateFilterData
             .filter {
                 switch $0.balance {
-                case .income(_): return true
-                case .expense(_): return false
+                case .income(_): return false
+                case .expense(_): return true
                 }
             }
-            .reduce(0) { $0 + $1.balance.signConversion }
+            .reduce(0) { $0 + $1.balance.fetchValue }
         expenseTextRelay.accept(String(totalExpense))
 
         let totalBalance = totalIncome + totalExpense
@@ -214,6 +215,10 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
 
     // TODO: didSelectRowAtを実装
     func didSelectRowAt(index: IndexPath) {
+    }
+
+    func didDeleateCell(index: Int) {
+        model.deleteData(index: index)
     }
 }
 

@@ -7,18 +7,27 @@
 
 import Foundation
 
-struct KakeiboData {
+struct KakeiboData: Codable, Equatable {
+    static func == (lhs: KakeiboData, rhs: KakeiboData) -> Bool {
+        lhs.date == rhs.date
+            && lhs.category == rhs.category
+            && lhs.balance == rhs.balance
+            && lhs.memo == rhs.memo
+    }
+    
+    var instantiateTime =
+        DateUtility.stringFromDate(date: Date(), format: "YYYY年MM月dd日 HH:mm:ss")
     let date: Date //　日付
     let category: Category // カテゴリー
     let balance: Balance // 収支
     let memo: String //　メモ
 }
 
-enum Balance {
+enum Balance: Equatable {
     case income(Int)
     case expense(Int)
 
-    var signConversion: Int {
+    var fetchValueSigned: Int {
         switch self {
         case .income(let income):
             return income
@@ -26,9 +35,18 @@ enum Balance {
             return -expense
         }
     }
+
+    var fetchValue: Int {
+        switch self {
+        case .income(let income):
+            return income
+        case .expense(let expense):
+            return expense
+        }
+    }
 }
 
-enum Category: String, CaseIterable {
+enum Category: String, CaseIterable, Codable {
     case consumption = "飲食費"
     case life = "生活費"
     case miscellaneous = "雑費"
@@ -38,4 +56,36 @@ enum Category: String, CaseIterable {
     case vehicleFee = "車両費"
     case entertainment = "交際費"
     case other = "その他"
+}
+
+extension Balance: Codable {
+    enum CodingKeys: String, CodingKey {
+        case income
+        case expense
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        if let value = try container.decodeIfPresent(Int.self, forKey: .income) {
+            self = .income(value)
+        } else if let value = try container.decodeIfPresent(Int.self, forKey: .expense) {
+            self = .expense(value)
+        } else {
+            throw DecodingError.dataCorrupted(
+                DecodingError.Context(
+                    codingPath: container.codingPath, debugDescription: "Unknown case"
+                )
+            )
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .income(let value):
+            try container.encode(value, forKey: .income)
+        case .expense(let value):
+            try container.encode(value, forKey: .expense)
+        }
+    }
 }
