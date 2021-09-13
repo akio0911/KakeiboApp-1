@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 protocol CalendarTableViewDataSourceDelegate: AnyObject {
-    func didDeleteCell(indexRow: Int)
+    func didDeleteCell(index: IndexPath)
 }
 
 final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
@@ -42,7 +42,7 @@ final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            delegate?.didDeleteCell(indexRow: indexPath.row)
+            delegate?.didDeleteCell(index: indexPath)
         }
     }
 

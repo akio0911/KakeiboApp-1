@@ -10,13 +10,18 @@ import UIKit
 class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     @IBOutlet weak var titleHeaderLabel: UILabel!
-    @IBOutlet weak var expensesHeaderLabel: UILabel!
+    @IBOutlet weak var balanceHeaderLabel: UILabel!
 
     func configure(data: HeaderDateKakeiboData) {
-        titleHeaderLabel.text = data.stringDate
-        expensesHeaderLabel.text =
-            data.stringTotalBalance
-        expensesHeaderLabel.textColor =
-            UIColor(named: data.totalBalanceColorName)
+        titleHeaderLabel.text =
+            DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月d日")
+        balanceHeaderLabel.text = String(data.totalBalance)
+        if data.totalBalance >= 0 {
+            balanceHeaderLabel.textColor =
+                UIColor(named: CalendarColorName.CeladonBlue.rawValue)
+        } else {
+            balanceHeaderLabel.textColor =
+                UIColor(named: CalendarColorName.OrangeRedCrayola.rawValue)
+        }
     }
 }

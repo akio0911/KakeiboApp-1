@@ -13,7 +13,7 @@ protocol CalendarViewModelInput {
     func didTapNextBarButton()
     func didTapLastBarButton()
     func didSelectRowAt(index: IndexPath)
-    func didDeleateCell(index: Int)
+    func didDeleateCell(index: IndexPath)
 }
 
 protocol CalendarViewModelOutput {
@@ -217,8 +217,19 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     func didSelectRowAt(index: IndexPath) {
     }
 
-    func didDeleateCell(index: Int) {
-        model.deleteData(index: index)
+    /* tableViewのcellDateDataとheaderDateDataからKakeiboDataを作成しindexを求める。
+     求めたindexをmodel.deleateDataの引数に入れてデータを削除する*/
+    func didDeleateCell(index: IndexPath) {
+        let cellDateData = cellDateDataRelay.value[index.section][index.row]
+        let headerDateData = headerDateDataRelay.value[index.section]
+        let kakeiboData = KakeiboData(
+            date: headerDateData.date,
+            category: cellDateData.category,
+            balance: cellDateData.balance,
+            memo: cellDateData.memo)
+        if let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == kakeiboData }) {
+            model.deleateData(index: firstIndex)
+        }
     }
 }
 

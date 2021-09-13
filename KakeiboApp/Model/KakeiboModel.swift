@@ -11,7 +11,7 @@ import RxRelay
 protocol KakeiboModelProtocol {
     var dataObservable: Observable<[KakeiboData]> { get }
     func addData(data: KakeiboData)
-    func deleteData(index: Int)
+    func deleateData(index: Int)
     func updateData(index: Int, data: KakeiboData)
 }
 
@@ -39,19 +39,19 @@ final class KakeiboModel: KakeiboModelProtocol {
         repository.addData(data: data)
     }
 
-    func deleteData(index: Int) {
+    func deleateData(index: Int) {
         var kakeiboData = dataRelay.value
-        kakeiboData.remove(at: index)
-        dataRelay.accept(kakeiboData)
         let data = kakeiboData[index]
         repository.deleteData(data: data)
+        kakeiboData.remove(at: index)
+        dataRelay.accept(kakeiboData)
     }
 
     func updateData(index: Int, data: KakeiboData) {
         var kakeiboData = dataRelay.value
+        let beforeData = kakeiboData[index]
         kakeiboData[index] = data
         dataRelay.accept(kakeiboData)
-        let beforeData = kakeiboData[index]
         repository.deleteData(data: beforeData)
         repository.addData(data: data)
     }

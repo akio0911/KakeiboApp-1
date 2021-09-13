@@ -23,9 +23,15 @@ class CalendarTableViewCell: UITableViewCell {
     }
 
     func configure(data: CellDateKakeiboData) {
-        balanceImageView.image = UIImage(named: data.imageName)
-        categoryLabel.text = data.stringCategory
-        balanceLabel.text = data.stringBalance
+        categoryLabel.text = data.category.rawValue
         memoLabel.text = data.memo
+        switch data.balance {
+        case .income(let income):
+            balanceImageView.image = UIImage(named: CalendarImageName.Income.rawValue)
+            balanceLabel.text = String.localizedStringWithFormat("%d", income) + "円"
+        case .expense(let expense):
+            balanceImageView.image = UIImage(named: CalendarImageName.Expense.rawValue)
+            balanceLabel.text = String.localizedStringWithFormat("%d", expense) + "円"
+        }
     }
 }

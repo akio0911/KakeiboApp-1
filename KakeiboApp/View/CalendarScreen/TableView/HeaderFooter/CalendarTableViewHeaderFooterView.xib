@@ -39,7 +39,7 @@
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="expensesHeaderLabel" destination="lDK-Ds-Fcj" id="ljD-Gy-ZJI"/>
+                <outlet property="balanceHeaderLabel" destination="lDK-Ds-Fcj" id="IMS-cg-dwe"/>
                 <outlet property="titleHeaderLabel" destination="tGj-ih-5ly" id="Rjp-Bd-uPb"/>
             </connections>
             <point key="canvasLocation" x="119" y="-18"/>

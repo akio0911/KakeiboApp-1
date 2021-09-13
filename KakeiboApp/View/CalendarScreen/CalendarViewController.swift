@@ -49,6 +49,7 @@ final class CalendarViewController: UIViewController,
         setupCollectionView() // collectionViewの設定をするメソッド
         setupTableView() // tableViewの設定をするメソッド
         navigationItem.title = "カレンダー"
+        calendarTableViewDataSource.delegate = self
     }
 
     private func setupBarButtonItem() {
@@ -235,7 +236,8 @@ final class CalendarViewController: UIViewController,
 
     // MARK: - CalendarTableViewDataSourceDelegate
     // 自作delegate
-    func didDeleteCell(indexRow: Int) {
+    func didDeleteCell(index: IndexPath) {
+        viewModel.inputs.didDeleateCell(index: index)
     }
 }
 
