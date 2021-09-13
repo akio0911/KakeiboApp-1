@@ -178,7 +178,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         guard dateTextField.text != "" else { return }
         guard categoryTextField.text != "" else { return }
         guard balanceTextField.text != "" else { return }
-        guard memoTextField.text != "" else { return }
         let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")
         let category = Category(rawValue: categoryTextField.text!)!
         var balance: Balance

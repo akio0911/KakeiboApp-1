@@ -54,6 +54,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
          mode: Mode) {
         self.model = model
         self.mode = mode
+        setupBinding()
     }
 
     private func setupBinding() {
@@ -92,7 +93,6 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     func didTapSaveButton(data: KakeiboData) {
         switch mode {
         case .add:
-            print("----inputViewModel-didTapSaveButton----")
             model.addData(data: data)
         case .edit(let beforeData):
             if let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == beforeData }) {

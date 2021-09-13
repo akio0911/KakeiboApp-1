@@ -215,6 +215,14 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
 
     // TODO: didSelectRowAtを実装
     func didSelectRowAt(index: IndexPath) {
+        let cellDateData = cellDateDataRelay.value[index.section][index.row]
+        let headerDateData = headerDateDataRelay.value[index.section]
+        let kakeiboData = KakeiboData(
+            date: headerDateData.date,
+            category: cellDateData.category,
+            balance: cellDateData.balance,
+            memo: cellDateData.memo)
+        eventRelay.accept(.presentEdit(kakeiboData))
     }
 
     /* tableViewのcellDateDataとheaderDateDataからKakeiboDataを作成しindexを求める。
