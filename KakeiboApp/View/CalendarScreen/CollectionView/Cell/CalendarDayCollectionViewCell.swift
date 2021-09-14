@@ -19,10 +19,10 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         if data.totalBalance != 0 {
             if data.totalBalance > 0 {
                 balanceLabel.text = String(data.totalBalance)
-                balanceLabel.textColor = UIColor(named: CalendarColorName.CeladonBlue.rawValue)
+                balanceLabel.textColor = UIColor(named: CalendarColorName.CarolinaBlue.rawValue)
             } else {
                 balanceLabel.text = String(-data.totalBalance)
-                balanceLabel.textColor = UIColor(named: CalendarColorName.OrangeRedCrayola.rawValue)
+                balanceLabel.textColor = UIColor(named: CalendarColorName.SafetyOrangeBlazeOrange.rawValue)
             }
         } else {
             balanceLabel.text = ""
@@ -31,9 +31,9 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         // 日付のテキストカラーを曜日毎に色分けしている
         switch index % 7 {
         case 0:
-            dayLabel.textColor = UIColor(named: CalendarColorName.OrangeRedCrayola.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.SafetyOrangeBlazeOrange.rawValue)
         case 6:
-            dayLabel.textColor = UIColor(named: CalendarColorName.CeladonBlue.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.CarolinaBlue.rawValue)
         default:
             dayLabel.textColor = UIColor(named: CalendarColorName.SpaceCadet.rawValue)
         }

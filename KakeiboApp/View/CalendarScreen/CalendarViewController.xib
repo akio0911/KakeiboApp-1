@@ -52,18 +52,18 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="収入" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="51c-Go-dAh">
                                     <rect key="frame" x="4" y="2" width="33" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="textColor" name="CeladonBlue"/>
+                                    <color key="textColor" name="CarolinaBlue"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="IncomeLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmP-f9-F6q">
                                     <rect key="frame" x="49.5" y="18.5" width="39.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="textColor" name="CeladonBlue"/>
+                                    <color key="textColor" name="CarolinaBlue"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XDh-Gs-GIo">
                                     <rect key="frame" x="0.0" y="0.0" width="137" height="1"/>
-                                    <color key="backgroundColor" name="CeladonBlue"/>
+                                    <color key="backgroundColor" name="CarolinaBlue"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="HPp-Fv-ARQ"/>
                                     </constraints>
@@ -96,18 +96,18 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支出" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mow-qg-Fmh">
                                     <rect key="frame" x="4" y="2" width="33" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="textColor" name="OrangeRedCrayola"/>
+                                    <color key="textColor" name="SafetyOrangeBlazeOrange"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="ExpenseLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydB-5A-llr">
                                     <rect key="frame" x="49.5" y="18.5" width="39.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="textColor" name="OrangeRedCrayola"/>
+                                    <color key="textColor" name="SafetyOrangeBlazeOrange"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IQa-zl-Yiy">
                                     <rect key="frame" x="0.0" y="0.0" width="137" height="1"/>
-                                    <color key="backgroundColor" name="OrangeRedCrayola"/>
+                                    <color key="backgroundColor" name="SafetyOrangeBlazeOrange"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="5E4-hj-hsn"/>
                                     </constraints>
@@ -140,18 +140,18 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="収支" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAn-mN-GxG">
                                     <rect key="frame" x="4" y="2" width="33" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="textColor" name="SpaceCadet"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="BalanceLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-NN-D8L">
                                     <rect key="frame" x="49.5" y="18.5" width="39.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="textColor" name="SpaceCadet"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vhd-K5-ojg">
                                     <rect key="frame" x="0.0" y="0.0" width="138" height="1"/>
-                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" name="SpaceCadet"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="Zxv-lh-a0l"/>
                                     </constraints>
@@ -191,10 +191,17 @@
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e4j-tC-DU8">
                     <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                    <textAttributes key="titleTextAttributes">
+                        <color key="textColor" name="SpaceCadet"/>
+                    </textAttributes>
                     <items>
                         <navigationItem title="Title" id="ePB-8j-JKY">
-                            <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ikT-oM-U46"/>
-                            <barButtonItem key="rightBarButtonItem" image="chevron.right" catalog="system" id="uHT-1A-JgP"/>
+                            <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ikT-oM-U46">
+                                <color key="tintColor" name="SpaceCadet"/>
+                            </barButtonItem>
+                            <barButtonItem key="rightBarButtonItem" image="chevron.right" catalog="system" id="uHT-1A-JgP">
+                                <color key="tintColor" name="SpaceCadet"/>
+                            </barButtonItem>
                         </navigationItem>
                     </items>
                 </navigationBar>
@@ -226,11 +233,14 @@
     <resources>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
-        <namedColor name="CeladonBlue">
-            <color red="0.14100000262260437" green="0.48199999332427979" blue="0.62699997425079346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="CarolinaBlue">
+            <color red="0.0" green="0.63099998235702515" blue="0.89399999380111694" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="OrangeRedCrayola">
-            <color red="1" green="0.36899998784065247" blue="0.35699999332427979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="SafetyOrangeBlazeOrange">
+            <color red="1" green="0.40799999237060547" blue="0.039000000804662704" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="SpaceCadet">
+            <color red="0.10599999874830246" green="0.10599999874830246" blue="0.22699999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

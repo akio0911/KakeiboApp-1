@@ -18,10 +18,10 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
         balanceHeaderLabel.text = String.localizedStringWithFormat("%d", data.totalBalance) + "円"
         if data.totalBalance >= 0 {
             balanceHeaderLabel.textColor =
-                UIColor(named: CalendarColorName.CeladonBlue.rawValue)
+                UIColor(named: CalendarColorName.CarolinaBlue.rawValue)
         } else {
             balanceHeaderLabel.textColor =
-                UIColor(named: CalendarColorName.OrangeRedCrayola.rawValue)
+                UIColor(named: CalendarColorName.SafetyOrangeBlazeOrange.rawValue)
         }
     }
 }
