@@ -48,6 +48,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         insertGradationLayer() // グラデーション設定
         settingHeightPicker() // pickerViewの高さ設定
         configureMosaicViewLayer() // モザイク用のviewをフィレット
+        navigationItem.title = "収支入力"
     }
 
     private func setupBinding() {
