@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "kakeiboApp1x.002.jpeg",
+      "filename" : "kakeiboApp.002.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "kakeiboApp2x.002.jpeg",
+      "filename" : "kakeiboApp.002-1.jpeg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "kakeiboApp3x.002.jpeg",
+      "filename" : "kakeiboApp.002-2.jpeg",
       "idiom" : "universal",
       "scale" : "3x"
     }
