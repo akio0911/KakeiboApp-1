@@ -89,8 +89,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     private func setupMode() {
         switch viewModel.outputs.mode {
-        case .add:
-            break
+        case .add(let date):
+            viewModel.inputs.addData(date: date)
         case .edit(let kakeiboData):
             viewModel.inputs.editData(data: kakeiboData)
         }
@@ -176,7 +176,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     // TODO: save機能を要実装
     private func didTapSaveButton() {
-        guard dateTextField.text != "" else { return }
         guard categoryTextField.text != "" else { return }
         guard balanceTextField.text != "" else { return }
         let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")

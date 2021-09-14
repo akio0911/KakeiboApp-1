@@ -11,6 +11,7 @@ import RxCocoa
 protocol InputViewModelInput {
     func didTapSaveButton(data: KakeiboData)
     func didTapCancelButton()
+    func addData(date: Date)
     func editData(data: KakeiboData)
 }
 
@@ -35,7 +36,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     enum Mode {
-        case add
+        case add(Date)
         case edit(KakeiboData)
     }
 
@@ -104,6 +105,10 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     func didTapCancelButton() {
         eventRelay.accept(.dismiss)
+    }
+
+    func addData(date: Date) {
+        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "YYYY年MM月dd日"))
     }
 
     func editData(data: KakeiboData) {

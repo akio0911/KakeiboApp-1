@@ -31,6 +31,7 @@ final class CalendarViewController: UIViewController,
     private let calendarTableViewDataSource = CalendarTableViewDataSource()
     private var headerDataArray: [HeaderDateKakeiboData] = []
     private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
+    private var didHighlightItemIndexPath: IndexPath = []
 
     init(viewModel: CalendarViewModelType = CalendarViewModel()) {
         self.viewModel = viewModel
@@ -66,11 +67,19 @@ final class CalendarViewController: UIViewController,
 
     private func setupBinding() {
         nextBarButtonItem.rx.tap
-            .subscribe(onNext: viewModel.inputs.didTapNextBarButton)
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.didHighlightItemIndexPath = []
+                self.viewModel.inputs.didTapNextBarButton()
+            })
             .disposed(by: disposeBag)
 
         lastBarButtonItem.rx.tap
-            .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                self.didHighlightItemIndexPath = []
+                self.viewModel.inputs.didTapLastBarButton()
+            })
             .disposed(by: disposeBag)
 
         let collectionViewDataObservable = viewModel.outputs.dayItemDataObservable
@@ -171,12 +180,16 @@ final class CalendarViewController: UIViewController,
 
     // MARK: - @objc(BarButtonItem)
     @objc private func didTapInputBarButton() {
-        viewModel.inputs.didTapInputBarButton()
+        viewModel.inputs.didTapInputBarButton(didHighlightItem: didHighlightItemIndexPath)
     }
 
     // MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return true
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        didHighlightItemIndexPath = indexPath
     }
     
     // MARK: - UICollectionViewDelegateFlowLayout
@@ -253,8 +266,8 @@ final class CalendarViewController: UIViewController,
 extension InputViewModel.Mode {
     init(event: CalendarViewModel.Event) {
         switch event {
-        case .presentAdd:
-            self = .add
+        case .presentAdd(let date):
+            self = .add(date)
         case .presentEdit(let data):
             self = .edit(data)
         }

@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol CalendarViewModelInput {
-    func didTapInputBarButton()
+    func didTapInputBarButton(didHighlightItem indexPath: IndexPath)
     func didTapNextBarButton()
     func didTapLastBarButton()
     func didSelectRowAt(index: IndexPath)
@@ -34,7 +34,7 @@ protocol CalendarViewModelType {
 
 final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     enum Event {
-        case presentAdd
+        case presentAdd(Date)
         case presentEdit(KakeiboData)
     }
 
@@ -203,8 +203,14 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func didTapInputBarButton() {
-        eventRelay.accept(.presentAdd)
+    func didTapInputBarButton(didHighlightItem indexPath: IndexPath) {
+        if indexPath.isEmpty {
+            eventRelay.accept(.presentAdd(Date()))
+        } else {
+            let dayItemDataArray = dayItemDataRelay.value
+            let date = dayItemDataArray[indexPath.row].date
+            eventRelay.accept(.presentAdd(date))
+        }
     }
 
     func didTapNextBarButton() {
