@@ -64,6 +64,9 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
             } else {
                 cell.backgroundColor = .systemGray6
             }
+            let highlightView = UIView(frame: cell.frame)
+            highlightView.backgroundColor = UIColor(named: CalendarColorName.Seashell.rawValue)
+            cell.selectedBackgroundView = highlightView
             return cell
         default:
             fatalError("collectionViewで想定していないsection")

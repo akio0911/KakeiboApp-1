@@ -14,4 +14,5 @@ enum CalendarColorName: String {
     case SpaceCadet // 濃いブルー系
     case SafetyOrangeBlazeOrange // オレンジ系
     case CarolinaBlue // ブルー系
+    case Seashell // ホワイト系(collectionViewHighlight用)
 }

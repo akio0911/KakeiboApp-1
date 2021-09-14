@@ -10,6 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class CalendarViewController: UIViewController,
+                                    UICollectionViewDelegate,
                                     UICollectionViewDelegateFlowLayout,
                                     UITableViewDelegate,
                                     CalendarTableViewDataSourceDelegate {
@@ -173,6 +174,11 @@ final class CalendarViewController: UIViewController,
         viewModel.inputs.didTapInputBarButton()
     }
 
+    // MARK: - UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
     // MARK: - UICollectionViewDelegateFlowLayout
     private let spaceOfCell: CGFloat = 1 // セルの間隔
     private let weekdayCellHeight: CGFloat = 20 // 週のセルの高さ
