@@ -151,7 +151,7 @@ final class CalendarViewController: UIViewController,
             forCellWithReuseIdentifier: CalendarDayCollectionViewCell.identifier
         )
         calendarCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        calendarCollectionView.backgroundColor = UIColor(named: CalendarColorName.AtomicTangerine.rawValue)
+        calendarCollectionView.backgroundColor = UIColor.systemGray5
     }
 
     // tableViewの設定
