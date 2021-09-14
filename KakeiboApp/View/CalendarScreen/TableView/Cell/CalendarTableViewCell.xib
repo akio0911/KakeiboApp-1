@@ -62,7 +62,7 @@
                 <outlet property="categoryLabel" destination="ZEQ-c9-Gwa" id="RwC-3d-UHI"/>
                 <outlet property="memoLabel" destination="Vp3-G0-RHe" id="3HG-PL-0Ci"/>
             </connections>
-            <point key="canvasLocation" x="-336" y="97"/>
+            <point key="canvasLocation" x="166.66666666666669" y="112.5"/>
         </tableViewCell>
     </objects>
 </document>
