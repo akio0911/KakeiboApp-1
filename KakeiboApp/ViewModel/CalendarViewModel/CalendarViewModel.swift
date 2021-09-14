@@ -89,19 +89,21 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     private func acceptDayItemData() {
-        var dayItemDataArray: [DayItemData] = []
-
-        self.calendarDateArray.forEach {
-            let date = $0
-            let totalBalance = kakeiboDataArray
-                .filter { $0.date == date }
-                .reduce(0) { $0 + $1.balance.fetchValueSigned }
-            let dayItemData = DayItemData(
-                date: date, totalBalance: totalBalance
-            )
-            dayItemDataArray.append(dayItemData)
+        if !monthDateArray.isEmpty {
+            var dayItemDataArray: [DayItemData] = []
+            let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
+            self.calendarDateArray.forEach {
+                let date = $0
+                let totalBalance = kakeiboDataArray
+                    .filter { $0.date == date }
+                    .reduce(0) { $0 + $1.balance.fetchValueSigned }
+                let dayItemData = DayItemData(
+                    date: date, totalBalance: totalBalance, firstDay: firstDay
+                )
+                dayItemDataArray.append(dayItemData)
+            }
+            self.dayItemDataRelay.accept(dayItemDataArray)
         }
-        self.dayItemDataRelay.accept(dayItemDataArray)
     }
 
     private func acceptTableViewData() {

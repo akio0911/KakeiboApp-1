@@ -151,7 +151,7 @@ final class CalendarViewController: UIViewController,
             forCellWithReuseIdentifier: CalendarDayCollectionViewCell.identifier
         )
         calendarCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        calendarCollectionView.backgroundColor = UIColor.systemGray5
+        calendarCollectionView.backgroundColor = UIColor.separator
     }
 
     // tableViewの設定
@@ -178,7 +178,7 @@ final class CalendarViewController: UIViewController,
     private let weekdayCellHeight: CGFloat = 20 // 週のセルの高さ
     private let dayCellHeight: CGFloat = 40 // 日付のセルの高さ
     private let numberOfDaysInWeek: CGFloat = 7 // 1週間の日数
-    private let insetForSection = UIEdgeInsets(top: 0, left: 0, bottom: 1, right: 0)
+    private let insetForSection = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
