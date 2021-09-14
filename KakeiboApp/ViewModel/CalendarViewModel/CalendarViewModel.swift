@@ -64,7 +64,6 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .subscribe(onNext: { [weak self] dateArray in
                 guard let self = self else { return }
                 self.calendarDateArray = dateArray
-                self.acceptDayItemData()
             })
             .disposed(by: disposeBag)
 
@@ -72,6 +71,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .subscribe(onNext: { [weak self] dateArray in
                 guard let self = self else { return }
                 self.monthDateArray = dateArray
+                self.acceptDayItemData()
                 self.acceptTableViewData()
                 self.acceptSetLabelEvent()
             })

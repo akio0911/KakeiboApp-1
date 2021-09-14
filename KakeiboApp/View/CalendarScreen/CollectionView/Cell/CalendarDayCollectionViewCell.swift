@@ -12,20 +12,6 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var dayLabel: UILabel!
     @IBOutlet weak var balanceLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        balanceLabel.frame = CGRect(x: contentView.center.x
-                                        - contentView.bounds.width / 2,
-                                     y: dayLabel.frame.maxY + 7,
-                                     width: contentView.bounds.width,
-                                     height: 17)
-    }
-
     // ラベルのテキストを設定
     func configure(data: DayItemData, index: Int) {
         dayLabel.text = DateUtility.stringFromDate(date: data.date, format: "d")
