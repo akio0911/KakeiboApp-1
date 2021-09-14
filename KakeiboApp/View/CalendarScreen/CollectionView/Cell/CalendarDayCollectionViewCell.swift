@@ -37,12 +37,5 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         default:
             dayLabel.textColor = UIColor(named: CalendarColorName.SpaceCadet.rawValue)
         }
-//        // 表示月でない時、日付のテキストカラーをグレーにする
-//        if !isDisplayedMonth { dayLabel.textColor = .gray }
-//        expensesLabel.text = expenses != 0 ?
-//            String.localizedStringWithFormat(
-//                "%d", expenses) + "円" : ""
-//        expensesLabel.textColor =
-//            expenses >= 0 ? UIColor.celadonBlue : UIColor.orangeRedCrayola
     }
 }
