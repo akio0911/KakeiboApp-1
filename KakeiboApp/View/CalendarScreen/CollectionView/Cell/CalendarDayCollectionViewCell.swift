@@ -28,8 +28,19 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
 
     // ラベルのテキストを設定
     func configure(data: DayItemData, index: Int) {
-        dayLabel.text = data.stringDay
-        balanceLabel.text = data.stringTotalBalance
+        dayLabel.text = DateUtility.stringFromDate(date: data.date, format: "d")
+
+        if data.totalBalance != 0 {
+            if data.totalBalance > 0 {
+                balanceLabel.text = String(data.totalBalance)
+                balanceLabel.textColor = UIColor(named: CalendarColorName.CeladonBlue.rawValue)
+            } else {
+                balanceLabel.text = String(-data.totalBalance)
+                balanceLabel.textColor = UIColor(named: CalendarColorName.OrangeRedCrayola.rawValue)
+            }
+        } else {
+            balanceLabel.text = ""
+        }
 
         // 日付のテキストカラーを曜日毎に色分けしている
         switch index % 7 {
