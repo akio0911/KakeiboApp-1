@@ -10,15 +10,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CalendarWeekdayCollectionViewCell" customModule="KakeiboApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="50" height="20"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="50" height="20"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mVP-7Y-4tA">
-                        <rect key="frame" x="7.5" y="16.5" width="35.5" height="17"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="5" y="3" width="31" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -26,13 +26,13 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstItem="mVP-7Y-4tA" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Atb-fv-hpH"/>
-                <constraint firstItem="mVP-7Y-4tA" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="eCg-md-SvN"/>
+                <constraint firstItem="mVP-7Y-4tA" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="Db9-i1-udN"/>
+                <constraint firstItem="mVP-7Y-4tA" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="LWq-NQ-YHw"/>
             </constraints>
             <connections>
                 <outlet property="weekdayLabel" destination="mVP-7Y-4tA" id="lT6-ou-Ngq"/>
             </connections>
-            <point key="canvasLocation" x="159" y="1"/>
+            <point key="canvasLocation" x="157.97101449275362" y="0.6696428571428571"/>
         </collectionViewCell>
     </objects>
 </document>

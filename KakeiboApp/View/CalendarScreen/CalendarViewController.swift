@@ -92,6 +92,8 @@ final class CalendarViewController: UIViewController,
                             + self.spaceOfCell * (numberOfWeeksInMonth - 1)
                             + self.insetForSection.bottom * 2
                             + self.insetForSection.top * 2
+                            + self.insetForSection.left * 2
+                            + self.insetForSection.right * 2
                     )
                 self.collectionViewNSLayoutConstraint?.isActive = true
             })
@@ -174,9 +176,9 @@ final class CalendarViewController: UIViewController,
     // MARK: - UICollectionViewDelegateFlowLayout
     private let spaceOfCell: CGFloat = 1 // セルの間隔
     private let weekdayCellHeight: CGFloat = 20 // 週のセルの高さ
-    private let dayCellHeight: CGFloat = 50 // 日付のセルの高さ
+    private let dayCellHeight: CGFloat = 40 // 日付のセルの高さ
     private let numberOfDaysInWeek: CGFloat = 7 // 1週間の日数
-    private let insetForSection = UIEdgeInsets(top: 1, left: 0, bottom: 1, right: 0)
+    private let insetForSection = UIEdgeInsets(top: 0, left: 0, bottom: 1, right: 0)
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -194,7 +196,7 @@ final class CalendarViewController: UIViewController,
         let totalItemWidth: CGFloat
             = collectionView.bounds.width
             - spaceOfCell * (numberOfDaysInWeek - 1)
-        let width: CGFloat = floor(totalItemWidth / numberOfDaysInWeek)
+        let width: CGFloat = floor(totalItemWidth / numberOfDaysInWeek * 1000) / 1000
 
         return CGSize(
             width: width,

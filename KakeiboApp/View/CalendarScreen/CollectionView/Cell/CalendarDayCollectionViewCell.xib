@@ -10,22 +10,21 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CalendarDayCollectionViewCell" customModule="KakeiboApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+            <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-xK-nSR">
-                        <rect key="frame" x="7.5" y="29" width="35.5" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-xK-nSR">
+                        <rect key="frame" x="9.5" y="23" width="31" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4W-cZ-x4O">
-                        <rect key="frame" x="5" y="5" width="35.5" height="17"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="5" y="5" width="31" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -33,15 +32,19 @@
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstItem="NA9-xK-nSR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" id="FHh-SG-msa"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NA9-xK-nSR" secondAttribute="trailing" id="V63-g9-N47"/>
+                <constraint firstItem="NA9-xK-nSR" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Zxw-5g-AX7"/>
                 <constraint firstItem="h4W-cZ-x4O" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="bv6-eJ-hEh"/>
                 <constraint firstItem="h4W-cZ-x4O" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="jeO-Ld-d2p"/>
+                <constraint firstAttribute="bottom" secondItem="NA9-xK-nSR" secondAttribute="bottom" constant="2" id="pnX-Ve-vX2"/>
             </constraints>
-            <size key="customSize" width="50" height="51"/>
+            <size key="customSize" width="50" height="42"/>
             <connections>
                 <outlet property="balanceLabel" destination="NA9-xK-nSR" id="SHQ-EY-6uG"/>
                 <outlet property="dayLabel" destination="h4W-cZ-x4O" id="2SG-YZ-7Gp"/>
             </connections>
-            <point key="canvasLocation" x="-226.08695652173915" y="84.375"/>
+            <point key="canvasLocation" x="-226.08695652173915" y="81.361607142857139"/>
         </collectionViewCell>
     </objects>
 </document>

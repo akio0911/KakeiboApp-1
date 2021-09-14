@@ -30,10 +30,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="kKl-BA-o3X">
-                    <rect key="frame" x="0.0" y="132" width="414" height="278"/>
+                    <rect key="frame" x="0.0" y="132" width="414" height="226"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" priority="750" constant="278" id="z1e-qF-8T9"/>
+                        <constraint firstAttribute="height" priority="750" constant="226" id="z1e-qF-8T9"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="e8w-Gw-BKd">
                         <size key="itemSize" width="128" height="128"/>
@@ -43,7 +43,7 @@
                     </collectionViewFlowLayout>
                 </collectionView>
                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tfh-8o-Sra">
-                    <rect key="frame" x="0.0" y="417.5" width="414" height="40"/>
+                    <rect key="frame" x="0.0" y="365.5" width="414" height="40"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S24-3n-8wX">
                             <rect key="frame" x="0.0" y="0.0" width="138" height="40"/>
@@ -135,7 +135,7 @@
                     </constraints>
                 </stackView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6uA-Ck-8az">
-                    <rect key="frame" x="0.0" y="465.5" width="414" height="347.5"/>
+                    <rect key="frame" x="0.0" y="413.5" width="414" height="399.5"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e4j-tC-DU8">
