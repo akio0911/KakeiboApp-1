@@ -181,6 +181,7 @@ final class CalendarViewController: UIViewController,
     // MARK: - @objc(BarButtonItem)
     @objc private func didTapInputBarButton() {
         viewModel.inputs.didTapInputBarButton(didHighlightItem: didHighlightItemIndexPath)
+        didHighlightItemIndexPath = []
     }
 
     // MARK: - UICollectionViewDelegate
