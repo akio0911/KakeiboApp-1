@@ -17,7 +17,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
-    @IBOutlet private weak var balanceImageView: UIImageView!
+    @IBOutlet private weak var balanceLabel: UILabel!
     @IBOutlet private weak var dateTextField: UITextField!
     @IBOutlet private weak var categoryTextField: UITextField!
     @IBOutlet private weak var balanceTextField: UITextField!
@@ -44,7 +44,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSegmentedControlView() // segmentedControlViewを設定
-        balanceImageView.image = UIImage(named: CalendarImageName.Expense.rawValue)
         setupBinding()
         setupMode()
         setupBarButtonItem()
@@ -83,10 +82,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
             .drive(onNext: { [weak self] index in
                 guard let self = self else { return }
                 self.segmentedControlView.configureSelectedSegmentIndex(index: index)
-                if index == 0 {
-                    self.balanceImageView.image = UIImage(named: CalendarImageName.Expense.rawValue)
-                } else if index == 1 {
-                    self.balanceImageView.image = UIImage(named: CalendarImageName.Income.rawValue)
+                if index == 1 {
+                    self.balanceLabel.text = Balance.incomeName
                 }
             })
             .disposed(by: disposeBag)
@@ -279,9 +276,14 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         self.selectedSegmentIndex = selectedSegmentIndex
         if selectedSegmentIndex == 0 {
-            balanceImageView.image = UIImage(named: CalendarImageName.Expense.rawValue)
+            balanceLabel.text = Balance.expenseName
         } else if selectedSegmentIndex == 1 {
-            balanceImageView.image = UIImage(named: CalendarImageName.Income.rawValue)
+            balanceLabel.text = Balance.incomeName
         }
     }
+}
+
+extension Balance {
+    static let incomeName = "収入"
+    static let expenseName = "支出"
 }
