@@ -9,7 +9,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SegmentedControlViewDelegate {
+
 
     private let stringCategoryArray = Category.allCases.map { $0.rawValue }
 
@@ -20,13 +21,14 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet private weak var categoryTextField: UITextField!
     @IBOutlet private weak var balanceTextField: UITextField!
     @IBOutlet private weak var memoTextField: UITextField!
-    @IBOutlet private weak var balanceSegmentControl: UISegmentedControl!
     @IBOutlet private weak var saveButton: UIButton!
 
     private var datePicker: UIDatePicker!
     private var categoryPickerView: UIPickerView!
+    private var segmentedControlView: SegmentedControlView!
     private let viewModel: InputViewModelType
     private let disposeBag = DisposeBag()
+    private var selectedSegmentIndex: Int = 0
 
     init(viewModel: InputViewModelType) {
         self.viewModel = viewModel
@@ -40,6 +42,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSegmentedControlView() // segmentedControlViewを設定
         setupBinding()
         setupMode()
         setupBarButtonItem()
@@ -75,7 +78,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
             .disposed(by: disposeBag)
 
         viewModel.outputs.segmentIndex
-            .drive(balanceSegmentControl.rx.selectedSegmentIndex)
+            .drive(onNext: segmentedControlView.configureSelectedSegmentIndex)
             .disposed(by: disposeBag)
 
         viewModel.outputs.balance
@@ -161,6 +164,31 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         categoryTextField.inputView = categoryPickerView
     }
 
+    private func setupSegmentedControlView() {
+        segmentedControlView = SegmentedControlView(
+            frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 0)
+        )
+        segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlView.delegate = self
+        view.addSubview(segmentedControlView)
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let scrollView: UIScrollView = view.subviews.first(where: { $0 is UIScrollView }) as! UIScrollView
+        let contentView: UIView = scrollView.subviews
+            .filter { $0.restorationIdentifier == "ContentView"}.first!
+        let dateView: UIView = contentView.subviews
+            .filter { $0.restorationIdentifier == "DateView"}.first!
+        NSLayoutConstraint.activate([
+            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            segmentedControlView.topAnchor.constraint(equalTo: dateView.bottomAnchor),
+            segmentedControlView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+
     // MARK: - @IBAction
 //    @IBAction private func tappedView(_ sender: Any) {
 //        view.endEditing(true)
@@ -181,7 +209,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")
         let category = Category(rawValue: categoryTextField.text!)!
         var balance: Balance
-        switch balanceSegmentControl.selectedSegmentIndex {
+        switch selectedSegmentIndex {
         case 0:
             balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
         case 1:
@@ -235,5 +263,10 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         dateTextField.text = DateUtility.stringFromDate(
             date: datePicker.date, format: "YYYY年MM月dd日"
         )
+    }
+
+    // MARK: - SegmentedControlViewDelegate
+    func segmentedControlValueChanged(selectedSegmentIndex: Int) {
+        self.selectedSegmentIndex = selectedSegmentIndex
     }
 }

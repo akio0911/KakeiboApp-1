@@ -10,7 +10,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="InputViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
-                <outlet property="balanceSegmentControl" destination="vJz-OY-NgD" id="WBZ-oe-I0a"/>
                 <outlet property="balanceTextField" destination="iHQ-z8-Hde" id="hsD-81-Cd7"/>
                 <outlet property="baseScrollView" destination="nEe-hj-Gi0" id="dRs-yz-n5w"/>
                 <outlet property="categoryTextField" destination="R4S-Wv-My3" id="0dv-td-Rxn"/>
@@ -33,7 +32,7 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nEe-hj-Gi0">
                     <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5mu-OS-oAK">
+                        <view contentMode="scaleToFill" restorationIdentifier="ContentView" translatesAutoresizingMaskIntoConstraints="NO" id="5mu-OS-oAK">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
                             <subviews>
                                 <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZRI-Uh-tWe">
@@ -194,7 +193,7 @@
                                         <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </state>
                                 </button>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nWM-Gf-OIU">
+                                <view contentMode="scaleToFill" restorationIdentifier="DateView" translatesAutoresizingMaskIntoConstraints="NO" id="nWM-Gf-OIU">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGI-pF-HEd">
