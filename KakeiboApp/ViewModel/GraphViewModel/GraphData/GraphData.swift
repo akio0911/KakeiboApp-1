@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GraphData{
-    var category: Category
-    var totalBalance: Int
+struct GraphData {
+    let category: Category
+    let totalBalance: Int
 }
