@@ -32,17 +32,17 @@ final class SegmentedControlView: UIView {
         segmentedControl.setDividerImage(clearColorImage, forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
         segmentedControl.setTitleTextAttributes([
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedString.Key.foregroundColor: UIColor(white: 1, alpha: 0.4)
+            NSAttributedString.Key.foregroundColor: UIColor.lightGray
         ], for: .normal)
         segmentedControl.setTitleTextAttributes([
             NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedString.Key.foregroundColor: UIColor.white
+            NSAttributedString.Key.foregroundColor: UIColor.orange
         ], for: .selected)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         addSubview(segmentedControl)
         bottomBar = UIView()
         bottomBar.translatesAutoresizingMaskIntoConstraints = false
-        bottomBar.backgroundColor = .white
+        bottomBar.backgroundColor = .orange
         addSubview(bottomBar)
     }
 

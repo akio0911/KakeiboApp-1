@@ -53,7 +53,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         setupMode()
         setupBarButtonItem()
         configureSaveBtnLayer() // セーブボタンをフィレット
-        insertGradationLayer() // グラデーション設定
+//        insertGradationLayer() // グラデーション設定
         settingHeightPicker() // pickerViewの高さ設定
         configureMosaicViewLayer() // モザイク用のviewをフィレット
         navigationItem.title = "収支入力"
@@ -142,12 +142,12 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         saveButton.layer.masksToBounds = true
     }
 
-    // グラデーションを設定
-    private func insertGradationLayer() {
-        let gradation = Gradation()
-        gradation.layer.frame = contentView.bounds
-        contentView.layer.insertSublayer(gradation.layer, at: 0)
-    }
+//    // グラデーションを設定
+//    private func insertGradationLayer() {
+//        let gradation = Gradation()
+//        gradation.layer.frame = contentView.bounds
+//        contentView.layer.insertSublayer(gradation.layer, at: 0)
+//    }
 
     // pickerViewの高さ設定
     private func settingHeightPicker() {
@@ -209,10 +209,10 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         let dateView: UIView = contentView.subviews
             .filter { $0.restorationIdentifier == "DateView"}.first!
         NSLayoutConstraint.activate([
-            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
             segmentedControlView.topAnchor.constraint(equalTo: dateView.bottomAnchor),
-            segmentedControlView.heightAnchor.constraint(equalToConstant: 30)
+            segmentedControlView.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 
