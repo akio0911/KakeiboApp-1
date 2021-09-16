@@ -34,7 +34,6 @@
 		4781573026612ED5005E1020 /* CalendarDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4781572F26612ED5005E1020 /* CalendarDate.swift */; };
 		4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4785FD3426620E8700BAAD00 /* InputViewController.swift */; };
 		4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDC82662878500FF6ADF /* CalendarViewController.swift */; };
-		478C82F326689C4400E9D669 /* Gradation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C82F226689C4400E9D669 /* Gradation.swift */; };
 		47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */; };
 		47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */; };
 		47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */; };
@@ -89,7 +88,6 @@
 		4781572F26612ED5005E1020 /* CalendarDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDate.swift; sourceTree = "<group>"; };
 		4785FD3426620E8700BAAD00 /* InputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewController.swift; sourceTree = "<group>"; };
 		4786EDC82662878500FF6ADF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		478C82F226689C4400E9D669 /* Gradation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradation.swift; sourceTree = "<group>"; };
 		47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewCell.xib; sourceTree = "<group>"; };
 		47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -330,7 +328,6 @@
 			children = (
 				47DC3EDF26E34E6A00693980 /* InputViewController.xib */,
 				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
-				478C82F226689C4400E9D669 /* Gradation.swift */,
 			);
 			path = InputScreen;
 			sourceTree = "<group>";
@@ -608,7 +605,6 @@
 				47DC3EFE26E4C30900693980 /* CalendarTableViewDataSource.swift in Sources */,
 				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
 				47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */,
-				478C82F326689C4400E9D669 /* Gradation.swift in Sources */,
 				47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */,
 				4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */,
 				47815704266128C8005E1020 /* SceneDelegate.swift in Sources */,

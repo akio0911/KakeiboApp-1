@@ -12,11 +12,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GraphViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
                 <outlet property="categoryPieChartView" destination="8xh-5E-VUY" id="Re7-ED-2y7"/>
+                <outlet property="graphNavigationBar" destination="D4U-HV-JkJ" id="wVN-cp-dtq"/>
                 <outlet property="graphNavigationItem" destination="fCY-jE-4aa" id="kqP-pD-sLo"/>
                 <outlet property="graphTableView" destination="uu1-Jd-H43" id="Bvu-iD-KKF"/>
                 <outlet property="lastBarButtonItem" destination="chs-EQ-RU1" id="0nC-S2-9Cd"/>
                 <outlet property="nextBarButtonItem" destination="gUv-zT-baX" id="ibx-rc-6rN"/>
-                <outlet property="pieChartSegmentedControl" destination="S4e-73-0AO" id="YKX-84-Tkc"/>
                 <outlet property="view" destination="iN0-l3-epB" id="EcZ-sl-ubW"/>
             </connections>
         </placeholder>
@@ -25,15 +25,8 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="S4e-73-0AO">
-                    <rect key="frame" x="161.5" y="142" width="91" height="32"/>
-                    <segments>
-                        <segment title="支出"/>
-                        <segment title="収入"/>
-                    </segments>
-                </segmentedControl>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
-                    <rect key="frame" x="0.0" y="513" width="414" height="300"/>
+                    <rect key="frame" x="0.0" y="511" width="414" height="302"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-HV-JkJ">
@@ -53,11 +46,18 @@
                     </items>
                 </navigationBar>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="Charts">
-                    <rect key="frame" x="45" y="181" width="324" height="324"/>
+                    <rect key="frame" x="45" y="178" width="324" height="324"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="8xh-5E-VUY" secondAttribute="height" multiplier="1:1" id="4q3-IZ-iXo"/>
                         <constraint firstAttribute="width" priority="750" constant="324" id="sU5-OE-ykJ"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2k6-Dg-0tT">
+                    <rect key="frame" x="0.0" y="510" width="414" height="1"/>
+                    <color key="backgroundColor" systemColor="separatorColor"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="2pc-Nh-BEx"/>
                     </constraints>
                 </view>
             </subviews>
@@ -66,12 +66,13 @@
             <constraints>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="0Jy-29-sjh"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="6gi-2E-2Yc"/>
+                <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" constant="46" id="99a-lf-XdV"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="BWG-yY-Hxz"/>
-                <constraint firstItem="S4e-73-0AO" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" constant="10" id="DzX-vs-KOX"/>
-                <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="S4e-73-0AO" secondAttribute="bottom" constant="8" id="HgD-Zf-OOO"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="2k6-Dg-0tT" secondAttribute="bottom" id="Cfk-k3-IGx"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="IDq-8e-eEw"/>
-                <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="8xh-5E-VUY" secondAttribute="bottom" priority="750" constant="8" id="PvK-fN-14x"/>
-                <constraint firstItem="S4e-73-0AO" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="RxS-rZ-NSY"/>
+                <constraint firstAttribute="trailing" secondItem="2k6-Dg-0tT" secondAttribute="trailing" id="Nek-bg-wz9"/>
+                <constraint firstItem="2k6-Dg-0tT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Q9u-by-z31"/>
+                <constraint firstItem="2k6-Dg-0tT" firstAttribute="top" secondItem="8xh-5E-VUY" secondAttribute="bottom" constant="8" id="TeS-fp-oh8"/>
                 <constraint firstItem="8xh-5E-VUY" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="b3X-yg-cgO"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kP0-4R-CPS"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="v7u-MO-606"/>
@@ -87,6 +88,9 @@
         <namedColor name="SpaceCadet">
             <color red="0.10599999874830246" green="0.10599999874830246" blue="0.22699999809265137" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="separatorColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

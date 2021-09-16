@@ -158,9 +158,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     private func setupSegmentedControlView() {
-        segmentedControlView = SegmentedControlView(
-            frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 0)
-        )
+        segmentedControlView = SegmentedControlView()
         segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
         segmentedControlView.delegate = self
         view.addSubview(segmentedControlView)

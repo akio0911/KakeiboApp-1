@@ -10,20 +10,20 @@ import Charts
 import RxSwift
 import RxCocoa
 
-final class GraphViewController: UIViewController, UITableViewDelegate {
+final class GraphViewController: UIViewController, UITableViewDelegate, SegmentedControlViewDelegate {
 
+    @IBOutlet private weak var graphNavigationBar: UINavigationBar!
     @IBOutlet private weak var graphNavigationItem: UINavigationItem!
     @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
-    @IBOutlet private weak var pieChartSegmentedControl: UISegmentedControl!
     @IBOutlet private weak var categoryPieChartView: PieChartView!
     @IBOutlet private weak var graphTableView: UITableView!
 
     private let viewModel: GraphViewModelType
     private let disposeBag = DisposeBag()
     private let graphTableViewDataSource = GraphTableViewDataSource()
-    private var calendarDate: CalendarDate!
     private var pieChartData = [GraphData]()
+    private var segmentedControlView: SegmentedControlView!
 
     init(viewModel: GraphViewModelType = GraphViewModel()) {
         self.viewModel = viewModel
@@ -39,6 +39,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         setupBinding()
         setupGraphTableView()
+        setupSegmentedControlView()
         navigationItem.title = "グラフ"
     }
 
@@ -49,11 +50,6 @@ final class GraphViewController: UIViewController, UITableViewDelegate {
 
         lastBarButtonItem.rx.tap
             .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
-            .disposed(by: disposeBag)
-
-        // TODO: 動作確認必要
-        pieChartSegmentedControl.rx.selectedSegmentIndex
-            .subscribe(onNext: viewModel.inputs.didChangeSegmentIndex(index:))
             .disposed(by: disposeBag)
         
         viewModel.outputs.navigationTitle
@@ -103,13 +99,29 @@ final class GraphViewController: UIViewController, UITableViewDelegate {
                                 forCellReuseIdentifier: GraphTableViewCell.identifier)
     }
 
+    private func setupSegmentedControlView() {
+        segmentedControlView = SegmentedControlView()
+        segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
+        segmentedControlView.delegate = self
+        view.addSubview(segmentedControlView)
+    }
+
     // MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         NSLayoutConstraint.activate([
             categoryPieChartView.widthAnchor.constraint(
                 equalToConstant: view.frame.width - 90
-            )
+            ),
+            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
+            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -70),
+            segmentedControlView.topAnchor.constraint(equalTo: graphNavigationBar.bottomAnchor, constant: 8),
+            segmentedControlView.heightAnchor.constraint(equalToConstant: 30)
         ])
+    }
+
+    // MARK: - SegmentedControlViewDelegate
+    func segmentedControlValueChanged(selectedSegmentIndex: Int) {
+        viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
     }
 }
