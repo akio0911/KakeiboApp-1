@@ -113,7 +113,12 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     func editData(data: KakeiboData) {
         dateRelay.accept(DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月dd日"))
-        categoryRelay.accept(data.category.rawValue)
+        switch data.category {
+        case .income(let category):
+            categoryRelay.accept(category.rawValue)
+        case .expense(let category):
+            categoryRelay.accept(category.rawValue)
+        }
         switch data.balance {
         case .income(let income):
             segmentIndexRelay.accept(1)

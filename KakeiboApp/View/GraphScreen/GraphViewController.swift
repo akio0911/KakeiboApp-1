@@ -60,24 +60,38 @@ final class GraphViewController: UIViewController, UITableViewDelegate {
             .drive(graphNavigationItem.rx.title)
             .disposed(by: disposeBag)
 
-        viewModel.outputs.cellCategoryDataObservable
+        viewModel.outputs.graphData
             .bind(to: graphTableView.rx.items(dataSource: graphTableViewDataSource))
             .disposed(by: disposeBag)
 
         viewModel.outputs.graphData
-            .drive(onNext: { [weak self] graphData in
+            .subscribe(onNext: { [weak self] graphData in
                 guard let self = self else { return }
-                let chartDataEntry = graphData
-                    .map {
-                        PieChartDataEntry(value: Double($0.totalBalance), label: $0.category.rawValue)
+                var chartDataEntry: [PieChartDataEntry] = []
+                graphData.forEach {
+                    let label: String
+                    switch $0.category {
+                    case .income(let category):
+                        label = category.rawValue
+                    case .expense(let category):
+                        label = category.rawValue
                     }
+                    chartDataEntry.append(
+                        PieChartDataEntry(value: Double($0.totalBalance), label: label)
+                    )
+                }
                 let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
                 self.categoryPieChartView.data = PieChartData(dataSet: pieChartDataSet)
 
-                let colors = graphData
-                    .map {
-                        UIColor(named: $0.category.colorName)!
+                var colors: [UIColor] = []
+                graphData.forEach {
+                    switch $0.category {
+                    case .income(let category):
+                        colors.append(UIColor(named: category.colorName)!)
+                    case .expense(let category):
+                        colors.append(UIColor(named: category.colorName)!)
                     }
+                }
                 pieChartDataSet.colors = colors
                 self.categoryPieChartView.legend.enabled = false
             })

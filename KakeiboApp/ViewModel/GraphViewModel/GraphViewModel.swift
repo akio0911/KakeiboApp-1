@@ -16,8 +16,7 @@ protocol GraphViewModelInput {
 }
 
 protocol GraphViewModelOutput {
-    var cellCategoryDataObservable: Observable<[CellCategoryKakeiboData]> { get }
-    var graphData: Driver<[GraphData]> { get }
+    var graphData: Observable<[GraphData]> { get }
     var navigationTitle: Driver<String> { get }
 }
 
@@ -32,10 +31,10 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private var monthDateArray: [Date] = [] // 月の日付
     private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private var balanceSegmentIndex: Int = 0
-    private let categoryArray: [Category] = Category.allCases
+    private let expenseCategoryArray: [Category.Expense] = Category.Expense.allCases
+    private let incomeCategoryArray: [Category.Income] = Category.Income.allCases
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
-    private let cellCategoryDataRelay = BehaviorRelay<[CellCategoryKakeiboData]>(value: [])
     private let graphDataRelay = BehaviorRelay<[GraphData]>(value: [])
 
     init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
@@ -64,8 +63,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     private func acceptGraphData() {
-        var cellCategoryData: [CellCategoryKakeiboData] = []
-        var graphData: [GraphData] = []
+        var graphDataArray: [GraphData] = []
         let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
         let dateFilterData = kakeiboDataArray.filter {
             Calendar(identifier: .gregorian)
@@ -74,67 +72,51 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .month)
         }
 
-        categoryArray.forEach {
-            let category = $0
-            let categoryFilterData = dateFilterData
-                .filter { $0.category == category }
-            if !categoryFilterData.isEmpty {
-                let totalIncome = categoryFilterData
-                    .filter {
-                        switch $0.balance {
-                        case .income(_): return true
-                        case .expense(_): return false
-                        }
+        switch balanceSegmentIndex {
+        case 0:
+            expenseCategoryArray.forEach {
+                let expenseCategory = $0
+                let categoryFilterData = dateFilterData.filter {
+                    switch $0.category {
+                    case .income(_):
+                        return false
+                    case .expense(let category):
+                        return category == expenseCategory
                     }
-                    .reduce(0) { $0 + $1.balance.fetchValue }
-                let totalExpense = categoryFilterData
-                    .filter {
-                        switch $0.balance {
-                        case .income(_): return false
-                        case .expense(_): return true
-                        }
-                    }
-                    .reduce(0) { $0 + $1.balance.fetchValue }
-                switch balanceSegmentIndex {
-                case 0:
-                    if totalExpense != 0 {
-                        cellCategoryData.append(
-                            CellCategoryKakeiboData(
-                                category: category, totalBalance: totalExpense
-                            )
-                        )
-                        graphData.append(
-                            GraphData(category: category, totalBalance: totalExpense)
-                        )
-                    }
-                case 1:
-                    if totalIncome != 0 {
-                        cellCategoryData.append(
-                            CellCategoryKakeiboData(
-                                category: category, totalBalance: totalIncome
-                            )
-                        )
-                        graphData.append(
-                            GraphData(category: category, totalBalance: totalIncome)
-                        )
-                    }
-                default:
-                    fatalError("想定していないsegmentIndex")
+                }
+                if !categoryFilterData.isEmpty {
+                    let totalExpense = categoryFilterData.reduce(0) { $0 + $1.balance.fetchValue }
+                    graphDataArray.append(
+                        GraphData(category: Category.expense(expenseCategory), totalBalance: totalExpense)
+                    )
                 }
             }
+        case 1:
+            incomeCategoryArray.forEach {
+                let incomeCategory = $0
+                let categoryFilterData = dateFilterData.filter {
+                    switch $0.category {
+                    case .income(let category):
+                        return category == incomeCategory
+                    case .expense(_):
+                        return false
+                    }
+                }
+                if !categoryFilterData.isEmpty {
+                    let totalIncome = categoryFilterData.reduce(0) { $0 + $1.balance.fetchValue }
+                    graphDataArray.append(
+                        GraphData(category: Category.income(incomeCategory), totalBalance: totalIncome)
+                    )
+                }
+            }
+        default:
+            fatalError("想定していないsegmentIndex")
         }
-        print("----\(cellCategoryData)----")
-        print("----\(graphData)----")
-        cellCategoryDataRelay.accept(cellCategoryData)
-        graphDataRelay.accept(graphData)
+        graphDataRelay.accept(graphDataArray)
     }
 
-    var cellCategoryDataObservable: Observable<[CellCategoryKakeiboData]> {
-        cellCategoryDataRelay.asObservable()
-    }
-
-    var graphData: Driver<[GraphData]> {
-        graphDataRelay.asDriver(onErrorDriveWith: .empty())
+    var graphData: Observable<[GraphData]> {
+        graphDataRelay.asObservable()
     }
 
     var navigationTitle: Driver<String> {

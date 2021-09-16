@@ -11,7 +11,7 @@ import RxCocoa
 
 final class GraphTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
 
-    typealias Element = [CellCategoryKakeiboData]
+    typealias Element = [GraphData]
     private var items: Element = []
 
     // MARK: - UITableViewDataSource
@@ -28,7 +28,7 @@ final class GraphTableViewDataSource: NSObject, UITableViewDataSource, RxTableVi
     }
 
     // MARK: - RxTableViewDataSourceType
-    func tableView(_ tableView: UITableView, observedEvent: Event<[CellCategoryKakeiboData]>) {
+    func tableView(_ tableView: UITableView, observedEvent: Event<[GraphData]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
             tableView.reloadData()

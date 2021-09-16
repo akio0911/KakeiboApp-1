@@ -11,8 +11,8 @@ import RxCocoa
 
 final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SegmentedControlViewDelegate {
 
-
-    private let stringCategoryArray = Category.allCases.map { $0.rawValue }
+    private let stringExpenseCategoryArray = Category.Expense.allCases.map { $0.rawValue }
+    private let stringIncomeCategoryArray = Category.Income.allCases.map { $0.rawValue }
 
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var contentView: UIView!
@@ -25,7 +25,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet private weak var saveButton: UIButton!
 
     private var datePicker: UIDatePicker!
-    private var categoryPickerView: UIPickerView!
+    private var expenseCategoryPickerView: UIPickerView!
+    private var incomeCategoryPickerView: UIPickerView!
     private var segmentedControlView: SegmentedControlView!
     private let viewModel: InputViewModelType
     private let disposeBag = DisposeBag()
@@ -84,6 +85,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
                 self.segmentedControlView.configureSelectedSegmentIndex(index: index)
                 if index == 1 {
                     self.balanceLabel.text = Balance.incomeName
+                    self.categoryTextField.inputView = self.incomeCategoryPickerView
                 }
             })
             .disposed(by: disposeBag)
@@ -139,7 +141,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private func settingHeightPicker() {
         NSLayoutConstraint.activate([
             datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            categoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
+            expenseCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            incomeCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
         ])
     }
 
@@ -164,11 +167,16 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
                              for: .valueChanged)
         dateTextField.inputView = datePicker
 
-        // categoryPickerViewを設定
-        categoryPickerView = UIPickerView()
-        categoryPickerView.delegate = self
-        categoryPickerView.dataSource = self
-        categoryTextField.inputView = categoryPickerView
+        // ExpenseCategoryPickerViewを設定
+        expenseCategoryPickerView = UIPickerView()
+        expenseCategoryPickerView.delegate = self
+        expenseCategoryPickerView.dataSource = self
+        categoryTextField.inputView = expenseCategoryPickerView
+
+        // IncomeCategoryPickerViewを設定
+        incomeCategoryPickerView = UIPickerView()
+        incomeCategoryPickerView.delegate = self
+        incomeCategoryPickerView.dataSource = self
     }
 
     private func setupSegmentedControlView() {
@@ -197,9 +205,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     // MARK: - @IBAction
-//    @IBAction private func tappedView(_ sender: Any) {
-//        view.endEditing(true)
-//    }
+    //    @IBAction private func tappedView(_ sender: Any) {
+    //        view.endEditing(true)
+    //    }
 
     @objc private func didTapCancelBarButton() {
         viewModel.inputs.didTapCancelButton()
@@ -214,13 +222,15 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         guard categoryTextField.text != "" else { return }
         guard balanceTextField.text != "" else { return }
         let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")
-        let category = Category(rawValue: categoryTextField.text!)!
         var balance: Balance
+        var category: Category
         switch selectedSegmentIndex {
         case 0:
             balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
+            category = Category.expense(Category.Expense(rawValue: categoryTextField.text!)!)
         case 1:
             balance = Balance.income(Int(balanceTextField.text!) ?? 0)
+            category = Category.income(Category.Income(rawValue: categoryTextField.text!)!)
         default:
             fatalError("想定していないsegmentIndex")
         }
@@ -252,17 +262,37 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        stringCategoryArray.count
+        switch pickerView {
+        case incomeCategoryPickerView:
+            return stringIncomeCategoryArray.count
+        case expenseCategoryPickerView:
+            return stringExpenseCategoryArray.count
+        default:
+            fatalError("想定していないpickerView")
+        }
     }
 
     // MARK: - UIPickerViewDelegate
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let stringCategory = stringCategoryArray[row]
-        categoryTextField.text = stringCategory
+        switch pickerView {
+        case incomeCategoryPickerView:
+            categoryTextField.text = stringIncomeCategoryArray[row]
+        case expenseCategoryPickerView:
+            categoryTextField.text = stringExpenseCategoryArray[row]
+        default:
+            fatalError("想定していないpickerView")
+        }
     }
 
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        stringCategoryArray[row]
+        switch pickerView {
+        case incomeCategoryPickerView:
+            return stringIncomeCategoryArray[row]
+        case expenseCategoryPickerView:
+            return stringExpenseCategoryArray[row]
+        default:
+            fatalError("想定していないpickerView")
+        }
     }
 
     // MARK: - detePickerのSelector
@@ -277,8 +307,10 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         self.selectedSegmentIndex = selectedSegmentIndex
         if selectedSegmentIndex == 0 {
             balanceLabel.text = Balance.expenseName
+            categoryTextField.inputView = expenseCategoryPickerView
         } else if selectedSegmentIndex == 1 {
             balanceLabel.text = Balance.incomeName
+            categoryTextField.inputView = incomeCategoryPickerView
         }
     }
 }

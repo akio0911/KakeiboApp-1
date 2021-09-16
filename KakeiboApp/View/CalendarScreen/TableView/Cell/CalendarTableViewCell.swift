@@ -23,7 +23,12 @@ class CalendarTableViewCell: UITableViewCell {
     }
 
     func configure(data: CellDateKakeiboData) {
-        categoryLabel.text = data.category.rawValue
+        switch data.category {
+        case .income(let category):
+            categoryLabel.text = category.rawValue
+        case .expense(let category):
+            categoryLabel.text = category.rawValue
+        }
         memoLabel.text = data.memo
         switch data.balance {
         case .income(let income):

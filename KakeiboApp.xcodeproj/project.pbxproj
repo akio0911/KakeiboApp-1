@@ -20,7 +20,6 @@
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
-		47793F0026E84BB80004E5F6 /* CellCategoryKakeiboData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFF26E84BB80004E5F6 /* CellCategoryKakeiboData.swift */; };
 		47793F0226E84D7D0004E5F6 /* CalendarDateLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793F0126E84D7D0004E5F6 /* CalendarDateLocator.swift */; };
 		47793F0826E8770E0004E5F6 /* GraphTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793F0726E8770E0004E5F6 /* GraphTableViewDataSource.swift */; };
 		47793F0A26E8817B0004E5F6 /* GraphColor.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47793F0926E8817B0004E5F6 /* GraphColor.xcassets */; };
@@ -74,7 +73,6 @@
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
-		47793EFF26E84BB80004E5F6 /* CellCategoryKakeiboData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellCategoryKakeiboData.swift; sourceTree = "<group>"; };
 		47793F0126E84D7D0004E5F6 /* CalendarDateLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDateLocator.swift; sourceTree = "<group>"; };
 		47793F0726E8770E0004E5F6 /* GraphTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewDataSource.swift; sourceTree = "<group>"; };
 		47793F0926E8817B0004E5F6 /* GraphColor.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = GraphColor.xcassets; sourceTree = "<group>"; };
@@ -194,7 +192,6 @@
 		47793EFE26E84B730004E5F6 /* GraphData */ = {
 			isa = PBXGroup;
 			children = (
-				47793EFF26E84BB80004E5F6 /* CellCategoryKakeiboData.swift */,
 				47793F0D26E8A3210004E5F6 /* GraphData.swift */,
 			);
 			path = GraphData;
@@ -601,7 +598,6 @@
 				477C3F2926E5E60600FFCB64 /* CalendarColorName.swift in Sources */,
 				47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */,
 				47D5065A26F1863800CDA849 /* SegmentedControlView.swift in Sources */,
-				47793F0026E84BB80004E5F6 /* CellCategoryKakeiboData.swift in Sources */,
 				47DC3EF626E4780100693980 /* TableViewData.swift in Sources */,
 				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,
 				47DC3EF326E4773B00693980 /* CollectionViewData.swift in Sources */,
