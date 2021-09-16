@@ -17,6 +17,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
+    @IBOutlet private weak var nextDayButton: UIButton!
+    @IBOutlet private weak var lastDayButton: UIButton!
     @IBOutlet private weak var balanceLabel: UILabel!
     @IBOutlet private weak var dateTextField: UITextField!
     @IBOutlet private weak var categoryTextField: UITextField!
@@ -59,6 +61,14 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     private func setupBinding() {
+        nextDayButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapNextDayButton)
+            .disposed(by: disposeBag)
+
+        lastDayButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapLastDayButton)
+            .disposed(by: disposeBag)
+
         saveButton.rx.tap
             .subscribe(onNext: didTapSaveButton)
             .disposed(by: disposeBag)
@@ -104,7 +114,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private func setupMode() {
         switch viewModel.outputs.mode {
         case .add(let date):
-            viewModel.inputs.addData(date: date)
+            viewModel.inputs.addDate(date: date)
         case .edit(let kakeiboData):
             viewModel.inputs.editData(data: kakeiboData)
         }
@@ -165,7 +175,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         datePicker.timeZone = .autoupdatingCurrent // システムが現在使用しているタイムゾーン
         datePicker.locale = .autoupdatingCurrent  // ユーザーの現在の設定を追跡するロケール
         datePicker.addTarget(self,
-                             action: #selector(datePickerValueChange),
+                             action: #selector(datePickerValueChange(_:)),
                              for: .valueChanged)
         dateTextField.inputView = datePicker
 
@@ -298,10 +308,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     // MARK: - detePickerのSelector
-    @objc func datePickerValueChange() {
-        dateTextField.text = DateUtility.stringFromDate(
-            date: datePicker.date, format: "YYYY年MM月dd日"
-        )
+    @objc func datePickerValueChange(_ sender: UIDatePicker) {
+        viewModel.inputs.addDate(date: sender.date)
     }
 
     // MARK: - SegmentedControlViewDelegate

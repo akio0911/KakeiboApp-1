@@ -11,8 +11,10 @@ import RxCocoa
 protocol InputViewModelInput {
     func didTapSaveButton(data: KakeiboData)
     func didTapCancelButton()
-    func addData(date: Date)
+    func addDate(date: Date)
     func editData(data: KakeiboData)
+    func didTapNextDayButton()
+    func didTapLastDayButton()
 }
 
 protocol InputViewModelOutput {
@@ -45,7 +47,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
     private var kakeiboDataArray: [KakeiboData] = []
-    private let dateRelay = PublishRelay<String>()
+    private let dateRelay = BehaviorRelay<String>(value: "")
     private let categoryRelay = PublishRelay<String>()
     private let segmentIndexRelay = PublishRelay<Int>()
     private let balanceRelay = PublishRelay<String>()
@@ -107,7 +109,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         eventRelay.accept(.dismiss)
     }
 
-    func addData(date: Date) {
+    func addDate(date: Date) {
         dateRelay.accept(DateUtility.stringFromDate(date: date, format: "YYYY年MM月dd日"))
     }
 
@@ -128,6 +130,24 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             balanceRelay.accept(String(expense))
         }
         memoRelay.accept(data.memo)
+    }
+
+    func didTapNextDayButton() {
+        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "YYYY年MM月dd日")
+        let carendar = Calendar(identifier: .gregorian)
+        guard let nextDay = carendar.date(
+            byAdding: .day, value: 1, to: date
+        ) else { return }
+        dateRelay.accept(DateUtility.stringFromDate(date: nextDay, format: "YYYY年MM月dd日"))
+    }
+
+    func didTapLastDayButton() {
+        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "YYYY年MM月dd日")
+        let carendar = Calendar(identifier: .gregorian)
+        guard let lastDay = carendar.date(
+            byAdding: .day, value: -1, to: date
+        ) else { return }
+        dateRelay.accept(DateUtility.stringFromDate(date: lastDay, format: "YYYY年MM月dd日"))
     }
 }
 

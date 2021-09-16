@@ -16,7 +16,9 @@
                 <outlet property="categoryTextField" destination="Rfe-vE-14B" id="Szu-zv-Cv7"/>
                 <outlet property="contentView" destination="5mu-OS-oAK" id="nll-bn-HB3"/>
                 <outlet property="dateTextField" destination="Vxd-SL-09T" id="9qb-Ol-7Af"/>
+                <outlet property="lastDayButton" destination="ZXI-WQ-MXg" id="O6U-JE-xQs"/>
                 <outlet property="memoTextField" destination="qgQ-xl-LM1" id="Zhb-M4-AEe"/>
+                <outlet property="nextDayButton" destination="mRj-OT-Gqv" id="lF1-x0-uQK"/>
                 <outlet property="saveButton" destination="cqj-Vc-Ssg" id="6fI-wo-Qgp"/>
                 <outlet property="view" destination="iN0-l3-epB" id="X1n-sZ-ADx"/>
                 <outletCollection property="mosaicView" destination="I0s-gw-kQ9" collectionClass="NSMutableArray" id="dcI-r1-kLk"/>
