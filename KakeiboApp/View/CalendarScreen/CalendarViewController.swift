@@ -175,6 +175,7 @@ final class CalendarViewController: UIViewController,
             CalendarTableViewHeaderFooterView.nib,
             forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier
         )
+        calendarTableView.sectionHeaderHeight = 17
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 

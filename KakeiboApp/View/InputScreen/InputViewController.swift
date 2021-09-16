@@ -92,6 +92,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
                 guard let self = self else { return }
                 self.segmentedControlView.configureSelectedSegmentIndex(index: index)
                 if index == 1 {
+                    self.selectedSegmentIndex = index
                     self.balanceLabel.text = Balance.incomeName
                     self.categoryTextField.inputView = self.incomeCategoryPickerView
                 }
