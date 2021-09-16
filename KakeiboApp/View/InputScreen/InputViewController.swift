@@ -52,12 +52,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         setupBinding()
         setupMode()
         setupBarButtonItem()
-        configureSaveBtnLayer() // セーブボタンをフィレット
-//        insertGradationLayer() // グラデーション設定
-        settingHeightPicker() // pickerViewの高さ設定
-        configureMosaicViewLayer() // モザイク用のviewをフィレット
         navigationItem.title = "収支入力"
-
     }
 
     private func setupBinding() {
@@ -136,36 +131,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         navigationItem.leftBarButtonItem = cancelBarButton
     }
 
-    // セーブボタンをフィレット
-    private func configureSaveBtnLayer() {
-        saveButton.layer.cornerRadius = 10
-        saveButton.layer.masksToBounds = true
-    }
-
-//    // グラデーションを設定
-//    private func insertGradationLayer() {
-//        let gradation = Gradation()
-//        gradation.layer.frame = contentView.bounds
-//        contentView.layer.insertSublayer(gradation.layer, at: 0)
-//    }
-
-    // pickerViewの高さ設定
-    private func settingHeightPicker() {
-        NSLayoutConstraint.activate([
-            datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            expenseCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            incomeCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3)
-        ])
-    }
-
-    // モザイク用のveiwをフィレット
-    private func configureMosaicViewLayer() {
-        mosaicView.forEach {
-            $0.layer.cornerRadius = 8
-            $0.layer.masksToBounds = true
-        }
-    }
-
     // キーボードの設定
     private func settingPickerKeybord() {
         // datePickerViewを設定
@@ -200,36 +165,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         view.addSubview(segmentedControlView)
     }
 
-    // MARK: - viewDidLayoutSubviews
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let scrollView: UIScrollView = view.subviews.first(where: { $0 is UIScrollView }) as! UIScrollView
-        let contentView: UIView = scrollView.subviews
-            .filter { $0.restorationIdentifier == "ContentView"}.first!
-        let dateView: UIView = contentView.subviews
-            .filter { $0.restorationIdentifier == "DateView"}.first!
-        NSLayoutConstraint.activate([
-            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
-            segmentedControlView.topAnchor.constraint(equalTo: dateView.bottomAnchor),
-            segmentedControlView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
-
-    // MARK: - @IBAction
-    //    @IBAction private func tappedView(_ sender: Any) {
-    //        view.endEditing(true)
-    //    }
-
-    @objc private func didTapCancelBarButton() {
-        viewModel.inputs.didTapCancelButton()
-    }
-
-    @objc private func didTapSaveBarButton() {
-        didTapSaveButton()
-    }
-
-    // TODO: save機能を要実装
     private func didTapSaveButton() {
         guard balanceTextField.text != "" else {
             showBalanceAlert()
@@ -268,6 +203,58 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
             )
         )
         present(alert, animated: true, completion: nil)
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        configureSaveBtnLayer() // セーブボタンをフィレット
+        configureMosaicViewLayer() // モザイク用のviewをフィレット
+        let scrollView: UIScrollView = view.subviews.first(where: { $0 is UIScrollView }) as! UIScrollView
+        let contentView: UIView = scrollView.subviews
+            .filter { $0.restorationIdentifier == "ContentView"}.first!
+        let dateView: UIView = contentView.subviews
+            .filter { $0.restorationIdentifier == "DateView"}.first!
+        NSLayoutConstraint.activate([
+            datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            expenseCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            incomeCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
+            segmentedControlView.topAnchor.constraint(equalTo: dateView.bottomAnchor),
+            segmentedControlView.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+
+    // セーブボタンをフィレット
+    private func configureSaveBtnLayer() {
+        saveButton.layer.cornerRadius = 10
+        saveButton.layer.masksToBounds = true
+    }
+
+    // モザイク用のveiwをフィレット
+    private func configureMosaicViewLayer() {
+        mosaicView.forEach {
+            $0.layer.cornerRadius = 8
+            $0.layer.masksToBounds = true
+        }
+    }
+
+    //    @IBAction private func tappedView(_ sender: Any) {
+    //        view.endEditing(true)
+    //    }
+
+    // MARK: - @objc
+    @objc private func didTapCancelBarButton() {
+        viewModel.inputs.didTapCancelButton()
+    }
+
+    @objc private func didTapSaveBarButton() {
+        didTapSaveButton()
+    }
+
+    @objc func datePickerValueChange(_ sender: UIDatePicker) {
+        viewModel.inputs.addDate(date: sender.date)
     }
 
     // MARK: - UIPickerViewDataSource
@@ -309,11 +296,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         }
     }
 
-    // MARK: - detePickerのSelector
-    @objc func datePickerValueChange(_ sender: UIDatePicker) {
-        viewModel.inputs.addDate(date: sender.date)
-    }
-
     // MARK: - SegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         self.selectedSegmentIndex = selectedSegmentIndex
@@ -331,6 +313,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 }
 
+// MARK: - extension Balance
 extension Balance {
     static let incomeName = "収入"
     static let expenseName = "支出"
