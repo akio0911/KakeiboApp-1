@@ -52,6 +52,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         setupBinding()
         setupMode()
         setupBarButtonItem()
+        setupTapGesture()
         navigationItem.title = "収支入力"
     }
 
@@ -165,6 +166,11 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         view.addSubview(segmentedControlView)
     }
 
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(_:)))
+        view.addGestureRecognizer(tapGesture)
+    }
+
     private func didTapSaveButton() {
         guard balanceTextField.text != "" else {
             showBalanceAlert()
@@ -240,10 +246,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         }
     }
 
-    //    @IBAction private func tappedView(_ sender: Any) {
-    //        view.endEditing(true)
-    //    }
-
     // MARK: - @objc
     @objc private func didTapCancelBarButton() {
         viewModel.inputs.didTapCancelButton()
@@ -255,6 +257,10 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     @objc func datePickerValueChange(_ sender: UIDatePicker) {
         viewModel.inputs.addDate(date: sender.date)
+    }
+
+    @objc func didTapView(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 
     // MARK: - UIPickerViewDataSource
