@@ -221,7 +221,6 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         calendarDate.lastMonth()
     }
 
-    // TODO: didSelectRowAtを実装
     func didSelectRowAt(index: IndexPath) {
         let cellDateData = cellDateDataRelay.value[index.section][index.row]
         let headerDateData = headerDateDataRelay.value[index.section]

@@ -9,13 +9,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, SegmentedControlViewDelegate {
+final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, SegmentedControlViewDelegate {
 
     private let stringExpenseCategoryArray = Category.Expense.allCases.map { $0.rawValue }
     private let stringIncomeCategoryArray = Category.Income.allCases.map { $0.rawValue }
 
     @IBOutlet private weak var baseScrollView: UIScrollView!
-    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private weak var dateView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
     @IBOutlet private weak var nextDayButton: UIButton!
     @IBOutlet private weak var lastDayButton: UIButton!
@@ -33,6 +33,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private let viewModel: InputViewModelType
     private let disposeBag = DisposeBag()
     private var selectedSegmentIndex: Int = 0
+    private var editingTextField: UITextField?
+    private var keyboardOverlap: CGFloat = 0
 
     init(viewModel: InputViewModelType) {
         self.viewModel = viewModel
@@ -53,6 +55,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         setupMode()
         setupBarButtonItem()
         setupTapGesture()
+        setupScrollToShowKeyboard()
         navigationItem.title = "収支入力"
     }
 
@@ -170,6 +173,21 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         view.addGestureRecognizer(tapGesture)
     }
 
+    // キーボードが隠れないようにスクロールする設定
+    private func setupScrollToShowKeyboard() {
+        dateTextField.delegate = self
+        categoryTextField.delegate = self
+        balanceTextField.delegate = self
+        memoTextField.delegate = self
+        let notification = NotificationCenter.default
+        notification.addObserver(self,
+                                 selector: #selector(keyboardDidShow(_:)),
+                                 name: UIResponder.keyboardDidShowNotification, object: nil)
+        notification.addObserver(self,
+                                 selector: #selector(keyboardWillHide(_:)),
+                                 name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
     private func didTapSaveButton() {
         guard balanceTextField.text != "" else {
             showBalanceAlert()
@@ -215,11 +233,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         super.viewDidLayoutSubviews()
         configureSaveBtnLayer() // セーブボタンをフィレット
         configureMosaicViewLayer() // モザイク用のviewをフィレット
-        let scrollView: UIScrollView = view.subviews.first(where: { $0 is UIScrollView }) as! UIScrollView
-        let contentView: UIView = scrollView.subviews
-            .filter { $0.restorationIdentifier == "ContentView"}.first!
-        let dateView: UIView = contentView.subviews
-            .filter { $0.restorationIdentifier == "DateView"}.first!
         NSLayoutConstraint.activate([
             datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
             expenseCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
@@ -262,6 +275,23 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         view.endEditing(true)
     }
 
+    @objc func keyboardDidShow(_ notification: Notification) {
+        guard let editingTextField = editingTextField else { return }
+        let userInfo = (notification as Notification).userInfo!
+        let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        let keyboardFrameMinY = view.frame.size.height - keyboardFrame.height
+        let textFieldFrame = view.convert(editingTextField.frame, from: editingTextField.superview)
+        keyboardOverlap = textFieldFrame.maxY - keyboardFrameMinY + 8
+        if keyboardOverlap > 0 {
+            keyboardOverlap += baseScrollView.contentOffset.y
+            baseScrollView.setContentOffset(CGPoint(x: 0, y: keyboardOverlap), animated: true)
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        baseScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+
     // MARK: - UIPickerViewDataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -299,6 +329,15 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         default:
             fatalError("想定していないpickerView")
         }
+    }
+
+    // MARK: - UITextFieldDelegate
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        editingTextField = textField
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        editingTextField = nil
     }
 
     // MARK: - SegmentedControlViewDelegate

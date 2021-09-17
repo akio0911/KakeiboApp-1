@@ -14,8 +14,8 @@
                 <outlet property="balanceTextField" destination="HvP-6E-NOU" id="LBM-t0-qT4"/>
                 <outlet property="baseScrollView" destination="nEe-hj-Gi0" id="dRs-yz-n5w"/>
                 <outlet property="categoryTextField" destination="Rfe-vE-14B" id="Szu-zv-Cv7"/>
-                <outlet property="contentView" destination="5mu-OS-oAK" id="nll-bn-HB3"/>
                 <outlet property="dateTextField" destination="Vxd-SL-09T" id="9qb-Ol-7Af"/>
+                <outlet property="dateView" destination="nWM-Gf-OIU" id="3E4-oE-AWy"/>
                 <outlet property="lastDayButton" destination="ZXI-WQ-MXg" id="O6U-JE-xQs"/>
                 <outlet property="memoTextField" destination="qgQ-xl-LM1" id="Zhb-M4-AEe"/>
                 <outlet property="nextDayButton" destination="mRj-OT-Gqv" id="lF1-x0-uQK"/>
@@ -372,7 +372,7 @@
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-307.24637681159425" y="-19.419642857142858"/>
+            <point key="canvasLocation" x="-278.26086956521743" y="-61.607142857142854"/>
         </view>
     </objects>
     <resources>
