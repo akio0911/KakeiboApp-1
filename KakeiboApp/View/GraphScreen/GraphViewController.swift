@@ -92,6 +92,21 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
                 self.categoryPieChartView.legend.enabled = false
             })
             .disposed(by: disposeBag)
+
+        viewModel.outputs.totalBalance
+            .drive(onNext: { [weak self] totalBalance in
+                guard let self = self else { return }
+                let centerTextAttributed: [NSAttributedString.Key: Any] = [
+                    .foregroundColor: UIColor.black,
+                    .font: UIFont.systemFont(ofSize: 17)
+                ]
+                let centerText = NSAttributedString(
+                    string: String.localizedStringWithFormat("%d", totalBalance) + "円",
+                    attributes: centerTextAttributed
+                )
+                self.categoryPieChartView.centerAttributedText = centerText
+            })
+            .disposed(by: disposeBag)
     }
 
     private func setupGraphTableView() {

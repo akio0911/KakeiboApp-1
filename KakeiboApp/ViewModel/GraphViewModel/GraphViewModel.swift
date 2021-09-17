@@ -18,6 +18,7 @@ protocol GraphViewModelInput {
 protocol GraphViewModelOutput {
     var graphData: Observable<[GraphData]> { get }
     var navigationTitle: Driver<String> { get }
+    var totalBalance: Driver<Int> { get }
 }
 
 protocol GraphViewModelType {
@@ -36,6 +37,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
     private let graphDataRelay = BehaviorRelay<[GraphData]>(value: [])
+    private let totalBalanceRelay = BehaviorRelay<Int>(value: 0)
 
     init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
@@ -50,6 +52,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
                 guard let self = self else { return }
                 self.monthDateArray = dateArray
                 self.acceptGraphData()
+                self.acceptTotalBalance()
             })
             .disposed(by: disposeBag)
 
@@ -58,6 +61,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
                 guard let self = self else { return }
                 self.kakeiboDataArray = kakeiboDataArray
                 self.acceptGraphData()
+                self.acceptTotalBalance()
             })
             .disposed(by: disposeBag)
     }
@@ -115,12 +119,49 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         graphDataRelay.accept(graphDataArray)
     }
 
+    private func acceptTotalBalance() {
+        let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
+        let dateFilterData = kakeiboDataArray.filter {
+            Calendar(identifier: .gregorian)
+                .isDate(firstDay, equalTo: $0.date, toGranularity: .year)
+                && Calendar(identifier: .gregorian)
+                .isDate(firstDay, equalTo: $0.date, toGranularity: .month)
+        }
+
+        switch balanceSegmentIndex {
+        case 0:
+            let totalExpense = dateFilterData.filter {
+                switch $0.balance {
+                case .income(_): return false
+                case .expense(_): return true
+                }
+            }
+            .reduce(0) { $0 + $1.balance.fetchValue }
+            totalBalanceRelay.accept(totalExpense)
+        case 1:
+            let totalIncome = dateFilterData.filter {
+                switch $0.balance {
+                case .income(_): return true
+                case .expense(_): return false
+                }
+            }
+            .reduce(0) { $0 + $1.balance.fetchValue }
+            totalBalanceRelay.accept(totalIncome)
+        default:
+            fatalError("想定していないbalanceSegmentIndex")
+        }
+    }
+
     var graphData: Observable<[GraphData]> {
         graphDataRelay.asObservable()
     }
 
     var navigationTitle: Driver<String> {
         calendarDate.navigationTitle.asDriver(onErrorDriveWith: .empty())
+    }
+
+    var totalBalance: Driver<Int> {
+        totalBalanceRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     func didTapNextBarButton() {
@@ -137,6 +178,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     func didChangeSegmentIndex(index: Int) {
         balanceSegmentIndex = index
         acceptGraphData()
+        acceptTotalBalance()
     }
 }
 
