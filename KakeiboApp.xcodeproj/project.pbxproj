@@ -36,6 +36,7 @@
 		4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDC82662878500FF6ADF /* CalendarViewController.swift */; };
 		4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911126F59E4500BD5B38 /* CategoryViewController.swift */; };
 		4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4799911226F59E4500BD5B38 /* CategoryViewController.xib */; };
+		4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911626F59F6400BD5B38 /* CategoryViewModel.swift */; };
 		47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */; };
 		47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */; };
 		47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */; };
@@ -92,6 +93,7 @@
 		4786EDC82662878500FF6ADF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		4799911126F59E4500BD5B38 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		4799911226F59E4500BD5B38 /* CategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
+		4799911626F59F6400BD5B38 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewCell.xib; sourceTree = "<group>"; };
 		47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -280,6 +282,14 @@
 			path = CategoryScreen;
 			sourceTree = "<group>";
 		};
+		4799911526F59F3800BD5B38 /* CategoryViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4799911626F59F6400BD5B38 /* CategoryViewModel.swift */,
+			);
+			path = CategoryViewModel;
+			sourceTree = "<group>";
+		};
 		47CC7D1D26E9F8590049C488 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +321,7 @@
 				47DC3EF726E4AEBF00693980 /* CalendarViewModel */,
 				47793EF626E76A8C0004E5F6 /* InputViewModel */,
 				47793EFB26E83F770004E5F6 /* GraphViewModel */,
+				4799911526F59F3800BD5B38 /* CategoryViewModel */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -627,6 +638,7 @@
 				47480073268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.swift in Sources */,
 				47DC3F0326E4E8C900693980 /* CalendarCollectionViewDataSource.swift in Sources */,
 				47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */,
+				4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */,
 				47793F0E26E8A3210004E5F6 /* GraphData.swift in Sources */,
 				47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */,
 				47793F0226E84D7D0004E5F6 /* CalendarDateLocator.swift in Sources */,
