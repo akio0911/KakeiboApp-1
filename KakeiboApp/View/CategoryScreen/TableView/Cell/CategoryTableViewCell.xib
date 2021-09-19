@@ -17,7 +17,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gFN-sF-0YZ">
-                        <rect key="frame" x="245.5" y="11.5" width="42" height="21"/>
+                        <rect key="frame" x="247" y="11.5" width="42" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -41,7 +41,7 @@
                 <outlet property="balanceLabel" destination="gFN-sF-0YZ" id="ubx-O7-wx1"/>
                 <outlet property="memoLabel" destination="gRu-Wl-SK2" id="V7v-f2-CAu"/>
             </connections>
-            <point key="canvasLocation" x="-25" y="146"/>
+            <point key="canvasLocation" x="-26.086956521739133" y="145.98214285714286"/>
         </tableViewCell>
     </objects>
 </document>

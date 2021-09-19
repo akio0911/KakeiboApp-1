@@ -45,6 +45,8 @@
 		47CC9A6D26F759E600126467 /* CategoryTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A6C26F759E600126467 /* CategoryTableViewDataSource.swift */; };
 		47CC9A7026F75BD600126467 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A6E26F75BD600126467 /* CategoryTableViewCell.swift */; };
 		47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */; };
+		47CC9A7326F76BC700126467 /* CategoryTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A7226F76BC700126467 /* CategoryTableViewHeaderView.swift */; };
+		47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC9A7426F76BEF00126467 /* CategoryTableViewHeaderView.xib */; };
 		47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065626F185C900CDA849 /* ExtensionUIImage.swift */; };
 		47D5065A26F1863800CDA849 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065926F1863800CDA849 /* SegmentedControlView.swift */; };
 		47DC3EDE26E34E3800693980 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EDD26E34E3800693980 /* CalendarViewController.xib */; };
@@ -106,6 +108,8 @@
 		47CC9A6C26F759E600126467 /* CategoryTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewDataSource.swift; sourceTree = "<group>"; };
 		47CC9A6E26F75BD600126467 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
+		47CC9A7226F76BC700126467 /* CategoryTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewHeaderView.swift; sourceTree = "<group>"; };
+		47CC9A7426F76BEF00126467 /* CategoryTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewHeaderView.xib; sourceTree = "<group>"; };
 		47D5065626F185C900CDA849 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
 		47D5065926F1863800CDA849 /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		47DC3EDD26E34E3800693980 /* CalendarViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
@@ -348,6 +352,8 @@
 		47CC9A6B26F759A400126467 /* HeaderFooter */ = {
 			isa = PBXGroup;
 			children = (
+				47CC9A7226F76BC700126467 /* CategoryTableViewHeaderView.swift */,
+				47CC9A7426F76BEF00126467 /* CategoryTableViewHeaderView.xib */,
 			);
 			path = HeaderFooter;
 			sourceTree = "<group>";
@@ -583,6 +589,7 @@
 				4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */,
 				47480074268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib in Resources */,
 				47C7A35826846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib in Resources */,
+				47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */,
 				47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */,
 				47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */,
 				4781570B266128C8005E1020 /* Assets.xcassets in Resources */,
@@ -703,6 +710,7 @@
 				47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */,
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
 				47DC3EF126E4723E00693980 /* CalendarViewModel.swift in Sources */,
+				47CC9A7326F76BC700126467 /* CategoryTableViewHeaderView.swift in Sources */,
 				47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */,
 				4799911A26F5A0BB00BD5B38 /* CategoryTableViewData.swift in Sources */,
 			);

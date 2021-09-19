@@ -35,14 +35,12 @@
                 <constraint firstItem="tGj-ih-5ly" firstAttribute="leading" secondItem="qSw-5F-h4h" secondAttribute="leading" constant="20" symbolic="YES" id="Fhp-za-vCQ"/>
                 <constraint firstAttribute="trailing" secondItem="lDK-Ds-Fcj" secondAttribute="trailing" constant="20" symbolic="YES" id="iV3-IA-SJc"/>
             </constraints>
-            <nil key="simulatedTopBarMetrics"/>
-            <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="balanceHeaderLabel" destination="lDK-Ds-Fcj" id="IMS-cg-dwe"/>
                 <outlet property="titleHeaderLabel" destination="tGj-ih-5ly" id="Rjp-Bd-uPb"/>
             </connections>
-            <point key="canvasLocation" x="119" y="-18"/>
+            <point key="canvasLocation" x="118.84057971014494" y="-18.080357142857142"/>
         </view>
     </objects>
     <resources>
