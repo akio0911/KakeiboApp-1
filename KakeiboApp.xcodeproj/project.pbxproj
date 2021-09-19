@@ -37,6 +37,7 @@
 		4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911126F59E4500BD5B38 /* CategoryViewController.swift */; };
 		4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4799911226F59E4500BD5B38 /* CategoryViewController.xib */; };
 		4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911626F59F6400BD5B38 /* CategoryViewModel.swift */; };
+		4799911A26F5A0BB00BD5B38 /* CategoryTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911926F5A0BB00BD5B38 /* CategoryTableViewData.swift */; };
 		47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */; };
 		47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */; };
 		47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */; };
@@ -51,8 +52,8 @@
 		47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEC26E45C3B00693980 /* KakeiboData.swift */; };
 		47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEE26E4700B00693980 /* ModelLocator.swift */; };
 		47DC3EF126E4723E00693980 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF026E4723E00693980 /* CalendarViewModel.swift */; };
-		47DC3EF326E4773B00693980 /* CollectionViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF226E4773B00693980 /* CollectionViewData.swift */; };
-		47DC3EF626E4780100693980 /* TableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF526E4780100693980 /* TableViewData.swift */; };
+		47DC3EF326E4773B00693980 /* CalendarCollectionViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF226E4773B00693980 /* CalendarCollectionViewData.swift */; };
+		47DC3EF626E4780100693980 /* CalendarTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF526E4780100693980 /* CalendarTableViewData.swift */; };
 		47DC3EFE26E4C30900693980 /* CalendarTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EFD26E4C30900693980 /* CalendarTableViewDataSource.swift */; };
 		47DC3F0326E4E8C900693980 /* CalendarCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3F0226E4E8C900693980 /* CalendarCollectionViewDataSource.swift */; };
 		47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F1268EFD96008FA088 /* GraphViewController.swift */; };
@@ -94,6 +95,7 @@
 		4799911126F59E4500BD5B38 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		4799911226F59E4500BD5B38 /* CategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
 		4799911626F59F6400BD5B38 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		4799911926F5A0BB00BD5B38 /* CategoryTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewData.swift; sourceTree = "<group>"; };
 		47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewCell.xib; sourceTree = "<group>"; };
 		47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -108,8 +110,8 @@
 		47DC3EEC26E45C3B00693980 /* KakeiboData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboData.swift; sourceTree = "<group>"; };
 		47DC3EEE26E4700B00693980 /* ModelLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLocator.swift; sourceTree = "<group>"; };
 		47DC3EF026E4723E00693980 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		47DC3EF226E4773B00693980 /* CollectionViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewData.swift; sourceTree = "<group>"; };
-		47DC3EF526E4780100693980 /* TableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewData.swift; sourceTree = "<group>"; };
+		47DC3EF226E4773B00693980 /* CalendarCollectionViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewData.swift; sourceTree = "<group>"; };
+		47DC3EF526E4780100693980 /* CalendarTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewData.swift; sourceTree = "<group>"; };
 		47DC3EFD26E4C30900693980 /* CalendarTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewDataSource.swift; sourceTree = "<group>"; };
 		47DC3F0226E4E8C900693980 /* CalendarCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		47EB81F1268EFD96008FA088 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
@@ -286,8 +288,17 @@
 			isa = PBXGroup;
 			children = (
 				4799911626F59F6400BD5B38 /* CategoryViewModel.swift */,
+				4799911826F5A08900BD5B38 /* CategoryData */,
 			);
 			path = CategoryViewModel;
+			sourceTree = "<group>";
+		};
+		4799911826F5A08900BD5B38 /* CategoryData */ = {
+			isa = PBXGroup;
+			children = (
+				4799911926F5A0BB00BD5B38 /* CategoryTableViewData.swift */,
+			);
+			path = CategoryData;
 			sourceTree = "<group>";
 		};
 		47CC7D1D26E9F8590049C488 /* Assets */ = {
@@ -390,8 +401,8 @@
 		47DC3EF426E477E300693980 /* CalendarData */ = {
 			isa = PBXGroup;
 			children = (
-				47DC3EF226E4773B00693980 /* CollectionViewData.swift */,
-				47DC3EF526E4780100693980 /* TableViewData.swift */,
+				47DC3EF226E4773B00693980 /* CalendarCollectionViewData.swift */,
+				47DC3EF526E4780100693980 /* CalendarTableViewData.swift */,
 			);
 			path = CalendarData;
 			sourceTree = "<group>";
@@ -621,9 +632,9 @@
 				477C3F2926E5E60600FFCB64 /* CalendarColorName.swift in Sources */,
 				47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */,
 				47D5065A26F1863800CDA849 /* SegmentedControlView.swift in Sources */,
-				47DC3EF626E4780100693980 /* TableViewData.swift in Sources */,
+				47DC3EF626E4780100693980 /* CalendarTableViewData.swift in Sources */,
 				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,
-				47DC3EF326E4773B00693980 /* CollectionViewData.swift in Sources */,
+				47DC3EF326E4773B00693980 /* CalendarCollectionViewData.swift in Sources */,
 				4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */,
 				47218A1A26EF4AD4006C10EF /* CalendarImageName.swift in Sources */,
 				47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */,
@@ -649,6 +660,7 @@
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
 				47DC3EF126E4723E00693980 /* CalendarViewModel.swift in Sources */,
 				47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */,
+				4799911A26F5A0BB00BD5B38 /* CategoryTableViewData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
