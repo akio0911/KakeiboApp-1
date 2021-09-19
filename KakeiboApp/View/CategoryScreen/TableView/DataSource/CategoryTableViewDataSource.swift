@@ -20,7 +20,11 @@ final class CategoryTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: CategoryTableViewCell.identifier
+        ) as! CategoryTableViewCell
+        cell.configure(data: items[indexPath.section][indexPath.row])
+        return cell
     }
 
     // MARK: - RxTableViewDataSourceType
