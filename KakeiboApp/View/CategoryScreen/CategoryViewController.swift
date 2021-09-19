@@ -42,6 +42,10 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
                 self.headerDataArray = data
             })
             .disposed(by: disposeBag)
+
+        viewModel.outputs.navigationTitle
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
     }
 
     private func setupTableView() {

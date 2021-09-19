@@ -6,7 +6,7 @@
 //
 
 import RxSwift
-import RxRelay
+import RxCocoa
 
 protocol CategoryViewModelInput {
 }
@@ -14,6 +14,7 @@ protocol CategoryViewModelInput {
 protocol CategoryViewModelOutput {
     var cellDateDataObservable: Observable<[[CellDateCategoryData]]> { get }
     var headerDateDataObservable: Observable<[HeaderDateCategoryData]> { get }
+    var navigationTitle: Driver<String> { get }
 }
 
 protocol CategoryViewModelType {
@@ -32,6 +33,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let cellDateDataRelay =  PublishRelay<[[CellDateCategoryData]]>()
     private let headerDateDataRelay =
         PublishRelay<[HeaderDateCategoryData]>()
+    private let navigationTItleRelay = PublishRelay<String>()
 
     init(category: Category,
          calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
@@ -39,6 +41,16 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
         self.category = category
         self.calendarDate = calendarDate
         self.model = model
+        acceptNavigationTitle()
+    }
+
+    private func acceptNavigationTitle() {
+        switch category {
+        case .income(let category):
+            navigationTItleRelay.accept(category.rawValue)
+        case .expense(let category):
+            navigationTItleRelay.accept(category.rawValue)
+        }
     }
 
     private func setupBinding() {
@@ -99,6 +111,10 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
 
     var headerDateDataObservable: Observable<[HeaderDateCategoryData]> {
         headerDateDataRelay.asObservable()
+    }
+
+    var navigationTitle: Driver<String> {
+        navigationTItleRelay.asDriver(onErrorDriveWith: .empty())
     }
 }
 
