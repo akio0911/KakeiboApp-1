@@ -59,11 +59,11 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
 
     // MARK: - UITableViewDelegate
     // ヘッダーのタイトルを設定
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        guard let headerView = tableView.dequeueReusableHeaderFooterView(
-//                withIdentifier: CategoryTableViewHeaderView.identifier)
-//                as? CategoryTableViewHeaderView else { return nil }
-//        headerView.configure(data: headerDataArray[section])
-//        return headerView
-//    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(
+                withIdentifier: CategoryTableViewHeaderView.identifier)
+                as? CategoryTableViewHeaderView else { return nil }
+        headerView.configure(data: headerDataArray[section])
+        return headerView
+    }
 }

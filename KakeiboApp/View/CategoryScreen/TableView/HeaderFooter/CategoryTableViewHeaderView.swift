@@ -9,12 +9,14 @@ import UIKit
 
 class CategoryTableViewHeaderView: UITableViewHeaderFooterView {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var totalBalanceLabel: UILabel!
 
+    func configure(data: HeaderDateCategoryData) {
+        dateLabel.text = DateUtility.stringFromDate(
+            date: data.date,
+            format: "YYYY年MM月d日"
+        )
+        totalBalanceLabel.text = String(data.totalBalance)
+    }
 }
