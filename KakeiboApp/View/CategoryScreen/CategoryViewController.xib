@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoryViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
+                <outlet property="categoryTableView" destination="Ltu-Nc-STp" id="hhQ-md-4ez"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
