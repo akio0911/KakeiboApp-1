@@ -43,6 +43,8 @@
 		47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */; };
 		47C7A35826846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C7A35726846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib */; };
 		47CC9A6D26F759E600126467 /* CategoryTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A6C26F759E600126467 /* CategoryTableViewDataSource.swift */; };
+		47CC9A7026F75BD600126467 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A6E26F75BD600126467 /* CategoryTableViewCell.swift */; };
+		47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */; };
 		47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065626F185C900CDA849 /* ExtensionUIImage.swift */; };
 		47D5065A26F1863800CDA849 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065926F1863800CDA849 /* SegmentedControlView.swift */; };
 		47DC3EDE26E34E3800693980 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EDD26E34E3800693980 /* CalendarViewController.xib */; };
@@ -102,6 +104,8 @@
 		47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
 		47C7A35726846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewHeaderFooterView.xib; sourceTree = "<group>"; };
 		47CC9A6C26F759E600126467 /* CategoryTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewDataSource.swift; sourceTree = "<group>"; };
+		47CC9A6E26F75BD600126467 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
 		47D5065626F185C900CDA849 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
 		47D5065926F1863800CDA849 /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
 		47DC3EDD26E34E3800693980 /* CalendarViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
@@ -335,6 +339,8 @@
 		47CC9A6A26F7599C00126467 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				47CC9A6E26F75BD600126467 /* CategoryTableViewCell.swift */,
+				47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -578,6 +584,7 @@
 				47480074268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib in Resources */,
 				47C7A35826846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib in Resources */,
 				47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */,
+				47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */,
 				4781570B266128C8005E1020 /* Assets.xcassets in Resources */,
 				47DC3EE226E34E8C00693980 /* GraphViewController.xib in Resources */,
 				477C3F2726E5E3B400FFCB64 /* CalendarColor.xcassets in Resources */,
@@ -673,6 +680,7 @@
 				47DC3EF326E4773B00693980 /* CalendarCollectionViewData.swift in Sources */,
 				4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */,
 				47218A1A26EF4AD4006C10EF /* CalendarImageName.swift in Sources */,
+				47CC9A7026F75BD600126467 /* CategoryTableViewCell.swift in Sources */,
 				47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */,
 				47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */,
 				4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */,
