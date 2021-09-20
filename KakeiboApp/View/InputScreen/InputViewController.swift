@@ -142,8 +142,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date // 日付を月、日、年で表示
         datePicker.preferredDatePickerStyle = .wheels // ホイールピッカーとして表示
-        datePicker.timeZone = .autoupdatingCurrent // システムが現在使用しているタイムゾーン
-        datePicker.locale = .autoupdatingCurrent  // ユーザーの現在の設定を追跡するロケール
+        datePicker.calendar = Calendar(identifier: .gregorian)
         datePicker.addTarget(self,
                              action: #selector(datePickerValueChange(_:)),
                              for: .valueChanged)

@@ -75,20 +75,20 @@
                                             <textInputTraits key="textInputTraits"/>
                                         </textField>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mRj-OT-Gqv">
-                                            <rect key="frame" x="317" y="30" width="14" height="20"/>
+                                            <rect key="frame" x="304.5" y="15" width="35" height="50"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="DC3-ZO-AUn"/>
-                                                <constraint firstAttribute="width" constant="14" id="zmY-lC-NfW"/>
+                                                <constraint firstAttribute="height" constant="50" id="DC3-ZO-AUn"/>
+                                                <constraint firstAttribute="width" constant="35" id="zmY-lC-NfW"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <state key="normal" image="chevron.right" catalog="system"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZXI-WQ-MXg">
-                                            <rect key="frame" x="123" y="30" width="14" height="20"/>
+                                            <rect key="frame" x="114.5" y="15" width="35" height="50"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="AWY-Ck-4We"/>
-                                                <constraint firstAttribute="width" constant="14" id="k6I-sH-ZcJ"/>
+                                                <constraint firstAttribute="height" constant="50" id="AWY-Ck-4We"/>
+                                                <constraint firstAttribute="width" constant="35" id="k6I-sH-ZcJ"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -113,10 +113,10 @@
                                     <constraints>
                                         <constraint firstItem="klz-OX-Q5h" firstAttribute="leading" secondItem="nWM-Gf-OIU" secondAttribute="leading" id="42V-Aa-c3y"/>
                                         <constraint firstItem="RGI-pF-HEd" firstAttribute="leading" secondItem="nWM-Gf-OIU" secondAttribute="leading" constant="28" id="4yD-dC-LO1"/>
-                                        <constraint firstItem="ZXI-WQ-MXg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RGI-pF-HEd" secondAttribute="trailing" constant="20" id="5yw-zI-cKY"/>
+                                        <constraint firstItem="ZXI-WQ-MXg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RGI-pF-HEd" secondAttribute="trailing" id="5yw-zI-cKY"/>
                                         <constraint firstAttribute="trailing" secondItem="klz-OX-Q5h" secondAttribute="trailing" id="B7Z-4d-Gdq"/>
                                         <constraint firstItem="Vxd-SL-09T" firstAttribute="centerY" secondItem="nWM-Gf-OIU" secondAttribute="centerY" id="Bjo-Go-J9b"/>
-                                        <constraint firstItem="mRj-OT-Gqv" firstAttribute="leading" secondItem="Vxd-SL-09T" secondAttribute="trailing" constant="15" id="Cmy-hk-Np0"/>
+                                        <constraint firstItem="mRj-OT-Gqv" firstAttribute="leading" secondItem="Vxd-SL-09T" secondAttribute="trailing" constant="2.5" id="Cmy-hk-Np0"/>
                                         <constraint firstItem="wvF-Rv-2TO" firstAttribute="trailing" secondItem="Vxd-SL-09T" secondAttribute="trailing" id="F62-pD-bAk"/>
                                         <constraint firstItem="RGI-pF-HEd" firstAttribute="centerY" secondItem="nWM-Gf-OIU" secondAttribute="centerY" id="PeC-rn-pLg"/>
                                         <constraint firstAttribute="height" constant="80" id="SCo-Ii-Hmp"/>
@@ -126,7 +126,7 @@
                                         <constraint firstItem="Vxd-SL-09T" firstAttribute="centerX" secondItem="nWM-Gf-OIU" secondAttribute="centerX" priority="750" constant="20" id="diJ-aF-Pxq"/>
                                         <constraint firstItem="wvF-Rv-2TO" firstAttribute="leading" secondItem="Vxd-SL-09T" secondAttribute="leading" id="dkM-32-7fd"/>
                                         <constraint firstItem="wvF-Rv-2TO" firstAttribute="top" secondItem="Vxd-SL-09T" secondAttribute="bottom" id="kdD-uu-ZGX"/>
-                                        <constraint firstItem="Vxd-SL-09T" firstAttribute="leading" secondItem="ZXI-WQ-MXg" secondAttribute="trailing" constant="15" id="m9i-cc-7P7"/>
+                                        <constraint firstItem="Vxd-SL-09T" firstAttribute="leading" secondItem="ZXI-WQ-MXg" secondAttribute="trailing" constant="2.5" id="m9i-cc-7P7"/>
                                         <constraint firstItem="mRj-OT-Gqv" firstAttribute="centerY" secondItem="nWM-Gf-OIU" secondAttribute="centerY" id="oe0-RN-5X5"/>
                                         <constraint firstItem="I0s-gw-kQ9" firstAttribute="leading" secondItem="nWM-Gf-OIU" secondAttribute="leading" constant="20" id="pfF-f4-4so"/>
                                         <constraint firstAttribute="bottom" secondItem="klz-OX-Q5h" secondAttribute="bottom" id="tht-rk-PkI"/>
