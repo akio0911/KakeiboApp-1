@@ -107,11 +107,25 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
                 self.categoryPieChartView.centerAttributedText = centerText
             })
             .disposed(by: disposeBag)
+
+        viewModel.outputs.event
+            .drive(onNext: { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .presentCategoryVC(let category):
+                    let categoryViewController = CategoryViewController(
+                        viewModel: CategoryViewModel(category: category)
+                    )
+                    self.navigationController?.pushViewController(categoryViewController, animated: true)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     private func setupGraphTableView() {
         graphTableView.register(GraphTableViewCell.nib,
                                 forCellReuseIdentifier: GraphTableViewCell.identifier)
+        graphTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 
     private func setupSegmentedControlView() {
@@ -133,6 +147,11 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
             segmentedControlView.topAnchor.constraint(equalTo: graphNavigationBar.bottomAnchor, constant: 8),
             segmentedControlView.heightAnchor.constraint(equalToConstant: 30)
         ])
+    }
+
+    // MARK: - UITableViewDelegate
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.inputs.didSelectRowAt(index: indexPath)
     }
 
     // MARK: - SegmentedControlViewDelegate

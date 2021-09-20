@@ -29,6 +29,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupBinding()
+        setupTableView()
     }
 
     private func setupBinding() {
@@ -50,12 +52,12 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
 
     private func setupTableView() {
         categoryTableView.register(
-            CalendarTableViewCell.nib,
-            forCellReuseIdentifier: CalendarTableViewCell.identifier
+            CategoryTableViewCell.nib,
+            forCellReuseIdentifier: CategoryTableViewCell.identifier
         )
         categoryTableView.register(
-            CalendarTableViewHeaderFooterView.nib,
-            forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier
+            CategoryTableViewHeaderView.nib,
+            forHeaderFooterViewReuseIdentifier: CategoryTableViewHeaderView.identifier
         )
         categoryTableView.sectionHeaderHeight = 17
         categoryTableView.rx.setDelegate(self).disposed(by: disposeBag)

@@ -19,6 +19,7 @@ protocol GraphViewModelOutput {
     var graphData: Observable<[GraphData]> { get }
     var navigationTitle: Driver<String> { get }
     var totalBalance: Driver<Int> { get }
+    var event: Driver<GraphViewModel.Event> { get }
 }
 
 protocol GraphViewModelType {
@@ -27,6 +28,10 @@ protocol GraphViewModelType {
 }
 
 final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
+
+    enum Event {
+        case presentCategoryVC(Category)
+    }
 
     private let calendarDate: CalendarDateProtocol
     private var monthDateArray: [Date] = [] // 月の日付
@@ -38,6 +43,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let disposeBag = DisposeBag()
     private let graphDataRelay = BehaviorRelay<[GraphData]>(value: [])
     private let totalBalanceRelay = BehaviorRelay<Int>(value: 0)
+    private let eventRelay = PublishRelay<Event>()
 
     init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
@@ -164,6 +170,10 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         totalBalanceRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    var event: Driver<Event> {
+        eventRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
     func didTapNextBarButton() {
         calendarDate.nextMonth()
     }
@@ -173,6 +183,8 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     func didSelectRowAt(index: IndexPath) {
+        let graphData = graphDataRelay.value
+        eventRelay.accept(.presentCategoryVC(graphData[index.row].category))
     }
 
     func didChangeSegmentIndex(index: Int) {

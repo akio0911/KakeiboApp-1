@@ -39,10 +39,8 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
                         switch result {
                         case .success(let data):
                             if let data = data {
-                                print("----")
                                 kakeiboData.append(data)
                             }
-                            print("------")
                         case .failure(let error):
                             print("----Error decoding item: \(error)----")
                         }

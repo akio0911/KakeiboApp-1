@@ -17,10 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             print("Anonymouslyコールバック")
             guard let self = self else { return }
             if let error = error {
-                print("----Error 匿名認証に失敗しました \(error)----")
+                print("Error 匿名認証に失敗しました \(error)")
             } else if let user = userResult?.user {
                 let uid = user.uid
-                print("----\(uid)----")
+                print("匿名認証にせいこうしました \(uid)")
             }
             guard let windowScene = (scene as? UIWindowScene) else { return }
             self.window = UIWindow(windowScene: windowScene)

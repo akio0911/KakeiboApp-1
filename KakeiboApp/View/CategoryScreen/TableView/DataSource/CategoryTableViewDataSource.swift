@@ -12,11 +12,15 @@ import RxCocoa
 final class CategoryTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
 
     typealias Element = [[CellDateCategoryData]]
-    var items: Element = [[]]
+    private var items: Element = [[]]
 
     // MARK: - UITableViewDataSource
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return items.count
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        items.count
+        items[section].count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -45,7 +45,6 @@ final class CalendarViewController: UIViewController,
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("----\(#function)----")
         setupBinding()
         setupBarButtonItem()
         setupCollectionView() // collectionViewの設定をするメソッド

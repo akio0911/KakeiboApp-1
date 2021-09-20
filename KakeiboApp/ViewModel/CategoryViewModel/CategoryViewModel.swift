@@ -30,10 +30,10 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let calendarDate: CalendarDateProtocol
     private let model: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
-    private let cellDateDataRelay =  PublishRelay<[[CellDateCategoryData]]>()
+    private let cellDateDataRelay =  BehaviorRelay<[[CellDateCategoryData]]>(value: [])
     private let headerDateDataRelay =
-        PublishRelay<[HeaderDateCategoryData]>()
-    private let navigationTItleRelay = PublishRelay<String>()
+        BehaviorRelay<[HeaderDateCategoryData]>(value: [])
+    private let navigationTItleRelay = BehaviorRelay<String>(value: "")
 
     init(category: Category,
          calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
@@ -42,6 +42,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
         self.calendarDate = calendarDate
         self.model = model
         acceptNavigationTitle()
+        setupBinding()
     }
 
     private func acceptNavigationTitle() {
@@ -72,8 +73,8 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     }
 
     private func acceptTableViewData() {
-        guard monthDataArray.isEmpty else { return }
-        var cellDataArray: [[CellDateCategoryData]] = [[]]
+        guard !monthDataArray.isEmpty else { return }
+        var cellDataArray: [[CellDateCategoryData]] = []
         var headerDataArray: [HeaderDateCategoryData] = []
         let firstDay = monthDataArray[0] // 月の初日(ついたち)
         let monthFilterData = kakeiboDataArray.filter {

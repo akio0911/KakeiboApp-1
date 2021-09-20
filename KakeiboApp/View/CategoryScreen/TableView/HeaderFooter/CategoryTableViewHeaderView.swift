@@ -9,14 +9,14 @@ import UIKit
 
 class CategoryTableViewHeaderView: UITableViewHeaderFooterView {
 
-    @IBOutlet private weak var dateLabel: UILabel!
-    @IBOutlet private weak var totalBalanceLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var totalBalanceLabel: UILabel!
 
     func configure(data: HeaderDateCategoryData) {
         dateLabel.text = DateUtility.stringFromDate(
             date: data.date,
             format: "YYYY年MM月d日"
         )
-        totalBalanceLabel.text = String(data.totalBalance)
+        totalBalanceLabel.text = String.localizedStringWithFormat("%d", data.totalBalance) + "円"
     }
 }
