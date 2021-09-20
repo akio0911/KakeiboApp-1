@@ -17,6 +17,7 @@ class CategoryTableViewHeaderView: UITableViewHeaderFooterView {
             date: data.date,
             format: "YYYY年MM月d日"
         )
-        totalBalanceLabel.text = String.localizedStringWithFormat("%d", data.totalBalance) + "円"
+        totalBalanceLabel.text =
+            NumberFormatterUtility.changeToCurrencyNotation(from: data.totalBalance) ?? "0円"
     }
 }

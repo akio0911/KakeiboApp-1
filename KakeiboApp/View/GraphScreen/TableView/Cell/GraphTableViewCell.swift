@@ -22,7 +22,8 @@ class GraphTableViewCell: UITableViewCell {
             categoryColorView.backgroundColor = UIColor(named: category.colorName)!
             categoryLabel.text = category.rawValue
         }
-        balanceLabel.text = String.localizedStringWithFormat("%d", data.totalBalance) + "円"
+        balanceLabel.text =
+            NumberFormatterUtility.changeToCurrencyNotation(from: data.totalBalance) ?? "0円"
     }
 }
 

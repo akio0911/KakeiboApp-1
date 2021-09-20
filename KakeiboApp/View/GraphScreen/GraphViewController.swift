@@ -101,7 +101,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
                     .font: UIFont.systemFont(ofSize: 17)
                 ]
                 let centerText = NSAttributedString(
-                    string: String.localizedStringWithFormat("%d", totalBalance) + "円",
+                    string: NumberFormatterUtility.changeToCurrencyNotation(from: totalBalance) ?? "0円",
                     attributes: centerTextAttributed
                 )
                 self.categoryPieChartView.centerAttributedText = centerText

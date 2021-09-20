@@ -16,9 +16,11 @@ class CategoryTableViewCell: UITableViewCell {
         memoLabel.text = data.memo
         switch data.balance {
         case .income(let income):
-            balanceLabel.text = String.localizedStringWithFormat("%d", income) + "円"
+            balanceLabel.text =
+                NumberFormatterUtility.changeToCurrencyNotation(from: income) ?? "0円"
         case .expense(let expense):
-            balanceLabel.text = String.localizedStringWithFormat("%d", expense) + "円"
+            balanceLabel.text =
+                NumberFormatterUtility.changeToCurrencyNotation(from: expense) ?? "0円"
         }
     }
 }

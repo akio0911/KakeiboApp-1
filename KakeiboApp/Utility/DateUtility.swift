@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class DateUtility {
+struct DateUtility {
     static func dateFromString(stringDate: String, format: String) -> Date {
         let dateFormatter = DateFormatter()
         dateFormatter.calendar = Calendar(identifier: .gregorian)

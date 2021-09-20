@@ -15,7 +15,8 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
     func configure(data: HeaderDateKakeiboData) {
         titleHeaderLabel.text =
             DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月d日")
-        balanceHeaderLabel.text = String.localizedStringWithFormat("%d", data.totalBalance) + "円"
+        balanceHeaderLabel.text =
+            NumberFormatterUtility.changeToCurrencyNotation(from: data.totalBalance) ?? "0円"
         if data.totalBalance >= 0 {
             balanceHeaderLabel.textColor =
                 UIColor(named: CalendarColorName.CarolinaBlue.rawValue)

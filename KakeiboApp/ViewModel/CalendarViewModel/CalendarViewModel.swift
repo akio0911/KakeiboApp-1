@@ -155,7 +155,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 }
             }
             .reduce(0) { $0 + $1.balance.fetchValue }
-        incomeTextRelay.accept(String.localizedStringWithFormat("%d", totalIncome) + "円")
+        incomeTextRelay.accept(NumberFormatterUtility.changeToCurrencyNotation(from: totalIncome) ?? "0円")
 
         let totalExpense = dateFilterData
             .filter {
@@ -165,10 +165,10 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 }
             }
             .reduce(0) { $0 + $1.balance.fetchValue }
-        expenseTextRelay.accept(String.localizedStringWithFormat("%d", totalExpense) + "円")
+        expenseTextRelay.accept(NumberFormatterUtility.changeToCurrencyNotation(from: totalExpense) ?? "0円")
 
         let totalBalance = totalIncome - totalExpense
-        balanceTextRelay.accept(String.localizedStringWithFormat("%d", totalBalance) + "円")
+        balanceTextRelay.accept(NumberFormatterUtility.changeToCurrencyNotation(from: totalBalance) ?? "0円")
     }
 
     var dayItemDataObservable: Observable<[DayItemData]> {
