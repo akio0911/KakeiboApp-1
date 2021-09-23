@@ -169,12 +169,15 @@ final class CalendarViewController: UIViewController,
             CalendarTableViewCell.nib,
             forCellReuseIdentifier: CalendarTableViewCell.identifier
         )
-        calendarTableView.rowHeight = 40 // TableViewのCellの高さを指定
         calendarTableView.register(
             CalendarTableViewHeaderFooterView.nib,
             forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier
         )
-        calendarTableView.sectionHeaderHeight = 17
+        if #available(iOS 15.0, *) {
+            calendarTableView.sectionHeaderTopPadding = 1
+        } else {
+            // Fallback on earlier versions
+        }
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 

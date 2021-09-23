@@ -59,7 +59,11 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
             CategoryTableViewHeaderView.nib,
             forHeaderFooterViewReuseIdentifier: CategoryTableViewHeaderView.identifier
         )
-        categoryTableView.sectionHeaderHeight = 17
+        if #available(iOS 15.0, *) {
+            categoryTableView.sectionHeaderTopPadding = 1
+        } else {
+            // Fallback on earlier versions
+        }
         categoryTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 
