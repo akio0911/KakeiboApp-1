@@ -13,6 +13,8 @@
 		472EFDC62704324C00A80640 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC42704324C00A80640 /* SettingViewController.swift */; };
 		472EFDC72704324C00A80640 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDC52704324C00A80640 /* SettingViewController.xib */; };
 		472EFDCA270443F300A80640 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC9270443F300A80640 /* SettingViewModel.swift */; };
+		472EFDD4270456F400A80640 /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD2270456F400A80640 /* PasscodeViewController.swift */; };
+		472EFDD5270456F400A80640 /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDD3270456F400A80640 /* PasscodeViewController.xib */; };
 		4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */; };
 		4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */; };
 		473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */; };
@@ -77,6 +79,8 @@
 		472EFDC42704324C00A80640 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		472EFDC52704324C00A80640 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		472EFDC9270443F300A80640 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		472EFDD2270456F400A80640 /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasscodeViewController.swift; path = ../../../../../../../Documents/PasscodeViewController.swift; sourceTree = "<group>"; };
+		472EFDD3270456F400A80640 /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PasscodeViewController.xib; path = ../../../../../../../Documents/PasscodeViewController.xib; sourceTree = "<group>"; };
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
 		473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -240,8 +244,18 @@
 			isa = PBXGroup;
 			children = (
 				472EFDC32704317500A80640 /* SettingView */,
+				472EFDD1270456C500A80640 /* PasscodeView */,
 			);
 			path = SettingScreen;
+			sourceTree = "<group>";
+		};
+		472EFDD1270456C500A80640 /* PasscodeView */ = {
+			isa = PBXGroup;
+			children = (
+				472EFDD2270456F400A80640 /* PasscodeViewController.swift */,
+				472EFDD3270456F400A80640 /* PasscodeViewController.xib */,
+			);
+			path = PasscodeView;
 			sourceTree = "<group>";
 		};
 		4748006F268D5C1D0077EC08 /* TableView */ = {
@@ -659,6 +673,7 @@
 			files = (
 				4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */,
 				47793F0A26E8817B0004E5F6 /* GraphColor.xcassets in Resources */,
+				472EFDD5270456F400A80640 /* PasscodeViewController.xib in Resources */,
 				4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */,
 				472EFDC72704324C00A80640 /* SettingViewController.xib in Resources */,
 				47480074268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib in Resources */,
@@ -758,6 +773,7 @@
 				47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */,
 				47D5065A26F1863800CDA849 /* SegmentedControlView.swift in Sources */,
 				47DC3EF626E4780100693980 /* CalendarTableViewData.swift in Sources */,
+				472EFDD4270456F400A80640 /* PasscodeViewController.swift in Sources */,
 				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,
 				47436A3926F885D10056F60D /* NumberFormatterUtility.swift in Sources */,
 				47DC3EF326E4773B00693980 /* CalendarCollectionViewData.swift in Sources */,
