@@ -184,6 +184,13 @@
 			path = SettingScreen;
 			sourceTree = "<group>";
 		};
+		472EFDC82704418600A80640 /* SettingViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SettingViewModel;
+			sourceTree = "<group>";
+		};
 		4748006F268D5C1D0077EC08 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -396,6 +403,7 @@
 				47793EF626E76A8C0004E5F6 /* InputViewModel */,
 				47793EFB26E83F770004E5F6 /* GraphViewModel */,
 				4799911526F59F3800BD5B38 /* CategoryViewModel */,
+				472EFDC82704418600A80640 /* SettingViewModel */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

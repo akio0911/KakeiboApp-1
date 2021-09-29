@@ -9,6 +9,9 @@ import UIKit
 
 class SettingViewController: UIViewController {
 
+    @IBOutlet private weak var settingStackView: UIStackView!
+    @IBOutlet private weak var passcodeSwitch: UISwitch!
+
     init() {
         super.init(nibName: nil, bundle: nil)
     }
@@ -17,8 +20,20 @@ class SettingViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "設定"
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        configureStackViewLayer()
+    }
+
+    private func configureStackViewLayer() {
+        settingStackView.layer.cornerRadius = 10
+        settingStackView.layer.masksToBounds = true
     }
 }
