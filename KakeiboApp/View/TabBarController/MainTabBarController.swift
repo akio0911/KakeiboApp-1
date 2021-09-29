@@ -33,6 +33,14 @@ final class MainTabBarController: UITabBarController {
         )
         viewControllers.append(graphViewController)
 
+        let settingViewController = SettingViewController()
+        settingViewController.tabBarItem = UITabBarItem(
+            title: "設定",
+            image: UIImage(systemName: "gear"),
+            tag: 2
+        )
+        viewControllers.append(settingViewController)
+
         let navigationControllers =
             viewControllers.map {
                 UINavigationController(rootViewController: $0)
