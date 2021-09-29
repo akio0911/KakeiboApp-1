@@ -7,8 +7,9 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
-class SettingViewController: UIViewController {
+final class SettingViewController: UIViewController {
 
     @IBOutlet private weak var settingStackView: UIStackView!
     @IBOutlet private weak var passcodeSwitch: UISwitch!

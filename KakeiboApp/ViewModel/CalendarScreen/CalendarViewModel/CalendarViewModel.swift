@@ -52,7 +52,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let balanceTextRelay = BehaviorRelay<String>(value: "")
     private let eventRelay = PublishRelay<Event>()
 
-    init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
+    init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
         self.calendarDate = calendarDate
         self.model = model

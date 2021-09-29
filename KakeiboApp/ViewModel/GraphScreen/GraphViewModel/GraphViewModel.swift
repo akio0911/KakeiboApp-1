@@ -45,7 +45,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let totalBalanceRelay = BehaviorRelay<Int>(value: 0)
     private let eventRelay = PublishRelay<Event>()
 
-    init(calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
+    init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
         self.calendarDate = calendarDate
         self.model = model

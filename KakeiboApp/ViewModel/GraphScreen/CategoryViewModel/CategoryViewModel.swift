@@ -36,7 +36,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let navigationTItleRelay = BehaviorRelay<String>(value: "")
 
     init(category: Category,
-         calendarDate: CalendarDateProtocol = CalendarDateLocator.shared.calendarDate,
+         calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
         self.category = category
         self.calendarDate = calendarDate

@@ -11,5 +11,6 @@ import Foundation
 struct ModelLocator {
     static let shared = ModelLocator()
     let model = KakeiboModel()
+    let calendarDate = CalendarDate()
     private init() {}
 }
