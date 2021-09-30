@@ -15,6 +15,7 @@
 		472EFDCA270443F300A80640 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC9270443F300A80640 /* SettingViewModel.swift */; };
 		472EFDD4270456F400A80640 /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD2270456F400A80640 /* PasscodeViewController.swift */; };
 		472EFDD5270456F400A80640 /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDD3270456F400A80640 /* PasscodeViewController.xib */; };
+		472EFDD7270488A500A80640 /* PasscodeInputButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */; };
 		4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */; };
 		4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */; };
 		473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */; };
@@ -81,6 +82,7 @@
 		472EFDC9270443F300A80640 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		472EFDD2270456F400A80640 /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasscodeViewController.swift; path = ../../../../../../../Documents/PasscodeViewController.swift; sourceTree = "<group>"; };
 		472EFDD3270456F400A80640 /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PasscodeViewController.xib; path = ../../../../../../../Documents/PasscodeViewController.xib; sourceTree = "<group>"; };
+		472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasscodeInputButtonView.swift; path = ../../../../../../../Documents/PasscodeInputButtonView.swift; sourceTree = "<group>"; };
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
 		473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			children = (
 				472EFDD2270456F400A80640 /* PasscodeViewController.swift */,
 				472EFDD3270456F400A80640 /* PasscodeViewController.xib */,
+				472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */,
 			);
 			path = PasscodeView;
 			sourceTree = "<group>";
@@ -762,6 +765,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */,
+				472EFDD7270488A500A80640 /* PasscodeInputButtonView.swift in Sources */,
 				4781573026612ED5005E1020 /* CalendarDate.swift in Sources */,
 				4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */,
 				47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */,

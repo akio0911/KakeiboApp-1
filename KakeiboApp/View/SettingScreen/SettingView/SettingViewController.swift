@@ -39,11 +39,13 @@ final class SettingViewController: UIViewController {
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
-            .drive(onNext: { event in
+            .drive(onNext: { [weak self] event in
+                guard let self = self else { return }
                 switch event {
                 case .presentPasscodeVC:
-                    break
-                    // TODO: 画面遷移を実装
+                    let passcodeViewController = PasscodeViewController()
+                    let navigationController = UINavigationController(rootViewController: passcodeViewController)
+                    self.present(navigationController, animated: true, completion: nil)
                 }
             })
             .disposed(by: disposeBag)
