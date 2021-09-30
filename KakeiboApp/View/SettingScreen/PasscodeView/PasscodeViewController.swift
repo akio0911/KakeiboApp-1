@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate {
+final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate {
 
     @IBOutlet private weak var messageLable: UILabel!
     @IBOutlet private weak var firstKeyImageView: UIImageView!
@@ -16,11 +18,23 @@ class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate 
     @IBOutlet private weak var fourthKeyImageView: UIImageView!
 
     private var passcodeInputButtonView: PasscodeInputButtonView!
+    private let viewModel: PasscodeViewModelType
+    private let disposeBag = DisposeBag()
+
+    init(viewModel: PasscodeViewModelType = PasscodeViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupPasscodeInputButtonView()
+        setupBinding()
     }
 
     private func setupPasscodeInputButtonView() {
@@ -28,6 +42,28 @@ class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate 
         passcodeInputButtonView.delegate = self
         passcodeInputButtonView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(passcodeInputButtonView)
+    }
+
+    private func setupBinding() {
+        viewModel.outputs.messageLabelText
+            .drive(messageLable.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.firstKeyAlpha
+            .drive(firstKeyImageView.rx.alpha)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.secondKeyAlpha
+            .drive(secondKeyImageView.rx.alpha)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.thirdKeyAlpha
+            .drive(thirdKeyImageView.rx.alpha)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.fourthKeyAlpha
+            .drive(fourthKeyImageView.rx.alpha)
+            .disposed(by: disposeBag)
     }
 
     // MARK: - viewDidLayoutSubviews
@@ -47,9 +83,11 @@ class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate 
     }
 
     // MARK: - PasscodeInputButtonViewDelegate
-    func didTapNumberButton(title: String) {
+    func didTapNumberButton(tapNumber: String) {
+        viewModel.inputs.didTapNumberButton(tapNumber: tapNumber)
     }
 
     func didTapDeleteButton() {
+        viewModel.inputs.didTapDeleteButton()
     }
 }

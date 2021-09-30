@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PasscodeViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
-                <outlet property="firstKeyImageView" destination="ejJ-Vx-sOR" id="FL1-ww-Mys"/>
-                <outlet property="fourthKeyImageView" destination="7D1-DL-HiW" id="kG3-3w-ZSN"/>
+                <outlet property="firstKeyImageView" destination="ejJ-Vx-sOR" id="68M-5H-Vzd"/>
+                <outlet property="fourthKeyImageView" destination="7D1-DL-HiW" id="fdx-QN-mnZ"/>
                 <outlet property="messageLable" destination="unv-Sg-TLv" id="n3C-eJ-kg1"/>
-                <outlet property="secondKeyImageView" destination="YD3-xM-qlP" id="5QX-xT-j78"/>
-                <outlet property="thirdKeyImageView" destination="YD3-xM-qlP" id="0xf-nY-s3A"/>
+                <outlet property="secondKeyImageView" destination="o1u-be-ElX" id="mQ9-Lg-Arv"/>
+                <outlet property="thirdKeyImageView" destination="YD3-xM-qlP" id="hcQ-av-jcY"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -79,7 +79,7 @@
                 <constraint firstItem="unv-Sg-TLv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tlT-yN-hzG"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="473.91304347826093" y="51.5625"/>
+            <point key="canvasLocation" x="865" y="98"/>
         </view>
     </objects>
     <resources>

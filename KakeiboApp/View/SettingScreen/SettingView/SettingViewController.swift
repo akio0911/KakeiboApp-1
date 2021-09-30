@@ -45,6 +45,7 @@ final class SettingViewController: UIViewController {
                 case .presentPasscodeVC:
                     let passcodeViewController = PasscodeViewController()
                     let navigationController = UINavigationController(rootViewController: passcodeViewController)
+                    navigationController.modalPresentationStyle = .fullScreen
                     self.present(navigationController, animated: true, completion: nil)
                 }
             })

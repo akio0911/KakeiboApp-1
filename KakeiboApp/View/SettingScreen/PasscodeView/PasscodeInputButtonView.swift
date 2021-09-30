@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PasscodeInputButtonViewDelegate: AnyObject {
-    func didTapNumberButton(title: String)
+    func didTapNumberButton(tapNumber: String)
     func didTapDeleteButton()
 }
 
@@ -167,7 +167,7 @@ final class PasscodeInputButtonView: UIView {
     }
 
     @objc private func didTapNumberButton(_ sender: UIButton) {
-        delegate?.didTapNumberButton(title: sender.titleLabel?.text ?? "")
+        delegate?.didTapNumberButton(tapNumber: sender.titleLabel?.text ?? "")
     }
 
     @objc private func didTapDeleteButton() {
