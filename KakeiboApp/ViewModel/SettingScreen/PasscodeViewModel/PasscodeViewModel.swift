@@ -11,6 +11,7 @@ import RxCocoa
 protocol PasscodeViewModelInput {
     func didTapNumberButton(tapNumber: String)
     func didTapDeleteButton()
+    func didTapCancelButton()
 }
 
 protocol PasscodeViewModelOutput {
@@ -63,6 +64,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     }
 
     enum Event {
+        case dismiss
     }
 
     enum KeyState {
@@ -152,6 +154,10 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
             thirdKeyAlphaRelay.accept(0.5)
             keyState = .twoOn
         }
+    }
+
+    func didTapCancelButton() {
+        eventRelay.accept(.dismiss)
     }
 }
 

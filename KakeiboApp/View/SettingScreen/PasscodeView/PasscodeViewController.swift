@@ -35,6 +35,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
         super.viewDidLoad()
         setupPasscodeInputButtonView()
         setupBinding()
+        setupBarButtonItem()
     }
 
     private func setupPasscodeInputButtonView() {
@@ -68,6 +69,26 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
         viewModel.outputs.fourthKeyAlpha
             .drive(fourthKeyImageView.rx.alpha)
             .disposed(by: disposeBag)
+
+        viewModel.outputs.event
+            .drive(onNext: { [weak self] event in
+                guard let self = self else { return }
+                switch event {
+                case .dismiss:
+                    self.dismiss(animated: true, completion: nil)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func setupBarButtonItem() {
+        let cancelBarButton =
+            UIBarButtonItem(
+                barButtonSystemItem: .cancel,
+                target: self,
+                action: #selector(didTapCancelBarButton)
+            )
+        navigationItem.rightBarButtonItem = cancelBarButton
     }
 
     // MARK: - viewDidLayoutSubviews
@@ -84,6 +105,11 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
             passcodeInputButtonView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             passcodeInputButtonView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -70)
         ])
+    }
+
+    // MARK: - @objc(BarButtonItem)
+    @objc private func didTapCancelBarButton() {
+        viewModel.inputs.didTapCancelButton()
     }
 
     // MARK: - PasscodeInputButtonViewDelegate
