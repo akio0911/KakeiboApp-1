@@ -80,9 +80,9 @@
 		472EFDC42704324C00A80640 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		472EFDC52704324C00A80640 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
 		472EFDC9270443F300A80640 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
-		472EFDD2270456F400A80640 /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasscodeViewController.swift; path = ../../../../../../../Documents/PasscodeViewController.swift; sourceTree = "<group>"; };
-		472EFDD3270456F400A80640 /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PasscodeViewController.xib; path = ../../../../../../../Documents/PasscodeViewController.xib; sourceTree = "<group>"; };
-		472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PasscodeInputButtonView.swift; path = ../../../../../../../Documents/PasscodeInputButtonView.swift; sourceTree = "<group>"; };
+		472EFDD2270456F400A80640 /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewController.swift; sourceTree = "<group>"; };
+		472EFDD3270456F400A80640 /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PasscodeViewController.xib; sourceTree = "<group>"; };
+		472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInputButtonView.swift; sourceTree = "<group>"; };
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
 		473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewHeaderFooterView.swift; sourceTree = "<group>"; };
