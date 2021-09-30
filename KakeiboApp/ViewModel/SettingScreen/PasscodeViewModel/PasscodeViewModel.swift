@@ -14,6 +14,7 @@ protocol PasscodeViewModelInput {
 }
 
 protocol PasscodeViewModelOutput {
+    var navigationTitle: Driver<String> { get }
     var messageLabelText: Driver<String> { get }
     var firstKeyAlpha: Driver<CGFloat> { get }
     var secondKeyAlpha: Driver<CGFloat> { get }
@@ -29,6 +30,36 @@ protocol PasscodeViewModelType {
 
 final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     enum Mode {
+        case create(Times)
+        case unlock
+
+        enum Times {
+            case first
+            case second
+        }
+
+        var message: String {
+            switch self {
+            case .create(let times):
+                switch times {
+                case .first:
+                    return "パスコードを入力"
+                case .second:
+                    return "新しいパスコードを確認"
+                }
+            case .unlock:
+                return "パスコードを入力"
+            }
+        }
+
+        var navigationTitle: String {
+            switch self {
+            case .create(_):
+                return "パスコードを設定"
+            case .unlock:
+                return ""
+            }
+        }
     }
 
     enum Event {
@@ -41,13 +72,25 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
         case threeOn
     }
 
+    private let mode: Mode
     private var keyState: KeyState = .off
-    private let messageLabelTextRelay = PublishRelay<String>()
+    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
+    private let messageLabelTextRelay = BehaviorRelay<String>(value: "")
     private let firstKeyAlphaRelay = PublishRelay<CGFloat>()
     private let secondKeyAlphaRelay = PublishRelay<CGFloat>()
     private let thirdKeyAlphaRelay = PublishRelay<CGFloat>()
     private let fourthKeyAlphayRelay = PublishRelay<CGFloat>()
     private let eventRelay = PublishRelay<Event>()
+
+    init(mode: Mode) {
+        self.mode = mode
+        messageLabelTextRelay.accept(mode.message)
+        navigationTitleRelay.accept(mode.navigationTitle)
+    }
+
+    var navigationTitle: Driver<String> {
+        navigationTitleRelay.asDriver(onErrorDriveWith: .empty())
+    }
 
     var messageLabelText: Driver<String> {
         messageLabelTextRelay.asDriver(onErrorDriveWith: .empty())
@@ -112,6 +155,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     }
 }
 
+// MARK: - PasscodeViewModelType
 extension PasscodeViewModel: PasscodeViewModelType {
     var inputs: PasscodeViewModelInput {
         return self

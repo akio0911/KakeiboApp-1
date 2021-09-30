@@ -21,7 +21,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     private let viewModel: PasscodeViewModelType
     private let disposeBag = DisposeBag()
 
-    init(viewModel: PasscodeViewModelType = PasscodeViewModel()) {
+    init(viewModel: PasscodeViewModelType) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,6 +45,10 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     }
 
     private func setupBinding() {
+        viewModel.outputs.navigationTitle
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
+        
         viewModel.outputs.messageLabelText
             .drive(messageLable.rx.text)
             .disposed(by: disposeBag)
