@@ -8,8 +8,8 @@
 import Foundation
 
 protocol PasscodeDataRepositoryProtocol {
-    func load() -> String
-    func save(passcode: String)
+    func load() -> Int
+    func save(passcode: Int)
 }
 
 final class PasscodeDataRepository: PasscodeDataRepositoryProtocol {
@@ -17,15 +17,11 @@ final class PasscodeDataRepository: PasscodeDataRepositoryProtocol {
     private let userDefaults = UserDefaults.standard
     private let passcodeDataKey = "passcode"
 
-    func load() -> String {
-        if let passcode = userDefaults.string(forKey: passcodeDataKey) {
-            return passcode
-        } else {
-            fatalError("passcode読み込みに失敗しました。")
-        }
+    func load() -> Int {
+        return userDefaults.integer(forKey: passcodeDataKey)
     }
 
-    func save(passcode: String) {
+    func save(passcode: Int) {
         userDefaults.set(passcode, forKey: passcodeDataKey)
     }
 }
