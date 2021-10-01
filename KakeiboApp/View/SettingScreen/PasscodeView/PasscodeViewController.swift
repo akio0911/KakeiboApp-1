@@ -26,7 +26,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     private var validateMessage: (String) -> () = { _ in }
 
     init(viewModel: PasscodeViewModelType,
-         validateMessage: ((String) -> ())?) {
+         validateMessage: ((String) -> ())? = nil) {
         self.viewModel = viewModel
         if let validateMessage = validateMessage {
             self.validateMessage = validateMessage
