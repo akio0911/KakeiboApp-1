@@ -141,7 +141,10 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         // datePickerViewを設定
         datePicker = UIDatePicker()
         datePicker.datePickerMode = .date // 日付を月、日、年で表示
-        datePicker.preferredDatePickerStyle = .wheels // ホイールピッカーとして表示
+        if #available(iOS 13.4, *) {
+            // ホイールピッカーとして表示
+            datePicker.preferredDatePickerStyle = .wheels
+        }
         datePicker.calendar = Calendar(identifier: .gregorian)
         datePicker.addTarget(self,
                              action: #selector(datePickerValueChange(_:)),
