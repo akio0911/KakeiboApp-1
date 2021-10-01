@@ -16,6 +16,7 @@
                 <outlet property="messageLable" destination="unv-Sg-TLv" id="n3C-eJ-kg1"/>
                 <outlet property="secondKeyImageView" destination="o1u-be-ElX" id="mQ9-Lg-Arv"/>
                 <outlet property="thirdKeyImageView" destination="YD3-xM-qlP" id="hcQ-av-jcY"/>
+                <outlet property="validateMessageLabel" destination="K7l-hk-XEn" id="VEi-Rd-gCA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -67,19 +68,29 @@
                         </imageView>
                     </subviews>
                 </stackView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7l-hk-XEn">
+                    <rect key="frame" x="207" y="268.5" width="0.0" height="0.0"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemGray6Color"/>
             <constraints>
                 <constraint firstItem="pb1-lr-n8T" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3cI-Ru-teB"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="unv-Sg-TLv" secondAttribute="trailing" constant="130" id="9kk-tJ-VYo"/>
-                <constraint firstItem="unv-Sg-TLv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="130" id="ESz-4m-s9f"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="unv-Sg-TLv" secondAttribute="trailing" constant="50" id="9kk-tJ-VYo"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="K7l-hk-XEn" secondAttribute="trailing" constant="50" id="EEf-H6-CHV"/>
+                <constraint firstItem="unv-Sg-TLv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="50" id="ESz-4m-s9f"/>
                 <constraint firstItem="pb1-lr-n8T" firstAttribute="top" secondItem="unv-Sg-TLv" secondAttribute="bottom" constant="20" id="Fb9-cj-sXd"/>
                 <constraint firstItem="unv-Sg-TLv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="750" constant="100" id="Fu0-Ch-1XS"/>
+                <constraint firstItem="K7l-hk-XEn" firstAttribute="top" secondItem="pb1-lr-n8T" secondAttribute="bottom" constant="10" id="M2j-j5-p0V"/>
+                <constraint firstItem="K7l-hk-XEn" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="SA4-kQ-qiB"/>
                 <constraint firstItem="unv-Sg-TLv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tlT-yN-hzG"/>
+                <constraint firstItem="K7l-hk-XEn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="50" id="yj1-0P-sWf"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="606" y="80"/>
+            <point key="canvasLocation" x="619" y="-21"/>
         </view>
     </objects>
     <resources>

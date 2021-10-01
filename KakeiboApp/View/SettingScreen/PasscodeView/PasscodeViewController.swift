@@ -12,6 +12,7 @@ import RxCocoa
 final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate {
 
     @IBOutlet private weak var messageLable: UILabel!
+    @IBOutlet private weak var validateMessageLabel: UILabel!
     @IBOutlet private weak var firstKeyImageView: UIImageView!
     @IBOutlet private weak var secondKeyImageView: UIImageView!
     @IBOutlet private weak var thirdKeyImageView: UIImageView!
@@ -20,9 +21,16 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     private var passcodeInputButtonView: PasscodeInputButtonView!
     private let viewModel: PasscodeViewModelType
     private let disposeBag = DisposeBag()
+    private let passcodePoster = PasscodePoster()
 
-    init(viewModel: PasscodeViewModelType) {
+    private var validateMessage: (String) -> () = { _ in }
+
+    init(viewModel: PasscodeViewModelType,
+         validateMessage: ((String) -> ())?) {
         self.viewModel = viewModel
+        if let validateMessage = validateMessage {
+            self.validateMessage = validateMessage
+        }
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -76,6 +84,21 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
                 switch event {
                 case .dismiss:
                     self.dismiss(animated: true, completion: nil)
+                case .pushPasscodeVC(let passcode):
+                    let passcodeViewController = PasscodeViewController(
+                        viewModel: PasscodeViewModel(mode: .create(.second(passcode))),
+                        validateMessage: { [weak self] validateMessage in
+                            guard let self = self else { return }
+                            self.validateMessageLabel.text = validateMessage
+                        }
+                    )
+                    self.navigationController?.pushViewController(passcodeViewController, animated: true)
+                case .popViewController:
+                    self.navigationController?.popViewController(animated: true)
+                    self.validateMessage("パスコードが一致しません。もう一度入力してください。")
+                case .keyImageStackViewAnimation:
+                    break
+                    // TODO: 後で実装しなければならない
                 }
             })
             .disposed(by: disposeBag)
@@ -99,7 +122,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
 
     private func setupPasscodeInputButtonViewConstraint() {
         NSLayoutConstraint.activate([
-            passcodeInputButtonView.topAnchor.constraint(equalTo: messageLable.bottomAnchor, constant: 100),
+            passcodeInputButtonView.topAnchor.constraint(equalTo: validateMessageLabel.bottomAnchor, constant: 30),
             passcodeInputButtonView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             passcodeInputButtonView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
             passcodeInputButtonView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
@@ -110,6 +133,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     // MARK: - @objc(BarButtonItem)
     @objc private func didTapCancelBarButton() {
         viewModel.inputs.didTapCancelButton()
+        passcodePoster.didTapCancelButtonPost()
     }
 
     // MARK: - PasscodeInputButtonViewDelegate

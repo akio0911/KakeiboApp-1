@@ -30,6 +30,7 @@ final class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
+        setupPasscodeObserver()
         navigationItem.title = "設定"
     }
 
@@ -44,7 +45,8 @@ final class SettingViewController: UIViewController {
                 switch event {
                 case .presentPasscodeVC:
                     let passcodeViewController = PasscodeViewController(
-                        viewModel: PasscodeViewModel(mode: .create(.first))
+                        viewModel: PasscodeViewModel(mode: .create(.first)),
+                        validateMessage: nil
                     )
                     let navigationController = UINavigationController(rootViewController: passcodeViewController)
                     navigationController.modalPresentationStyle = .fullScreen
@@ -52,6 +54,22 @@ final class SettingViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func setupPasscodeObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(passcodeViewDidTapCancelButton(_:)),
+            name: PasscodePoster.passcodeViewDidTapCancelButton,
+            object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func passcodeViewDidTapCancelButton(_ notification: Notification) {
+        passcodeSwitch.isOn = false
     }
 
     // MARK: - viewDidLayoutSubviews

@@ -36,7 +36,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
 
         enum Times {
             case first
-            case second
+            case second([String]) // String型の配列にはfirstで設定したpasscodeが入る
         }
 
         var message: String {
@@ -45,7 +45,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
                 switch times {
                 case .first:
                     return "パスコードを入力"
-                case .second:
+                case .second(_):
                     return "新しいパスコードを確認"
                 }
             case .unlock:
@@ -65,6 +65,9 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
 
     enum Event {
         case dismiss
+        case pushPasscodeVC([String])
+        case popViewController
+        case keyImageStackViewAnimation
     }
 
     enum KeyState {
@@ -75,6 +78,9 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     }
 
     private let mode: Mode
+    private let dataRepository: PasscodeDataRepositoryProtocol
+    private var passcode: [String] = [] // パスコード
+    private var secondePasscode: [String] = [] // 確認用のパスコード
     private var keyState: KeyState = .off
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
     private let messageLabelTextRelay = BehaviorRelay<String>(value: "")
@@ -84,8 +90,10 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     private let fourthKeyAlphayRelay = PublishRelay<CGFloat>()
     private let eventRelay = PublishRelay<Event>()
 
-    init(mode: Mode) {
+    init(mode: Mode,
+         dataRepository: PasscodeDataRepositoryProtocol = PasscodeDataRepository()) {
         self.mode = mode
+        self.dataRepository = dataRepository
         messageLabelTextRelay.accept(mode.message)
         navigationTitleRelay.accept(mode.navigationTitle)
     }
@@ -119,6 +127,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     }
 
     func didTapNumberButton(tapNumber: String) {
+        setPasscode(mode: mode, tapNumber: tapNumber)
         switch keyState {
         case .off:
             firstKeyAlphaRelay.accept(1)
@@ -131,12 +140,60 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
             keyState = .threeOn
         case .threeOn:
             fourthKeyAlphayRelay.accept(1)
-            // keyState仮実装
-            keyState = .off
-            firstKeyAlphaRelay.accept(0.5)
-            secondKeyAlphaRelay.accept(0.5)
-            thirdKeyAlphaRelay.accept(0.5)
-            fourthKeyAlphayRelay.accept(0.5)
+            acceptEvent(mode: mode)
+        }
+    }
+
+    private func setPasscode(mode: Mode, tapNumber: String) {
+        switch mode {
+        case .create(let times):
+            switch times {
+            case .first:
+                passcode.append(tapNumber)
+            case .second(_):
+                secondePasscode.append(tapNumber)
+            }
+        case .unlock:
+            passcode.append(tapNumber)
+        }
+    }
+
+    private func acceptEvent(mode: Mode) {
+        switch mode {
+        case .create(let times):
+            switch times {
+            case .first:
+                eventRelay.accept(.pushPasscodeVC(passcode))
+                keyState = .off
+                firstKeyAlphaRelay.accept(0.5)
+                secondKeyAlphaRelay.accept(0.5)
+                thirdKeyAlphaRelay.accept(0.5)
+                fourthKeyAlphayRelay.accept(0.5)
+                passcode.removeAll()
+            case .second(let passcode):
+                if passcode == secondePasscode {
+                    var passcode: String = ""
+                    self.passcode.forEach { passcode += $0 }
+                    dataRepository.save(passcode: passcode)
+                    eventRelay.accept(.dismiss)
+                } else {
+                    eventRelay.accept(.popViewController)
+                }
+            }
+        case .unlock:
+            let passcodeData = dataRepository.load()
+            var passcode: String = ""
+            self.passcode.forEach { passcode += $0 }
+            if passcode == passcodeData {
+                eventRelay.accept(.dismiss)
+            } else {
+                eventRelay.accept(.keyImageStackViewAnimation)
+                keyState = .off
+                firstKeyAlphaRelay.accept(0.5)
+                secondKeyAlphaRelay.accept(0.5)
+                thirdKeyAlphaRelay.accept(0.5)
+                fourthKeyAlphayRelay.accept(0.5)
+            }
         }
     }
 
@@ -145,16 +202,34 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
         case .off:
             break
         case .oneOn:
+            deletePasscode(mode: mode)
             firstKeyAlphaRelay.accept(0.5)
             keyState = .off
         case .twoOn:
+            deletePasscode(mode: mode)
             secondKeyAlphaRelay.accept(0.5)
             keyState = .oneOn
         case .threeOn:
+            deletePasscode(mode: mode)
             thirdKeyAlphaRelay.accept(0.5)
             keyState = .twoOn
         }
     }
+
+    private func deletePasscode(mode: Mode) {
+        switch mode {
+        case .create(let times):
+            switch times {
+            case .first:
+                passcode.removeLast()
+            case .second(_):
+                secondePasscode.removeLast()
+            }
+        case .unlock:
+            passcode.removeLast()
+        }
+    }
+
 
     func didTapCancelButton() {
         eventRelay.accept(.dismiss)
