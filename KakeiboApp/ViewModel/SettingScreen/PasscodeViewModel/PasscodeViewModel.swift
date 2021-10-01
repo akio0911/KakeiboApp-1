@@ -174,7 +174,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
                 if passcode == secondePasscode {
                     var passcode: String = ""
                     self.passcode.forEach { passcode += $0 }
-                    dataRepository.save(passcode: passcode.hash)
+                    dataRepository.save(passcode: HashUtility.sha256Hash(passcode))
                     eventRelay.accept(.dismiss)
                 } else {
                     eventRelay.accept(.popViewController)
@@ -184,7 +184,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
             let passcodeData = dataRepository.load()
             var passcode: String = ""
             self.passcode.forEach { passcode += $0 }
-            if passcode.hash == passcodeData {
+            if HashUtility.sha256Hash(passcode) == passcodeData {
                 eventRelay.accept(.dismiss)
             } else {
                 eventRelay.accept(.keyImageStackViewAnimation)
