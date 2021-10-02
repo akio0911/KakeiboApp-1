@@ -88,7 +88,7 @@ final class PasscodeInputButtonView: UIView {
             let configurationNormal = UIImage.SymbolConfiguration(hierarchicalColor: .label)
             button.setImage(
                 UIImage(
-                    systemName: "delete.backward",
+                    systemName: "delete.left",
                     withConfiguration: configurationNormal
                 ),
                 for: .normal
@@ -98,12 +98,12 @@ final class PasscodeInputButtonView: UIView {
             )
             button.setImage(
                 UIImage(
-                    systemName: "delete.backward",
+                    systemName: "delete.left",
                     withConfiguration: configurationHighlighted
                 ), for: .highlighted
             )
         } else {
-            button.setImage(UIImage(systemName: "delete.backward"), for: .normal)
+            button.setImage(UIImage(systemName: "delete.left"), for: .normal)
             button.imageView?.tintColor = .label
         }
         button.setBackgroundImage(UIImage(color: .systemGray5), for: .normal)
