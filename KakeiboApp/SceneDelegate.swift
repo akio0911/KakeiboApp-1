@@ -30,6 +30,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let mainTabBarController = MainTabBarController()
             self.window?.rootViewController = mainTabBarController
             self.window?.makeKeyAndVisible()
+            if self.passcodeRepository.loadIsOnPasscode() {
+                let passcodeViewController =
+                PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
+                passcodeViewController.modalPresentationStyle = .fullScreen
+                self.window?.rootViewController?.present(passcodeViewController, animated: false, completion: nil)
+            }
         })
     }
 
@@ -93,10 +99,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func dismissPasscodeViewController() {
         DispatchQueue.main.async {
             if let rootViewController = self.window?.rootViewController {
-                let navigationController =
-                rootViewController.presentedViewController as! UINavigationController
                 let passcodeViewController =
-                navigationController.topViewController as! PasscodeViewController
+                rootViewController.presentedViewController as! PasscodeViewController
                 passcodeViewController.dismiss(animated: true, completion: nil)
             }
         }
@@ -107,9 +111,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let rootViewController = window?.rootViewController {
                 let passcodeViewController =
                 PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
-                let navigationController = UINavigationController(rootViewController: passcodeViewController)
-                navigationController.modalPresentationStyle = .fullScreen
-                rootViewController.present(navigationController, animated: false, completion: nil)
+                passcodeViewController.modalPresentationStyle = .fullScreen
+                rootViewController.present(passcodeViewController, animated: false, completion: nil)
             }
         }
     }

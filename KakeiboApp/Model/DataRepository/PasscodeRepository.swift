@@ -8,8 +8,8 @@
 import Foundation
 
 protocol PasscodeDataRepositoryProtocol {
-    func loadPasscode() -> Int
-    func savePasscode(passcode: Int)
+    func loadPasscode() -> String?
+    func savePasscode(passcode: String)
 }
 
 protocol IsOnPasscodeRepositoryProtocol {
@@ -24,11 +24,11 @@ final class PasscodeRepository:
     private let passcodeDataKey = "passcode"
     private let isOnPasscodeKey = "isOnPasscode"
 
-    func loadPasscode() -> Int {
-        return userDefaults.integer(forKey: passcodeDataKey)
+    func loadPasscode() -> String? {
+        return userDefaults.string(forKey: passcodeDataKey)
     }
 
-    func savePasscode(passcode: Int) {
+    func savePasscode(passcode: String) {
         userDefaults.set(passcode, forKey: passcodeDataKey)
     }
 
