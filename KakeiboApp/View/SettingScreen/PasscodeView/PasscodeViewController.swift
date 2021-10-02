@@ -12,14 +12,10 @@ import RxCocoa
 final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate {
 
     @IBOutlet private weak var messageLable: UILabel!
-    @IBOutlet private weak var keyImageStackView: UIStackView!
     @IBOutlet private weak var validateMessageLabel: UILabel!
-    @IBOutlet private weak var firstKeyImageView: UIImageView!
-    @IBOutlet private weak var secondKeyImageView: UIImageView!
-    @IBOutlet private weak var thirdKeyImageView: UIImageView!
-    @IBOutlet private weak var fourthKeyImageView: UIImageView!
 
     private var passcodeInputButtonView: PasscodeInputButtonView!
+    private var keyImageStackView: KeyImageStackView!
     private let viewModel: PasscodeViewModelType
     private let disposeBag = DisposeBag()
     private let passcodePoster = PasscodePoster()
@@ -42,8 +38,19 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupKeyImageStackView()
         setupPasscodeInputButtonView()
         setupBinding()
+    }
+
+    private func setupKeyImageStackView() {
+        keyImageStackView = KeyImageStackView()
+        keyImageStackView.axis = .horizontal
+        keyImageStackView.alignment = .center
+        keyImageStackView.distribution = .fillProportionally
+        keyImageStackView.spacing = 23
+        keyImageStackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(keyImageStackView)
     }
 
     private func setupPasscodeInputButtonView() {
@@ -72,19 +79,19 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
             .disposed(by: disposeBag)
 
         viewModel.outputs.firstKeyAlpha
-            .drive(firstKeyImageView.rx.alpha)
+            .drive(onNext: keyImageStackView.configureFirstKeyAlpha)
             .disposed(by: disposeBag)
 
         viewModel.outputs.secondKeyAlpha
-            .drive(secondKeyImageView.rx.alpha)
+            .drive(onNext: keyImageStackView.configureSecondKeyAlpha)
             .disposed(by: disposeBag)
 
         viewModel.outputs.thirdKeyAlpha
-            .drive(thirdKeyImageView.rx.alpha)
+            .drive(onNext: keyImageStackView.configureThirdKeyAlpha)
             .disposed(by: disposeBag)
 
         viewModel.outputs.fourthKeyAlpha
-            .drive(fourthKeyImageView.rx.alpha)
+            .drive(onNext: keyImageStackView.configureFourthKeyAlpha)
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
@@ -143,7 +150,15 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     // MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        setupKeyImageStackViewConstraint()
         setupPasscodeInputButtonViewConstraint()
+    }
+
+    private func setupKeyImageStackViewConstraint() {
+        NSLayoutConstraint.activate([
+            keyImageStackView.topAnchor.constraint(equalTo: messageLable.bottomAnchor, constant: 20),
+            keyImageStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
 
     private func setupPasscodeInputButtonViewConstraint() {

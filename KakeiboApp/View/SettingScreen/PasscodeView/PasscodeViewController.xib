@@ -11,12 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PasscodeViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
-                <outlet property="firstKeyImageView" destination="ejJ-Vx-sOR" id="68M-5H-Vzd"/>
-                <outlet property="fourthKeyImageView" destination="7D1-DL-HiW" id="fdx-QN-mnZ"/>
-                <outlet property="keyImageStackView" destination="pb1-lr-n8T" id="xba-cH-RW3"/>
                 <outlet property="messageLable" destination="unv-Sg-TLv" id="n3C-eJ-kg1"/>
-                <outlet property="secondKeyImageView" destination="o1u-be-ElX" id="mQ9-Lg-Arv"/>
-                <outlet property="thirdKeyImageView" destination="YD3-xM-qlP" id="hcQ-av-jcY"/>
                 <outlet property="validateMessageLabel" destination="K7l-hk-XEn" id="VEi-Rd-gCA"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -32,43 +27,6 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <stackView opaque="NO" contentMode="scaleToFill" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="pb1-lr-n8T">
-                    <rect key="frame" x="112.5" y="228.5" width="189" height="30"/>
-                    <subviews>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ejJ-Vx-sOR">
-                            <rect key="frame" x="0.0" y="-1.5" width="30" height="33"/>
-                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="30" id="9iq-7x-9rk"/>
-                                <constraint firstAttribute="height" constant="30" id="E1g-ZQ-slS"/>
-                            </constraints>
-                        </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="o1u-be-ElX">
-                            <rect key="frame" x="53" y="-1.5" width="30" height="33"/>
-                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="Dyv-yg-cAs"/>
-                                <constraint firstAttribute="width" constant="30" id="gOw-EI-yFt"/>
-                            </constraints>
-                        </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="YD3-xM-qlP">
-                            <rect key="frame" x="106" y="-1.5" width="30" height="33"/>
-                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="6T8-vO-guT"/>
-                                <constraint firstAttribute="width" constant="30" id="RvD-IY-wdx"/>
-                            </constraints>
-                        </imageView>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.5" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="key.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7D1-DL-HiW">
-                            <rect key="frame" x="159" y="-1.5" width="30" height="33"/>
-                            <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="cI0-i2-mIr"/>
-                                <constraint firstAttribute="width" constant="30" id="xue-iO-gFL"/>
-                            </constraints>
-                        </imageView>
-                    </subviews>
-                </stackView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K7l-hk-XEn">
                     <rect key="frame" x="207" y="268.5" width="0.0" height="0.0"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -79,13 +37,11 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemGray6Color"/>
             <constraints>
-                <constraint firstItem="pb1-lr-n8T" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="3cI-Ru-teB"/>
+                <constraint firstItem="K7l-hk-XEn" firstAttribute="top" secondItem="unv-Sg-TLv" secondAttribute="bottom" constant="60" id="4Wu-iR-kWG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="unv-Sg-TLv" secondAttribute="trailing" constant="50" id="9kk-tJ-VYo"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="K7l-hk-XEn" secondAttribute="trailing" constant="50" id="EEf-H6-CHV"/>
                 <constraint firstItem="unv-Sg-TLv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="50" id="ESz-4m-s9f"/>
-                <constraint firstItem="pb1-lr-n8T" firstAttribute="top" secondItem="unv-Sg-TLv" secondAttribute="bottom" constant="20" id="Fb9-cj-sXd"/>
                 <constraint firstItem="unv-Sg-TLv" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" priority="750" constant="100" id="Fu0-Ch-1XS"/>
-                <constraint firstItem="K7l-hk-XEn" firstAttribute="top" secondItem="pb1-lr-n8T" secondAttribute="bottom" constant="10" id="M2j-j5-p0V"/>
                 <constraint firstItem="K7l-hk-XEn" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="SA4-kQ-qiB"/>
                 <constraint firstItem="unv-Sg-TLv" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="tlT-yN-hzG"/>
                 <constraint firstItem="K7l-hk-XEn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="50" id="yj1-0P-sWf"/>
@@ -95,7 +51,6 @@
         </view>
     </objects>
     <resources>
-        <image name="key.fill" catalog="system" width="83" height="128"/>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

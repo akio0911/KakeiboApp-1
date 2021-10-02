@@ -28,6 +28,7 @@
 		47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */; };
 		47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */; };
 		4773CBE2270714E700C52DE0 /* HashUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE1270714E700C52DE0 /* HashUtility.swift */; };
+		4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */; };
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
@@ -99,6 +100,7 @@
 		47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarDayCollectionViewCell.xib; sourceTree = "<group>"; };
 		4773CBE1270714E700C52DE0 /* HashUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashUtility.swift; sourceTree = "<group>"; };
+		4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImageStackView.swift; sourceTree = "<group>"; };
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 				472EFDD2270456F400A80640 /* PasscodeViewController.swift */,
 				472EFDD3270456F400A80640 /* PasscodeViewController.xib */,
 				472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */,
+				4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */,
 			);
 			path = PasscodeView;
 			sourceTree = "<group>";
@@ -817,6 +820,7 @@
 				47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */,
 				4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */,
 				47DC3EFE26E4C30900693980 /* CalendarTableViewDataSource.swift in Sources */,
+				4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */,
 				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
 				47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */,
 				47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */,
@@ -981,14 +985,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 79642D8U4H;
+				DEVELOPMENT_TEAM = HAMLUR4PQA;
 				INFOPLIST_FILE = KakeiboApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
@@ -1003,14 +1007,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 79642D8U4H;
+				DEVELOPMENT_TEAM = HAMLUR4PQA;
 				INFOPLIST_FILE = KakeiboApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
