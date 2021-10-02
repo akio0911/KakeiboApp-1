@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="firstKeyImageView" destination="ejJ-Vx-sOR" id="68M-5H-Vzd"/>
                 <outlet property="fourthKeyImageView" destination="7D1-DL-HiW" id="fdx-QN-mnZ"/>
+                <outlet property="keyImageStackView" destination="pb1-lr-n8T" id="xba-cH-RW3"/>
                 <outlet property="messageLable" destination="unv-Sg-TLv" id="n3C-eJ-kg1"/>
                 <outlet property="secondKeyImageView" destination="o1u-be-ElX" id="mQ9-Lg-Arv"/>
                 <outlet property="thirdKeyImageView" destination="YD3-xM-qlP" id="hcQ-av-jcY"/>

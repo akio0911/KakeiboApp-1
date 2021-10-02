@@ -33,6 +33,7 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
     }
 
     func didValueChangedPasscodeSwitch(value: Bool) {
+        ModelLocator.shared.isOnPasscode = value
         if value {
             eventRelay.accept(.presentPasscodeVC)
         }

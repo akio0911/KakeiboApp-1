@@ -12,6 +12,7 @@ import RxCocoa
 final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate {
 
     @IBOutlet private weak var messageLable: UILabel!
+    @IBOutlet private weak var keyImageStackView: UIStackView!
     @IBOutlet private weak var validateMessageLabel: UILabel!
     @IBOutlet private weak var firstKeyImageView: UIImageView!
     @IBOutlet private weak var secondKeyImageView: UIImageView!
@@ -43,7 +44,6 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
         super.viewDidLoad()
         setupPasscodeInputButtonView()
         setupBinding()
-        setupBarButtonItem()
     }
 
     private func setupPasscodeInputButtonView() {
@@ -56,6 +56,15 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     private func setupBinding() {
         viewModel.outputs.navigationTitle
             .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.isSetupCancelBarButton
+            .drive(onNext: { [weak self] isSetup in
+                guard let self = self else { return }
+                if isSetup {
+                    self.setupCancelBarButton()
+                }
+            })
             .disposed(by: disposeBag)
         
         viewModel.outputs.messageLabelText
@@ -97,14 +106,31 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
                     self.navigationController?.popViewController(animated: true)
                     self.validateMessage("パスコードが一致しません。もう一度入力してください。")
                 case .keyImageStackViewAnimation:
-                    break
-                    // TODO: 後で実装しなければならない
+                    self.keyImageStackViewAnimation()
+                    UINotificationFeedbackGenerator().notificationOccurred(.error)
                 }
             })
             .disposed(by: disposeBag)
     }
 
-    private func setupBarButtonItem() {
+    private func keyImageStackViewAnimation() {
+        UIView.animate(withDuration: 0, animations: { [weak self] in
+            guard let self = self else { return }
+            self.keyImageStackView.center.x -= 30
+        })
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0.1,
+            usingSpringWithDamping: 0.1,
+            initialSpringVelocity: 0,
+            animations: { [weak self] in
+                guard let self = self else { return }
+                self.keyImageStackView.center.x += 30
+            }
+        )
+    }
+
+    private func setupCancelBarButton() {
         let cancelBarButton =
             UIBarButtonItem(
                 barButtonSystemItem: .cancel,

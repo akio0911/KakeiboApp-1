@@ -69,6 +69,7 @@ final class SettingViewController: UIViewController {
 
     @objc func passcodeViewDidTapCancelButton(_ notification: Notification) {
         passcodeSwitch.isOn = false
+        ModelLocator.shared.isOnPasscode = false
     }
 
     // MARK: - viewDidLayoutSubviews

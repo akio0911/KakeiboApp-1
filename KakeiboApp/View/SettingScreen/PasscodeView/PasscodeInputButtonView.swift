@@ -126,7 +126,6 @@ final class PasscodeInputButtonView: UIView {
         configureButtonLayout(button: button0, position: 10)
         configureButtonLayout(button: deleteButton, position: 11)
         configureDeleteButtonImageLayout(button: deleteButton)
-
     }
 
     /* position: Int

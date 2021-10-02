@@ -7,10 +7,10 @@
 
 import Foundation
 
-// modelを共有するための構造体
-struct ModelLocator {
+final class ModelLocator {
     static let shared = ModelLocator()
     let model = KakeiboModel()
     let calendarDate = CalendarDate()
+    var isOnPasscode = false // パスコード設定の状態
     private init() {}
 }

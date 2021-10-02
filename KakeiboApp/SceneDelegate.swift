@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseAuth
+import LocalAuthentication
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -48,14 +49,67 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        // Called as the scene transitions from the background to the foreground.
-        // Use this method to undo the changes made on entering the background.
+        if ModelLocator.shared.isOnPasscode {
+            let localAuthenticationContext = LAContext()
+            var error: NSError?
+            let reason: String
+            if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                switch localAuthenticationContext.biometryType {
+                case .none:
+                    reason = "生体認証は使用しません"
+                case .touchID:
+                    reason = "ロック解除のためTouchIDを使用します。"
+                case .faceID:
+                    reason = "ロック解除のためFaceIDを使用します。"
+                @unknown default:
+                    reason = "新しい生体認証を使用します"
+                }
+            } else {
+                if let error = error {
+                    print("context.canEvaluatePolicy - Error, reason: \(error) ")
+                }
+                reason = "生体認証は使用しません"
+            }
+            localAuthenticationContext.evaluatePolicy(
+                .deviceOwnerAuthenticationWithBiometrics,
+                localizedReason: reason,
+                reply: { [weak self] success, error in
+                    guard let self = self else { return }
+                    if let error = error {
+                        print("context.evaluatePolicy - Error, reason: \(error) ")
+                    }
+                    if success {
+                        // 認証成功
+                        self.dismissPasscodeViewController()
+                    } else {
+                        // 認証失敗
+                    }
+                })
+        }
+    }
+
+    private func dismissPasscodeViewController() {
+        DispatchQueue.main.async {
+            if let rootViewController = self.window?.rootViewController {
+                let navigationController =
+                rootViewController.presentedViewController as! UINavigationController
+                let passcodeViewController =
+                navigationController.topViewController as! PasscodeViewController
+                passcodeViewController.dismiss(animated: true, completion: nil)
+            }
+        }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        // Called as the scene transitions from the foreground to the background.
-        // Use this method to save data, release shared resources, and store enough scene-specific state information
-        // to restore the scene back to its current state.
+        if ModelLocator.shared.isOnPasscode {
+            if let rootViewController = window?.rootViewController {
+                let passcodeViewController =
+                PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
+                let navigationController = UINavigationController(rootViewController: passcodeViewController)
+                navigationController.modalPresentationStyle = .fullScreen
+                rootViewController.present(navigationController, animated: false, completion: nil)
+            }
+        }
     }
 
 

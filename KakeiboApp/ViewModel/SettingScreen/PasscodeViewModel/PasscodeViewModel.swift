@@ -16,6 +16,7 @@ protocol PasscodeViewModelInput {
 
 protocol PasscodeViewModelOutput {
     var navigationTitle: Driver<String> { get }
+    var isSetupCancelBarButton: Driver<Bool> { get }
     var messageLabelText: Driver<String> { get }
     var firstKeyAlpha: Driver<CGFloat> { get }
     var secondKeyAlpha: Driver<CGFloat> { get }
@@ -61,6 +62,15 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
                 return ""
             }
         }
+
+        var isSetupCancelBarButton: Bool {
+            switch self {
+            case .create(_):
+                return true
+            case .unlock:
+                return false
+            }
+        }
     }
 
     enum Event {
@@ -79,10 +89,10 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
 
     private let mode: Mode
     private let dataRepository: PasscodeDataRepositoryProtocol
-    private var passcode: [String] = [] // パスコード
-    private var secondePasscode: [String] = [] // 確認用のパスコード
+    private var passcodeArray: [String] = [] // パスコード
     private var keyState: KeyState = .off
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
+    private let isSetupCancelBarButtonRelay = BehaviorRelay<Bool>(value: false)
     private let messageLabelTextRelay = BehaviorRelay<String>(value: "")
     private let firstKeyAlphaRelay = PublishRelay<CGFloat>()
     private let secondKeyAlphaRelay = PublishRelay<CGFloat>()
@@ -96,10 +106,15 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
         self.dataRepository = dataRepository
         messageLabelTextRelay.accept(mode.message)
         navigationTitleRelay.accept(mode.navigationTitle)
+        isSetupCancelBarButtonRelay.accept(mode.isSetupCancelBarButton)
     }
 
     var navigationTitle: Driver<String> {
         navigationTitleRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    var isSetupCancelBarButton: Driver<Bool> {
+        isSetupCancelBarButtonRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var messageLabelText: Driver<String> {
@@ -127,7 +142,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     }
 
     func didTapNumberButton(tapNumber: String) {
-        setPasscode(mode: mode, tapNumber: tapNumber)
+        passcodeArray.append(tapNumber)
         switch keyState {
         case .off:
             firstKeyAlphaRelay.accept(1)
@@ -144,36 +159,22 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
         }
     }
 
-    private func setPasscode(mode: Mode, tapNumber: String) {
-        switch mode {
-        case .create(let times):
-            switch times {
-            case .first:
-                passcode.append(tapNumber)
-            case .second(_):
-                secondePasscode.append(tapNumber)
-            }
-        case .unlock:
-            passcode.append(tapNumber)
-        }
-    }
-
     private func acceptEvent(mode: Mode) {
         switch mode {
         case .create(let times):
             switch times {
             case .first:
-                eventRelay.accept(.pushPasscodeVC(passcode))
+                eventRelay.accept(.pushPasscodeVC(passcodeArray))
                 keyState = .off
                 firstKeyAlphaRelay.accept(0.5)
                 secondKeyAlphaRelay.accept(0.5)
                 thirdKeyAlphaRelay.accept(0.5)
                 fourthKeyAlphayRelay.accept(0.5)
-                passcode.removeAll()
-            case .second(let passcode):
-                if passcode == secondePasscode {
+                passcodeArray.removeAll()
+            case .second(let firstPasscodeArray):
+                if firstPasscodeArray == passcodeArray {
                     var passcode: String = ""
-                    self.passcode.forEach { passcode += $0 }
+                    passcodeArray.forEach { passcode += $0 }
                     dataRepository.save(passcode: HashUtility.sha256Hash(passcode))
                     eventRelay.accept(.dismiss)
                 } else {
@@ -183,7 +184,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
         case .unlock:
             let passcodeData = dataRepository.load()
             var passcode: String = ""
-            self.passcode.forEach { passcode += $0 }
+            self.passcodeArray.forEach { passcode += $0 }
             if HashUtility.sha256Hash(passcode) == passcodeData {
                 eventRelay.accept(.dismiss)
             } else {
@@ -193,7 +194,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
                 secondKeyAlphaRelay.accept(0.5)
                 thirdKeyAlphaRelay.accept(0.5)
                 fourthKeyAlphayRelay.accept(0.5)
-                self.passcode.removeAll()
+                self.passcodeArray.removeAll()
             }
         }
     }
@@ -203,34 +204,19 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
         case .off:
             break
         case .oneOn:
-            deletePasscode(mode: mode)
+            passcodeArray.removeLast()
             firstKeyAlphaRelay.accept(0.5)
             keyState = .off
         case .twoOn:
-            deletePasscode(mode: mode)
+            passcodeArray.removeLast()
             secondKeyAlphaRelay.accept(0.5)
             keyState = .oneOn
         case .threeOn:
-            deletePasscode(mode: mode)
+            passcodeArray.removeLast()
             thirdKeyAlphaRelay.accept(0.5)
             keyState = .twoOn
         }
     }
-
-    private func deletePasscode(mode: Mode) {
-        switch mode {
-        case .create(let times):
-            switch times {
-            case .first:
-                passcode.removeLast()
-            case .second(_):
-                secondePasscode.removeLast()
-            }
-        case .unlock:
-            passcode.removeLast()
-        }
-    }
-
 
     func didTapCancelButton() {
         eventRelay.accept(.dismiss)
