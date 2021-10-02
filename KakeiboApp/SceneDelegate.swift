@@ -12,6 +12,8 @@ import LocalAuthentication
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    private let passcodeRepository: IsOnPasscodeRepositoryProtocol =
+    PasscodeRepository()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         Auth.auth().signInAnonymously(completion: { [weak self] userResult, error in
@@ -49,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        if ModelLocator.shared.isOnPasscode {
+        if passcodeRepository.loadIsOnPasscode() {
             let localAuthenticationContext = LAContext()
             var error: NSError?
             let reason: String
@@ -101,7 +103,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        if ModelLocator.shared.isOnPasscode {
+        if passcodeRepository.loadIsOnPasscode() {
             if let rootViewController = window?.rootViewController {
                 let passcodeViewController =
                 PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))

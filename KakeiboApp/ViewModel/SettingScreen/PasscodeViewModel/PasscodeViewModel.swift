@@ -88,7 +88,7 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     }
 
     private let mode: Mode
-    private let dataRepository: PasscodeDataRepositoryProtocol
+    private let passcodeRepository: PasscodeDataRepositoryProtocol
     private var passcodeArray: [String] = [] // パスコード
     private var keyState: KeyState = .off
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
@@ -101,9 +101,9 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     private let eventRelay = PublishRelay<Event>()
 
     init(mode: Mode,
-         dataRepository: PasscodeDataRepositoryProtocol = PasscodeDataRepository()) {
+         passcodeRepository: PasscodeDataRepositoryProtocol = PasscodeRepository()) {
         self.mode = mode
-        self.dataRepository = dataRepository
+        self.passcodeRepository = passcodeRepository
         messageLabelTextRelay.accept(mode.message)
         navigationTitleRelay.accept(mode.navigationTitle)
         isSetupCancelBarButtonRelay.accept(mode.isSetupCancelBarButton)
@@ -175,14 +175,14 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
                 if firstPasscodeArray == passcodeArray {
                     var passcode: String = ""
                     passcodeArray.forEach { passcode += $0 }
-                    dataRepository.save(passcode: HashUtility.sha256Hash(passcode))
+                    passcodeRepository.savePasscode(passcode: HashUtility.sha256Hash(passcode))
                     eventRelay.accept(.dismiss)
                 } else {
                     eventRelay.accept(.popViewController)
                 }
             }
         case .unlock:
-            let passcodeData = dataRepository.load()
+            let passcodeData = passcodeRepository.loadPasscode()
             var passcode: String = ""
             self.passcodeArray.forEach { passcode += $0 }
             if HashUtility.sha256Hash(passcode) == passcodeData {

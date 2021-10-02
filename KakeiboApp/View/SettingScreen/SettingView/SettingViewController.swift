@@ -30,13 +30,16 @@ final class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        setupPasscodeObserver()
         navigationItem.title = "設定"
     }
 
     private func setupBinding() {
         passcodeSwitch.rx.value
             .subscribe(onNext: viewModel.inputs.didValueChangedPasscodeSwitch)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.isOnPasscode
+            .drive(passcodeSwitch.rx.value)
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
@@ -53,23 +56,6 @@ final class SettingViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-    }
-
-    private func setupPasscodeObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(passcodeViewDidTapCancelButton(_:)),
-            name: PasscodePoster.passcodeViewDidTapCancelButton,
-            object: nil)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func passcodeViewDidTapCancelButton(_ notification: Notification) {
-        passcodeSwitch.isOn = false
-        ModelLocator.shared.isOnPasscode = false
     }
 
     // MARK: - viewDidLayoutSubviews

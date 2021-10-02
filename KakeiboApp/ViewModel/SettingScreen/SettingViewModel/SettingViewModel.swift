@@ -13,6 +13,7 @@ protocol SettingViewModelInput {
 }
 
 protocol SettingViewModelOutput {
+    var isOnPasscode: Driver<Bool> { get }
     var event: Driver<SettingViewModel.Event> { get }
 }
 
@@ -26,14 +27,43 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
         case presentPasscodeVC
     }
 
+    private let passcodeRepository: IsOnPasscodeRepositoryProtocol
+    private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
     private let eventRelay = PublishRelay<Event>()
+
+    init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository()) {
+        self.passcodeRepository = passcodeRepository
+        isOnPasscodeRelay.accept(passcodeRepository.loadIsOnPasscode())
+        setupPasscodeObserver()
+    }
+
+    private func setupPasscodeObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(passcodeViewDidTapCancelButton(_:)),
+            name: PasscodePoster.passcodeViewDidTapCancelButton,
+            object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func passcodeViewDidTapCancelButton(_ notification: Notification) {
+        passcodeRepository.saveIsOnPasscode(isOnPasscode: false)
+        isOnPasscodeRelay.accept(false)
+    }
+
+    var isOnPasscode: Driver<Bool> {
+        isOnPasscodeRelay.asDriver(onErrorDriveWith: .empty())
+    }
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     func didValueChangedPasscodeSwitch(value: Bool) {
-        ModelLocator.shared.isOnPasscode = value
+        passcodeRepository.saveIsOnPasscode(isOnPasscode: value)
         if value {
             eventRelay.accept(.presentPasscodeVC)
         }
