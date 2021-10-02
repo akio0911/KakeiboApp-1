@@ -33,15 +33,12 @@ final class KeyImageStackView: UIStackView {
         let imageView = UIImageView()
         if #available(iOS 14.0, *) {
             imageView.image = UIImage(systemName: "key.fill")
-            imageView.contentMode = .scaleAspectFit
-            imageView.tintColor = .darkGray
-            imageView.alpha = 0.5
         } else {
             imageView.image = UIImage(systemName: "bell.fill")
-            imageView.contentMode = .scaleAspectFit
-            imageView.tintColor = .darkGray
-            imageView.alpha = 0.5
         }
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .darkGray
+        imageView.alpha = 0.5
         return imageView
     }
 

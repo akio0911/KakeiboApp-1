@@ -174,10 +174,8 @@ final class CalendarViewController: UIViewController,
             forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier
         )
         if #available(iOS 15.0, *) {
-            calendarTableView.sectionHeaderTopPadding = 1
-        } else {
-            // Fallback on earlier versions
-        }
+            calendarTableView.sectionHeaderTopPadding = 0
+        } 
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 

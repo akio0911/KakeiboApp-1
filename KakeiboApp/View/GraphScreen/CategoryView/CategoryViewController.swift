@@ -60,10 +60,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
             forHeaderFooterViewReuseIdentifier: CategoryTableViewHeaderView.identifier
         )
         if #available(iOS 15.0, *) {
-            categoryTableView.sectionHeaderTopPadding = 1
-        } else {
-            // Fallback on earlier versions
-        }
+            categoryTableView.sectionHeaderTopPadding = 0
+        } 
         categoryTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 
