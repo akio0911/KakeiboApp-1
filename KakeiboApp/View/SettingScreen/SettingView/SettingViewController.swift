@@ -12,6 +12,7 @@ import RxCocoa
 final class SettingViewController: UIViewController {
 
     @IBOutlet private weak var settingStackView: UIStackView!
+    @IBOutlet private weak var appStackView: UIStackView!
     @IBOutlet private weak var passcodeSwitch: UISwitch!
 
     private let viewModel: SettingViewModelType
@@ -31,6 +32,7 @@ final class SettingViewController: UIViewController {
         super.viewDidLoad()
         setupBinding()
         navigationItem.title = "設定"
+        configureStackViewLayer()
     }
 
     private func setupBinding() {
@@ -59,14 +61,15 @@ final class SettingViewController: UIViewController {
             .disposed(by: disposeBag)
     }
 
-    // MARK: - viewDidLayoutSubviews
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        configureStackViewLayer()
-    }
-
     private func configureStackViewLayer() {
         settingStackView.layer.cornerRadius = 10
         settingStackView.layer.masksToBounds = true
+        appStackView.layer.cornerRadius = 10
+        appStackView.layer.masksToBounds = true
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
 }
