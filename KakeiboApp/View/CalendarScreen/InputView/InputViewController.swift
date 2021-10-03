@@ -56,6 +56,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         setupBarButtonItem()
         setupTapGesture()
         setupScrollToShowKeyboard()
+        configureSaveBtnLayer() // セーブボタンをフィレット
+        configureMosaicViewLayer() // モザイク用のviewをフィレット
         navigationItem.title = "収支入力"
     }
 
@@ -229,22 +231,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         present(alert, animated: true, completion: nil)
     }
 
-    // MARK: - viewDidLayoutSubviews
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        configureSaveBtnLayer() // セーブボタンをフィレット
-        configureMosaicViewLayer() // モザイク用のviewをフィレット
-        NSLayoutConstraint.activate([
-            datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            expenseCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            incomeCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
-            segmentedControlView.topAnchor.constraint(equalTo: dateView.bottomAnchor),
-            segmentedControlView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
-
     // セーブボタンをフィレット
     private func configureSaveBtnLayer() {
         saveButton.layer.cornerRadius = 10
@@ -257,6 +243,20 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
             $0.layer.cornerRadius = 8
             $0.layer.masksToBounds = true
         }
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        NSLayoutConstraint.activate([
+            datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            expenseCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            incomeCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
+            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
+            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
+            segmentedControlView.topAnchor.constraint(equalTo: dateView.bottomAnchor),
+            segmentedControlView.heightAnchor.constraint(equalToConstant: 40)
+        ])
     }
 
     // MARK: - @objc

@@ -67,9 +67,4 @@ final class SettingViewController: UIViewController {
         appStackView.layer.cornerRadius = 10
         appStackView.layer.masksToBounds = true
     }
-
-    // MARK: - viewDidLayoutSubviews
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
 }

@@ -139,9 +139,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         NSLayoutConstraint.activate([
-            categoryPieChartView.widthAnchor.constraint(
-                equalToConstant: view.frame.width - 90
-            ),
+            categoryPieChartView.widthAnchor.constraint(equalToConstant: view.frame.width - 90),
             segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
             segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -70),
             segmentedControlView.topAnchor.constraint(equalTo: graphNavigationBar.bottomAnchor, constant: 8),
