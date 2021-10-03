@@ -35,6 +35,7 @@ final class SettingViewController: UIViewController {
 
     private func setupBinding() {
         passcodeSwitch.rx.value
+            .skip(1) // stateの値が流れるためスキップ
             .subscribe(onNext: viewModel.inputs.didValueChangedPasscodeSwitch)
             .disposed(by: disposeBag)
 
