@@ -29,6 +29,8 @@
 		47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */; };
 		4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */; };
 		4773CBE8270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */; };
+		4773CBEC270AF7DF00C52DE0 /* categoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBEA270AF7DF00C52DE0 /* categoryEditViewController.swift */; };
+		4773CBED270AF7DF00C52DE0 /* categoryEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4773CBEB270AF7DF00C52DE0 /* categoryEditViewController.xib */; };
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
@@ -101,6 +103,8 @@
 		47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarDayCollectionViewCell.xib; sourceTree = "<group>"; };
 		4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImageStackView.swift; sourceTree = "<group>"; };
 		4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundHighlightedButton.swift; sourceTree = "<group>"; };
+		4773CBEA270AF7DF00C52DE0 /* categoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoryEditViewController.swift; sourceTree = "<group>"; };
+		4773CBEB270AF7DF00C52DE0 /* categoryEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = categoryEditViewController.xib; sourceTree = "<group>"; };
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 				472EFDDD2705EE8F00A80640 /* Observer */,
 				472EFDC32704317500A80640 /* SettingView */,
 				472EFDD1270456C500A80640 /* PasscodeView */,
+				4773CBE9270AF79000C52DE0 /* categoryEditView */,
 			);
 			path = SettingScreen;
 			sourceTree = "<group>";
@@ -309,6 +314,15 @@
 				47DC3EFF26E4E83600693980 /* Cell */,
 			);
 			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		4773CBE9270AF79000C52DE0 /* categoryEditView */ = {
+			isa = PBXGroup;
+			children = (
+				4773CBEA270AF7DF00C52DE0 /* categoryEditViewController.swift */,
+				4773CBEB270AF7DF00C52DE0 /* categoryEditViewController.xib */,
+			);
+			path = categoryEditView;
 			sourceTree = "<group>";
 		};
 		47793EF626E76A8C0004E5F6 /* InputViewModel */ = {
@@ -714,6 +728,7 @@
 				47C7A35826846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib in Resources */,
 				47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */,
 				47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */,
+				4773CBED270AF7DF00C52DE0 /* categoryEditViewController.xib in Resources */,
 				47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */,
 				4781570B266128C8005E1020 /* Assets.xcassets in Resources */,
 				47DC3EE226E34E8C00693980 /* GraphViewController.xib in Resources */,
@@ -822,6 +837,7 @@
 				47DC3EFE26E4C30900693980 /* CalendarTableViewDataSource.swift in Sources */,
 				4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */,
 				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
+				4773CBEC270AF7DF00C52DE0 /* categoryEditViewController.swift in Sources */,
 				47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */,
 				47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */,
 				4773CBE8270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift in Sources */,

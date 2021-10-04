@@ -22,7 +22,6 @@ class CalendarDate: CalendarDateProtocol {
     private let monthDateRelay = BehaviorRelay<[Date]>(value: [])
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
     private let carendar = Calendar(identifier: .gregorian)
-    // TODO: エラーが出たため強制オプショナルアンラップ
     private var firstDay: Date!
 
     init() {
