@@ -14,6 +14,10 @@ final class SettingViewController: UIViewController {
     @IBOutlet private weak var settingStackView: UIStackView!
     @IBOutlet private weak var appStackView: UIStackView!
     @IBOutlet private weak var passcodeSwitch: UISwitch!
+    @IBOutlet private weak var categoryEditButton: BackgroundHighlightedButton!
+    @IBOutlet private weak var howToUseButton: BackgroundHighlightedButton!
+    @IBOutlet private weak var shareButton: BackgroundHighlightedButton!
+    @IBOutlet private weak var reviewButton: BackgroundHighlightedButton!
 
     private let viewModel: SettingViewModelType
     private let disposeBag = DisposeBag()

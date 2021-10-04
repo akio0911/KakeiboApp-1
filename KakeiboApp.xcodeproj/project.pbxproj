@@ -28,6 +28,7 @@
 		47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */; };
 		47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */; };
 		4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */; };
+		4773CBE8270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */; };
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
@@ -99,6 +100,7 @@
 		47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarDayCollectionViewCell.xib; sourceTree = "<group>"; };
 		4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImageStackView.swift; sourceTree = "<group>"; };
+		4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundHighlightedButton.swift; sourceTree = "<group>"; };
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				472EFDC42704324C00A80640 /* SettingViewController.swift */,
 				472EFDC52704324C00A80640 /* SettingViewController.xib */,
+				4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */,
 			);
 			path = SettingView;
 			sourceTree = "<group>";
@@ -821,6 +824,7 @@
 				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
 				47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */,
 				47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */,
+				4773CBE8270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift in Sources */,
 				4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */,
 				47815704266128C8005E1020 /* SceneDelegate.swift in Sources */,
 				472EFDDA270564DD00A80640 /* PasscodeViewModel.swift in Sources */,
