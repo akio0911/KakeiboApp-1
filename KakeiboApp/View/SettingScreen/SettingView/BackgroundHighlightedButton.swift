@@ -10,12 +10,15 @@ import UIKit
 class BackgroundHighlightedButton: UIButton {
     @IBInspectable var highlightedBackgroundColor :UIColor?
     @IBInspectable var nonHighlightedBackgroundColor :UIColor?
+    private let closedRange: ClosedRange<CGFloat> = 0...1
     @IBInspectable var alphaHighlited: CGFloat = 1
     override var isHighlighted :Bool {
         didSet {
             if isHighlighted {
                 self.backgroundColor = highlightedBackgroundColor
-                self.alpha = alphaHighlited
+                if closedRange.contains(alphaHighlited) {
+                    self.alpha = alphaHighlited
+                }
             }
             else {
                 self.backgroundColor = nonHighlightedBackgroundColor

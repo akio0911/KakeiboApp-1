@@ -14,11 +14,11 @@
             <connections>
                 <outlet property="appStackView" destination="05r-fS-bd4" id="0DU-vx-eUH"/>
                 <outlet property="categoryEditButton" destination="lep-y7-PNY" id="pJI-pR-ge1"/>
-                <outlet property="howToUseButton" destination="dGt-dR-Olk" id="uOt-1l-UuF"/>
+                <outlet property="howToUseButton" destination="6gI-3e-JjT" id="wCe-1I-Zwd"/>
                 <outlet property="passcodeSwitch" destination="3i2-RZ-MRs" id="jUL-kY-Ufu"/>
-                <outlet property="reviewButton" destination="Vfn-FE-o8e" id="Qe3-if-6YB"/>
+                <outlet property="reviewButton" destination="gaf-0T-fSE" id="lta-KQ-a41"/>
                 <outlet property="settingStackView" destination="hgC-Nj-nuR" id="80s-6v-Bpg"/>
-                <outlet property="shareButton" destination="Vhc-X1-Oti" id="HUa-rW-LFc"/>
+                <outlet property="shareButton" destination="keu-uR-9rf" id="5oo-b6-ZWr"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -94,8 +94,8 @@
                                 </view>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lep-y7-PNY" customClass="BackgroundHighlightedButton" customModule="KakeiboApp" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="42"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title=""/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title=""/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="color" keyPath="highlightedBackgroundColor">
                                             <color key="value" systemColor="systemGrayColor"/>
@@ -156,10 +156,10 @@
                                         <constraint firstAttribute="width" secondItem="Xs6-U8-jdi" secondAttribute="height" multiplier="1:1" id="FSb-SF-irs"/>
                                     </constraints>
                                 </imageView>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGt-dR-Olk" customClass="BackgroundHighlightedButton" customModule="KakeiboApp" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="374" height="41.5"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title=""/>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gI-3e-JjT" customClass="BackgroundHighlightedButton" customModule="KakeiboApp" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="42"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title=""/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="color" keyPath="highlightedBackgroundColor">
                                             <color key="value" systemColor="systemGrayColor"/>
@@ -180,13 +180,13 @@
                                 <constraint firstAttribute="trailing" secondItem="Xs6-U8-jdi" secondAttribute="trailing" constant="20" id="Bxq-GJ-pgc"/>
                                 <constraint firstItem="cJo-qe-RS5" firstAttribute="centerY" secondItem="Xeh-q2-zIh" secondAttribute="centerY" id="NJc-jV-aEf"/>
                                 <constraint firstAttribute="height" constant="42" id="YOO-tN-QcC"/>
-                                <constraint firstItem="dGt-dR-Olk" firstAttribute="top" secondItem="Xeh-q2-zIh" secondAttribute="top" id="eTs-Av-SNO"/>
-                                <constraint firstItem="dGt-dR-Olk" firstAttribute="leading" secondItem="Xeh-q2-zIh" secondAttribute="leading" id="k00-fc-Xux"/>
-                                <constraint firstAttribute="bottom" secondItem="dGt-dR-Olk" secondAttribute="bottom" constant="0.5" id="lVm-SD-rgy"/>
-                                <constraint firstAttribute="trailing" secondItem="dGt-dR-Olk" secondAttribute="trailing" id="mIW-dD-smy"/>
+                                <constraint firstItem="6gI-3e-JjT" firstAttribute="top" secondItem="Xeh-q2-zIh" secondAttribute="top" id="c1Y-oE-xY3"/>
+                                <constraint firstAttribute="bottom" secondItem="6gI-3e-JjT" secondAttribute="bottom" id="c3f-CP-yy1"/>
+                                <constraint firstItem="6gI-3e-JjT" firstAttribute="leading" secondItem="Xeh-q2-zIh" secondAttribute="leading" id="ljd-Ky-7Mg"/>
                                 <constraint firstItem="Xs6-U8-jdi" firstAttribute="centerY" secondItem="Xeh-q2-zIh" secondAttribute="centerY" id="ptX-rP-2xt"/>
                                 <constraint firstItem="cJo-qe-RS5" firstAttribute="leading" secondItem="7D1-bO-dOg" secondAttribute="trailing" constant="15" id="tFa-Jl-j1p"/>
                                 <constraint firstAttribute="bottom" secondItem="7D1-bO-dOg" secondAttribute="bottom" constant="8" id="wys-G6-GFp"/>
+                                <constraint firstAttribute="trailing" secondItem="6gI-3e-JjT" secondAttribute="trailing" id="yGs-ry-bag"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FJ3-ga-UXb">
@@ -219,10 +219,10 @@
                                         <constraint firstAttribute="height" constant="0.5" id="zME-3T-gOz"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vhc-X1-Oti" customClass="BackgroundHighlightedButton" customModule="KakeiboApp" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="keu-uR-9rf" customClass="BackgroundHighlightedButton" customModule="KakeiboApp" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="42"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title=""/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title=""/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="color" keyPath="highlightedBackgroundColor">
                                             <color key="value" systemColor="systemGrayColor"/>
@@ -238,19 +238,19 @@
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
-                                <constraint firstAttribute="bottom" secondItem="Vhc-X1-Oti" secondAttribute="bottom" id="7jY-6S-SMu"/>
+                                <constraint firstAttribute="bottom" secondItem="keu-uR-9rf" secondAttribute="bottom" id="51d-zj-BTI"/>
                                 <constraint firstItem="Leu-NO-d14" firstAttribute="leading" secondItem="FJ3-ga-UXb" secondAttribute="leading" constant="20" id="8I1-Q2-d7s"/>
-                                <constraint firstAttribute="trailing" secondItem="Vhc-X1-Oti" secondAttribute="trailing" id="Cby-35-Yoo"/>
                                 <constraint firstAttribute="trailing" secondItem="oTh-tq-rfZ" secondAttribute="trailing" constant="20" id="ILG-k1-LCN"/>
                                 <constraint firstItem="SBG-Yq-W86" firstAttribute="leading" secondItem="FJ3-ga-UXb" secondAttribute="leading" constant="61" id="Osi-bt-Bl1"/>
                                 <constraint firstItem="Leu-NO-d14" firstAttribute="top" secondItem="FJ3-ga-UXb" secondAttribute="top" constant="8" id="PfV-wR-Uc3"/>
                                 <constraint firstAttribute="bottom" secondItem="Leu-NO-d14" secondAttribute="bottom" constant="8" id="Thh-C9-Uy0"/>
-                                <constraint firstItem="Vhc-X1-Oti" firstAttribute="top" secondItem="FJ3-ga-UXb" secondAttribute="top" id="VeJ-Qh-fdy"/>
                                 <constraint firstItem="DEx-Ty-fnr" firstAttribute="leading" secondItem="Leu-NO-d14" secondAttribute="trailing" constant="15" id="Xfp-gH-qGI"/>
                                 <constraint firstItem="DEx-Ty-fnr" firstAttribute="centerY" secondItem="FJ3-ga-UXb" secondAttribute="centerY" id="eR8-92-cr9"/>
                                 <constraint firstItem="SBG-Yq-W86" firstAttribute="top" secondItem="FJ3-ga-UXb" secondAttribute="top" id="eyY-nd-EHO"/>
                                 <constraint firstItem="oTh-tq-rfZ" firstAttribute="centerY" secondItem="FJ3-ga-UXb" secondAttribute="centerY" id="gcq-6q-1y5"/>
-                                <constraint firstItem="Vhc-X1-Oti" firstAttribute="leading" secondItem="FJ3-ga-UXb" secondAttribute="leading" id="hIQ-jt-CPR"/>
+                                <constraint firstAttribute="trailing" secondItem="keu-uR-9rf" secondAttribute="trailing" id="iEj-f8-HAa"/>
+                                <constraint firstItem="keu-uR-9rf" firstAttribute="leading" secondItem="FJ3-ga-UXb" secondAttribute="leading" id="iUD-Rd-pRE"/>
+                                <constraint firstItem="keu-uR-9rf" firstAttribute="top" secondItem="FJ3-ga-UXb" secondAttribute="top" id="ld2-e1-dXA"/>
                                 <constraint firstAttribute="height" constant="42" id="mdX-rP-HWc"/>
                                 <constraint firstAttribute="trailing" secondItem="SBG-Yq-W86" secondAttribute="trailing" id="qOZ-gT-kpN"/>
                             </constraints>
@@ -285,10 +285,10 @@
                                         <constraint firstAttribute="height" constant="0.5" id="vH9-xC-g50"/>
                                     </constraints>
                                 </view>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vfn-FE-o8e" customClass="BackgroundHighlightedButton" customModule="KakeiboApp" customModuleProvider="target">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gaf-0T-fSE" customClass="BackgroundHighlightedButton" customModule="KakeiboApp" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="42"/>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" title=""/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title=""/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="color" keyPath="highlightedBackgroundColor">
                                             <color key="value" systemColor="systemGrayColor"/>
@@ -307,18 +307,18 @@
                                 <constraint firstItem="eN0-L8-7Gg" firstAttribute="top" secondItem="VcL-OC-SB3" secondAttribute="top" constant="8" id="0Yn-C9-z9a"/>
                                 <constraint firstItem="eN0-L8-7Gg" firstAttribute="leading" secondItem="VcL-OC-SB3" secondAttribute="leading" constant="20" id="1AC-bL-qec"/>
                                 <constraint firstItem="rC7-ii-7Vu" firstAttribute="leading" secondItem="eN0-L8-7Gg" secondAttribute="trailing" constant="15" id="8SC-Yj-ApB"/>
-                                <constraint firstItem="Vfn-FE-o8e" firstAttribute="top" secondItem="VcL-OC-SB3" secondAttribute="top" id="9fX-QO-rf6"/>
                                 <constraint firstItem="Wgw-Mt-guT" firstAttribute="top" secondItem="VcL-OC-SB3" secondAttribute="top" id="CS9-V3-odi"/>
+                                <constraint firstItem="gaf-0T-fSE" firstAttribute="leading" secondItem="VcL-OC-SB3" secondAttribute="leading" id="DSR-SD-dav"/>
+                                <constraint firstAttribute="trailing" secondItem="gaf-0T-fSE" secondAttribute="trailing" id="F75-XU-oUv"/>
                                 <constraint firstAttribute="trailing" secondItem="e4C-a3-LWM" secondAttribute="trailing" constant="20" id="GfM-lZ-Tpi"/>
                                 <constraint firstItem="Wgw-Mt-guT" firstAttribute="leading" secondItem="VcL-OC-SB3" secondAttribute="leading" constant="61" id="Ktj-rY-X9i"/>
                                 <constraint firstItem="rC7-ii-7Vu" firstAttribute="centerY" secondItem="VcL-OC-SB3" secondAttribute="centerY" id="POI-90-iUX"/>
                                 <constraint firstItem="e4C-a3-LWM" firstAttribute="centerY" secondItem="VcL-OC-SB3" secondAttribute="centerY" id="Rao-zI-S0p"/>
-                                <constraint firstItem="Vfn-FE-o8e" firstAttribute="leading" secondItem="VcL-OC-SB3" secondAttribute="leading" id="Rca-wb-tkf"/>
-                                <constraint firstAttribute="bottom" secondItem="Vfn-FE-o8e" secondAttribute="bottom" id="SI8-Op-4Sn"/>
                                 <constraint firstAttribute="bottom" secondItem="eN0-L8-7Gg" secondAttribute="bottom" constant="8" id="Snn-g5-Rr3"/>
+                                <constraint firstAttribute="bottom" secondItem="gaf-0T-fSE" secondAttribute="bottom" id="jJ1-IO-zk7"/>
                                 <constraint firstAttribute="trailing" secondItem="Wgw-Mt-guT" secondAttribute="trailing" id="pTZ-oA-93p"/>
+                                <constraint firstItem="gaf-0T-fSE" firstAttribute="top" secondItem="VcL-OC-SB3" secondAttribute="top" id="u8u-AC-E5q"/>
                                 <constraint firstAttribute="height" constant="42" id="vAV-ep-s93"/>
-                                <constraint firstAttribute="trailing" secondItem="Vfn-FE-o8e" secondAttribute="trailing" id="xBS-PZ-v8w"/>
                             </constraints>
                         </view>
                     </subviews>
