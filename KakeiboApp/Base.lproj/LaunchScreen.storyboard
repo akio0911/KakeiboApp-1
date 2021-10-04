@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item-->
+        <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
@@ -30,16 +30,15 @@
                             <constraint firstItem="Ood-rj-l6p" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="s5C-GB-Gey"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" selectedImage="gear" catalog="system" id="DIR-nQ-T0H"/>
+                    <navigationItem key="navigationItem" id="aQL-Db-hLt"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="962.31884057971024" y="375"/>
+            <point key="canvasLocation" x="1872.4637681159422" y="375"/>
         </scene>
     </scenes>
     <resources>
         <image name="LaunchScreenImage" width="414" height="896"/>
-        <image name="gear" catalog="system" width="128" height="119"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

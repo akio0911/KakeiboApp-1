@@ -45,6 +45,10 @@ final class SettingViewController: UIViewController {
             .subscribe(onNext: viewModel.inputs.didValueChangedPasscodeSwitch)
             .disposed(by: disposeBag)
 
+        categoryEditButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapCategoryEditButton)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.isOnPasscode
             .drive(passcodeSwitch.rx.value)
             .disposed(by: disposeBag)
@@ -60,6 +64,9 @@ final class SettingViewController: UIViewController {
                     let navigationController = UINavigationController(rootViewController: passcodeViewController)
                     navigationController.modalPresentationStyle = .fullScreen
                     self.present(navigationController, animated: true, completion: nil)
+                case .pushCategoryEditVC:
+                    let categoryViewController = CategoryEditViewController()
+                    self.navigationController?.pushViewController(categoryViewController, animated: true)
                 }
             })
             .disposed(by: disposeBag)
