@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GraphTableViewCell: UITableViewCell {
+final class GraphTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var categoryColorView: UIView!
     @IBOutlet private weak var categoryLabel: UILabel!

@@ -31,6 +31,8 @@
 		4773CBE8270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */; };
 		4773CBEC270AF7DF00C52DE0 /* CategoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBEA270AF7DF00C52DE0 /* CategoryEditViewController.swift */; };
 		4773CBED270AF7DF00C52DE0 /* CategoryEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4773CBEB270AF7DF00C52DE0 /* CategoryEditViewController.xib */; };
+		4773CBF2270B013500C52DE0 /* CategoryEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBF0270B013500C52DE0 /* CategoryEditTableViewCell.swift */; };
+		4773CBF3270B013500C52DE0 /* CategoryEditTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4773CBF1270B013500C52DE0 /* CategoryEditTableViewCell.xib */; };
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
@@ -105,6 +107,8 @@
 		4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundHighlightedButton.swift; sourceTree = "<group>"; };
 		4773CBEA270AF7DF00C52DE0 /* CategoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditViewController.swift; sourceTree = "<group>"; };
 		4773CBEB270AF7DF00C52DE0 /* CategoryEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryEditViewController.xib; sourceTree = "<group>"; };
+		4773CBF0270B013500C52DE0 /* CategoryEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditTableViewCell.swift; sourceTree = "<group>"; };
+		4773CBF1270B013500C52DE0 /* CategoryEditTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryEditTableViewCell.xib; sourceTree = "<group>"; };
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
@@ -321,8 +325,26 @@
 			children = (
 				4773CBEA270AF7DF00C52DE0 /* CategoryEditViewController.swift */,
 				4773CBEB270AF7DF00C52DE0 /* CategoryEditViewController.xib */,
+				4773CBEE270B00E300C52DE0 /* TableView */,
 			);
 			path = CategoryEditView;
+			sourceTree = "<group>";
+		};
+		4773CBEE270B00E300C52DE0 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				4773CBEF270B00F900C52DE0 /* Cell */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		4773CBEF270B00F900C52DE0 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4773CBF0270B013500C52DE0 /* CategoryEditTableViewCell.swift */,
+				4773CBF1270B013500C52DE0 /* CategoryEditTableViewCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		47793EF626E76A8C0004E5F6 /* InputViewModel */ = {
@@ -736,6 +758,7 @@
 				47EB81FA26900D3E008FA088 /* GraphTableViewCell.xib in Resources */,
 				47DC3EDE26E34E3800693980 /* CalendarViewController.xib in Resources */,
 				47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */,
+				4773CBF3270B013500C52DE0 /* CategoryEditTableViewCell.xib in Resources */,
 				47DC3EE026E34E6A00693980 /* InputViewController.xib in Resources */,
 				472189BA26EB3AF3006C10EF /* GoogleService-Info.plist in Resources */,
 			);
@@ -835,6 +858,7 @@
 				47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */,
 				4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */,
 				47DC3EFE26E4C30900693980 /* CalendarTableViewDataSource.swift in Sources */,
+				4773CBF2270B013500C52DE0 /* CategoryEditTableViewCell.swift in Sources */,
 				4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */,
 				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
 				4773CBEC270AF7DF00C52DE0 /* CategoryEditViewController.swift in Sources */,
