@@ -64,9 +64,9 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
 
     func didChangeSegmentIndex(index: Int) {
         switch index {
-        case 1:
+        case 0:
             categoryDataRelay.accept(expenseCategoryDataArray)
-        case 2:
+        case 1:
             categoryDataRelay.accept(incomeCategoryDataArray)
         default:
             fatalError("想定していないSegmentIndexです。")

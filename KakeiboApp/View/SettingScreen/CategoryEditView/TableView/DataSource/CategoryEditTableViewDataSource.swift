@@ -24,6 +24,7 @@ final class CategoryEditTableViewDataSource:
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CategoryEditTableViewCell.identifier
         ) as! CategoryEditTableViewCell
+        cell.configure(data: items[indexPath.row])
         return cell
     }
 
