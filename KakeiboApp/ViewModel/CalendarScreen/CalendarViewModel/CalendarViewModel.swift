@@ -120,7 +120,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 dateFilterData.forEach {
                     cellData.append(
                         CellDateKakeiboData(
-                            category: $0.category, balance: $0.balance, memo: $0.memo
+                            categoryId: $0.categoryId, balance: $0.balance, memo: $0.memo
                         )
                     )
                 }
@@ -226,7 +226,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         let headerDateData = headerDateDataRelay.value[index.section]
         let kakeiboData = KakeiboData(
             date: headerDateData.date,
-            category: cellDateData.category,
+            categoryId: cellDateData.categoryId,
             balance: cellDateData.balance,
             memo: cellDateData.memo)
         eventRelay.accept(.presentEdit(kakeiboData))
@@ -239,7 +239,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         let headerDateData = headerDateDataRelay.value[index.section]
         let kakeiboData = KakeiboData(
             date: headerDateData.date,
-            category: cellDateData.category,
+            categoryId: cellDateData.categoryId,
             balance: cellDateData.balance,
             memo: cellDateData.memo)
         if let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == kakeiboData }) {

@@ -13,7 +13,7 @@ struct HeaderDateKakeiboData {
 }
 
 struct CellDateKakeiboData {
-    let category: Category // カテゴリー
+    let categoryId: CategoryId // カテゴリーID
     let balance: Balance // 収支
     let memo: String // メモ
 }

@@ -65,15 +65,8 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
                 guard let self = self else { return }
                 var chartDataEntry: [PieChartDataEntry] = []
                 graphData.forEach {
-                    let label: String
-                    switch $0.category {
-                    case .income(let category):
-                        label = category.rawValue
-                    case .expense(let category):
-                        label = category.rawValue
-                    }
                     chartDataEntry.append(
-                        PieChartDataEntry(value: Double($0.totalBalance), label: label)
+                        PieChartDataEntry(value: Double($0.totalBalance), label: $0.categoryData.name)
                     )
                 }
                 let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
@@ -81,12 +74,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
 
                 var colors: [UIColor] = []
                 graphData.forEach {
-                    switch $0.category {
-                    case .income(let category):
-                        colors.append(UIColor(named: category.colorName)!)
-                    case .expense(let category):
-                        colors.append(UIColor(named: category.colorName)!)
-                    }
+                    colors.append($0.categoryData.color)
                 }
                 pieChartDataSet.colors = colors
                 self.categoryPieChartView.legend.enabled = false
@@ -112,9 +100,9 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .presentCategoryVC(let category):
+                case .presentCategoryVC(let categoryData):
                     let categoryViewController = CategoryViewController(
-                        viewModel: CategoryViewModel(category: category)
+                        viewModel: CategoryViewModel(categoryData: categoryData)
                     )
                     self.navigationController?.pushViewController(categoryViewController, animated: true)
                 }

@@ -24,7 +24,7 @@ protocol CategoryViewModelType {
 
 final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
 
-    private let category: Category
+    private let categoryData: CategoryData
     private var monthDataArray: [Date] = [] // 月の日付
     private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private let calendarDate: CalendarDateProtocol
@@ -33,12 +33,12 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let cellDateDataRelay =  BehaviorRelay<[[CellDateCategoryData]]>(value: [])
     private let headerDateDataRelay =
         BehaviorRelay<[HeaderDateCategoryData]>(value: [])
-    private let navigationTItleRelay = BehaviorRelay<String>(value: "")
+    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
 
-    init(category: Category,
+    init(categoryData: CategoryData,
          calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          model: KakeiboModelProtocol = ModelLocator.shared.model) {
-        self.category = category
+        self.categoryData = categoryData
         self.calendarDate = calendarDate
         self.model = model
         acceptNavigationTitle()
@@ -46,12 +46,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     }
 
     private func acceptNavigationTitle() {
-        switch category {
-        case .income(let category):
-            navigationTItleRelay.accept(category.rawValue)
-        case .expense(let category):
-            navigationTItleRelay.accept(category.rawValue)
-        }
+        navigationTitleRelay.accept(categoryData.name)
     }
 
     private func setupBinding() {
@@ -84,7 +79,14 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .month)
         }
 
-        let categoryFilterData = monthFilterData.filter { category == $0.category }
+        let categoryFilterData = monthFilterData.filter {
+            switch $0.categoryId {
+            case .income(let categoryId):
+                return categoryId == categoryData.id
+            case .expense(let categoryId):
+                return categoryId == categoryData.id
+            }
+        }
         monthDataArray.forEach {
             var cellData: [CellDateCategoryData] = []
             let date = $0
@@ -115,7 +117,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     }
 
     var navigationTitle: Driver<String> {
-        navigationTItleRelay.asDriver(onErrorDriveWith: .empty())
+        navigationTitleRelay.asDriver(onErrorDriveWith: .empty())
     }
 }
 

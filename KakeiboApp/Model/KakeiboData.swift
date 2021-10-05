@@ -10,7 +10,7 @@ import Foundation
 struct KakeiboData: Codable, Equatable {
     static func == (lhs: KakeiboData, rhs: KakeiboData) -> Bool {
         lhs.date == rhs.date
-            && lhs.category == rhs.category
+            && lhs.categoryId == rhs.categoryId
             && lhs.balance == rhs.balance
             && lhs.memo == rhs.memo
     }
@@ -18,7 +18,7 @@ struct KakeiboData: Codable, Equatable {
     var instantiateTime =
         DateUtility.stringFromDate(date: Date(), format: "YYYY年MM月dd日 HH:mm:ss")
     let date: Date //　日付
-    let category: Category // カテゴリー
+    let categoryId: CategoryId // カテゴリー
     let balance: Balance // 収支
     let memo: String //　メモ
 }
@@ -46,30 +46,9 @@ enum Balance: Equatable {
     }
 }
 
-enum Category: Equatable {
-    case income(Income)
-    case expense(Expense)
-
-    enum Income: String, CaseIterable, Codable {
-        case salary = "給料"
-        case allowance = "お小遣い"
-        case bonus = "賞与"
-        case sideJob = "副業"
-        case investment = "投資"
-        case extraordinaryIncome = "臨時収入"
-    }
-
-    enum Expense: String, CaseIterable, Codable {
-            case consumption = "飲食費"
-            case life = "生活費"
-            case miscellaneous = "雑費"
-            case transpotation = "交通費"
-            case medical = "医療費"
-            case communication = "通信費"
-            case vehicleFee = "車両費"
-            case entertainment = "交際費"
-            case other = "その他"
-        }
+enum CategoryId: Equatable {
+    case income(String)
+    case expense(String)
 }
 
 extension Balance: Codable {
@@ -104,7 +83,7 @@ extension Balance: Codable {
     }
 }
 
-extension Category: Codable {
+extension CategoryId: Codable {
     enum CodingKeys: String, CodingKey {
             case income
             case expense
@@ -112,10 +91,10 @@ extension Category: Codable {
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        if let incomeCategory = try container.decodeIfPresent(Income.self, forKey: .income) {
-            self = .income(incomeCategory)
-        } else if let expenseCategory = try container.decodeIfPresent(Expense.self, forKey: .expense) {
-            self = .expense(expenseCategory)
+        if let incomeCategoryId = try container.decodeIfPresent(String.self, forKey: .income) {
+            self = .income(incomeCategoryId)
+        } else if let expenseCategoryId = try container.decodeIfPresent(String.self, forKey: .expense) {
+            self = .expense(expenseCategoryId)
         } else {
             throw DecodingError.dataCorrupted(
                 DecodingError.Context(
@@ -128,10 +107,10 @@ extension Category: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
-        case .income(let incomeCategory):
-            try container.encode(incomeCategory, forKey: .income)
-        case .expense(let expenseCategory):
-            try container.encode(expenseCategory, forKey: .expense)
+        case .income(let incomeCategoryId):
+            try container.encode(incomeCategoryId, forKey: .income)
+        case .expense(let expenseCategoryId):
+            try container.encode(expenseCategoryId, forKey: .expense)
         }
     }
 }

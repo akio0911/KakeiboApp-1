@@ -11,8 +11,8 @@ import RxCocoa
 
 final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, SegmentedControlViewDelegate {
 
-    private let stringExpenseCategoryArray = Category.Expense.allCases.map { $0.rawValue }
-    private let stringIncomeCategoryArray = Category.Income.allCases.map { $0.rawValue }
+    private var expenseCategoryDataArray: [CategoryData] { CategoryDataRepository().loadExpenseCategoryData() }
+    private var incomeCategoryDataArray: [CategoryData] { CategoryDataRepository().loadIncomeCategoryData() }
 
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var dateView: UIView!
@@ -35,6 +35,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private var selectedSegmentIndex: Int = 0
     private var editingTextField: UITextField?
     private var keyboardOverlap: CGFloat = 0
+    private var categoryPickerDidSelectRow = 0
 
     init(viewModel: InputViewModelType) {
         self.viewModel = viewModel
@@ -198,19 +199,19 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         }
         let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")
         var balance: Balance
-        var category: Category
+        var categoryId: CategoryId
         switch selectedSegmentIndex {
         case 0:
             balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
-            category = Category.expense(Category.Expense(rawValue: categoryTextField.text!)!)
+            categoryId = CategoryId.expense(expenseCategoryDataArray[categoryPickerDidSelectRow].id)
         case 1:
             balance = Balance.income(Int(balanceTextField.text!) ?? 0)
-            category = Category.income(Category.Income(rawValue: categoryTextField.text!)!)
+            categoryId = CategoryId.income(incomeCategoryDataArray[categoryPickerDidSelectRow].id)
         default:
             fatalError("想定していないsegmentIndex")
         }
         viewModel.inputs.didTapSaveButton(
-            data: KakeiboData(date: date, category: category, balance: balance, memo: memoTextField.text!)
+            data: KakeiboData(date: date, categoryId: categoryId, balance: balance, memo: memoTextField.text!)
         )
     }
 
@@ -301,9 +302,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView {
         case incomeCategoryPickerView:
-            return stringIncomeCategoryArray.count
+            return incomeCategoryDataArray.count
         case expenseCategoryPickerView:
-            return stringExpenseCategoryArray.count
+            return expenseCategoryDataArray.count
         default:
             fatalError("想定していないpickerView")
         }
@@ -313,9 +314,11 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case incomeCategoryPickerView:
-            categoryTextField.text = stringIncomeCategoryArray[row]
+            categoryTextField.text = incomeCategoryDataArray[row].name
+            categoryPickerDidSelectRow = row
         case expenseCategoryPickerView:
-            categoryTextField.text = stringExpenseCategoryArray[row]
+            categoryTextField.text = expenseCategoryDataArray[row].name
+            categoryPickerDidSelectRow = row
         default:
             fatalError("想定していないpickerView")
         }
@@ -324,9 +327,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView {
         case incomeCategoryPickerView:
-            return stringIncomeCategoryArray[row]
+            return incomeCategoryDataArray[row].name
         case expenseCategoryPickerView:
-            return stringExpenseCategoryArray[row]
+            return expenseCategoryDataArray[row].name
         default:
             fatalError("想定していないpickerView")
         }

@@ -115,12 +115,27 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     func editData(data: KakeiboData) {
         dateRelay.accept(DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月dd日"))
-        switch data.category {
-        case .income(let category):
-            categoryRelay.accept(category.rawValue)
-        case .expense(let category):
-            categoryRelay.accept(category.rawValue)
-        }
+        switch data.categoryId {
+        case .income(let id):
+            let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
+            let categoryDataArray = categoryDataRepository.loadIncomeCategoryData()
+            var categoryData: CategoryData?
+            categoryDataArray.forEach { if $0.id == id { categoryData = $0 } }
+            if let categoryData = categoryData {
+                categoryRelay.accept(categoryData.name)
+            } else {
+                categoryRelay.accept("") // idが一致しないエラー
+            }
+        case .expense(let id):
+            let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
+            let categoryDataArray = categoryDataRepository.loadExpenseCategoryData()
+            var categoryData: CategoryData?
+            categoryDataArray.forEach { if $0.id == id { categoryData = $0 } }
+            if let categoryData = categoryData {
+                categoryRelay.accept(categoryData.name)
+            } else {
+                categoryRelay.accept("") // idが一致しないエラー
+            }        }
         switch data.balance {
         case .income(let income):
             segmentIndexRelay.accept(1)

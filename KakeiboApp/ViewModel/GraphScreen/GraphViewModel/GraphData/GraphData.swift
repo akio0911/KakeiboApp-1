@@ -8,6 +8,6 @@
 import Foundation
 
 struct GraphData {
-    let category: Category
+    let categoryData: CategoryData
     let totalBalance: Int
 }
