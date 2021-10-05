@@ -65,8 +65,8 @@ final class SettingViewController: UIViewController {
                     navigationController.modalPresentationStyle = .fullScreen
                     self.present(navigationController, animated: true, completion: nil)
                 case .pushCategoryEditVC:
-                    let categoryViewController = CategoryEditViewController()
-                    self.navigationController?.pushViewController(categoryViewController, animated: true)
+                    let categoryEditViewController = CategoryEditViewController()
+                    self.navigationController?.pushViewController(categoryEditViewController, animated: true)
                 }
             })
             .disposed(by: disposeBag)

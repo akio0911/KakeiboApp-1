@@ -14,8 +14,17 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     @IBOutlet private weak var categoryTableView: UITableView!
 
     private var segmentedControlView: SegmentedControlView!
-
+    private let viewModel: CategoryEditViewModelType
     private let disposeBag = DisposeBag()
+
+    init(viewModel:CategoryEditViewModelType = CategoryEditViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -40,6 +49,9 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         categoryTableView.layer.masksToBounds = true
     }
 
+    private func setupBinding() {
+    }
+
     // MARK: - viewDidLayoutSubviews
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -60,5 +72,6 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
 
     // MARK: - SegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
+        viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
     }
 }

@@ -39,22 +39,3 @@ extension CategoryData: Codable {
         try container.encode(colorData, forKey: .color)
     }
 }
-
-struct Color: Codable {
-    private let red: CGFloat
-    private let green: CGFloat
-    private let blue: CGFloat
-    private let alpha: CGFloat
-
-    init(color: UIColor) {
-        let rgba = color.rgba
-        self.red = rgba.red
-        self.green = rgba.green
-        self.blue = rgba.blue
-        self.alpha = rgba.alpha
-    }
-
-    var uiColor: UIColor {
-        UIColor(red: red, green: green, blue: blue, alpha: alpha)
-    }
-}

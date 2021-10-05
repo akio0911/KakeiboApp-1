@@ -29,9 +29,6 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         }
         guard let incomeCategoryDataArray =
                 try? PropertyListDecoder().decode(Array<CategoryData>.self, from: data) else { return incomeCategoryArray }
-        print("💣gggg")
-        print(UIColor(red: 100, green: 100, blue: 100, alpha: 1))
-        print(incomeCategoryDataArray)
         return incomeCategoryDataArray
     }
 
@@ -41,14 +38,8 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
             saveExpenseCategoryData(data: expenseCategoryArray)
             return expenseCategoryArray
         }
-        print("💣gggg")
-        print(UIColor(red: 100, green: 100, blue: 100, alpha: 1))
-        print("💣")
-        print(data)
         guard let expenseCategoryDataArray =
                 try? PropertyListDecoder().decode(Array<CategoryData>.self, from: data) else { return expenseCategoryArray }
-        print("💣")
-        print(expenseCategoryDataArray)
         return expenseCategoryDataArray
     }
 
