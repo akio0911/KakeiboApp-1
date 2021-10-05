@@ -37,6 +37,7 @@
 		4773CBF7270BD77200C52DE0 /* ExtensionUIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBF6270BD77200C52DE0 /* ExtensionUIColor.swift */; };
 		4773CBFA270BDE2400C52DE0 /* CategoryDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBF9270BDE2400C52DE0 /* CategoryDataRepository.swift */; };
 		4773CBFD270C653000C52DE0 /* CategoryEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBFC270C653000C52DE0 /* CategoryEditViewModel.swift */; };
+		4773CC00270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBFF270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift */; };
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
@@ -115,6 +116,7 @@
 		4773CBF6270BD77200C52DE0 /* ExtensionUIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIColor.swift; sourceTree = "<group>"; };
 		4773CBF9270BDE2400C52DE0 /* CategoryDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDataRepository.swift; sourceTree = "<group>"; };
 		4773CBFC270C653000C52DE0 /* CategoryEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditViewModel.swift; sourceTree = "<group>"; };
+		4773CBFF270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditTableViewDataSource.swift; sourceTree = "<group>"; };
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 		4773CBEE270B00E300C52DE0 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
+				4773CBFE270C6C9F00C52DE0 /* DataSource */,
 				4773CBEF270B00F900C52DE0 /* Cell */,
 			);
 			path = TableView;
@@ -359,6 +362,14 @@
 				4773CBFC270C653000C52DE0 /* CategoryEditViewModel.swift */,
 			);
 			path = CategoryEditViewModel;
+			sourceTree = "<group>";
+		};
+		4773CBFE270C6C9F00C52DE0 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				4773CBFF270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift */,
+			);
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		47793EF626E76A8C0004E5F6 /* InputViewModel */ = {
@@ -896,6 +907,7 @@
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
 				472EFDDF2705EECB00A80640 /* PasscodeObserver.swift in Sources */,
 				4773CBF7270BD77200C52DE0 /* ExtensionUIColor.swift in Sources */,
+				4773CC00270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift in Sources */,
 				47DC3EF126E4723E00693980 /* CalendarViewModel.swift in Sources */,
 				47CC9A7326F76BC700126467 /* CategoryTableViewHeaderView.swift in Sources */,
 				47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */,

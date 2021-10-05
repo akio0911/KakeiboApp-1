@@ -21,7 +21,7 @@ final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     weak var delegate: CalendarTableViewDataSourceDelegate?
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return items.count
+        items.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

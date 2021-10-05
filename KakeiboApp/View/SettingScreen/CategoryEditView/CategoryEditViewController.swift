@@ -16,6 +16,8 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     private var segmentedControlView: SegmentedControlView!
     private let viewModel: CategoryEditViewModelType
     private let disposeBag = DisposeBag()
+    private let categoryEditTableViewDataSource =
+        CategoryEditTableViewDataSource()
 
     init(viewModel:CategoryEditViewModelType = CategoryEditViewModel()) {
         self.viewModel = viewModel
@@ -31,6 +33,7 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         super.viewDidLoad()
         setupSegmentedControlView()
         setupCategoryTableView()
+        setupBinding()
         navigationItem.title  = "カテゴリー編集"
     }
 
@@ -50,6 +53,11 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     }
 
     private func setupBinding() {
+        viewModel.outputs.categoryData
+            .bind(to:
+                    categoryTableView.rx.items(dataSource: categoryEditTableViewDataSource)
+            )
+            .disposed(by: disposeBag)
     }
 
     // MARK: - viewDidLayoutSubviews
