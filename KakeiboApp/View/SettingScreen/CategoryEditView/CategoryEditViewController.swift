@@ -73,7 +73,9 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
-                let categoryInputViewController = CategoryInputViewController()
+                let categoryInputViewController = CategoryInputViewController(
+                    viewModel: CategoryInputViewModel(mode: CategoryInputViewModel.Mode(event: event))
+                )
                 let navigationController = UINavigationController(rootViewController: categoryInputViewController)
                 self.present(navigationController, animated: true, completion: nil)
             })
@@ -109,5 +111,21 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     // MARK: - SegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
+    }
+}
+
+// MARK: - extension CategoryInputViewModel.Mode
+extension CategoryInputViewModel.Mode {
+    init(event: CategoryEditViewModel.Event) {
+        switch event {
+        case .presentIncomeCategoryAdd:
+            self = .incomeCategoryAdd
+        case .presentExpenseCategoryAdd:
+            self = .expenseCategoryAdd
+        case .presentIncomeCategoryEdit(let data):
+            self = .incomeCategoryEdit(data)
+        case .presentExpenseCategoryEdit(let data):
+            self = .expenseCategoryEdit(data)
+        }
     }
 }

@@ -14,7 +14,7 @@
                 <outlet property="brightnessSlider" destination="6y9-1o-GKV" id="R8u-OY-oL3"/>
                 <outlet property="categoryTextField" destination="awe-lu-7d9" id="6ia-MX-NO5"/>
                 <outlet property="colorView" destination="VId-uK-t8Z" id="dlH-NN-5cr"/>
-                <outlet property="heuSlider" destination="qRr-GJ-1AN" id="jW2-mf-xVx"/>
+                <outlet property="hueSlider" destination="qRr-GJ-1AN" id="DpP-Vq-Edt"/>
                 <outlet property="mosaicView" destination="YcF-tX-4t6" id="K4D-3W-xhc"/>
                 <outlet property="saturationSlider" destination="HPV-Oc-H8K" id="Duo-mh-26o"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -39,17 +39,17 @@
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="カテゴリー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mrl-v1-GIH">
                             <rect key="frame" x="20" y="29.5" width="87" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="awe-lu-7d9">
-                            <rect key="frame" x="147" y="29.5" width="187" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <rect key="frame" x="147" y="29" width="187" height="22"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PbK-aT-cRX">
-                            <rect key="frame" x="147" y="50.5" width="187" height="1"/>
+                            <rect key="frame" x="147" y="51" width="187" height="1"/>
                             <color key="backgroundColor" systemColor="systemOrangeColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="1" id="ZMM-lN-Cr9"/>
@@ -77,7 +77,7 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="カラー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n2G-Ig-Xu2">
                             <rect key="frame" x="20" y="30" width="52" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -152,7 +152,7 @@
                 <constraint firstItem="ZXd-Qf-KyZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="z26-HB-4vq"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="-13" y="31"/>
+            <point key="canvasLocation" x="-214" y="-2"/>
         </view>
     </objects>
     <resources>

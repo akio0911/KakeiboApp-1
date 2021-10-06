@@ -40,6 +40,7 @@
 		4773CC00270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBFF270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift */; };
 		4773CC24270D24BC00C52DE0 /* CategoryInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CC22270D24BC00C52DE0 /* CategoryInputViewController.swift */; };
 		4773CC25270D24BC00C52DE0 /* CategoryInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */; };
+		4773CC28270D56E400C52DE0 /* CategoryInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CC27270D56E400C52DE0 /* CategoryInputViewModel.swift */; };
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
@@ -121,6 +122,7 @@
 		4773CBFF270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditTableViewDataSource.swift; sourceTree = "<group>"; };
 		4773CC22270D24BC00C52DE0 /* CategoryInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInputViewController.swift; sourceTree = "<group>"; };
 		4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryInputViewController.xib; sourceTree = "<group>"; };
+		4773CC27270D56E400C52DE0 /* CategoryInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInputViewModel.swift; sourceTree = "<group>"; };
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
@@ -365,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				4773CBFC270C653000C52DE0 /* CategoryEditViewModel.swift */,
+				4773CC26270D56B900C52DE0 /* CategoryInputViewModel */,
 			);
 			path = CategoryEditViewModel;
 			sourceTree = "<group>";
@@ -384,6 +387,14 @@
 				4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */,
 			);
 			path = CategoryInputView;
+			sourceTree = "<group>";
+		};
+		4773CC26270D56B900C52DE0 /* CategoryInputViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4773CC27270D56E400C52DE0 /* CategoryInputViewModel.swift */,
+			);
+			path = CategoryInputViewModel;
 			sourceTree = "<group>";
 		};
 		47793EF626E76A8C0004E5F6 /* InputViewModel */ = {
@@ -909,6 +920,7 @@
 				47815704266128C8005E1020 /* SceneDelegate.swift in Sources */,
 				472EFDDA270564DD00A80640 /* PasscodeViewModel.swift in Sources */,
 				47480073268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.swift in Sources */,
+				4773CC28270D56E400C52DE0 /* CategoryInputViewModel.swift in Sources */,
 				472EFDDC2705A6DB00A80640 /* PasscodeRepository.swift in Sources */,
 				47DC3F0326E4E8C900693980 /* CalendarCollectionViewDataSource.swift in Sources */,
 				47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */,

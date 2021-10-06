@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class CategoryInputViewController: UIViewController {
 
@@ -13,17 +15,29 @@ class CategoryInputViewController: UIViewController {
     @IBOutlet private var contentsView: [UIView]!
     @IBOutlet private weak var mosaicView: UIView!
     @IBOutlet private weak var colorView: UIView!
-    @IBOutlet private weak var heuSlider: UISlider!
+    @IBOutlet private weak var hueSlider: UISlider!
     @IBOutlet private weak var saturationSlider: UISlider!
     @IBOutlet private weak var brightnessSlider: UISlider!
+
+    private let viewModel: CategoryInputViewModelType
+    private let disposeBag = DisposeBag()
+
+    init(viewModel: CategoryInputViewModelType) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         contentsView.forEach { setupCornerRadius(view: $0) }
         setupCornerRadius(view: mosaicView)
         setupCornerRadius(view: colorView)
-        colorView.backgroundColor = UIColor(hue: 50 / 100, saturation: 50 / 100, brightness: 50 / 100, alpha: 1)
         setupBarButtonItem()
+        setupBinding()
     }
 
     private func setupCornerRadius(view: UIView) {
@@ -47,6 +61,39 @@ class CategoryInputViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelBarButton
     }
 
+    private func setupBinding() {
+        viewModel.outputs.navigationTitle
+            .drive(navigationItem.rx.title)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.categoryName
+            .drive(categoryTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.categoryColor
+            .drive(colorView.rx.backgroundColor)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.hueSliderValue
+            .drive(hueSlider.rx.value)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.saturationSliderValue
+            .drive(saturationSlider.rx.value)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.brightnessSliderValue
+            .drive(brightnessSlider.rx.value)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.event
+            .drive(onNext: { [weak self] event in
+                guard let self = self else { return }
+                self.dismiss(animated: true, completion: nil)
+            })
+            .disposed(by: disposeBag)
+    }
+
     @IBAction private func hueSliderValueChanged(_ sender: UISlider) {
         let hue: CGFloat = CGFloat(sender.value / 100)
         let saturation = CGFloat(saturationSlider.value / 100)
@@ -55,14 +102,14 @@ class CategoryInputViewController: UIViewController {
     }
 
     @IBAction func saturationSliderValueChange(_ sender: UISlider) {
-        let hue: CGFloat = CGFloat(heuSlider.value / 100)
+        let hue: CGFloat = CGFloat(hueSlider.value / 100)
         let saturation = CGFloat(sender.value / 100)
         let brightness = CGFloat(brightnessSlider.value / 100)
         colorView.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
     }
 
     @IBAction func brightnessSliderValueChange(_ sender: UISlider) {
-        let hue: CGFloat = CGFloat(heuSlider.value / 100)
+        let hue: CGFloat = CGFloat(hueSlider.value / 100)
         let saturation = CGFloat(saturationSlider.value / 100)
         let brightness = CGFloat(sender.value / 100)
         colorView.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
@@ -70,8 +117,10 @@ class CategoryInputViewController: UIViewController {
 
     // MARK: - @objc
     @objc private func didTapCancelBarButton() {
+        viewModel.inputs.didTapCancelBarButton()
     }
 
     @objc private func didTapSaveBarButton() {
+        viewModel.inputs.didTapSaveBarButton()
     }
 }
