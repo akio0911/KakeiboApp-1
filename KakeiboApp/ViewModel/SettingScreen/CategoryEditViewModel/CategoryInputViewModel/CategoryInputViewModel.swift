@@ -11,9 +11,9 @@ import RxCocoa
 protocol CategoryInputViewModelInput {
     func didTapSaveBarButton()
     func didTapCancelBarButton()
-    func hueSliderValueChanged(value: Int)
-    func saturationSliderValueChanged(value: Int)
-    func brightnessSliderValueChanged(value: Int)
+    func hueSliderValueChanged(value: Float)
+    func saturationSliderValueChanged(value: Float)
+    func brightnessSliderValueChanged(value: Float)
 }
 
 protocol CategoryInputViewModelOutput {
@@ -48,10 +48,10 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
     private let categoryNameRelay = BehaviorRelay<String>(value: "")
     private let categoryColorRelay = BehaviorRelay<UIColor>(
-        value: UIColor(hue: 0.5, saturation: 0.5, brightness: 0.5, alpha: 0.5))
-    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 0.5)
-    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 0.5)
-    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 0.5)
+        value: UIColor(hue: 0.5, saturation: 0.5, brightness: 0.5, alpha: 1))
+    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 50)
+    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 50)
+    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 50)
 
     init(mode: Mode) {
         self.mode = mode
@@ -119,13 +119,28 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         eventRelay.accept(.dissmiss)
     }
 
-    func hueSliderValueChanged(value: Int) {
+    func hueSliderValueChanged(value: Float) {
+        let hue: CGFloat = CGFloat(value / 100)
+        let categoryColorHSBA = categoryColorRelay.value.hsba
+        let categoryColor =
+        UIColor(hue: hue, saturation: categoryColorHSBA.saturation, brightness: categoryColorHSBA.brightness, alpha: 1)
+        categoryColorRelay.accept(categoryColor)
     }
 
-    func saturationSliderValueChanged(value: Int) {
+    func saturationSliderValueChanged(value: Float) {
+        let saturation: CGFloat = CGFloat(value / 100)
+        let categoryColorHSBA = categoryColorRelay.value.hsba
+        let categoryColor =
+        UIColor(hue: categoryColorHSBA.hue, saturation: saturation, brightness: categoryColorHSBA.brightness, alpha: 1)
+        categoryColorRelay.accept(categoryColor)
     }
 
-    func brightnessSliderValueChanged(value: Int) {
+    func brightnessSliderValueChanged(value: Float) {
+        let brightness: CGFloat = CGFloat(value / 100)
+        let categoryColorHSBA = categoryColorRelay.value.hsba
+        let categoryColor =
+        UIColor(hue: categoryColorHSBA.hue, saturation: categoryColorHSBA.saturation, brightness: brightness, alpha: 1)
+        categoryColorRelay.accept(categoryColor)
     }
 }
 

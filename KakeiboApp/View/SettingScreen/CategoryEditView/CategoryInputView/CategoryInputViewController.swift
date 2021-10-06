@@ -37,6 +37,7 @@ class CategoryInputViewController: UIViewController {
         setupCornerRadius(view: mosaicView)
         setupCornerRadius(view: colorView)
         setupBarButtonItem()
+        setupTapGesture()
         setupBinding()
     }
 
@@ -61,7 +62,27 @@ class CategoryInputViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelBarButton
     }
 
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(_:)))
+        view.addGestureRecognizer(tapGesture)
+    }
+
     private func setupBinding() {
+        hueSlider.rx.value
+            .skip(1) // 初期値をスキップ
+            .subscribe(onNext: viewModel.inputs.hueSliderValueChanged)
+            .disposed(by: disposeBag)
+
+        saturationSlider.rx.value
+            .skip(1) // 初期値をスキップ
+            .subscribe(onNext: viewModel.inputs.saturationSliderValueChanged)
+            .disposed(by: disposeBag)
+
+        brightnessSlider.rx.value
+            .skip(1) // 初期値をスキップ
+            .subscribe(onNext: viewModel.inputs.brightnessSliderValueChanged)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.navigationTitle
             .drive(navigationItem.rx.title)
             .disposed(by: disposeBag)
@@ -94,27 +115,6 @@ class CategoryInputViewController: UIViewController {
             .disposed(by: disposeBag)
     }
 
-    @IBAction private func hueSliderValueChanged(_ sender: UISlider) {
-        let hue: CGFloat = CGFloat(sender.value / 100)
-        let saturation = CGFloat(saturationSlider.value / 100)
-        let brightness = CGFloat(brightnessSlider.value / 100)
-        colorView.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
-    }
-
-    @IBAction func saturationSliderValueChange(_ sender: UISlider) {
-        let hue: CGFloat = CGFloat(hueSlider.value / 100)
-        let saturation = CGFloat(sender.value / 100)
-        let brightness = CGFloat(brightnessSlider.value / 100)
-        colorView.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
-    }
-
-    @IBAction func brightnessSliderValueChange(_ sender: UISlider) {
-        let hue: CGFloat = CGFloat(hueSlider.value / 100)
-        let saturation = CGFloat(saturationSlider.value / 100)
-        let brightness = CGFloat(sender.value / 100)
-        colorView.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
-    }
-
     // MARK: - @objc
     @objc private func didTapCancelBarButton() {
         viewModel.inputs.didTapCancelBarButton()
@@ -122,5 +122,9 @@ class CategoryInputViewController: UIViewController {
 
     @objc private func didTapSaveBarButton() {
         viewModel.inputs.didTapSaveBarButton()
+    }
+
+    @objc func didTapView(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 }
