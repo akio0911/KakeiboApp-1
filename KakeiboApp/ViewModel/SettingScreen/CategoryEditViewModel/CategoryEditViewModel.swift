@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol CategoryEditViewModelInput {
-    func didTapInputBarButton()
+    func didTapAddBarButton()
     func didSelectRowAt(index: IndexPath)
     func didDeleateCell(index: IndexPath)
     func didChangeSegmentIndex(index: Int)
@@ -28,6 +28,10 @@ protocol CategoryEditViewModelType {
 final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewModelOutput {
 
     enum Event {
+        case presentIncomeCategoryAdd
+        case presentExpenseCategoryAdd
+        case presentIncomeCategoryEdit(CategoryData)
+        case presentExpenseCategoryEdit(CategoryData)
     }
 
     private let categoryDataRepository: CategoryDataRepositoryProtocol
@@ -35,6 +39,7 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     private let eventRelay = PublishRelay<Event>()
     private var incomeCategoryDataArray: [CategoryData]
     private var expenseCategoryDataArray: [CategoryData]
+    private var currentSegmentIndex = 0
 
     init(categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()) {
         self.categoryDataRepository = categoryDataRepository
@@ -53,10 +58,26 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func didTapInputBarButton() {
+    func didTapAddBarButton() {
+        switch currentSegmentIndex {
+        case 0:
+            eventRelay.accept(.presentExpenseCategoryAdd)
+        case 1:
+            eventRelay.accept(.presentIncomeCategoryAdd)
+        default:
+            fatalError("想定していないSegmentIndexです。")
+        }
     }
 
     func didSelectRowAt(index: IndexPath) {
+        switch currentSegmentIndex {
+        case 0:
+            eventRelay.accept(.presentExpenseCategoryEdit(expenseCategoryDataArray[index.row]))
+        case 1:
+            eventRelay.accept(.presentIncomeCategoryEdit(incomeCategoryDataArray[index.row]))
+        default:
+            fatalError("想定していないSegmentIndexです。")
+        }
     }
 
     func didDeleateCell(index: IndexPath) {
@@ -66,8 +87,10 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         switch index {
         case 0:
             categoryDataRelay.accept(expenseCategoryDataArray)
+            currentSegmentIndex = 0
         case 1:
             categoryDataRelay.accept(incomeCategoryDataArray)
+            currentSegmentIndex = 1
         default:
             fatalError("想定していないSegmentIndexです。")
         }

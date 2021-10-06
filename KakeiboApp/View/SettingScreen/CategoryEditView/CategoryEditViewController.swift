@@ -33,6 +33,7 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         super.viewDidLoad()
         setupSegmentedControlView()
         setupCategoryTableView()
+        setupBarButtonItem()
         setupBinding()
         navigationItem.title  = "カテゴリー編集"
     }
@@ -52,11 +53,30 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         categoryTableView.layer.masksToBounds = true
     }
 
+    private func setupBarButtonItem() {
+        let addBarButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTapAddBarButton)
+        )
+        navigationItem.rightBarButtonItem = addBarButton
+    }
+
     private func setupBinding() {
         viewModel.outputs.categoryData
             .bind(to:
                     categoryTableView.rx.items(dataSource: categoryEditTableViewDataSource)
             )
+            .disposed(by: disposeBag)
+
+        // TODO: 後で削除しなければならない
+        viewModel.outputs.event
+            .drive(onNext: { [weak self] event in
+                guard let self = self else { return }
+                let categoryInputViewController = CategoryInputViewController()
+                let navigationController = UINavigationController(rootViewController: categoryInputViewController)
+                self.present(navigationController, animated: true, completion: nil)
+            })
             .disposed(by: disposeBag)
     }
 
@@ -76,12 +96,14 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         ])
     }
 
-    // MARK: - UITableViewDelegate
-    // TODO: 後で削除しなければならない
+    // MARK: - @objc
+    @objc private func didTapAddBarButton() {
+        viewModel.inputs.didTapAddBarButton()
+    }
 
+    // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let categoryInputViewController = CategoryInputViewController()
-        present(categoryInputViewController, animated: true, completion: nil)
+        viewModel.inputs.didSelectRowAt(index: indexPath)
     }
 
     // MARK: - SegmentedControlViewDelegate
