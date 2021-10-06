@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate, UIScrollViewDelegate {
+class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate, UITableViewDelegate {
 
     @IBOutlet private weak var categoryTableView: UITableView!
 
@@ -77,6 +77,12 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     }
 
     // MARK: - UITableViewDelegate
+    // TODO: 後で削除しなければならない
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let categoryInputViewController = CategoryInputViewController()
+        present(categoryInputViewController, animated: true, completion: nil)
+    }
 
     // MARK: - SegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
