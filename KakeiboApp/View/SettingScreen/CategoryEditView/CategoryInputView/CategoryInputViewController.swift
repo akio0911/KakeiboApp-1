@@ -18,6 +18,9 @@ class CategoryInputViewController: UIViewController {
     @IBOutlet private weak var hueSlider: UISlider!
     @IBOutlet private weak var saturationSlider: UISlider!
     @IBOutlet private weak var brightnessSlider: UISlider!
+    @IBOutlet private weak var hueSliderBackView: GradientLayerView!
+    @IBOutlet private weak var saturationSliedrBackView: GradientLayerView!
+    @IBOutlet private weak var brightnessSliderBackView: GradientLayerView!
 
     private let viewModel: CategoryInputViewModelType
     private let disposeBag = DisposeBag()
@@ -33,17 +36,24 @@ class CategoryInputViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentsView.forEach { setupCornerRadius(view: $0) }
-        setupCornerRadius(view: mosaicView)
-        setupCornerRadius(view: colorView)
+        setupCornerRadius()
         setupBarButtonItem()
         setupTapGesture()
         setupBinding()
     }
 
-    private func setupCornerRadius(view: UIView) {
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
+    private func setupCornerRadius() {
+        contentsView.forEach { cornerRadius(view: $0, cornerRadius: 10) }
+        cornerRadius(view: mosaicView, cornerRadius: 10)
+        cornerRadius(view: colorView, cornerRadius: 10)
+        cornerRadius(view: hueSliderBackView, cornerRadius: 2)
+        cornerRadius(view: saturationSliedrBackView, cornerRadius: 2)
+        cornerRadius(view: brightnessSliderBackView, cornerRadius: 2)
+    }
+
+    private func cornerRadius(view: UIView, cornerRadius: CGFloat) {
+        view.layer.cornerRadius = cornerRadius
+        view.layer.masksToBounds = true
     }
 
     private func setupBarButtonItem() {
@@ -105,6 +115,18 @@ class CategoryInputViewController: UIViewController {
 
         viewModel.outputs.brightnessSliderValue
             .drive(brightnessSlider.rx.value)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.hueColors
+            .drive(onNext: hueSliderBackView.setGradientLayer)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.saturationColors
+            .drive(onNext: saturationSliedrBackView.setGradientLayer)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.brightnessColors
+            .drive(onNext: brightnessSliderBackView.setGradientLayer)
             .disposed(by: disposeBag)
 
         viewModel.outputs.event

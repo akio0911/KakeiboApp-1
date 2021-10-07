@@ -12,11 +12,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoryInputViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
                 <outlet property="brightnessSlider" destination="6y9-1o-GKV" id="R8u-OY-oL3"/>
+                <outlet property="brightnessSliderBackView" destination="Aos-iU-bvH" id="f1s-Ud-LnB"/>
                 <outlet property="categoryTextField" destination="awe-lu-7d9" id="6ia-MX-NO5"/>
                 <outlet property="colorView" destination="VId-uK-t8Z" id="dlH-NN-5cr"/>
                 <outlet property="hueSlider" destination="qRr-GJ-1AN" id="DpP-Vq-Edt"/>
+                <outlet property="hueSliderBackView" destination="yGe-kC-oik" id="rLj-Hs-bGl"/>
                 <outlet property="mosaicView" destination="YcF-tX-4t6" id="K4D-3W-xhc"/>
                 <outlet property="saturationSlider" destination="HPV-Oc-H8K" id="Duo-mh-26o"/>
+                <outlet property="saturationSliedrBackView" destination="fu3-2x-8iX" id="O8p-FO-VfT"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
                 <outletCollection property="contentsView" destination="ZXd-Qf-KyZ" collectionClass="NSMutableArray" id="9bj-lF-kCH"/>
                 <outletCollection property="contentsView" destination="34s-zl-I0o" collectionClass="NSMutableArray" id="9yB-6C-Jfc"/>
@@ -73,7 +76,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="34s-zl-I0o">
-                    <rect key="frame" x="20" y="228" width="374" height="425"/>
+                    <rect key="frame" x="20" y="228" width="374" height="405"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="カラー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n2G-Ig-Xu2">
                             <rect key="frame" x="20" y="30" width="52" height="21"/>
@@ -88,45 +91,83 @@
                                 <constraint firstAttribute="width" secondItem="VId-uK-t8Z" secondAttribute="height" multiplier="1:1" id="zkj-4m-vF7"/>
                             </constraints>
                         </view>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="qRr-GJ-1AN">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yGe-kC-oik" userLabel="HueSliderBackView" customClass="GradientLayerView" customModule="KakeiboApp" customModuleProvider="target">
+                            <rect key="frame" x="40" y="289" width="294" height="4"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="4" id="PNQ-Tx-1DK"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fu3-2x-8iX" userLabel="SaturationSliderBackView" customClass="GradientLayerView" customModule="KakeiboApp" customModuleProvider="target">
+                            <rect key="frame" x="40" y="324" width="294" height="4"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="4" id="c0M-A5-L2F"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aos-iU-bvH" userLabel="BrightnessSliderBackView" customClass="GradientLayerView" customModule="KakeiboApp" customModuleProvider="target">
+                            <rect key="frame" x="40" y="359" width="294" height="4"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="4" id="Lwb-YJ-ZuP"/>
+                            </constraints>
+                        </view>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.01" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="qRr-GJ-1AN" userLabel="Hue Horizontal Slider">
                             <rect key="frame" x="38" y="275" width="298" height="31"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="llB-2F-wr1"/>
                             </constraints>
+                            <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </slider>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="HPV-Oc-H8K">
-                            <rect key="frame" x="38" y="320" width="298" height="31"/>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.57999999999999996" minValue="0.16" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="HPV-Oc-H8K" userLabel="Saturation Horizontal Slider">
+                            <rect key="frame" x="38" y="310" width="298" height="31"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="Keu-l5-URl"/>
                             </constraints>
+                            <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </slider>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="6y9-1o-GKV">
-                            <rect key="frame" x="38" y="365" width="298" height="31"/>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.81000000000000005" minValue="0.62" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6y9-1o-GKV" userLabel="Brightness Horizontal Slider">
+                            <rect key="frame" x="38" y="345" width="298" height="31"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="QG8-MS-8eA"/>
                             </constraints>
+                            <color key="minimumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="maximumTrackTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </slider>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6y9-1o-GKV" secondAttribute="bottom" constant="20" id="2AS-i6-cnz"/>
-                        <constraint firstItem="6y9-1o-GKV" firstAttribute="top" secondItem="HPV-Oc-H8K" secondAttribute="bottom" constant="15" id="2vk-tn-M9O"/>
+                        <constraint firstItem="Aos-iU-bvH" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="40" id="2G8-8V-TvT"/>
+                        <constraint firstItem="6y9-1o-GKV" firstAttribute="top" secondItem="HPV-Oc-H8K" secondAttribute="bottom" constant="5" id="2vk-tn-M9O"/>
                         <constraint firstAttribute="trailing" secondItem="VId-uK-t8Z" secondAttribute="trailing" constant="100" id="3nL-ii-7EE"/>
+                        <constraint firstAttribute="trailing" secondItem="Aos-iU-bvH" secondAttribute="trailing" constant="40" id="5xj-kS-Jdx"/>
                         <constraint firstItem="VId-uK-t8Z" firstAttribute="centerX" secondItem="34s-zl-I0o" secondAttribute="centerX" id="6Hk-Q4-Jmh"/>
                         <constraint firstItem="n2G-Ig-Xu2" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="20" id="C07-gz-RGm"/>
+                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Aos-iU-bvH" secondAttribute="bottom" constant="32" id="CiL-8E-5Ev"/>
                         <constraint firstItem="qRr-GJ-1AN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="VId-uK-t8Z" secondAttribute="bottom" constant="20" id="Ddl-XN-KNi"/>
                         <constraint firstItem="HPV-Oc-H8K" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="40" id="IXY-YV-NHp"/>
                         <constraint firstItem="VId-uK-t8Z" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="100" id="Jzt-xc-Tg7"/>
+                        <constraint firstAttribute="trailing" secondItem="yGe-kC-oik" secondAttribute="trailing" constant="40" id="Lo9-Ri-k4G"/>
+                        <constraint firstItem="yGe-kC-oik" firstAttribute="top" secondItem="VId-uK-t8Z" secondAttribute="bottom" priority="750" constant="44" id="Mkn-q0-fzN"/>
                         <constraint firstItem="qRr-GJ-1AN" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="40" id="POt-5D-oZ8"/>
+                        <constraint firstAttribute="trailing" secondItem="fu3-2x-8iX" secondAttribute="trailing" constant="40" id="Qgr-jx-rp0"/>
+                        <constraint firstItem="yGe-kC-oik" firstAttribute="top" relation="greaterThanOrEqual" secondItem="VId-uK-t8Z" secondAttribute="bottom" constant="34" id="Quw-gQ-IwY"/>
                         <constraint firstAttribute="trailing" secondItem="6y9-1o-GKV" secondAttribute="trailing" constant="40" id="Rt0-7f-d1s"/>
                         <constraint firstItem="VId-uK-t8Z" firstAttribute="top" relation="greaterThanOrEqual" secondItem="34s-zl-I0o" secondAttribute="top" constant="66" id="SJZ-ud-cQP"/>
                         <constraint firstAttribute="trailing" secondItem="HPV-Oc-H8K" secondAttribute="trailing" constant="40" id="a4W-kB-ttw"/>
+                        <constraint firstItem="Aos-iU-bvH" firstAttribute="top" secondItem="HPV-Oc-H8K" secondAttribute="bottom" constant="19" id="bs1-lV-H3s"/>
                         <constraint firstItem="6y9-1o-GKV" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="40" id="bup-l8-gz5"/>
                         <constraint firstItem="VId-uK-t8Z" firstAttribute="top" secondItem="34s-zl-I0o" secondAttribute="top" priority="750" constant="71" id="dsI-tg-Qeo"/>
-                        <constraint firstAttribute="height" priority="750" constant="425" id="eHL-5K-hwI"/>
+                        <constraint firstAttribute="height" priority="750" constant="405" id="eHL-5K-hwI"/>
                         <constraint firstItem="n2G-Ig-Xu2" firstAttribute="top" secondItem="34s-zl-I0o" secondAttribute="top" constant="30" id="eWu-Cm-M2v"/>
-                        <constraint firstItem="HPV-Oc-H8K" firstAttribute="top" secondItem="qRr-GJ-1AN" secondAttribute="bottom" constant="15" id="fOQ-gp-HfD"/>
+                        <constraint firstItem="HPV-Oc-H8K" firstAttribute="top" secondItem="qRr-GJ-1AN" secondAttribute="bottom" constant="5" id="fOQ-gp-HfD"/>
+                        <constraint firstItem="yGe-kC-oik" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="40" id="g2d-7k-B6d"/>
+                        <constraint firstItem="fu3-2x-8iX" firstAttribute="top" secondItem="qRr-GJ-1AN" secondAttribute="bottom" constant="19" id="kOt-pm-eAC"/>
                         <constraint firstItem="qRr-GJ-1AN" firstAttribute="top" secondItem="VId-uK-t8Z" secondAttribute="bottom" priority="750" constant="30" id="lqq-1v-O8D"/>
+                        <constraint firstItem="fu3-2x-8iX" firstAttribute="leading" secondItem="34s-zl-I0o" secondAttribute="leading" constant="40" id="naY-yY-3Hg"/>
                         <constraint firstAttribute="trailing" secondItem="qRr-GJ-1AN" secondAttribute="trailing" constant="40" id="oSw-Lz-4FT"/>
                     </constraints>
                 </view>
@@ -143,7 +184,7 @@
                 <constraint firstItem="ZXd-Qf-KyZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="z26-HB-4vq"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="-214" y="-2"/>
+            <point key="canvasLocation" x="-272" y="48"/>
         </view>
     </objects>
     <resources>

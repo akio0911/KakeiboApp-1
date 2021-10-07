@@ -41,6 +41,7 @@
 		4773CC24270D24BC00C52DE0 /* CategoryInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CC22270D24BC00C52DE0 /* CategoryInputViewController.swift */; };
 		4773CC25270D24BC00C52DE0 /* CategoryInputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */; };
 		4773CC28270D56E400C52DE0 /* CategoryInputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CC27270D56E400C52DE0 /* CategoryInputViewModel.swift */; };
+		4773CC2A270DF3E900C52DE0 /* GradientLayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CC29270DF3E900C52DE0 /* GradientLayerView.swift */; };
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
@@ -123,6 +124,7 @@
 		4773CC22270D24BC00C52DE0 /* CategoryInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInputViewController.swift; sourceTree = "<group>"; };
 		4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryInputViewController.xib; sourceTree = "<group>"; };
 		4773CC27270D56E400C52DE0 /* CategoryInputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryInputViewModel.swift; sourceTree = "<group>"; };
+		4773CC29270DF3E900C52DE0 /* GradientLayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLayerView.swift; sourceTree = "<group>"; };
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 			children = (
 				4773CC22270D24BC00C52DE0 /* CategoryInputViewController.swift */,
 				4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */,
+				4773CC29270DF3E900C52DE0 /* GradientLayerView.swift */,
 			);
 			path = CategoryInputView;
 			sourceTree = "<group>";
@@ -886,6 +889,7 @@
 				47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */,
 				472EFDD7270488A500A80640 /* PasscodeInputButtonView.swift in Sources */,
 				4773CBF5270BD30600C52DE0 /* CategoryData.swift in Sources */,
+				4773CC2A270DF3E900C52DE0 /* GradientLayerView.swift in Sources */,
 				4781573026612ED5005E1020 /* CalendarDate.swift in Sources */,
 				4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */,
 				47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */,

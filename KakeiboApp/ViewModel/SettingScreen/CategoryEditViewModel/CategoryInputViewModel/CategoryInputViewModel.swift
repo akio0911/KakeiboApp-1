@@ -24,6 +24,9 @@ protocol CategoryInputViewModelOutput {
     var hueSliderValue: Driver<Float> { get }
     var saturationSliderValue: Driver<Float> { get }
     var brightnessSliderValue: Driver<Float> { get }
+    var hueColors: Driver<[CGColor]> { get }
+    var saturationColors: Driver<[CGColor]> { get }
+    var brightnessColors: Driver<[CGColor]> { get }
 }
 
 protocol CategoryInputViewModelType {
@@ -48,14 +51,21 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
     private let categoryNameRelay = BehaviorRelay<String>(value: "")
     private let categoryColorRelay = BehaviorRelay<UIColor>(
-        value: UIColor(hue: 0.5, saturation: 0.5, brightness: 0.5, alpha: 1))
-    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 50)
-    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 50)
-    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 50)
+        value: UIColor(hue: 0.5, saturation: 0.58, brightness: 0.81, alpha: 1))
+    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 0.5)
+    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 0.58)
+    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 0.81)
+    private let hueColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let saturationColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let brightnessColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private var currentHue: CGFloat = 0.5
+    private var currentSaturation: CGFloat = 0.58
+    private var currentBrightness: CGFloat = 0.81
 
     init(mode: Mode) {
         self.mode = mode
         setupMode(mode: mode)
+        hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
     }
 
     private func setupMode(mode: Mode) {
@@ -64,8 +74,10 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         switch mode {
         case .incomeCategoryAdd:
             navigationTitleRelay.accept(incomeNavigationTitle)
+            setCategoryAddColors()
         case .expenseCategoryAdd:
             navigationTitleRelay.accept(expenseNavigationTitle)
+            setCategoryAddColors()
         case .incomeCategoryEdit(let categoryData):
             navigationTitleRelay.accept(incomeNavigationTitle)
             setCategoryData(data: categoryData)
@@ -75,14 +87,58 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         }
     }
 
+    private func setCategoryAddColors() {
+        saturationColorsRelay.accept(createColors(hue: 0.5, brightness: 0.81))
+        brightnessColorsRelay.accept(createColors(hue: 0.5, saturation: 0.58))
+    }
+
     private func setCategoryData(data: CategoryData) {
         categoryNameRelay.accept(data.name)
         categoryColorRelay.accept(data.color)
         let hsba = data.color.hsba
-        hueSliderValueRelay.accept(Float(hsba.hue * 100))
-        saturationSliderValueRelay.accept(Float(hsba.saturation * 100))
-        brightnessSliderValueRelay.accept(Float(hsba.brightness * 100))
+        hueSliderValueRelay.accept(Float(hsba.hue))
+        saturationSliderValueRelay.accept(Float(hsba.saturation))
+        brightnessSliderValueRelay.accept(Float(hsba.brightness))
+        saturationColorsRelay.accept(createColors(hue: hsba.hue, brightness: hsba.brightness))
+        brightnessColorsRelay.accept(createColors(hue: hsba.hue, saturation: hsba.saturation))
+        currentHue = hsba.hue
+        currentSaturation = hsba.saturation
+        currentBrightness = hsba.brightness
     }
+
+    private func createColors(hue: CGFloat? = nil,
+                              saturation: CGFloat? = nil,
+                              brightness: CGFloat? = nil) -> [CGColor] {
+        let increment: CGFloat = 0.02
+        let hueArray = [CGFloat](stride(from: 0.0, to: 1.0, by: increment))
+        let saturationArray = [CGFloat](stride(from: 0.16, to: 1.0, by: increment))
+        let brightnessArray = [CGFloat](stride(from: 0.62, to: 1.0, by: increment))
+        var colors: [CGColor] = []
+        switch (hue, saturation, brightness) {
+        case let (nil, .some(saturation), .some(brightness)):
+            colors = hueArray.map { hue in
+                UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1).cgColor
+            }
+        case let (.some(hue), nil, .some(brightness)):
+            colors = saturationArray.map { saturation in
+                UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1).cgColor
+            }
+        case let (.some(hue), .some(saturation), nil):
+            colors = brightnessArray.map { brightness in
+                UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1).cgColor
+            }
+        case (.some(_), .some(_), .some(_)):
+            break
+        case (.none, .none, _):
+            break
+        case (_, .none, .none):
+            break
+        case (.none, _, .none):
+            break
+        }
+        return colors
+    }
+
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
@@ -112,6 +168,18 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         brightnessSliderValueRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    var hueColors: Driver<[CGColor]> {
+        hueColorsRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    var saturationColors: Driver<[CGColor]> {
+        saturationColorsRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    var brightnessColors: Driver<[CGColor]> {
+        brightnessColorsRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
     func didTapSaveBarButton() {
     }
 
@@ -120,27 +188,34 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     }
 
     func hueSliderValueChanged(value: Float) {
-        let hue: CGFloat = CGFloat(value / 100)
+        let hue = CGFloat(value)
         let categoryColorHSBA = categoryColorRelay.value.hsba
         let categoryColor =
         UIColor(hue: hue, saturation: categoryColorHSBA.saturation, brightness: categoryColorHSBA.brightness, alpha: 1)
         categoryColorRelay.accept(categoryColor)
+        saturationColorsRelay.accept(createColors(hue: hue, brightness: currentBrightness))
+        brightnessColorsRelay.accept(createColors(hue: hue, saturation: currentSaturation))
+        currentHue = hue
     }
 
     func saturationSliderValueChanged(value: Float) {
-        let saturation: CGFloat = CGFloat(value / 100)
+        let saturation = CGFloat(value)
         let categoryColorHSBA = categoryColorRelay.value.hsba
         let categoryColor =
         UIColor(hue: categoryColorHSBA.hue, saturation: saturation, brightness: categoryColorHSBA.brightness, alpha: 1)
         categoryColorRelay.accept(categoryColor)
+        brightnessColorsRelay.accept(createColors(hue: currentHue, saturation: saturation))
+        currentSaturation = saturation
     }
 
     func brightnessSliderValueChanged(value: Float) {
-        let brightness: CGFloat = CGFloat(value / 100)
+        let brightness = CGFloat(value)
         let categoryColorHSBA = categoryColorRelay.value.hsba
         let categoryColor =
         UIColor(hue: categoryColorHSBA.hue, saturation: categoryColorHSBA.saturation, brightness: brightness, alpha: 1)
         categoryColorRelay.accept(categoryColor)
+        saturationColorsRelay.accept(createColors(hue: currentHue, brightness: brightness))
+        currentBrightness = brightness
     }
 }
 
