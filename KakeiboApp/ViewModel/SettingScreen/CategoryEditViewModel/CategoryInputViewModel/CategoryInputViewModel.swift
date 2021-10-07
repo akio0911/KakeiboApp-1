@@ -213,6 +213,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                 categoryDataArray[index].name = name
                 categoryDataArray[index].color = categoryColorRelay.value
             }
+            categoryDataRepository.saveExpenseCategoryData(data: categoryDataArray)
         }
         eventRelay.accept(.dismiss)
         eventRelay.accept(.reload)

@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate, UITableViewDelegate {
+class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate, UITableViewDelegate, CategoryEditTableViewDataSourceDelegate {
 
     @IBOutlet private weak var categoryTableView: UITableView!
 
@@ -35,6 +35,7 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         setupCategoryTableView()
         setupBarButtonItem()
         setupBinding()
+        categoryEditTableViewDataSource.delegate = self
         navigationItem.title  = "カテゴリー編集"
     }
 
@@ -114,6 +115,12 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     // MARK: - SegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
+    }
+
+    // MARK: - CategoryEditTableViewDataSourceDelegate
+    // 自作delegate
+    func didDeleteCell(index: IndexPath) {
+        viewModel.inputs.didDeleateCell(index: index)
     }
 }
 

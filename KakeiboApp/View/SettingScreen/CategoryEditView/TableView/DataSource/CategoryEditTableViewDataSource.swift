@@ -9,11 +9,17 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol CategoryEditTableViewDataSourceDelegate: AnyObject {
+    func didDeleteCell(index: IndexPath)
+}
+
 final class CategoryEditTableViewDataSource:
     NSObject, UITableViewDataSource, RxTableViewDataSourceType {
 
     typealias Element = [CategoryData]
     private var items: Element = []
+
+    weak var delegate: CategoryEditTableViewDataSourceDelegate?
 
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,6 +34,17 @@ final class CategoryEditTableViewDataSource:
         return cell
     }
 
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true // cellの変更を許可する
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            delegate?.didDeleteCell(index: indexPath)
+        }
+    }
+
+    // MARK: - RxTableViewDataSourceType
     func tableView(_ tableView: UITableView, observedEvent: Event<[CategoryData]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element

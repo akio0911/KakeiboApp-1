@@ -82,6 +82,18 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     }
 
     func didDeleateCell(index: IndexPath) {
+        switch currentSegmentIndex {
+        case 0:
+            expenseCategoryDataArray.remove(at: index.row)
+            categoryDataRelay.accept(expenseCategoryDataArray)
+            categoryDataRepository.saveExpenseCategoryData(data: expenseCategoryDataArray)
+        case 1:
+            incomeCategoryDataArray.remove(at: index.row)
+            categoryDataRelay.accept(incomeCategoryDataArray)
+            categoryDataRepository.saveIncomeCategoryData(data: incomeCategoryDataArray)
+        default:
+            fatalError("想定していないSegmentIndexです。")
+        }
     }
 
     func didChangeSegmentIndex(index: Int) {
