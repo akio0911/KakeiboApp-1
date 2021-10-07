@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 
-struct CategoryData {
+struct CategoryData: Equatable {
+    static func == (lhs: CategoryData, rhs: CategoryData) -> Bool {
+        lhs.id == rhs.id
+    }
+
     let id: String
     var name: String
     var color: UIColor
@@ -26,8 +30,7 @@ extension CategoryData: Codable {
         id = try container.decode(String.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         let colorData = try container.decode(Data.self, forKey: .color)
-        let rgba = try! NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)!.rgba
-        color = UIColor(red: rgba.red / 255, green: rgba.green / 255, blue: rgba.blue / 255, alpha: rgba.alpha)
+        color = try! NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)!
     }
 
     func encode(to encoder: Encoder) throws {

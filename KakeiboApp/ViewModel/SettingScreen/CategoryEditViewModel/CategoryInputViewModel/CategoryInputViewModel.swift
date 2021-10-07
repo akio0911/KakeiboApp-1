@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol CategoryInputViewModelInput {
-    func didTapSaveBarButton()
+    func didTapSaveBarButton(name: String)
     func didTapCancelBarButton()
     func hueSliderValueChanged(value: Float)
     func saturationSliderValueChanged(value: Float)
@@ -37,7 +37,8 @@ protocol CategoryInputViewModelType {
 
 final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputViewModelOutput {
     enum Event {
-        case dissmiss
+        case dismiss
+        case reload
     }
 
     enum Mode {
@@ -184,11 +185,41 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         brightnessColorsRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func didTapSaveBarButton() {
+    func didTapSaveBarButton(name: String) {
+        let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
+        switch mode {
+        case .incomeCategoryAdd:
+            var categoryDataArray = categoryDataRepository.loadIncomeCategoryData()
+            categoryDataArray.append(
+                CategoryData(id: UUID().uuidString, name: name, color: categoryColorRelay.value)
+            )
+            categoryDataRepository.saveIncomeCategoryData(data: categoryDataArray)
+        case .expenseCategoryAdd:
+            var categoryDataArray = categoryDataRepository.loadExpenseCategoryData()
+            categoryDataArray.append(
+                CategoryData(id: UUID().uuidString, name: name, color: categoryColorRelay.value)
+            )
+            categoryDataRepository.saveExpenseCategoryData(data: categoryDataArray)
+        case .incomeCategoryEdit(let categoryData):
+            var categoryDataArray = categoryDataRepository.loadIncomeCategoryData()
+            if let index = categoryDataArray.firstIndex(where: { $0 == categoryData }) {
+                categoryDataArray[index].name = name
+                categoryDataArray[index].color = categoryColorRelay.value
+            }
+            categoryDataRepository.saveIncomeCategoryData(data: categoryDataArray)
+        case .expenseCategoryEdit(let categoryData):
+            var categoryDataArray = categoryDataRepository.loadExpenseCategoryData()
+            if let index = categoryDataArray.firstIndex(where: { $0 == categoryData }) {
+                categoryDataArray[index].name = name
+                categoryDataArray[index].color = categoryColorRelay.value
+            }
+        }
+        eventRelay.accept(.dismiss)
+        eventRelay.accept(.reload)
     }
 
     func didTapCancelBarButton() {
-        eventRelay.accept(.dissmiss)
+        eventRelay.accept(.dismiss)
     }
 
     func hueSliderValueChanged(value: Float) {

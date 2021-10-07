@@ -13,6 +13,7 @@ protocol CategoryEditViewModelInput {
     func didSelectRowAt(index: IndexPath)
     func didDeleateCell(index: IndexPath)
     func didChangeSegmentIndex(index: Int)
+    func tableViewReloadData()
 }
 
 protocol CategoryEditViewModelOutput {
@@ -91,6 +92,19 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         case 1:
             categoryDataRelay.accept(incomeCategoryDataArray)
             currentSegmentIndex = 1
+        default:
+            fatalError("想定していないSegmentIndexです。")
+        }
+    }
+
+    func tableViewReloadData() {
+        switch currentSegmentIndex {
+        case 0:
+            expenseCategoryDataArray = categoryDataRepository.loadExpenseCategoryData()
+            categoryDataRelay.accept(expenseCategoryDataArray)
+        case 1:
+            incomeCategoryDataArray = categoryDataRepository.loadIncomeCategoryData()
+            categoryDataRelay.accept(incomeCategoryDataArray)
         default:
             fatalError("想定していないSegmentIndexです。")
         }

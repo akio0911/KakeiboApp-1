@@ -25,9 +25,11 @@ class CategoryInputViewController: UIViewController {
 
     private let viewModel: CategoryInputViewModelType
     private let disposeBag = DisposeBag()
+    private let reload: () -> ()
 
-    init(viewModel: CategoryInputViewModelType) {
+    init(viewModel: CategoryInputViewModelType, reload: @escaping () -> ()) {
         self.viewModel = viewModel
+        self.reload = reload
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -138,7 +140,12 @@ class CategoryInputViewController: UIViewController {
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
-                self.dismiss(animated: true, completion: nil)
+                switch event {
+                case .dismiss:
+                    self.dismiss(animated: true, completion: nil)
+                case .reload:
+                    self.reload()
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -149,7 +156,9 @@ class CategoryInputViewController: UIViewController {
     }
 
     @objc private func didTapSaveBarButton() {
-        viewModel.inputs.didTapSaveBarButton()
+        // TODO: 後でアラート実装しなければならない
+        guard categoryTextField.text != "" else { return }
+        viewModel.inputs.didTapSaveBarButton(name: categoryTextField.text!)
     }
 
     @objc func didTapView(_ sender: UITapGestureRecognizer) {

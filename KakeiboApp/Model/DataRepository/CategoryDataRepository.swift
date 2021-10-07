@@ -22,7 +22,6 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
     private let expenseCategoryDataKey = "expenseCategoryData"
 
     func loadIncomeCategoryData() -> [CategoryData] {
-//        userDefaults.removeObject(forKey: incomeCategoryDataKey)
         guard let data = userDefaults.data(forKey: incomeCategoryDataKey) else {
             saveIncomeCategoryData(data: incomeCategoryArray)
             return incomeCategoryArray
@@ -33,7 +32,6 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
     }
 
     func loadExpenseCategoryData() -> [CategoryData] {
-//        userDefaults.removeObject(forKey: expenseCategoryDataKey)
         guard let data = userDefaults.data(forKey: expenseCategoryDataKey) else {
             saveExpenseCategoryData(data: expenseCategoryArray)
             return expenseCategoryArray
@@ -57,32 +55,32 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         CategoryData(
             id: UUID().uuidString,
             name: "給料",
-            color: UIColor(red: 219, green: 83, blue: 117,alpha: 1)
+            color: UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255,alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "お小遣い",
-            color: UIColor(red: 114, green: 158, blue: 161, alpha: 1)
+            color: UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "賞与",
-            color: UIColor(red: 229, green: 75, blue: 75, alpha: 1)
+            color: UIColor(red: 229 / 255, green: 75 / 255, blue: 75 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "副業",
-            color: UIColor(red: 236, green: 145, blue: 146, alpha: 1)
+            color: UIColor(red: 236 / 255, green: 145 / 255, blue: 146 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "投資",
-            color: UIColor(red: 230, green: 192, blue: 233, alpha: 1)
+            color: UIColor(red: 230 / 255, green: 192 / 255, blue: 233 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "臨時収入",
-            color: UIColor(red: 95, green: 80, blue: 170, alpha: 1)
+            color: UIColor(red: 95 / 255, green: 80 / 255, blue: 170 / 255, alpha: 1)
         )
     ]
 
@@ -90,47 +88,47 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         CategoryData(
             id: UUID().uuidString,
             name: "飲食費",
-            color: UIColor(red: 219, green: 83, blue: 117,alpha: 1)
+            color: UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "生活費",
-            color: UIColor(red: 114, green: 158, blue: 161, alpha: 1)
+            color: UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "雑費",
-            color: UIColor(red: 229, green: 75, blue: 75, alpha: 1)
+            color: UIColor(red: 229 / 255, green: 75 / 255, blue: 75 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "交通費",
-            color: UIColor(red: 236, green: 145, blue: 146, alpha: 1)
+            color: UIColor(red: 236 / 255, green: 145 / 255, blue: 146 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "医療費",
-            color: UIColor(red: 230, green: 192, blue: 233, alpha: 1)
+            color: UIColor(red: 230 / 255, green: 192 / 255, blue: 233 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "通信費",
-            color: UIColor(red: 95, green: 80, blue: 170, alpha: 1)
+            color: UIColor(red: 95 / 255, green: 80 / 255, blue: 170 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "車両費",
-            color: UIColor(red: 180, green: 101, blue: 111, alpha: 1)
+            color: UIColor(red: 180 / 255, green: 101 / 255, blue: 111 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "交際費",
-            color: UIColor(red: 181, green: 189, blue: 137, alpha: 1)
+            color: UIColor(red: 181 / 255, green: 189 / 255, blue: 137 / 255, alpha: 1)
         ),
         CategoryData(
             id: UUID().uuidString,
             name: "その他",
-            color: UIColor(red: 223, green: 190, blue: 153, alpha: 1)
+            color: UIColor(red: 223 / 255, green: 190 / 255, blue: 153 / 255, alpha: 1)
         )
     ]
 }
