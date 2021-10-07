@@ -14,6 +14,7 @@ protocol CategoryInputViewModelInput {
     func hueSliderValueChanged(value: Float)
     func saturationSliderValueChanged(value: Float)
     func brightnessSliderValueChanged(value: Float)
+    func didTapRandomButton()
 }
 
 protocol CategoryInputViewModelOutput {
@@ -50,17 +51,16 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     private let eventRelay = PublishRelay<Event>()
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
     private let categoryNameRelay = BehaviorRelay<String>(value: "")
-    private let categoryColorRelay = BehaviorRelay<UIColor>(
-        value: UIColor(hue: 0.5, saturation: 0.58, brightness: 0.81, alpha: 1))
-    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 0.5)
-    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 0.58)
-    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 0.81)
+    private let categoryColorRelay = BehaviorRelay<UIColor>(value: UIColor())
+    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 1)
+    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 1)
+    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 1)
     private let hueColorsRelay = BehaviorRelay<[CGColor]>(value: [])
     private let saturationColorsRelay = BehaviorRelay<[CGColor]>(value: [])
     private let brightnessColorsRelay = BehaviorRelay<[CGColor]>(value: [])
-    private var currentHue: CGFloat = 0.5
-    private var currentSaturation: CGFloat = 0.58
-    private var currentBrightness: CGFloat = 0.81
+    private var currentHue: CGFloat = 1
+    private var currentSaturation: CGFloat = 1
+    private var currentBrightness: CGFloat = 1
 
     init(mode: Mode) {
         self.mode = mode
@@ -74,10 +74,10 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         switch mode {
         case .incomeCategoryAdd:
             navigationTitleRelay.accept(incomeNavigationTitle)
-            setCategoryAddColors()
+            setRandomColor()
         case .expenseCategoryAdd:
             navigationTitleRelay.accept(expenseNavigationTitle)
-            setCategoryAddColors()
+            setRandomColor()
         case .incomeCategoryEdit(let categoryData):
             navigationTitleRelay.accept(incomeNavigationTitle)
             setCategoryData(data: categoryData)
@@ -87,9 +87,19 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         }
     }
 
-    private func setCategoryAddColors() {
-        saturationColorsRelay.accept(createColors(hue: 0.5, brightness: 0.81))
-        brightnessColorsRelay.accept(createColors(hue: 0.5, saturation: 0.58))
+    private func setRandomColor() {
+        let hue = CGFloat.random(in: 0.01...1)
+        let saturation = CGFloat.random(in: 0.16...1)
+        let brightness = CGFloat.random(in: 0.62...1)
+        categoryColorRelay.accept(UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1))
+        hueSliderValueRelay.accept(Float(hue))
+        saturationSliderValueRelay.accept(Float(saturation))
+        brightnessSliderValueRelay.accept(Float(brightness))
+        saturationColorsRelay.accept(createColors(hue: hue, brightness: brightness))
+        brightnessColorsRelay.accept(createColors(hue: hue, saturation: saturation))
+        currentHue = hue
+        currentSaturation = saturation
+        currentBrightness = brightness
     }
 
     private func setCategoryData(data: CategoryData) {
@@ -127,13 +137,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
             colors = brightnessArray.map { brightness in
                 UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1).cgColor
             }
-        case (.some(_), .some(_), .some(_)):
-            break
-        case (.none, .none, _):
-            break
-        case (_, .none, .none):
-            break
-        case (.none, _, .none):
+        default:
             break
         }
         return colors
@@ -216,6 +220,10 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         categoryColorRelay.accept(categoryColor)
         saturationColorsRelay.accept(createColors(hue: currentHue, brightness: brightness))
         currentBrightness = brightness
+    }
+
+    func didTapRandomButton() {
+         setRandomColor()
     }
 }
 

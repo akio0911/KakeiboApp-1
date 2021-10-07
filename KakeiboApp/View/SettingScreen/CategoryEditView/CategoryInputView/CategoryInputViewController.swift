@@ -21,6 +21,7 @@ class CategoryInputViewController: UIViewController {
     @IBOutlet private weak var hueSliderBackView: GradientLayerView!
     @IBOutlet private weak var saturationSliedrBackView: GradientLayerView!
     @IBOutlet private weak var brightnessSliderBackView: GradientLayerView!
+    @IBOutlet private weak var randomButton: BackgroundHighlightedButton!
 
     private let viewModel: CategoryInputViewModelType
     private let disposeBag = DisposeBag()
@@ -49,6 +50,7 @@ class CategoryInputViewController: UIViewController {
         cornerRadius(view: hueSliderBackView, cornerRadius: 2)
         cornerRadius(view: saturationSliedrBackView, cornerRadius: 2)
         cornerRadius(view: brightnessSliderBackView, cornerRadius: 2)
+        cornerRadius(view: randomButton, cornerRadius: 5)
     }
 
     private func cornerRadius(view: UIView, cornerRadius: CGFloat) {
@@ -91,6 +93,10 @@ class CategoryInputViewController: UIViewController {
         brightnessSlider.rx.value
             .skip(1) // 初期値をスキップ
             .subscribe(onNext: viewModel.inputs.brightnessSliderValueChanged)
+            .disposed(by: disposeBag)
+
+        randomButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapRandomButton)
             .disposed(by: disposeBag)
 
         viewModel.outputs.navigationTitle
