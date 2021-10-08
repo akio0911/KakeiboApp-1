@@ -25,11 +25,23 @@ final class HowToViewModel: HowToViewModelInput, HowToViewModelOutput {
 
     private let itemsRelay = BehaviorRelay<[HowToItem]>(value: [])
 
+    // テスト用
+    private var testItems: [HowToItem] = [
+        HowToItem(title: "test", message: "おやつカルパス", isClosedMessage: true),
+        HowToItem(title: "test", message: "おやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパス", isClosedMessage: true)
+    ]
+
+    init() {
+        itemsRelay.accept(testItems)
+    }
+
     var items: Observable<[HowToItem]> {
         itemsRelay.asObservable()
     }
 
     func didSelectRowAt(index: IndexPath) {
+        testItems[index.row].isClosedMessage.toggle()
+        itemsRelay.accept(testItems)
     }
 }
 

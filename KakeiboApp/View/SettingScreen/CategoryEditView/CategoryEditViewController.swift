@@ -70,7 +70,6 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
             )
             .disposed(by: disposeBag)
 
-        // TODO: 後で削除しなければならない
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
