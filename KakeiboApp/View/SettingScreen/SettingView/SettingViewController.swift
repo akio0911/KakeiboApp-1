@@ -66,6 +66,7 @@ final class SettingViewController: UIViewController {
                     self.present(navigationController, animated: true, completion: nil)
                 case .pushCategoryEditVC:
                     let categoryEditViewController = CategoryEditViewController()
+                    categoryEditViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(categoryEditViewController, animated: true)
                 }
             })

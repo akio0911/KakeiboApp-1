@@ -104,6 +104,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
                     let categoryViewController = CategoryViewController(
                         viewModel: CategoryViewModel(categoryData: categoryData)
                     )
+                    categoryViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(categoryViewController, animated: true)
                 }
             })
