@@ -49,6 +49,10 @@ final class SettingViewController: UIViewController {
             .subscribe(onNext: viewModel.inputs.didTapCategoryEditButton)
             .disposed(by: disposeBag)
 
+        howToUseButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapHowtoUseButton)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.isOnPasscode
             .drive(passcodeSwitch.rx.value)
             .disposed(by: disposeBag)
@@ -68,6 +72,10 @@ final class SettingViewController: UIViewController {
                     let categoryEditViewController = CategoryEditViewController()
                     categoryEditViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(categoryEditViewController, animated: true)
+                case .pushHowToVC:
+                    let howToViewController = HowToViewController()
+                    howToViewController.hidesBottomBarWhenPushed = true
+                    self.navigationController?.pushViewController(howToViewController, animated: true)
                 }
             })
             .disposed(by: disposeBag)

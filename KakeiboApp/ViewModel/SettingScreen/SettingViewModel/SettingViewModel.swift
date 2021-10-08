@@ -11,6 +11,7 @@ import RxCocoa
 protocol SettingViewModelInput {
     func didValueChangedPasscodeSwitch(value: Bool)
     func didTapCategoryEditButton()
+    func didTapHowtoUseButton()
 }
 
 protocol SettingViewModelOutput {
@@ -27,6 +28,7 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
     enum Event {
         case presentPasscodeVC
         case pushCategoryEditVC
+        case pushHowToVC
     }
 
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol
@@ -73,6 +75,10 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
 
     func didTapCategoryEditButton() {
         eventRelay.accept(.pushCategoryEditVC)
+    }
+
+    func didTapHowtoUseButton() {
+        eventRelay.accept(.pushHowToVC)
     }
 }
 
