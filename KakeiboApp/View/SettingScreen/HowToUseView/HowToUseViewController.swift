@@ -1,5 +1,5 @@
 //
-//  HowToViewController.swift
+//  HowToUseViewController.swift
 //  KakeiboApp
 //
 //  Created by 今村京平 on 2021/10/08.
@@ -9,15 +9,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class HowToViewController: UIViewController, UITableViewDelegate {
+final class HowToUseViewController: UIViewController, UITableViewDelegate {
 
-    @IBOutlet private weak var howToTableView: UITableView!
+    @IBOutlet private weak var howToUseTableView: UITableView!
 
-    private let viewModel: HowToViewModelType
+    private let viewModel: HowToUseViewModelType
     private let disposeBag = DisposeBag()
-    private let howToTableViewDataSource = HowToTableViewDataSource()
+    private let howToTableViewDataSource = HowToUseTableViewDataSource()
 
-    init(viewModel: HowToViewModelType = HowToViewModel()) {
+    init(viewModel: HowToUseViewModelType = HowToUseViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -34,14 +34,14 @@ final class HowToViewController: UIViewController, UITableViewDelegate {
     }
 
     private func setupHowToTableView() {
-        howToTableView.register(HowToTableViewCell.nib,
-                                forCellReuseIdentifier: HowToTableViewCell.identifier)
-        howToTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        howToUseTableView.register(HowToUseTableViewCell.nib,
+                                forCellReuseIdentifier: HowToUseTableViewCell.identifier)
+        howToUseTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 
     private func setupBinding() {
         viewModel.outputs.items
-            .bind(to: howToTableView.rx.items(
+            .bind(to: howToUseTableView.rx.items(
                 dataSource: howToTableViewDataSource))
             .disposed(by: disposeBag)
     }
