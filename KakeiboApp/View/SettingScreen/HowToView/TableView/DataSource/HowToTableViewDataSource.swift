@@ -19,7 +19,11 @@ final class HowToTableViewDataSource: NSObject, UITableViewDataSource, RxTableVi
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: HowToTableViewCell.identifier
+        ) as! HowToTableViewCell
+        cell.configure(item: items[indexPath.row])
+        return cell
     }
 
     // MARK: - RxTableViewDataSourceType

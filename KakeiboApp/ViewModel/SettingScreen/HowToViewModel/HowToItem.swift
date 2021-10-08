@@ -10,5 +10,5 @@ import Foundation
 struct HowToItem {
     let title: String
     var message: String
-    var isOpenMessage: Bool
+    var isClosedMessage: Bool
 }
