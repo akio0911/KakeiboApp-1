@@ -23,6 +23,7 @@ final class HowToUseTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
             withIdentifier: HowToUseTableViewCell.identifier
         ) as! HowToUseTableViewCell
         cell.configure(item: items[indexPath.row])
+        cell.selectedBackgroundView = UIView()
         return cell
     }
 
@@ -30,7 +31,6 @@ final class HowToUseTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     func tableView(_ tableView: UITableView, observedEvent: Event<[HowToUseItem]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
-            tableView.reloadData()
         }
         .on(observedEvent)
     }

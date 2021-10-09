@@ -35,7 +35,7 @@ final class HowToUseViewController: UIViewController, UITableViewDelegate {
 
     private func setupHowToTableView() {
         howToUseTableView.register(HowToUseTableViewCell.nib,
-                                forCellReuseIdentifier: HowToUseTableViewCell.identifier)
+                                   forCellReuseIdentifier: HowToUseTableViewCell.identifier)
         howToUseTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 
@@ -49,5 +49,6 @@ final class HowToUseViewController: UIViewController, UITableViewDelegate {
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.inputs.didSelectRowAt(index: indexPath)
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
 }

@@ -28,7 +28,7 @@ final class HowToUseViewModel: HowToUseViewModelInput, HowToUseViewModelOutput {
     // テスト用
     private var testItems: [HowToUseItem] = [
         HowToUseItem(title: "test", message: "おやつカルパス", isClosedMessage: true),
-        HowToUseItem(title: "test", message: "おやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパスおやつカルパス", isClosedMessage: true)
+        HowToUseItem(title: "test", message: "おやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス", isClosedMessage: true)
     ]
 
     init() {
@@ -40,8 +40,9 @@ final class HowToUseViewModel: HowToUseViewModelInput, HowToUseViewModelOutput {
     }
 
     func didSelectRowAt(index: IndexPath) {
-        testItems[index.row].isClosedMessage.toggle()
-        itemsRelay.accept(testItems)
+        var items = itemsRelay.value
+        items[index.row].isClosedMessage.toggle()
+        itemsRelay.accept(items)
     }
 }
 
