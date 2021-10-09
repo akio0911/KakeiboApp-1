@@ -31,6 +31,7 @@ final class HowToUseViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         setupHowToTableView()
         setupBinding()
+        navigationItem.title = "アプリの使い方"
     }
 
     private func setupHowToTableView() {

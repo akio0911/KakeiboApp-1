@@ -23,17 +23,26 @@ protocol HowToUseViewModelType {
 
 final class HowToUseViewModel: HowToUseViewModelInput, HowToUseViewModelOutput {
 
-    private let itemsRelay = BehaviorRelay<[HowToUseItem]>(value: [])
-
-    // テスト用
-    private var testItems: [HowToUseItem] = [
-        HowToUseItem(title: "test", message: "おやつカルパス", isClosedMessage: true),
-        HowToUseItem(title: "test", message: "おやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス\nおやつカルパス", isClosedMessage: true)
-    ]
-
-    init() {
-        itemsRelay.accept(testItems)
-    }
+    private let itemsRelay = BehaviorRelay<[HowToUseItem]>(value: [
+        HowToUseItem(title: HowToUseCase.balanceInput.title,
+                     message: HowToUseCase.balanceInput.message,
+                     isClosedMessage: true),
+        HowToUseItem(title: HowToUseCase.balanceOfEditAndDeletion.title,
+                     message: HowToUseCase.balanceOfEditAndDeletion.message,
+                     isClosedMessage: true),
+        HowToUseItem(title: HowToUseCase.changeCalendarMonth.title,
+                     message: HowToUseCase.changeCalendarMonth.message,
+                     isClosedMessage: true),
+        HowToUseItem(title: HowToUseCase.appearBalanceByCategory.title,
+                     message: HowToUseCase.appearBalanceByCategory.message,
+                     isClosedMessage: true),
+        HowToUseItem(title: HowToUseCase.passcodeSetting.title,
+                     message: HowToUseCase.passcodeSetting.message,
+                     isClosedMessage: true),
+        HowToUseItem(title: HowToUseCase.categoryEdit.title,
+                     message: HowToUseCase.categoryEdit.message,
+                     isClosedMessage: true)
+    ])
 
     var items: Observable<[HowToUseItem]> {
         itemsRelay.asObservable()
