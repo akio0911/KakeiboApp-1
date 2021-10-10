@@ -53,6 +53,10 @@ final class SettingViewController: UIViewController {
             .subscribe(onNext: viewModel.inputs.didTapHowtoUseButton)
             .disposed(by: disposeBag)
 
+        shareButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapShareButton)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.isOnPasscode
             .drive(passcodeSwitch.rx.value)
             .disposed(by: disposeBag)
@@ -76,6 +80,9 @@ final class SettingViewController: UIViewController {
                     let howToViewController = HowToUseViewController()
                     howToViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(howToViewController, animated: true)
+                case .presentActivityVC(let items):
+                    let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+                    self.present(activityVC, animated: true, completion: nil)
                 }
             })
             .disposed(by: disposeBag)

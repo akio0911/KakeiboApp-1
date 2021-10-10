@@ -12,6 +12,7 @@ protocol SettingViewModelInput {
     func didValueChangedPasscodeSwitch(value: Bool)
     func didTapCategoryEditButton()
     func didTapHowtoUseButton()
+    func didTapShareButton()
 }
 
 protocol SettingViewModelOutput {
@@ -29,6 +30,7 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
         case presentPasscodeVC
         case pushCategoryEditVC
         case pushHowToVC
+        case presentActivityVC([Any])
     }
 
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol
@@ -79,6 +81,13 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
 
     func didTapHowtoUseButton() {
         eventRelay.accept(.pushHowToVC)
+    }
+
+    func didTapShareButton() {
+        let shareText = "Sample"
+        let shareUrl = NSURL(string: "https://www.apple.com/")!
+        let activityItems = [shareText, shareUrl] as [Any]
+        eventRelay.accept(.presentActivityVC(activityItems))
     }
 }
 
