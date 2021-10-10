@@ -57,6 +57,10 @@ final class SettingViewController: UIViewController {
             .subscribe(onNext: viewModel.inputs.didTapShareButton)
             .disposed(by: disposeBag)
 
+        reviewButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapReviewButton)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.isOnPasscode
             .drive(passcodeSwitch.rx.value)
             .disposed(by: disposeBag)
@@ -83,6 +87,10 @@ final class SettingViewController: UIViewController {
                 case .presentActivityVC(let items):
                     let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
                     self.present(activityVC, animated: true, completion: nil)
+                case .applicationSharedOpen(let url):
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    }
                 }
             })
             .disposed(by: disposeBag)

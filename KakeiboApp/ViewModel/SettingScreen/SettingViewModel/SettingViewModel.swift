@@ -13,6 +13,7 @@ protocol SettingViewModelInput {
     func didTapCategoryEditButton()
     func didTapHowtoUseButton()
     func didTapShareButton()
+    func didTapReviewButton()
 }
 
 protocol SettingViewModelOutput {
@@ -31,6 +32,7 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
         case pushCategoryEditVC
         case pushHowToVC
         case presentActivityVC([Any])
+        case applicationSharedOpen(URL)
     }
 
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol
@@ -85,9 +87,15 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
 
     func didTapShareButton() {
         let shareText = "Sample"
-        let shareUrl = NSURL(string: "https://www.apple.com/")!
+        guard let shareUrl = NSURL(string: "https://www.apple.com/") else { return }
         let activityItems = [shareText, shareUrl] as [Any]
         eventRelay.accept(.presentActivityVC(activityItems))
+    }
+
+    func didTapReviewButton() {
+        let appId = "375380948"
+        guard let url = URL(string: "https://apps.apple.com/jp/app/apple-store/id\(appId)?action=write-review") else { return }
+        eventRelay.accept(.applicationSharedOpen(url))
     }
 }
 
