@@ -17,7 +17,9 @@
                 <outlet property="graphNavigationItem" destination="fCY-jE-4aa" id="kqP-pD-sLo"/>
                 <outlet property="graphTableView" destination="uu1-Jd-H43" id="Bvu-iD-KKF"/>
                 <outlet property="lastBarButtonItem" destination="chs-EQ-RU1" id="0nC-S2-9Cd"/>
+                <outlet property="leftSwipeView" destination="CVc-CI-FWc" id="KPc-NQ-aqh"/>
                 <outlet property="nextBarButtonItem" destination="gUv-zT-baX" id="ibx-rc-6rN"/>
+                <outlet property="rightSwipeView" destination="NdN-I0-YDr" id="kDr-fu-Fdl"/>
                 <outlet property="view" destination="iN0-l3-epB" id="EcZ-sl-ubW"/>
             </connections>
         </placeholder>
@@ -61,6 +63,14 @@
                         <constraint firstAttribute="height" constant="1" id="2pc-Nh-BEx"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NdN-I0-YDr">
+                    <rect key="frame" x="369" y="132" width="45" height="379"/>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CVc-CI-FWc">
+                    <rect key="frame" x="0.0" y="132" width="45" height="379"/>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -68,19 +78,27 @@
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="0Jy-29-sjh"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="6gi-2E-2Yc"/>
                 <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" constant="46" id="99a-lf-XdV"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="NdN-I0-YDr" secondAttribute="bottom" id="BTO-Jn-xpk"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="BWG-yY-Hxz"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="CVc-CI-FWc" secondAttribute="bottom" id="BeM-ZR-TAi"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="2k6-Dg-0tT" secondAttribute="bottom" id="Cfk-k3-IGx"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="IDq-8e-eEw"/>
                 <constraint firstAttribute="trailing" secondItem="2k6-Dg-0tT" secondAttribute="trailing" id="Nek-bg-wz9"/>
                 <constraint firstItem="2k6-Dg-0tT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Q9u-by-z31"/>
+                <constraint firstItem="CVc-CI-FWc" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" id="QZw-gU-4Fi"/>
+                <constraint firstItem="NdN-I0-YDr" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" id="Qi1-Aq-9cQ"/>
+                <constraint firstItem="8xh-5E-VUY" firstAttribute="leading" secondItem="CVc-CI-FWc" secondAttribute="trailing" id="SiS-HD-g2T"/>
+                <constraint firstItem="CVc-CI-FWc" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Sxd-KJ-tiD"/>
                 <constraint firstItem="2k6-Dg-0tT" firstAttribute="top" secondItem="8xh-5E-VUY" secondAttribute="bottom" constant="8" id="TeS-fp-oh8"/>
                 <constraint firstItem="8xh-5E-VUY" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="b3X-yg-cgO"/>
+                <constraint firstItem="NdN-I0-YDr" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="hG7-lf-nV4"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kP0-4R-CPS"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="v7u-MO-606"/>
+                <constraint firstItem="NdN-I0-YDr" firstAttribute="leading" secondItem="8xh-5E-VUY" secondAttribute="trailing" id="w2h-lY-tlI"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-            <point key="canvasLocation" x="-7" y="92"/>
+            <point key="canvasLocation" x="-7.2463768115942031" y="91.741071428571431"/>
         </view>
     </objects>
     <resources>

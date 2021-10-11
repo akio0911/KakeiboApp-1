@@ -17,6 +17,8 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var categoryPieChartView: PieChartView!
+    @IBOutlet private weak var rightSwipeView: UIView!
+    @IBOutlet private weak var leftSwipeView: UIView!
     @IBOutlet private weak var graphTableView: UITableView!
 
     private let viewModel: GraphViewModelType
@@ -38,9 +40,28 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
+        setupSwipeGestureRecognizer()
         setupGraphTableView()
         setupSegmentedControlView()
         navigationItem.title = "グラフ"
+    }
+
+    private func setupSwipeGestureRecognizer() {
+        // 左スワイプの実装
+        let leftSwipeRecognizer = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(viewSwipeGesture(sender:))
+        )
+        leftSwipeRecognizer.direction = .left
+        rightSwipeView.addGestureRecognizer(leftSwipeRecognizer)
+
+        // 右スワイプの実装
+        let rightSwipeRecognizer = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(viewSwipeGesture(sender:))
+        )
+        rightSwipeRecognizer.direction = .right
+        leftSwipeView.addGestureRecognizer(rightSwipeRecognizer)
     }
 
     private func setupBinding() {
@@ -122,6 +143,18 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
         segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
         segmentedControlView.delegate = self
         view.addSubview(segmentedControlView)
+    }
+
+    // MARK: - @objc(SwipeGestureRecognizer)
+    @objc private func viewSwipeGesture(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            viewModel.inputs.didTapLastBarButton()
+        case UISwipeGestureRecognizer.Direction.left:
+            viewModel.inputs.didTapNextBarButton()
+        default:
+            break
+        }
     }
 
     // MARK: - viewDidLayoutSubviews
