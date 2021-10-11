@@ -10,8 +10,8 @@ import RxCocoa
 
 protocol CalendarViewModelInput {
     func didTapInputBarButton(didHighlightItem indexPath: IndexPath)
-    func didTapNextBarButton()
-    func didTapLastBarButton()
+    func nextMonthInput()
+    func lastMonthInput()
     func didSelectRowAt(index: IndexPath)
     func didDeleateCell(index: IndexPath)
 }
@@ -213,11 +213,11 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         }
     }
 
-    func didTapNextBarButton() {
+    func nextMonthInput() {
         calendarDate.nextMonth()
     }
 
-    func didTapLastBarButton() {
+    func lastMonthInput() {
         calendarDate.lastMonth()
     }
 
