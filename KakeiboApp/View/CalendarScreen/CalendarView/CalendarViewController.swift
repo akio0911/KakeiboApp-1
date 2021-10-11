@@ -47,6 +47,7 @@ final class CalendarViewController: UIViewController,
         super.viewDidLoad()
         setupBinding()
         setupBarButtonItem()
+        setupSwipeGestureRecognizer()
         setupCollectionView() // collectionViewの設定をするメソッド
         setupTableView() // tableViewの設定をするメソッド
         navigationItem.title = "カレンダー"
@@ -62,6 +63,18 @@ final class CalendarViewController: UIViewController,
                 action: #selector(didTapInputBarButton)
             )
         navigationItem.rightBarButtonItem = nextBarButton
+    }
+
+    private func setupSwipeGestureRecognizer() {
+        let directionArray: [UISwipeGestureRecognizer.Direction] = [.right, .left]
+        directionArray.forEach {
+            let swipeRecognizer = UISwipeGestureRecognizer(
+                target: self,
+                action: #selector(collectionViewSwipeGesture(sender:))
+            )
+            swipeRecognizer.direction = $0
+            calendarCollectionView.addGestureRecognizer(swipeRecognizer)
+        }
     }
 
     private func setupBinding() {
@@ -183,6 +196,18 @@ final class CalendarViewController: UIViewController,
     @objc private func didTapInputBarButton() {
         viewModel.inputs.didTapInputBarButton(didHighlightItem: didHighlightItemIndexPath)
         didHighlightItemIndexPath = []
+    }
+
+    // MARK: - @objc(SwipeGestureRecognizer)
+    @objc private func collectionViewSwipeGesture(sender: UISwipeGestureRecognizer) {
+        switch sender.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            viewModel.inputs.didTapLastBarButton()
+        case UISwipeGestureRecognizer.Direction.left:
+            viewModel.inputs.didTapNextBarButton()
+        default:
+            break
+        }
     }
 
     // MARK: - UICollectionViewDelegate
