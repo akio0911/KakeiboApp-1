@@ -55,7 +55,11 @@ final class PieChartView: UIView, CAAnimationDelegate {
         let color = colorOfPoint(point: point)
 
         // piesから色が一致するレイヤーがあれば、取り出す
-        guard let layer = pies.filter({ $0.layer.strokeColor == color }).first?.layer else { return }
+        /* カテゴリーカラーを編集した場合、丸め誤差が発生するため、
+           HEXに変換し、比較する*/
+        guard let layer = pies.first(where: {
+            UIColor(cgColor: $0.layer.strokeColor!).hex == color.hex
+        })?.layer else { return }
 
         // レイヤーの拡大・縮小
         if layer == selectedLayer {
@@ -71,7 +75,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
     }
 
     // pointの色を取得する
-    private func colorOfPoint(point: CGPoint) -> CGColor {
+    private func colorOfPoint(point: CGPoint) -> UIColor {
         // デバイスに依存したRGB色空間を作成
         let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
 
@@ -92,7 +96,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         let alpha: CGFloat = CGFloat(pixelData[3]) / CGFloat(255.0)
         let color: UIColor = UIColor(red: red, green: green, blue: blue, alpha: alpha)
 
-        return color.cgColor
+        return color
     }
 
     // MARK: - function

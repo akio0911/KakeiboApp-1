@@ -14,4 +14,14 @@ extension UIColor {
         self.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
         return (hue: h, saturation: s, brightness: b, alpha: a)
     }
+
+    var hex: String {
+        if let components = self.cgColor.components {
+            let r = String(Int(round(components[0] * 255)), radix: 16)
+            let g = String(Int(round(components[1] * 255)), radix: 16)
+            let b = String(Int(round(components[2] * 255)), radix: 16)
+            return r + g + b
+        }
+        return "000000"
+    }
 }
