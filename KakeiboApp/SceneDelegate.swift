@@ -15,21 +15,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol =
     PasscodeRepository()
 
+    // アプリ起動時、sceneが呼ばれた時
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        // FireBaseの匿名認証
         Auth.auth().signInAnonymously(completion: { [weak self] userResult, error in
-            print("Anonymouslyコールバック")
+            // 匿名認証の処理が返ってきた
             guard let self = self else { return }
             if let error = error {
                 print("Error 匿名認証に失敗しました \(error)")
             } else if let user = userResult?.user {
                 let uid = user.uid
-                print("匿名認証にせいこうしました \(uid)")
+                print("匿名認証に成功しました \(uid)")
             }
+
+            // 画面を表示する
             guard let windowScene = (scene as? UIWindowScene) else { return }
             self.window = UIWindow(windowScene: windowScene)
             let mainTabBarController = MainTabBarController()
             self.window?.rootViewController = mainTabBarController
             self.window?.makeKeyAndVisible()
+
+            // パスコードが設定されていたら、パスコード画面表示する
             if self.passcodeRepository.loadIsOnPasscode() {
                 let passcodeViewController =
                 PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
@@ -39,29 +45,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         })
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {
-        // Called as the scene is being released by the system.
-        // This occurs shortly after the scene enters the background, or when its session is discarded.
-        // Release any resources associated with this scene that can be re-created the next time the scene connects.
-        // The scene may re-connect later, as its session was not necessarily discarded (see `application:didDiscardSceneSessions` instead).
-    }
-
-    func sceneDidBecomeActive(_ scene: UIScene) {
-        // Called when the scene has moved from an inactive state to an active state.
-        // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-    }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        // Called when the scene will move from an active state to an inactive state.
-        // This may occur due to temporary interruptions (ex. an incoming phone call).
-    }
-
+    // アプリがフォアグラウンドに来た時
     func sceneWillEnterForeground(_ scene: UIScene) {
+        // パスコードが設定されていたら、生体認証を行う
         if passcodeRepository.loadIsOnPasscode() {
             let localAuthenticationContext = LAContext()
             var error: NSError?
-            let reason: String
+            let reason: String // 生体認証を使用する理由
             if localAuthenticationContext.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                // デバイスで生体認証が可能
+                // 生体認証の種類を判定し、reasonを設定
                 switch localAuthenticationContext.biometryType {
                 case .none:
                     reason = "生体認証は使用しません"
@@ -73,11 +66,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     reason = "新しい生体認証を使用します"
                 }
             } else {
+                // デバイスで生体認証ができない
                 if let error = error {
                     print("context.canEvaluatePolicy - Error, reason: \(error) ")
                 }
                 reason = "生体認証は使用しません"
             }
+
+            // 生体認証を実行
             localAuthenticationContext.evaluatePolicy(
                 .deviceOwnerAuthenticationWithBiometrics,
                 localizedReason: reason,
@@ -88,14 +84,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                     if success {
                         // 認証成功
+                        // passcodeViewControllerを閉じる
                         self.dismissPasscodeViewController()
-                    } else {
-                        // 認証失敗
                     }
-                })
+                }
+            )
         }
     }
 
+    // passcodeViewControllerを閉じる
     private func dismissPasscodeViewController() {
         DispatchQueue.main.async {
             if let rootViewController = self.window?.rootViewController {
@@ -106,7 +103,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 
+    // アプリがバックグランドに移動した時
     func sceneDidEnterBackground(_ scene: UIScene) {
+        // パスコードが設定されていたら、パスコード画面を表示する
         if passcodeRepository.loadIsOnPasscode() {
             if let rootViewController = window?.rootViewController {
                 let passcodeViewController =
@@ -116,7 +115,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
-
-
 }
 
