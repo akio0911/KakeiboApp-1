@@ -275,6 +275,7 @@ final class CalendarViewController: UIViewController,
                 withIdentifier: CalendarTableViewHeaderFooterView.identifier)
                 as? CalendarTableViewHeaderFooterView else { return nil }
         headerView.configure(data: headerDataArray[section])
+        headerView.tintColor = .systemGray.withAlphaComponent(0.1)
         return headerView
     }
 

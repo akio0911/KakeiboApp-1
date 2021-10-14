@@ -192,6 +192,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         centerView.clipsToBounds = true
         centerView.center = CGPoint(x: size / 2, y: size / 2)
         centerView.alpha = 0 // フェードのようなアニメーションをするためalphaを0に設定
+
         // センターに載せるラベルを作成
         let label = UILabel(
             frame: CGRect(x: 0, y: 0, width: centerSpace - 10, height: 42)
@@ -215,7 +216,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: basicLineWidth - 10, height: 51))
         label.textAlignment = NSTextAlignment.center
         label.numberOfLines = 3
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 14)
         // TODO: NumberFormatterで実装
         label.text = "\(category)\n\(String.localizedStringWithFormat("%d", balance))円"
         label.textColor = .white

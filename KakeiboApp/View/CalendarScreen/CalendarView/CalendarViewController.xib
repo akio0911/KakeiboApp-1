@@ -192,6 +192,7 @@
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e4j-tC-DU8">
                     <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                    <color key="barTintColor" systemColor="systemGray6Color"/>
                     <items>
                         <navigationItem title="Title" id="ePB-8j-JKY">
                             <barButtonItem key="leftBarButtonItem" image="chevron.left" catalog="system" id="ikT-oM-U46">

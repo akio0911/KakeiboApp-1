@@ -72,6 +72,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
                 withIdentifier: CategoryTableViewHeaderView.identifier)
                 as? CategoryTableViewHeaderView else { return nil }
         headerView.configure(data: headerDataArray[section])
+        headerView.tintColor = .systemGray.withAlphaComponent(0.1)
         return headerView
     }
 }

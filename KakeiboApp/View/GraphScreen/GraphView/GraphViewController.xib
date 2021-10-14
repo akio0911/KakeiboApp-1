@@ -32,6 +32,7 @@
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-HV-JkJ">
                     <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                    <color key="barTintColor" systemColor="systemGray6Color"/>
                     <textAttributes key="titleTextAttributes">
                         <color key="textColor" name="SpaceCadet"/>
                     </textAttributes>
