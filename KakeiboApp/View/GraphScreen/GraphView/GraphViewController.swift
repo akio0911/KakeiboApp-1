@@ -16,6 +16,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var pieChartView: PieChartView!
+    @IBOutlet private weak var graphView: UIView!
     @IBOutlet private weak var graphTableView: UITableView!
 
     private let viewModel: GraphViewModelType
@@ -37,29 +38,29 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-//        setupSwipeGestureRecognizer()
+        setupSwipeGestureRecognizer()
         setupGraphTableView()
         setupSegmentedControlView()
         navigationItem.title = "グラフ"
     }
 
-//    private func setupSwipeGestureRecognizer() {
-//        // 左スワイプの実装
-//        let leftSwipeRecognizer = UISwipeGestureRecognizer(
-//            target: self,
-//            action: #selector(viewSwipeGesture(sender:))
-//        )
-//        leftSwipeRecognizer.direction = .left
-//        rightSwipeView.addGestureRecognizer(leftSwipeRecognizer)
-//
-//        // 右スワイプの実装
-//        let rightSwipeRecognizer = UISwipeGestureRecognizer(
-//            target: self,
-//            action: #selector(viewSwipeGesture(sender:))
-//        )
-//        rightSwipeRecognizer.direction = .right
-//        leftSwipeView.addGestureRecognizer(rightSwipeRecognizer)
-//    }
+    private func setupSwipeGestureRecognizer() {
+        // 左スワイプの実装
+        let leftSwipeRecognizer = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(viewSwipeGesture(sender:))
+        )
+        leftSwipeRecognizer.direction = .left
+        graphView.addGestureRecognizer(leftSwipeRecognizer)
+
+        // 右スワイプの実装
+        let rightSwipeRecognizer = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(viewSwipeGesture(sender:))
+        )
+        rightSwipeRecognizer.direction = .right
+        graphView.addGestureRecognizer(rightSwipeRecognizer)
+    }
 
     private func setupBinding() {
         nextBarButtonItem.rx.tap
@@ -110,7 +111,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
         segmentedControlView = SegmentedControlView()
         segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
         segmentedControlView.delegate = self
-        view.addSubview(segmentedControlView)
+        graphView.addSubview(segmentedControlView)
     }
 
     // MARK: - @objc(SwipeGestureRecognizer)
@@ -129,10 +130,10 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         NSLayoutConstraint.activate([
-            pieChartView.widthAnchor.constraint(equalToConstant: view.frame.width - 90),
-            segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
-            segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -70),
-            segmentedControlView.topAnchor.constraint(equalTo: graphNavigationBar.bottomAnchor, constant: 8),
+            pieChartView.widthAnchor.constraint(equalToConstant: graphView.frame.width - 90),
+            segmentedControlView.leadingAnchor.constraint(equalTo: graphView.leadingAnchor, constant: 70),
+            segmentedControlView.rightAnchor.constraint(equalTo: graphView.rightAnchor, constant: -70),
+            segmentedControlView.topAnchor.constraint(equalTo: graphView.topAnchor, constant: 8),
             segmentedControlView.heightAnchor.constraint(equalToConstant: 30)
         ])
     }

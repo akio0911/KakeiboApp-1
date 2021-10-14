@@ -15,6 +15,7 @@
                 <outlet property="graphNavigationBar" destination="D4U-HV-JkJ" id="wVN-cp-dtq"/>
                 <outlet property="graphNavigationItem" destination="fCY-jE-4aa" id="kqP-pD-sLo"/>
                 <outlet property="graphTableView" destination="uu1-Jd-H43" id="Bvu-iD-KKF"/>
+                <outlet property="graphView" destination="m1e-Ac-ASf" id="cwT-iM-r9b"/>
                 <outlet property="lastBarButtonItem" destination="chs-EQ-RU1" id="0nC-S2-9Cd"/>
                 <outlet property="nextBarButtonItem" destination="gUv-zT-baX" id="ibx-rc-6rN"/>
                 <outlet property="pieChartView" destination="8xh-5E-VUY" id="ouy-Jd-7vd"/>
@@ -27,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
-                    <rect key="frame" x="0.0" y="511" width="414" height="302"/>
+                    <rect key="frame" x="0.0" y="512" width="414" height="301"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-HV-JkJ">
@@ -47,19 +48,30 @@
                         </navigationItem>
                     </items>
                 </navigationBar>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="KakeiboApp" customModuleProvider="target">
-                    <rect key="frame" x="45" y="178" width="324" height="324"/>
-                    <color key="backgroundColor" systemColor="systemGray6Color"/>
-                    <constraints>
-                        <constraint firstAttribute="width" secondItem="8xh-5E-VUY" secondAttribute="height" multiplier="1:1" id="4q3-IZ-iXo"/>
-                        <constraint firstAttribute="width" priority="750" constant="324" id="sU5-OE-ykJ"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2k6-Dg-0tT">
-                    <rect key="frame" x="0.0" y="510" width="414" height="1"/>
+                    <rect key="frame" x="0.0" y="511" width="414" height="1"/>
                     <color key="backgroundColor" systemColor="separatorColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="2pc-Nh-BEx"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1e-Ac-ASf">
+                    <rect key="frame" x="0.0" y="133" width="414" height="379"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="KakeiboApp" customModuleProvider="target">
+                            <rect key="frame" x="45" y="45" width="324" height="324"/>
+                            <color key="backgroundColor" systemColor="systemGray6Color"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="8xh-5E-VUY" secondAttribute="height" multiplier="1:1" id="4q3-IZ-iXo"/>
+                                <constraint firstAttribute="width" priority="750" constant="324" id="sU5-OE-ykJ"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemGray6Color"/>
+                    <constraints>
+                        <constraint firstItem="8xh-5E-VUY" firstAttribute="centerX" secondItem="m1e-Ac-ASf" secondAttribute="centerX" id="KmK-5J-2Sg"/>
+                        <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="m1e-Ac-ASf" secondAttribute="top" constant="45" id="q6m-Zb-FgC"/>
+                        <constraint firstAttribute="bottom" secondItem="8xh-5E-VUY" secondAttribute="bottom" constant="10" id="waY-4d-pus"/>
                     </constraints>
                 </view>
             </subviews>
@@ -68,16 +80,17 @@
             <constraints>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="0Jy-29-sjh"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="6gi-2E-2Yc"/>
-                <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" constant="46" id="99a-lf-XdV"/>
+                <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="m1e-Ac-ASf" secondAttribute="bottom" id="7ZM-7f-9F4"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="BWG-yY-Hxz"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="top" secondItem="2k6-Dg-0tT" secondAttribute="bottom" id="Cfk-k3-IGx"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="IDq-8e-eEw"/>
                 <constraint firstAttribute="trailing" secondItem="2k6-Dg-0tT" secondAttribute="trailing" id="Nek-bg-wz9"/>
                 <constraint firstItem="2k6-Dg-0tT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Q9u-by-z31"/>
-                <constraint firstItem="2k6-Dg-0tT" firstAttribute="top" secondItem="8xh-5E-VUY" secondAttribute="bottom" constant="8" id="TeS-fp-oh8"/>
-                <constraint firstItem="8xh-5E-VUY" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="b3X-yg-cgO"/>
+                <constraint firstItem="m1e-Ac-ASf" firstAttribute="top" secondItem="D4U-HV-JkJ" secondAttribute="bottom" constant="1" id="dHw-Mm-hzp"/>
                 <constraint firstItem="D4U-HV-JkJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="kP0-4R-CPS"/>
+                <constraint firstItem="m1e-Ac-ASf" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="v2i-xN-q9a"/>
                 <constraint firstItem="uu1-Jd-H43" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="v7u-MO-606"/>
+                <constraint firstItem="m1e-Ac-ASf" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="zsk-zQ-z7K"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
