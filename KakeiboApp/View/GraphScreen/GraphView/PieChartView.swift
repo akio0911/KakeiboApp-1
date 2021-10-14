@@ -102,6 +102,14 @@ final class PieChartView: UIView, CAAnimationDelegate {
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
         pies.removeAll()
 
+        // データが空の時の処理
+        if data.isEmpty {
+            // TODO: NumberFormatterで実装
+            let totalBalanceText = String.localizedStringWithFormat("%d", 0) + "円"
+            addCenterView(text: totalBalanceText, duration: 0.4)
+            return
+        }
+
         // Pieの配列を作成
         let totalBalance = data.reduce(0) { $0 + $1.totalBalance }
         var startAngle = -Double.pi / 2
@@ -172,7 +180,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
     }
 
     // グラフ中央のViewを反映
-    private func addCenterView(text: String) -> UIView {
+    private func addCenterView(text: String, duration: TimeInterval) {
         // センターの丸いviewを作成
         let centerView = UIView(frame: CGRect(x: 0, y: 0, width: centerSpace, height: centerSpace))
         centerView.backgroundColor = .white
@@ -190,7 +198,12 @@ final class PieChartView: UIView, CAAnimationDelegate {
         label.text = text
         label.center = CGPoint(x: centerSpace / 2, y: centerSpace / 2)
         centerView.addSubview(label)
-        return centerView
+        addSubview(centerView)
+
+        // アニメーションで表示
+        UIView.animate(withDuration: duration) {
+            centerView.alpha = 1
+        }
     }
 
     // グラフの上に載せるラベルを作成
@@ -230,12 +243,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         // 全ての実行を終えた時
         if count == pies.count {
             // グラフ中央のviewを反映
-            let centerView = addCenterView(text: totalBalanceText)
-            addSubview(centerView)
-            // アニメーションで表示
-            UIView.animate(withDuration: 0.2) {
-                centerView.alpha = 1
-            }
+            addCenterView(text: totalBalanceText, duration: 0.2)
         }
     }
 }
