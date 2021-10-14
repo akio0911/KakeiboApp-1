@@ -67,6 +67,7 @@
 		47A6BFE3270FE22E00698113 /* HowToUseTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A6BFE2270FE22E00698113 /* HowToUseTableViewDataSource.swift */; };
 		47A6BFEF2710531900698113 /* HowToUseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A6BFED2710531900698113 /* HowToUseTableViewCell.swift */; };
 		47A6BFF02710531900698113 /* HowToUseTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47A6BFEE2710531900698113 /* HowToUseTableViewCell.xib */; };
+		47AF02B42717BF6A00085804 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AF02B32717BF6A00085804 /* PieChartView.swift */; };
 		47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */; };
 		47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */; };
 		47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */; };
@@ -159,6 +160,7 @@
 		47A6BFE2270FE22E00698113 /* HowToUseTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseTableViewDataSource.swift; sourceTree = "<group>"; };
 		47A6BFED2710531900698113 /* HowToUseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseTableViewCell.swift; sourceTree = "<group>"; };
 		47A6BFEE2710531900698113 /* HowToUseTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HowToUseTableViewCell.xib; sourceTree = "<group>"; };
+		47AF02B32717BF6A00085804 /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
 		47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewCell.xib; sourceTree = "<group>"; };
 		47C7A35526846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -690,6 +692,7 @@
 			children = (
 				47DC3EE126E34E8C00693980 /* GraphViewController.xib */,
 				47EB81F1268EFD96008FA088 /* GraphViewController.swift */,
+				47AF02B32717BF6A00085804 /* PieChartView.swift */,
 				47DC3EE826E44D5600693980 /* TableView */,
 			);
 			path = GraphView;
@@ -990,6 +993,7 @@
 				472EFDDA270564DD00A80640 /* PasscodeViewModel.swift in Sources */,
 				47480073268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.swift in Sources */,
 				47A6BFDD270FDEBC00698113 /* HowToUseViewModel.swift in Sources */,
+				47AF02B42717BF6A00085804 /* PieChartView.swift in Sources */,
 				4773CC28270D56E400C52DE0 /* CategoryInputViewModel.swift in Sources */,
 				472EFDDC2705A6DB00A80640 /* PasscodeRepository.swift in Sources */,
 				47DC3F0326E4E8C900693980 /* CalendarCollectionViewDataSource.swift in Sources */,

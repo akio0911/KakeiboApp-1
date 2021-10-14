@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Charts
 import RxSwift
 import RxCocoa
 
@@ -16,9 +15,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     @IBOutlet private weak var graphNavigationItem: UINavigationItem!
     @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
-    @IBOutlet private weak var categoryPieChartView: PieChartView!
-    @IBOutlet private weak var rightSwipeView: UIView!
-    @IBOutlet private weak var leftSwipeView: UIView!
+    @IBOutlet private weak var pieChartView: PieChartView!
     @IBOutlet private weak var graphTableView: UITableView!
 
     private let viewModel: GraphViewModelType
@@ -40,29 +37,29 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        setupSwipeGestureRecognizer()
+//        setupSwipeGestureRecognizer()
         setupGraphTableView()
         setupSegmentedControlView()
         navigationItem.title = "グラフ"
     }
 
-    private func setupSwipeGestureRecognizer() {
-        // 左スワイプの実装
-        let leftSwipeRecognizer = UISwipeGestureRecognizer(
-            target: self,
-            action: #selector(viewSwipeGesture(sender:))
-        )
-        leftSwipeRecognizer.direction = .left
-        rightSwipeView.addGestureRecognizer(leftSwipeRecognizer)
-
-        // 右スワイプの実装
-        let rightSwipeRecognizer = UISwipeGestureRecognizer(
-            target: self,
-            action: #selector(viewSwipeGesture(sender:))
-        )
-        rightSwipeRecognizer.direction = .right
-        leftSwipeView.addGestureRecognizer(rightSwipeRecognizer)
-    }
+//    private func setupSwipeGestureRecognizer() {
+//        // 左スワイプの実装
+//        let leftSwipeRecognizer = UISwipeGestureRecognizer(
+//            target: self,
+//            action: #selector(viewSwipeGesture(sender:))
+//        )
+//        leftSwipeRecognizer.direction = .left
+//        rightSwipeView.addGestureRecognizer(leftSwipeRecognizer)
+//
+//        // 右スワイプの実装
+//        let rightSwipeRecognizer = UISwipeGestureRecognizer(
+//            target: self,
+//            action: #selector(viewSwipeGesture(sender:))
+//        )
+//        rightSwipeRecognizer.direction = .right
+//        leftSwipeView.addGestureRecognizer(rightSwipeRecognizer)
+//    }
 
     private func setupBinding() {
         nextBarButtonItem.rx.tap
@@ -82,38 +79,9 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
             .disposed(by: disposeBag)
 
         viewModel.outputs.graphData
-            .subscribe(onNext: { [weak self] graphData in
+            .subscribe(onNext: { [weak self] data in
                 guard let self = self else { return }
-                var chartDataEntry: [PieChartDataEntry] = []
-                graphData.forEach {
-                    chartDataEntry.append(
-                        PieChartDataEntry(value: Double($0.totalBalance), label: $0.categoryData.name)
-                    )
-                }
-                let pieChartDataSet = PieChartDataSet(entries: chartDataEntry)
-                self.categoryPieChartView.data = PieChartData(dataSet: pieChartDataSet)
-
-                var colors: [UIColor] = []
-                graphData.forEach {
-                    colors.append($0.categoryData.color)
-                }
-                pieChartDataSet.colors = colors
-                self.categoryPieChartView.legend.enabled = false
-            })
-            .disposed(by: disposeBag)
-
-        viewModel.outputs.totalBalance
-            .drive(onNext: { [weak self] totalBalance in
-                guard let self = self else { return }
-                let centerTextAttributed: [NSAttributedString.Key: Any] = [
-                    .foregroundColor: UIColor.black,
-                    .font: UIFont.systemFont(ofSize: 17)
-                ]
-                let centerText = NSAttributedString(
-                    string: NumberFormatterUtility.changeToCurrencyNotation(from: totalBalance) ?? "0円",
-                    attributes: centerTextAttributed
-                )
-                self.categoryPieChartView.centerAttributedText = centerText
+                self.pieChartView.setupPieChartView(setData: data)
             })
             .disposed(by: disposeBag)
 
@@ -161,7 +129,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         NSLayoutConstraint.activate([
-            categoryPieChartView.widthAnchor.constraint(equalToConstant: view.frame.width - 90),
+            pieChartView.widthAnchor.constraint(equalToConstant: view.frame.width - 90),
             segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 70),
             segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -70),
             segmentedControlView.topAnchor.constraint(equalTo: graphNavigationBar.bottomAnchor, constant: 8),

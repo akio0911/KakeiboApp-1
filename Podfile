@@ -7,7 +7,6 @@ target 'KakeiboApp' do
 
   # Pods for KakeiboApp
 pod 'SwiftLint'
-pod 'Charts'
 pod 'RxSwift'
 pod 'RxCocoa'
 pod 'Firebase/Firestore'
