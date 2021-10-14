@@ -82,7 +82,7 @@ final class CalendarViewController: UIViewController,
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.didHighlightItemIndexPath = []
-                self.viewModel.inputs.nextMonthInput()
+                self.viewModel.inputs.didActionNextMonth()
             })
             .disposed(by: disposeBag)
 
@@ -90,7 +90,7 @@ final class CalendarViewController: UIViewController,
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.didHighlightItemIndexPath = []
-                self.viewModel.inputs.lastMonthInput()
+                self.viewModel.inputs.didActionLastMonth()
             })
             .disposed(by: disposeBag)
 
@@ -202,9 +202,9 @@ final class CalendarViewController: UIViewController,
     @objc private func collectionViewSwipeGesture(sender: UISwipeGestureRecognizer) {
         switch sender.direction {
         case UISwipeGestureRecognizer.Direction.right:
-            viewModel.inputs.lastMonthInput()
+            viewModel.inputs.didActionLastMonth()
         case UISwipeGestureRecognizer.Direction.left:
-            viewModel.inputs.nextMonthInput()
+            viewModel.inputs.didActionNextMonth()
         default:
             break
         }

@@ -64,11 +64,11 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
 
     private func setupBinding() {
         nextBarButtonItem.rx.tap
-            .subscribe(onNext: viewModel.inputs.didTapNextBarButton)
+            .subscribe(onNext: viewModel.inputs.didActionNextMonth)
             .disposed(by: disposeBag)
 
         lastBarButtonItem.rx.tap
-            .subscribe(onNext: viewModel.inputs.didTapLastBarButton)
+            .subscribe(onNext: viewModel.inputs.didActionLastMonth)
             .disposed(by: disposeBag)
         
         viewModel.outputs.navigationTitle
@@ -80,10 +80,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
             .disposed(by: disposeBag)
 
         viewModel.outputs.graphData
-            .subscribe(onNext: { [weak self] data in
-                guard let self = self else { return }
-                self.pieChartView.setupPieChartView(setData: data)
-            })
+            .subscribe(onNext: pieChartView.setupPieChartView)
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
@@ -118,9 +115,9 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     @objc private func viewSwipeGesture(sender: UISwipeGestureRecognizer) {
         switch sender.direction {
         case UISwipeGestureRecognizer.Direction.right:
-            viewModel.inputs.didTapLastBarButton()
+            viewModel.inputs.didActionLastMonth()
         case UISwipeGestureRecognizer.Direction.left:
-            viewModel.inputs.didTapNextBarButton()
+            viewModel.inputs.didActionNextMonth()
         default:
             break
         }

@@ -9,8 +9,8 @@ import RxSwift
 import RxCocoa
 
 protocol GraphViewModelInput {
-    func didTapNextBarButton()
-    func didTapLastBarButton()
+    func didActionNextMonth()
+    func didActionLastMonth()
     func didSelectRowAt(index: IndexPath)
     func didChangeSegmentIndex(index: Int)
 }
@@ -141,11 +141,11 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func didTapNextBarButton() {
+    func didActionNextMonth() {
         calendarDate.nextMonth()
     }
 
-    func didTapLastBarButton() {
+    func didActionLastMonth() {
         calendarDate.lastMonth()
     }
 
