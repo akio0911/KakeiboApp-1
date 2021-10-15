@@ -32,6 +32,7 @@ final class CalendarViewController: UIViewController,
     private var headerDataArray: [HeaderDateKakeiboData] = []
     private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
     private var didHighlightItemIndexPath: IndexPath = []
+    private var activityIndicatorView: UIActivityIndicatorView!
 
     init(viewModel: CalendarViewModelType = CalendarViewModel()) {
         self.viewModel = viewModel
@@ -45,6 +46,7 @@ final class CalendarViewController: UIViewController,
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        addActivityIndicatorView()
         setupBinding()
         setupBarButtonItem()
         setupSwipeGestureRecognizer()
@@ -52,6 +54,15 @@ final class CalendarViewController: UIViewController,
         setupTableView() // tableViewの設定をするメソッド
         navigationItem.title = "カレンダー"
         calendarTableViewDataSource.delegate = self
+    }
+
+    // ActivityIndicatorViewを反映
+    private func addActivityIndicatorView() {
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = .darkGray
+        activityIndicatorView.center = view.center
+        view.addSubview(activityIndicatorView)
     }
 
     private func setupBarButtonItem() {
@@ -148,18 +159,39 @@ final class CalendarViewController: UIViewController,
             .drive(balanceLabel.rx.text)
             .disposed(by: disposeBag)
 
+        viewModel.outputs.isAnimatedIndicator
+            .drive(onNext: { [weak self] isAnimated in
+                guard let self = self else { return }
+                if isAnimated {
+                    self.activityIndicatorView.startAnimating()
+                } else {
+                    self.activityIndicatorView.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
+
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
-                let inputViewController = InputViewController(
-                    viewModel: InputViewModel(mode: InputViewModel.Mode(event: event))
-                )
-                let navigationController = UINavigationController(
-                    rootViewController: inputViewController
-                )
-                self.present(navigationController, animated: true, completion: nil)
+                switch event {
+                // mode: .addで画面遷移
+                case .presentAdd(let date):
+                    self.presentInputVC(viewModel: InputViewModel(mode: .add(date)))
+
+                // mode: .editで画面遷移
+                case .presentEdit(let kakeiboData):
+                    self.presentInputVC(viewModel: InputViewModel(mode: .edit(kakeiboData)))
+                }
             })
             .disposed(by: disposeBag)
+    }
+
+    // InputViewControllerへ画面遷移
+    private func presentInputVC(viewModel: InputViewModelType) {
+        let inputViewController = InputViewController(viewModel: viewModel)
+        let navigationController =
+        UINavigationController(rootViewController: inputViewController)
+        present(navigationController, animated: true, completion: nil)
     }
 
     // collectionViewの設定
@@ -287,17 +319,5 @@ final class CalendarViewController: UIViewController,
     // 自作delegate
     func didDeleteCell(index: IndexPath) {
         viewModel.inputs.didDeleateCell(index: index)
-    }
-}
-
-// MARK: - extension InputViewModel.Mode
-extension InputViewModel.Mode {
-    init(event: CalendarViewModel.Event) {
-        switch event {
-        case .presentAdd(let date):
-            self = .add(date)
-        case .presentEdit(let data):
-            self = .edit(data)
-        }
     }
 }

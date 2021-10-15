@@ -24,6 +24,7 @@ protocol CalendarViewModelOutput {
     var incomeText: Driver<String> { get }
     var expenseText: Driver<String> { get }
     var balanceTxet: Driver<String> { get }
+    var isAnimatedIndicator: Driver<Bool> { get }
     var event: Driver<CalendarViewModel.Event> { get }
 }
 
@@ -50,6 +51,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let incomeTextRelay = BehaviorRelay<String>(value: "")
     private let expenseTextRelay = BehaviorRelay<String>(value: "")
     private let balanceTextRelay = BehaviorRelay<String>(value: "")
+    private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
     private let eventRelay = PublishRelay<Event>()
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
@@ -78,12 +80,14 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .disposed(by: disposeBag)
 
         model.dataObservable
+            .skip(1) // 初期値をスキップ
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let self = self else { return }
                 self.kakeiboDataArray = kakeiboDataArray
                 self.acceptDayItemData()
                 self.acceptTableViewData()
                 self.acceptSetLabelEvent()
+                self.isAnimatedIndicatorRelay.accept(false)
             })
             .disposed(by: disposeBag)
     }
@@ -197,6 +201,10 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
 
     var balanceTxet: Driver<String> {
         balanceTextRelay.asDriver()
+    }
+
+    var isAnimatedIndicator: Driver<Bool> {
+        isAnimatedIndicatorRelay.asDriver()
     }
 
     var event: Driver<Event> {
