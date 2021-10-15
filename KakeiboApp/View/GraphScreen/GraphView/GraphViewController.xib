@@ -28,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
-                    <rect key="frame" x="0.0" y="512" width="414" height="301"/>
+                    <rect key="frame" x="0.0" y="519" width="414" height="294"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-HV-JkJ">
@@ -49,27 +49,27 @@
                     </items>
                 </navigationBar>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2k6-Dg-0tT">
-                    <rect key="frame" x="0.0" y="511" width="414" height="1"/>
+                    <rect key="frame" x="0.0" y="518" width="414" height="1"/>
                     <color key="backgroundColor" systemColor="separatorColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="2pc-Nh-BEx"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1e-Ac-ASf">
-                    <rect key="frame" x="0.0" y="133" width="414" height="379"/>
+                    <rect key="frame" x="0.0" y="133" width="414" height="386"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="KakeiboApp" customModuleProvider="target">
-                            <rect key="frame" x="45" y="45" width="324" height="324"/>
+                            <rect key="frame" x="41.5" y="45" width="331" height="331"/>
                             <color key="backgroundColor" systemColor="systemGray6Color"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="8xh-5E-VUY" secondAttribute="height" multiplier="1:1" id="4q3-IZ-iXo"/>
-                                <constraint firstAttribute="width" priority="750" constant="324" id="sU5-OE-ykJ"/>
                             </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemGray6Color"/>
                     <constraints>
                         <constraint firstItem="8xh-5E-VUY" firstAttribute="centerX" secondItem="m1e-Ac-ASf" secondAttribute="centerX" id="KmK-5J-2Sg"/>
+                        <constraint firstItem="8xh-5E-VUY" firstAttribute="width" secondItem="m1e-Ac-ASf" secondAttribute="width" multiplier="0.8" id="oZJ-cg-dcL"/>
                         <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="m1e-Ac-ASf" secondAttribute="top" constant="45" id="q6m-Zb-FgC"/>
                         <constraint firstAttribute="bottom" secondItem="8xh-5E-VUY" secondAttribute="bottom" constant="10" id="waY-4d-pus"/>
                     </constraints>

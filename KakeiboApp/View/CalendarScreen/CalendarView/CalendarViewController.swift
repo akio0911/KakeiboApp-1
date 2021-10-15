@@ -61,7 +61,6 @@ final class CalendarViewController: UIViewController,
         activityIndicatorView = UIActivityIndicatorView()
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
-        activityIndicatorView.center = view.center
         view.addSubview(activityIndicatorView)
     }
 
@@ -159,16 +158,7 @@ final class CalendarViewController: UIViewController,
             .drive(balanceLabel.rx.text)
             .disposed(by: disposeBag)
 
-        viewModel.outputs.isAnimatedIndicator
-            .drive(onNext: { [weak self] isAnimated in
-                guard let self = self else { return }
-                if isAnimated {
-                    self.activityIndicatorView.startAnimating()
-                } else {
-                    self.activityIndicatorView.stopAnimating()
-                }
-            })
-            .disposed(by: disposeBag)
+
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
@@ -222,6 +212,25 @@ final class CalendarViewController: UIViewController,
             calendarTableView.sectionHeaderTopPadding = 0
         } 
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
+    }
+
+    // MARK: - viewDidLayoutSubviews
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // activityIndicatorViewのcenterを設定
+        activityIndicatorView.center = view.center
+
+        // activityIndicatorViewのアニメーションの状態をバインディング
+        viewModel.outputs.isAnimatedIndicator
+            .drive(onNext: { [weak self] isAnimated in
+                guard let self = self else { return }
+                if isAnimated {
+                    self.activityIndicatorView.startAnimating()
+                } else {
+                    self.activityIndicatorView.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     // MARK: - @objc(BarButtonItem)

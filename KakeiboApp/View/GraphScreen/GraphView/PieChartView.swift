@@ -29,16 +29,15 @@ final class PieChartView: UIView, CAAnimationDelegate {
     // MARK: - init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
-        size = min(frame.width, frame.height)
-        radius = size / 16 * 5
-        basicLineWidth = size / 4
-        largerLineWidth = size / 8 * 3
-        centerSpace = size / 8 * 3
+        self.backgroundColor = .systemGray6
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
         size = min(frame.width, frame.height)
         radius = size / 16 * 5
         basicLineWidth = size / 4
@@ -101,6 +100,9 @@ final class PieChartView: UIView, CAAnimationDelegate {
 
     // MARK: - function
     func setupPieChartView(setData data: [GraphData]) {
+        // 画面更新が必要な場合、更新する
+        layoutIfNeeded()
+
         // 初期化の処理
         count = 0
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }

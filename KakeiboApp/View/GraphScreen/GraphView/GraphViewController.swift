@@ -79,10 +79,6 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
             .bind(to: graphTableView.rx.items(dataSource: graphTableViewDataSource))
             .disposed(by: disposeBag)
 
-        viewModel.outputs.graphData
-            .subscribe(onNext: pieChartView.setupPieChartView)
-            .disposed(by: disposeBag)
-
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
@@ -127,12 +123,16 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         NSLayoutConstraint.activate([
-            pieChartView.widthAnchor.constraint(equalToConstant: graphView.frame.width - 90),
             segmentedControlView.leadingAnchor.constraint(equalTo: graphView.leadingAnchor, constant: 70),
             segmentedControlView.rightAnchor.constraint(equalTo: graphView.rightAnchor, constant: -70),
             segmentedControlView.topAnchor.constraint(equalTo: graphView.topAnchor, constant: 8),
             segmentedControlView.heightAnchor.constraint(equalToConstant: 30)
         ])
+
+        // pieChartViewのデータをバインディング
+        viewModel.outputs.graphData
+            .subscribe(onNext: pieChartView.setupPieChartView)
+            .disposed(by: disposeBag)
     }
 
     // MARK: - UITableViewDelegate

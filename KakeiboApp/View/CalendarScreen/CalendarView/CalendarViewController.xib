@@ -56,7 +56,7 @@
                                     <color key="textColor" name="CarolinaBlue"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="IncomeLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NmP-f9-F6q">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="IncomeLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NmP-f9-F6q">
                                     <rect key="frame" x="49.5" y="18.5" width="39.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" name="CarolinaBlue"/>
@@ -88,6 +88,8 @@
                                 <constraint firstItem="XDh-Gs-GIo" firstAttribute="leading" secondItem="S24-3n-8wX" secondAttribute="leading" id="aQP-4B-q6Y"/>
                                 <constraint firstAttribute="bottom" secondItem="NmP-f9-F6q" secondAttribute="bottom" constant="2" id="fZL-tw-jfz"/>
                                 <constraint firstAttribute="trailing" secondItem="vhC-n1-BTn" secondAttribute="trailing" id="iEh-5z-gEo"/>
+                                <constraint firstItem="NmP-f9-F6q" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="S24-3n-8wX" secondAttribute="leading" constant="1" id="njY-NI-mQi"/>
+                                <constraint firstItem="vhC-n1-BTn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NmP-f9-F6q" secondAttribute="trailing" constant="1" id="wfz-Ot-n4E"/>
                                 <constraint firstItem="vhC-n1-BTn" firstAttribute="top" secondItem="XDh-Gs-GIo" secondAttribute="bottom" constant="5" id="yNR-JQ-mFO"/>
                             </constraints>
                         </view>
@@ -100,7 +102,7 @@
                                     <color key="textColor" name="SafetyOrangeBlazeOrange"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="ExpenseLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ydB-5A-llr">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="ExpenseLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ydB-5A-llr">
                                     <rect key="frame" x="49.5" y="18.5" width="39.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" name="SafetyOrangeBlazeOrange"/>
@@ -123,6 +125,8 @@
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
+                                <constraint firstItem="ydB-5A-llr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ray-ur-KdL" secondAttribute="leading" constant="1" id="07X-Ti-g2X"/>
+                                <constraint firstItem="DDg-hS-sfe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ydB-5A-llr" secondAttribute="trailing" constant="1" id="1qF-kg-hOj"/>
                                 <constraint firstItem="mow-qg-Fmh" firstAttribute="leading" secondItem="ray-ur-KdL" secondAttribute="leading" constant="4" id="H8f-Wb-uDM"/>
                                 <constraint firstItem="ydB-5A-llr" firstAttribute="centerX" secondItem="ray-ur-KdL" secondAttribute="centerX" id="IzD-QL-BGi"/>
                                 <constraint firstItem="mow-qg-Fmh" firstAttribute="top" secondItem="ray-ur-KdL" secondAttribute="top" constant="2" id="OiN-h2-ZKn"/>
@@ -144,7 +148,7 @@
                                     <color key="textColor" name="SpaceCadet"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="BalanceLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-NN-D8L">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="BalanceLabel" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="CBO-NN-D8L">
                                     <rect key="frame" x="49.5" y="18.5" width="39.5" height="19.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <color key="textColor" name="SpaceCadet"/>
@@ -164,8 +168,10 @@
                                 <constraint firstItem="vhd-K5-ojg" firstAttribute="leading" secondItem="Y25-Vx-Dod" secondAttribute="leading" id="2y8-gk-jWl"/>
                                 <constraint firstItem="SAn-mN-GxG" firstAttribute="leading" secondItem="Y25-Vx-Dod" secondAttribute="leading" constant="4" id="5S8-Fj-HnE"/>
                                 <constraint firstAttribute="bottom" secondItem="CBO-NN-D8L" secondAttribute="bottom" constant="2" id="Aac-8U-bpE"/>
+                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="CBO-NN-D8L" secondAttribute="trailing" constant="1" id="Ygu-x4-Qx1"/>
                                 <constraint firstAttribute="trailing" secondItem="vhd-K5-ojg" secondAttribute="trailing" id="aBP-ZP-ibY"/>
                                 <constraint firstItem="vhd-K5-ojg" firstAttribute="top" secondItem="Y25-Vx-Dod" secondAttribute="top" id="qBf-pa-8qH"/>
+                                <constraint firstItem="CBO-NN-D8L" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Y25-Vx-Dod" secondAttribute="leading" constant="1" id="sbH-GQ-bhA"/>
                                 <constraint firstItem="CBO-NN-D8L" firstAttribute="centerX" secondItem="Y25-Vx-Dod" secondAttribute="centerX" id="wBG-WR-7Ti"/>
                             </constraints>
                         </view>
@@ -224,7 +230,7 @@
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-            <point key="canvasLocation" x="-277" y="-121"/>
+            <point key="canvasLocation" x="-278.26086956521743" y="-121.20535714285714"/>
         </view>
         <navigationItem title="Title" id="H6A-kV-Di7"/>
         <navigationItem title="Title" id="cJ8-2U-Oi8"/>
