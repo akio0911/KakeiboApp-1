@@ -108,9 +108,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
 
         // データが空の時の処理
         if data.isEmpty {
-            // TODO: NumberFormatterで実装
-            let totalBalanceText = String.localizedStringWithFormat("%d", 0) + "円"
-            addCenterView(text: totalBalanceText, duration: 0.4)
+            addCenterView(text: "0円", duration: 0.4)
             return
         }
 
@@ -137,8 +135,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
             startAngle = angle
         }
 
-        // TODO: NumberFormatterで実装
-        totalBalanceText = String.localizedStringWithFormat("%d", totalBalance) + "円"
+        totalBalanceText = NumberFormatterUtility.changeToCurrencyNotation(from: totalBalance) ?? "0円"
 
         // 最初のアニメーション実行
         addCABasicAnimation(layer: pies[count].layer, duration: pies[count].duration)
@@ -217,8 +214,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         label.textAlignment = NSTextAlignment.center
         label.numberOfLines = 3
         label.font = UIFont.systemFont(ofSize: 14)
-        // TODO: NumberFormatterで実装
-        label.text = "\(category)\n\(String.localizedStringWithFormat("%d", balance))円"
+        label.text = "\(category)\n\(NumberFormatterUtility.changeToCurrencyNotation(from: balance) ?? "0円")"
         label.textColor = .white
         label.center = calcCenter(startAngle: startAngle, endAngle: endAngle)
         return label
