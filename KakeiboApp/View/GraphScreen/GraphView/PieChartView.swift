@@ -54,8 +54,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         let color = colorOfPoint(point: point)
 
         // piesから色が一致するレイヤーがあれば、取り出す
-        /* カテゴリーカラーを編集した場合、丸め誤差が発生するため、
-           HEXに変換し、比較する*/
+        // colorに丸め誤差が発生するため、HEXに変換し、比較する
         guard let layer = pies.first(where: {
             UIColor(cgColor: $0.layer.strokeColor!).hex == color.hex
         })?.layer else { return }

@@ -35,7 +35,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private var selectedSegmentIndex: Int = 0
     private var editingTextField: UITextField?
     private var keyboardOverlap: CGFloat = 0
-    private var categoryPickerDidSelectRow = 0
 
     init(viewModel: InputViewModelType) {
         self.viewModel = viewModel
@@ -203,10 +202,14 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         switch selectedSegmentIndex {
         case 0:
             balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
-            categoryId = CategoryId.expense(expenseCategoryDataArray[categoryPickerDidSelectRow].id)
+            categoryId = CategoryId.expense(
+                expenseCategoryDataArray.first(where: { $0.name == categoryTextField.text! })!.id
+            )
         case 1:
             balance = Balance.income(Int(balanceTextField.text!) ?? 0)
-            categoryId = CategoryId.income(incomeCategoryDataArray[categoryPickerDidSelectRow].id)
+            categoryId = CategoryId.income(
+                expenseCategoryDataArray.first(where: { $0.name == categoryTextField.text! })!.id
+            )
         default:
             fatalError("想定していないsegmentIndex")
         }
@@ -315,10 +318,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         switch pickerView {
         case incomeCategoryPickerView:
             categoryTextField.text = incomeCategoryDataArray[row].name
-            categoryPickerDidSelectRow = row
         case expenseCategoryPickerView:
             categoryTextField.text = expenseCategoryDataArray[row].name
-            categoryPickerDidSelectRow = row
         default:
             fatalError("想定していないpickerView")
         }
