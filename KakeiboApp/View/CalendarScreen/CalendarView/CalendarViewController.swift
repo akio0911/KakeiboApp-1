@@ -61,17 +61,18 @@ final class CalendarViewController: UIViewController,
         activityIndicatorView = UIActivityIndicatorView()
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
+        activityIndicatorView.center = view.center
         view.addSubview(activityIndicatorView)
     }
 
     private func setupBarButtonItem() {
         let nextBarButton =
-            UIBarButtonItem(
-                image:UIImage(systemName: "square.and.pencil"),
-                style: .plain,
-                target: self,
-                action: #selector(didTapInputBarButton)
-            )
+        UIBarButtonItem(
+            image:UIImage(systemName: "square.and.pencil"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapInputBarButton)
+        )
         navigationItem.rightBarButtonItem = nextBarButton
     }
 
@@ -117,16 +118,16 @@ final class CalendarViewController: UIViewController,
                 let numberOfWeeksInMonth: CGFloat = ceil(CGFloat(secondSectionItemData.count / 7))
                 self.collectionViewNSLayoutConstraint?.isActive = false
                 self.collectionViewNSLayoutConstraint =
-                    self.calendarCollectionView.heightAnchor.constraint(
-                        equalToConstant:
-                            self.weekdayCellHeight
-                            + self.dayCellHeight * numberOfWeeksInMonth
-                            + self.spaceOfCell * (numberOfWeeksInMonth - 1)
-                            + self.insetForSection.bottom * 2
-                            + self.insetForSection.top * 2
-                            + self.insetForSection.left * 2
-                            + self.insetForSection.right * 2
-                    )
+                self.calendarCollectionView.heightAnchor.constraint(
+                    equalToConstant:
+                        self.weekdayCellHeight
+                    + self.dayCellHeight * numberOfWeeksInMonth
+                    + self.spaceOfCell * (numberOfWeeksInMonth - 1)
+                    + self.insetForSection.bottom * 2
+                    + self.insetForSection.top * 2
+                    + self.insetForSection.left * 2
+                    + self.insetForSection.right * 2
+                )
                 self.collectionViewNSLayoutConstraint?.isActive = true
             })
             .disposed(by: disposeBag)
@@ -158,17 +159,26 @@ final class CalendarViewController: UIViewController,
             .drive(balanceLabel.rx.text)
             .disposed(by: disposeBag)
 
-
+        viewModel.outputs.isAnimatedIndicator
+            .drive(onNext: { [weak self] isAnimated in
+                guard let self = self else { return }
+                if isAnimated {
+                    self.activityIndicatorView.startAnimating()
+                } else {
+                    self.activityIndicatorView.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                // mode: .addで画面遷移
+                    // mode: .addで画面遷移
                 case .presentAdd(let date):
                     self.presentInputVC(viewModel: InputViewModel(mode: .add(date)))
 
-                // mode: .editで画面遷移
+                    // mode: .editで画面遷移
                 case .presentEdit(let kakeiboData):
                     self.presentInputVC(viewModel: InputViewModel(mode: .edit(kakeiboData)))
                 }
@@ -210,27 +220,8 @@ final class CalendarViewController: UIViewController,
         )
         if #available(iOS 15.0, *) {
             calendarTableView.sectionHeaderTopPadding = 0
-        } 
+        }
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
-    }
-
-    // MARK: - viewDidLayoutSubviews
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        // activityIndicatorViewのcenterを設定
-        activityIndicatorView.center = view.center
-
-        // activityIndicatorViewのアニメーションの状態をバインディング
-        viewModel.outputs.isAnimatedIndicator
-            .drive(onNext: { [weak self] isAnimated in
-                guard let self = self else { return }
-                if isAnimated {
-                    self.activityIndicatorView.startAnimating()
-                } else {
-                    self.activityIndicatorView.stopAnimating()
-                }
-            })
-            .disposed(by: disposeBag)
     }
 
     // MARK: - @objc(BarButtonItem)
@@ -280,9 +271,9 @@ final class CalendarViewController: UIViewController,
             fatalError("collectionViewで想定していないsection")
         }
         
-        let totalItemWidth: CGFloat
-            = collectionView.bounds.width
-            - spaceOfCell * (numberOfDaysInWeek - 1)
+        let totalItemWidth: CGFloat =
+        collectionView.bounds.width
+        - spaceOfCell * (numberOfDaysInWeek - 1)
         let width: CGFloat = floor(totalItemWidth / numberOfDaysInWeek * 1000) / 1000
 
         return CGSize(
@@ -313,7 +304,7 @@ final class CalendarViewController: UIViewController,
     // ヘッダーのタイトルを設定
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(
-                withIdentifier: CalendarTableViewHeaderFooterView.identifier)
+            withIdentifier: CalendarTableViewHeaderFooterView.identifier)
                 as? CalendarTableViewHeaderFooterView else { return nil }
         headerView.configure(data: headerDataArray[section])
         headerView.tintColor = .systemGray.withAlphaComponent(0.1)

@@ -18,7 +18,7 @@
                 <outlet property="graphView" destination="m1e-Ac-ASf" id="cwT-iM-r9b"/>
                 <outlet property="lastBarButtonItem" destination="chs-EQ-RU1" id="0nC-S2-9Cd"/>
                 <outlet property="nextBarButtonItem" destination="gUv-zT-baX" id="ibx-rc-6rN"/>
-                <outlet property="pieChartView" destination="8xh-5E-VUY" id="ouy-Jd-7vd"/>
+                <outlet property="pieChartView" destination="8xh-5E-VUY" id="JN5-C7-1CR"/>
                 <outlet property="view" destination="iN0-l3-epB" id="EcZ-sl-ubW"/>
             </connections>
         </placeholder>
@@ -28,7 +28,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uu1-Jd-H43">
-                    <rect key="frame" x="0.0" y="519" width="414" height="294"/>
+                    <rect key="frame" x="0.0" y="425" width="414" height="388"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D4U-HV-JkJ">
@@ -49,19 +49,20 @@
                     </items>
                 </navigationBar>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2k6-Dg-0tT">
-                    <rect key="frame" x="0.0" y="518" width="414" height="1"/>
+                    <rect key="frame" x="0.0" y="424" width="414" height="1"/>
                     <color key="backgroundColor" systemColor="separatorColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="2pc-Nh-BEx"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1e-Ac-ASf">
-                    <rect key="frame" x="0.0" y="133" width="414" height="386"/>
+                    <rect key="frame" x="0.0" y="133" width="414" height="292"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8xh-5E-VUY" customClass="PieChartView" customModule="KakeiboApp" customModuleProvider="target">
-                            <rect key="frame" x="41.5" y="45" width="331" height="331"/>
+                            <rect key="frame" x="88.5" y="45" width="237" height="237"/>
                             <color key="backgroundColor" systemColor="systemGray6Color"/>
                             <constraints>
+                                <constraint firstAttribute="width" constant="237" id="0gl-GE-A9u"/>
                                 <constraint firstAttribute="width" secondItem="8xh-5E-VUY" secondAttribute="height" multiplier="1:1" id="4q3-IZ-iXo"/>
                             </constraints>
                         </view>
@@ -69,7 +70,6 @@
                     <color key="backgroundColor" systemColor="systemGray6Color"/>
                     <constraints>
                         <constraint firstItem="8xh-5E-VUY" firstAttribute="centerX" secondItem="m1e-Ac-ASf" secondAttribute="centerX" id="KmK-5J-2Sg"/>
-                        <constraint firstItem="8xh-5E-VUY" firstAttribute="width" secondItem="m1e-Ac-ASf" secondAttribute="width" multiplier="0.8" id="oZJ-cg-dcL"/>
                         <constraint firstItem="8xh-5E-VUY" firstAttribute="top" secondItem="m1e-Ac-ASf" secondAttribute="top" constant="45" id="q6m-Zb-FgC"/>
                         <constraint firstAttribute="bottom" secondItem="8xh-5E-VUY" secondAttribute="bottom" constant="10" id="waY-4d-pus"/>
                     </constraints>

@@ -208,7 +208,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         case 1:
             balance = Balance.income(Int(balanceTextField.text!) ?? 0)
             categoryId = CategoryId.income(
-                expenseCategoryDataArray.first(where: { $0.name == categoryTextField.text! })!.id
+                incomeCategoryDataArray.first(where: { $0.name == categoryTextField.text! })!.id
             )
         default:
             fatalError("想定していないsegmentIndex")

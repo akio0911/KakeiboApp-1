@@ -79,6 +79,10 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
             .bind(to: graphTableView.rx.items(dataSource: graphTableViewDataSource))
             .disposed(by: disposeBag)
 
+        viewModel.outputs.graphData
+            .subscribe(onNext: pieChartView.setupPieChartView)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
@@ -128,11 +132,6 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
             segmentedControlView.topAnchor.constraint(equalTo: graphView.topAnchor, constant: 8),
             segmentedControlView.heightAnchor.constraint(equalToConstant: 30)
         ])
-
-        // pieChartViewのデータをバインディング
-        viewModel.outputs.graphData
-            .subscribe(onNext: pieChartView.setupPieChartView)
-            .disposed(by: disposeBag)
     }
 
     // MARK: - UITableViewDelegate

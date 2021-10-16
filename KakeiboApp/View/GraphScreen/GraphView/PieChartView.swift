@@ -26,23 +26,14 @@ final class PieChartView: UIView, CAAnimationDelegate {
     private let duration: TimeInterval = 0.25 // グラフが表示されるまでの時間
     private var totalBalanceText: String! // グラフ中央のtext
 
-    // MARK: - init
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = .systemGray6
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    override func awakeFromNib() {
+        super.awakeFromNib()
         size = min(frame.width, frame.height)
-        radius = size / 16 * 5
-        basicLineWidth = size / 4
-        largerLineWidth = size / 8 * 3
-        centerSpace = size / 8 * 3
+        basicLineWidth = size / 3.5 // グラフの幅を指定
+        let scaleLength: CGFloat = 5 // タップ時に拡大する長さを指定
+        largerLineWidth = basicLineWidth + (scaleLength * 2)
+        radius = (size - largerLineWidth) / 2
+        centerSpace = size - (2 * basicLineWidth) - (largerLineWidth - basicLineWidth)
     }
 
     // MARK: - touchesBegan
@@ -99,9 +90,6 @@ final class PieChartView: UIView, CAAnimationDelegate {
 
     // MARK: - function
     func setupPieChartView(setData data: [GraphData]) {
-        // 画面更新が必要な場合、更新する
-        layoutIfNeeded()
-
         // 初期化の処理
         count = 0
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
@@ -193,11 +181,11 @@ final class PieChartView: UIView, CAAnimationDelegate {
 
         // センターに載せるラベルを作成
         let label = UILabel(
-            frame: CGRect(x: 0, y: 0, width: centerSpace - 10, height: 42)
+            frame: CGRect(x: 0, y: 0, width: centerSpace - 5, height: 34)
         )
         label.textAlignment = NSTextAlignment.center
         label.numberOfLines = 2
-        label.font = UIFont.boldSystemFont(ofSize: 17)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.text = text
         label.center = CGPoint(x: centerSpace / 2, y: centerSpace / 2)
         centerView.addSubview(label)
@@ -211,13 +199,14 @@ final class PieChartView: UIView, CAAnimationDelegate {
 
     // グラフの上に載せるラベルを作成
     private func createCategoryLabel(category: String, balance: Int, startAngle: Double, endAngle: Double) -> UILabel {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: basicLineWidth - 10, height: 51))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: basicLineWidth - 5, height: 45))
         label.textAlignment = NSTextAlignment.center
         label.numberOfLines = 3
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.text = "\(category)\n\(NumberFormatterUtility.changeToCurrencyNotation(from: balance) ?? "0円")"
         label.textColor = .white
         label.center = calcCenter(startAngle: startAngle, endAngle: endAngle)
+        label.alpha = 0 // フェードのようなアニメーションをするためalphaを0に設定
         return label
     }
 
@@ -236,16 +225,23 @@ final class PieChartView: UIView, CAAnimationDelegate {
             // アニメーションを実行
             addCABasicAnimation(layer: pies[count].layer, duration: pies[count].duration)
             layer.addSublayer(pies[count].layer)
-            // ラベルを反映
-            if let label = pies[count].label {
-                addSubview(label)
-            }
+
         }
 
         // 全ての実行を終えた時
         if count == pies.count {
             // グラフ中央のviewを反映
             addCenterView(text: totalBalanceText, duration: 0.2)
+            // ラベルを反映
+            pies.forEach {
+                if let label = $0.label {
+                    addSubview(label)
+                    // アニメーションで表示
+                    UIView.animate(withDuration: 0.2) {
+                        label.alpha = 1
+                    }
+                }
+            }
         }
     }
 }
