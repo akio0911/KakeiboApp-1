@@ -21,36 +21,51 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
     private let incomeCategoryDataKey = "incomeCategoryData"
     private let expenseCategoryDataKey = "expenseCategoryData"
 
+    // 収入カテゴリーを読み込む
     func loadIncomeCategoryData() -> [CategoryData] {
+        // 保存データがない場合
         guard let data = userDefaults.data(forKey: incomeCategoryDataKey) else {
+            // 初期の収入カテゴリーを保存
             saveIncomeCategoryData(data: incomeCategoryArray)
+            // 初期の収入カテゴリーを返す
             return incomeCategoryArray
         }
+
+        // 保存データがあった場合
         guard let incomeCategoryDataArray =
                 try? PropertyListDecoder().decode(Array<CategoryData>.self, from: data) else { return incomeCategoryArray }
         return incomeCategoryDataArray
     }
 
+    // 支出カテゴリーを読み込む
     func loadExpenseCategoryData() -> [CategoryData] {
+        // 保存データがない場合
         guard let data = userDefaults.data(forKey: expenseCategoryDataKey) else {
+            // 初期の支出カテゴリーを保存
             saveExpenseCategoryData(data: expenseCategoryArray)
+            // 初期の支出カテゴリーを返す
             return expenseCategoryArray
         }
+
+        // 保存データがあった場合
         guard let expenseCategoryDataArray =
                 try? PropertyListDecoder().decode(Array<CategoryData>.self, from: data) else { return expenseCategoryArray }
         return expenseCategoryDataArray
     }
 
+    // 収入カテゴリーを保存
     func saveIncomeCategoryData(data: [CategoryData]) {
         let data = try? PropertyListEncoder().encode(data)
         userDefaults.set(data, forKey: incomeCategoryDataKey)
     }
 
+    // 支出カテゴリーを保存
     func saveExpenseCategoryData(data: [CategoryData]) {
         let data = try? PropertyListEncoder().encode(data)
         userDefaults.set(data, forKey: expenseCategoryDataKey)
     }
 
+    // 初期の収入カテゴリー
     private let incomeCategoryArray: [CategoryData] = [
         CategoryData(
             id: UUID().uuidString,
@@ -84,6 +99,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         )
     ]
 
+    // 初期の支出カテゴリー
     private let expenseCategoryArray: [CategoryData] = [
         CategoryData(
             id: UUID().uuidString,

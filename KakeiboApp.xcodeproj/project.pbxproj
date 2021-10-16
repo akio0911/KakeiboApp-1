@@ -658,9 +658,9 @@
 			isa = PBXGroup;
 			children = (
 				47DC3EEA26E45AC400693980 /* KakeiboModel.swift */,
+				4781572F26612ED5005E1020 /* CalendarDate.swift */,
 				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
-				4781572F26612ED5005E1020 /* CalendarDate.swift */,
 				4773CBF4270BD30600C52DE0 /* CategoryData.swift */,
 				47218A1526EEC64F006C10EF /* DataRepository */,
 			);
