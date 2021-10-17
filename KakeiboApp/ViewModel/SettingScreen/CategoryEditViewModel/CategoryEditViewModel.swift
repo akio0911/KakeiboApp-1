@@ -76,8 +76,10 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     func didTapAddBarButton() {
         switch currentSegmentIndex {
         case 0:
+            // 支出が選択されている場合
             eventRelay.accept(.presentExpenseCategoryAdd)
         case 1:
+            // 収入が選択されている場合
             eventRelay.accept(.presentIncomeCategoryAdd)
         default:
             fatalError("想定していないSegmentIndexです。")
@@ -87,8 +89,10 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     func didSelectRowAt(index: IndexPath) {
         switch currentSegmentIndex {
         case 0:
+            // 支出が選択されている場合
             eventRelay.accept(.presentExpenseCategoryEdit(expenseCategoryDataArray[index.row]))
         case 1:
+            // 収入が選択されている場合
             eventRelay.accept(.presentIncomeCategoryEdit(incomeCategoryDataArray[index.row]))
         default:
             fatalError("想定していないSegmentIndexです。")
@@ -98,8 +102,10 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     func didDeleateCell(index: IndexPath) {
         switch currentSegmentIndex {
         case 0:
+            // 支出が選択されている場合
             categoryModel.deleteExpenseCategoryData(index: index.row)
         case 1:
+            // 収入が選択されている場合
             categoryModel.deleteIncomeCategoryData(index: index.row)
         default:
             fatalError("想定していないSegmentIndexです。")
@@ -109,9 +115,11 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     func didChangeSegmentIndex(index: Int) {
         switch index {
         case 0:
+            // 支出が選択されている場合
             categoryDataRelay.accept(expenseCategoryDataArray)
             currentSegmentIndex = 0
         case 1:
+            // 収入が選択されている場合
             categoryDataRelay.accept(incomeCategoryDataArray)
             currentSegmentIndex = 1
         default:
