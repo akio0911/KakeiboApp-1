@@ -38,7 +38,6 @@ protocol CategoryInputViewModelType {
 final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputViewModelOutput {
     enum Event {
         case dismiss
-        case reload
     }
 
     enum Mode {
@@ -49,6 +48,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     }
 
     private let mode: Mode
+    private let categoryModel: CategoryModelProtocol
     private let eventRelay = PublishRelay<Event>()
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
     private let categoryNameRelay = BehaviorRelay<String>(value: "")
@@ -56,15 +56,22 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     private let hueSliderValueRelay = BehaviorRelay<Float>(value: 1)
     private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 1)
     private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 1)
+
+    // hueSliderのbackViewのグラデーション用
     private let hueColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    // saturationSliderのbackViewのグラデーション用
     private let saturationColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    // brightnessSliderのbackViewのグラデーション用
     private let brightnessColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+
     private var currentHue: CGFloat = 1
     private var currentSaturation: CGFloat = 1
     private var currentBrightness: CGFloat = 1
 
-    init(mode: Mode) {
+    init(mode: Mode,
+         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
         self.mode = mode
+        self.categoryModel = categoryModel
         setupMode(mode: mode)
         hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
     }
@@ -186,37 +193,29 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     }
 
     func didTapSaveBarButton(name: String) {
-        let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
         switch mode {
         case .incomeCategoryAdd:
-            var categoryDataArray = categoryDataRepository.loadIncomeCategoryData()
-            categoryDataArray.append(
-                CategoryData(id: UUID().uuidString, name: name, color: categoryColorRelay.value)
-            )
-            categoryDataRepository.saveIncomeCategoryData(data: categoryDataArray)
+            let categoryData =
+            CategoryData(id: UUID().uuidString, name: name, color: categoryColorRelay.value)
+            categoryModel.addIncomeCategoryData(addData: categoryData)
         case .expenseCategoryAdd:
-            var categoryDataArray = categoryDataRepository.loadExpenseCategoryData()
-            categoryDataArray.append(
+            let categoryData =
                 CategoryData(id: UUID().uuidString, name: name, color: categoryColorRelay.value)
-            )
-            categoryDataRepository.saveExpenseCategoryData(data: categoryDataArray)
+            categoryModel.addExpenseCategoryData(addData: categoryData)
         case .incomeCategoryEdit(let categoryData):
-            var categoryDataArray = categoryDataRepository.loadIncomeCategoryData()
-            if let index = categoryDataArray.firstIndex(where: { $0 == categoryData }) {
-                categoryDataArray[index].name = name
-                categoryDataArray[index].color = categoryColorRelay.value
-            }
-            categoryDataRepository.saveIncomeCategoryData(data: categoryDataArray)
+            let categoryData =
+            CategoryData(id: categoryData.id,
+                         name: name,
+                         color: categoryColorRelay.value)
+            categoryModel.editIncomeCategoryData(editData: categoryData)
         case .expenseCategoryEdit(let categoryData):
-            var categoryDataArray = categoryDataRepository.loadExpenseCategoryData()
-            if let index = categoryDataArray.firstIndex(where: { $0 == categoryData }) {
-                categoryDataArray[index].name = name
-                categoryDataArray[index].color = categoryColorRelay.value
-            }
-            categoryDataRepository.saveExpenseCategoryData(data: categoryDataArray)
+            let categoryData =
+            CategoryData(id: categoryData.id,
+                         name: name,
+                         color: categoryColorRelay.value)
+            categoryModel.editExpenseCategoryData(editData: categoryData)
         }
         eventRelay.accept(.dismiss)
-        eventRelay.accept(.reload)
     }
 
     func didTapCancelBarButton() {
