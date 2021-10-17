@@ -16,6 +16,8 @@ protocol CategoryModelProtocol {
     func addExpenseCategoryData(addData: CategoryData)
     func editIncomeCategoryData(editData: CategoryData)
     func editExpenseCategoryData(editData: CategoryData)
+    func deleteIncomeCategoryData(index: Int)
+    func deleteExpenseCategoryData(index: Int)
 }
 
 final class CategoryModel: CategoryModelProtocol {
@@ -84,5 +86,19 @@ final class CategoryModel: CategoryModelProtocol {
             repository.saveExpenseCategoryData(data: expenseCategoryData)
             expenseCategoryDataRelay.accept(expenseCategoryData)
         }
+    }
+
+    func deleteIncomeCategoryData(index: Int) {
+        var incomeCategoryData = incomeCategoryDataRelay.value
+        incomeCategoryData.remove(at: index)
+        repository.saveIncomeCategoryData(data: incomeCategoryData)
+        incomeCategoryDataRelay.accept(incomeCategoryData)
+    }
+
+    func deleteExpenseCategoryData(index: Int) {
+        var expenseCategoryData = expenseCategoryDataRelay.value
+        expenseCategoryData.remove(at: index)
+        repository.saveExpenseCategoryData(data: expenseCategoryData)
+        expenseCategoryDataRelay.accept(expenseCategoryData)
     }
 }

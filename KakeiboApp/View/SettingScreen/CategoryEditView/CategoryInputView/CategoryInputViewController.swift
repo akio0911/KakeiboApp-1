@@ -25,11 +25,9 @@ class CategoryInputViewController: UIViewController {
 
     private let viewModel: CategoryInputViewModelType
     private let disposeBag = DisposeBag()
-    private let reload: () -> ()
 
-    init(viewModel: CategoryInputViewModelType, reload: @escaping () -> ()) {
+    init(viewModel: CategoryInputViewModelType) {
         self.viewModel = viewModel
-        self.reload = reload
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -143,8 +141,6 @@ class CategoryInputViewController: UIViewController {
                 switch event {
                 case .dismiss:
                     self.dismiss(animated: true, completion: nil)
-                case .reload:
-                    self.reload()
                 }
             })
             .disposed(by: disposeBag)
