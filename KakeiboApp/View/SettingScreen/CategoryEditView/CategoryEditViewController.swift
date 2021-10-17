@@ -17,7 +17,7 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     private let viewModel: CategoryEditViewModelType
     private let disposeBag = DisposeBag()
     private let categoryEditTableViewDataSource =
-        CategoryEditTableViewDataSource()
+    CategoryEditTableViewDataSource()
 
     init(viewModel:CategoryEditViewModelType = CategoryEditViewModel()) {
         self.viewModel = viewModel
@@ -75,9 +75,6 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
                 guard let self = self else { return }
                 let categoryInputViewController = CategoryInputViewController(
                     viewModel: CategoryInputViewModel(mode: CategoryInputViewModel.Mode(event: event))
-//                    reload: { [weak self] in
-//                        guard let self = self else { return }
-//                        self.viewModel.inputs.tableViewReloadData() }
                 )
                 let navigationController = UINavigationController(rootViewController: categoryInputViewController)
                 self.present(navigationController, animated: true, completion: nil)

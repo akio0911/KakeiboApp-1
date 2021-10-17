@@ -13,7 +13,6 @@ protocol CategoryEditViewModelInput {
     func didSelectRowAt(index: IndexPath)
     func didDeleateCell(index: IndexPath)
     func didChangeSegmentIndex(index: Int)
-    func tableViewReloadData()
 }
 
 protocol CategoryEditViewModelOutput {
@@ -35,20 +34,35 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         case presentExpenseCategoryEdit(CategoryData)
     }
 
-    private let categoryDataRepository: CategoryDataRepositoryProtocol
+    private let categoryModel: CategoryModelProtocol
+    private let disposeBag = DisposeBag()
     private let categoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let eventRelay = PublishRelay<Event>()
-    private var incomeCategoryDataArray: [CategoryData]
-    private var expenseCategoryDataArray: [CategoryData]
+    private var incomeCategoryDataArray: [CategoryData] = []
+    private var expenseCategoryDataArray: [CategoryData] = []
     private var currentSegmentIndex = 0
 
-    init(categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()) {
-        self.categoryDataRepository = categoryDataRepository
-        incomeCategoryDataArray =
-        categoryDataRepository.loadIncomeCategoryData()
-        expenseCategoryDataArray =
-        categoryDataRepository.loadExpenseCategoryData()
-        categoryDataRelay.accept(expenseCategoryDataArray)
+    init(categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
+        self.categoryModel = categoryModel
+        setupBinding()
+    }
+
+    private func setupBinding() {
+        categoryModel.incomeCategoryData
+            .subscribe(onNext: { [weak self] incomeCategoryDataArray in
+                guard let self = self else { return }
+                self.categoryDataRelay.accept(incomeCategoryDataArray)
+                self.incomeCategoryDataArray = incomeCategoryDataArray
+            })
+            .disposed(by: disposeBag)
+
+        categoryModel.expenseCategoryData
+            .subscribe(onNext: { [weak self] expenseCategoryDataArray in
+                guard let self = self else { return }
+                self.categoryDataRelay.accept(expenseCategoryDataArray)
+                self.expenseCategoryDataArray = expenseCategoryDataArray
+            })
+            .disposed(by: disposeBag)
     }
 
     var categoryData: Observable<[CategoryData]> {
@@ -84,13 +98,9 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     func didDeleateCell(index: IndexPath) {
         switch currentSegmentIndex {
         case 0:
-            expenseCategoryDataArray.remove(at: index.row)
-            categoryDataRelay.accept(expenseCategoryDataArray)
-            categoryDataRepository.saveExpenseCategoryData(data: expenseCategoryDataArray)
+            categoryModel.deleteExpenseCategoryData(index: index.row)
         case 1:
-            incomeCategoryDataArray.remove(at: index.row)
-            categoryDataRelay.accept(incomeCategoryDataArray)
-            categoryDataRepository.saveIncomeCategoryData(data: incomeCategoryDataArray)
+            categoryModel.deleteIncomeCategoryData(index: index.row)
         default:
             fatalError("想定していないSegmentIndexです。")
         }
@@ -104,19 +114,6 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         case 1:
             categoryDataRelay.accept(incomeCategoryDataArray)
             currentSegmentIndex = 1
-        default:
-            fatalError("想定していないSegmentIndexです。")
-        }
-    }
-
-    func tableViewReloadData() {
-        switch currentSegmentIndex {
-        case 0:
-            expenseCategoryDataArray = categoryDataRepository.loadExpenseCategoryData()
-            categoryDataRelay.accept(expenseCategoryDataArray)
-        case 1:
-            incomeCategoryDataArray = categoryDataRepository.loadIncomeCategoryData()
-            categoryDataRelay.accept(incomeCategoryDataArray)
         default:
             fatalError("想定していないSegmentIndexです。")
         }
