@@ -11,5 +11,6 @@ final class ModelLocator {
     static let shared = ModelLocator()
     let model = KakeiboModel()
     let calendarDate = CalendarDate()
+    let categoryModel = CategoryModel()
     private init() {}
 }

@@ -129,11 +129,6 @@ final class PieChartView: UIView, CAAnimationDelegate {
         // 最初のアニメーション実行
         addCABasicAnimation(layer: pies[count].layer, duration: pies[count].duration)
         layer.addSublayer(pies[count].layer)
-
-        // 最初のラベルを反映
-        if let label = pies[count].label {
-            addSubview(label)
-        }
     }
 
     // 円弧のパスを作成
