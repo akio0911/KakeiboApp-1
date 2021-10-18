@@ -33,44 +33,51 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     private let calendarDate: CalendarDateProtocol
-    private var monthDateArray: [Date] = [] // 月の日付
-    private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
-    private var balanceSegmentIndex: Int = 0
-    private var expenseCategoryDataArray: [CategoryData] {
-        let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
-        let expenseCategoryDataArray = categoryDataRepository.loadExpenseCategoryData()
-        return expenseCategoryDataArray
-    }
-    private var incomeCategoryDataArray: [CategoryData] {
-        let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
-        let incomeCategoryDataArray = categoryDataRepository.loadIncomeCategoryData()
-        return incomeCategoryDataArray
-    }
     private let model: KakeiboModelProtocol
+    private let categoryModel: CategoryModelProtocol
+    private var balanceSegmentIndex: Int = 0
     private let disposeBag = DisposeBag()
     private let graphDataArrayRelay = BehaviorRelay<[GraphData]>(value: [])
     private let eventRelay = PublishRelay<Event>()
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         model: KakeiboModelProtocol = ModelLocator.shared.model) {
+         model: KakeiboModelProtocol = ModelLocator.shared.model,
+         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
         self.calendarDate = calendarDate
         self.model = model
+        self.categoryModel = categoryModel
         setupBinding()
     }
+    private var monthDateArray: [Date] = [] // 月の日付
+    private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
+    private var incomeCategoryDataArray: [CategoryData] = []
+    private var expenseCategoryDataArray: [CategoryData] = []
 
     private func setupBinding() {
         calendarDate.monthDate
-            .subscribe(onNext: { [weak self] dateArray in
-                guard let self = self else { return }
+            .subscribe(onNext: { dateArray in
                 self.monthDateArray = dateArray
                 self.acceptGraphData()
             })
             .disposed(by: disposeBag)
 
         model.dataObservable
-            .subscribe(onNext: { [weak self] kakeiboDataArray in
-                guard let self = self else { return }
+            .subscribe(onNext: { kakeiboDataArray in
                 self.kakeiboDataArray = kakeiboDataArray
+                self.acceptGraphData()
+            })
+            .disposed(by: disposeBag)
+
+        categoryModel.incomeCategoryData
+            .subscribe(onNext: { incomeCategoryDataArray in
+                self.incomeCategoryDataArray = incomeCategoryDataArray
+                self.acceptGraphData()
+            })
+            .disposed(by: disposeBag)
+
+        categoryModel.expenseCategoryData
+            .subscribe(onNext: { expenseCategoryDataArray in
+                self.expenseCategoryDataArray = expenseCategoryDataArray
                 self.acceptGraphData()
             })
             .disposed(by: disposeBag)
@@ -78,8 +85,8 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
 
     private func acceptGraphData() {
         var graphDataArray: [GraphData] = []
-        let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
-        let dateFilterData = kakeiboDataArray.filter {
+        let firstDay = monthDateArray[0] // 月の初日(ついたち)
+        let monthData = kakeiboDataArray.filter {
             Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .year)
                 && Calendar(identifier: .gregorian)
@@ -90,7 +97,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         case 0:
             expenseCategoryDataArray.forEach {
                 let expenseCategoryId = $0.id
-                let categoryFilterData = dateFilterData.filter {
+                let categoryFilterData = monthData.filter {
                     switch $0.categoryId {
                     case .income(_):
                         return false
@@ -108,7 +115,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         case 1:
             incomeCategoryDataArray.forEach {
                 let incomeCategoryId = $0.id
-                let categoryFilterData = dateFilterData.filter {
+                let categoryFilterData = monthData.filter {
                     switch $0.categoryId {
                     case .income(let categoryId):
                         return categoryId == incomeCategoryId
