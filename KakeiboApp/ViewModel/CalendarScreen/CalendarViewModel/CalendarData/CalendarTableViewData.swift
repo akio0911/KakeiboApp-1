@@ -8,12 +8,12 @@
 import Foundation
 
 struct HeaderDateKakeiboData {
-    let date: Date // 日付
+    let date: Date
     let totalBalance: Int // totalの収支
 }
 
 struct CellDateKakeiboData {
-    let categoryId: CategoryId // カテゴリーID
+    let categoryData: CategoryData
     let balance: Balance // 収支
-    let memo: String // メモ
+    let memo: String
 }

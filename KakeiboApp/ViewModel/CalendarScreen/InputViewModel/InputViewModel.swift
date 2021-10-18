@@ -135,7 +135,8 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 categoryRelay.accept(categoryData.name)
             } else {
                 categoryRelay.accept("") // idが一致しないエラー
-            }        }
+            }
+        }
         switch data.balance {
         case .income(let income):
             segmentIndexRelay.accept(1)

@@ -159,16 +159,16 @@ final class CalendarViewController: UIViewController,
             .drive(balanceLabel.rx.text)
             .disposed(by: disposeBag)
 
-        viewModel.outputs.isAnimatedIndicator
-            .drive(onNext: { [weak self] isAnimated in
-                guard let self = self else { return }
-                if isAnimated {
-                    self.activityIndicatorView.startAnimating()
-                } else {
-                    self.activityIndicatorView.stopAnimating()
-                }
-            })
-            .disposed(by: disposeBag)
+//        viewModel.outputs.isAnimatedIndicator
+//            .drive(onNext: { [weak self] isAnimated in
+//                guard let self = self else { return }
+//                if isAnimated {
+//                    self.activityIndicatorView.startAnimating()
+//                } else {
+//                    self.activityIndicatorView.stopAnimating()
+//                }
+//            })
+//            .disposed(by: disposeBag)
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in

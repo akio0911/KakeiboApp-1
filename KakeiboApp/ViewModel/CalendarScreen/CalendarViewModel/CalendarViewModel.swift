@@ -24,7 +24,7 @@ protocol CalendarViewModelOutput {
     var incomeText: Driver<String> { get }
     var expenseText: Driver<String> { get }
     var balanceTxet: Driver<String> { get }
-    var isAnimatedIndicator: Driver<Bool> { get }
+    //    var isAnimatedIndicator: Driver<Bool> { get }
     var event: Driver<CalendarViewModel.Event> { get }
 }
 
@@ -39,11 +39,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         case presentEdit(KakeiboData)
     }
 
-    private let calendarDate: CalendarDateProtocol
-    private var calendarDateArray: [Date] = [] // カレンダーに表示する日付
-    private var monthDateArray: [Date] = [] // 月の日付
-    private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private let model: KakeiboModelProtocol
+    private let calendarDate: CalendarDateProtocol
+    private let categoryModel: CategoryModelProtocol
     private let disposeBag = DisposeBag()
     private let dayItemDataRelay = BehaviorRelay<[DayItemData]>(value: [])
     private let cellDateDataRelay = BehaviorRelay<[[CellDateKakeiboData]]>(value: [])
@@ -51,128 +49,160 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let incomeTextRelay = BehaviorRelay<String>(value: "")
     private let expenseTextRelay = BehaviorRelay<String>(value: "")
     private let balanceTextRelay = BehaviorRelay<String>(value: "")
-    private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
+    //    private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
     private let eventRelay = PublishRelay<Event>()
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         model: KakeiboModelProtocol = ModelLocator.shared.model) {
+         model: KakeiboModelProtocol = ModelLocator.shared.model,
+         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
         self.calendarDate = calendarDate
         self.model = model
+        self.categoryModel = categoryModel
         setupBinding()
     }
 
+    private var calendarDateArray: [Date] = []
+    private var monthDateArray: [Date] = []
+    private var kakeiboDataArray: [KakeiboData] = []
+    private var incomeCategoryArray: [CategoryData] = []
+    private var expenseCategoryArray: [CategoryData] = []
+
     private func setupBinding() {
+
         calendarDate.calendarDate
-            .subscribe(onNext: { [weak self] dateArray in
-                guard let self = self else { return }
-                self.calendarDateArray = dateArray
+            .subscribe(onNext: { calendarDateArray in
+                self.calendarDateArray = calendarDateArray
             })
             .disposed(by: disposeBag)
 
         calendarDate.monthDate
-            .subscribe(onNext: { [weak self] dateArray in
-                guard let self = self else { return }
-                self.monthDateArray = dateArray
+            .subscribe(onNext: { monthDateArray in
+                self.monthDateArray = monthDateArray
                 self.acceptDayItemData()
-                self.acceptTableViewData()
-                self.acceptSetLabelEvent()
+                self.acceptCellDateData()
+                self.acceptHeaderDateDataArray()
+                self.acceptTotalText()
             })
             .disposed(by: disposeBag)
 
         model.dataObservable
-            .skip(1) // 初期値をスキップ
-            .subscribe(onNext: { [weak self] kakeiboDataArray in
-                guard let self = self else { return }
+            .subscribe(onNext: { kakeiboDataArray in
                 self.kakeiboDataArray = kakeiboDataArray
                 self.acceptDayItemData()
-                self.acceptTableViewData()
-                self.acceptSetLabelEvent()
-                self.isAnimatedIndicatorRelay.accept(false)
+                self.acceptCellDateData()
+                self.acceptHeaderDateDataArray()
+                self.acceptTotalText()
+            })
+            .disposed(by: disposeBag)
+
+        categoryModel.incomeCategoryData
+            .subscribe(onNext: { incomeCategoryArray in
+                self.incomeCategoryArray = incomeCategoryArray
+                self.acceptCellDateData()
+            })
+            .disposed(by: disposeBag)
+
+        categoryModel.expenseCategoryData
+            .subscribe(onNext: { expenseCategoryArray in
+                self.expenseCategoryArray = expenseCategoryArray
+                self.acceptCellDateData()
             })
             .disposed(by: disposeBag)
     }
 
     private func acceptDayItemData() {
-        if !monthDateArray.isEmpty {
-            var dayItemDataArray: [DayItemData] = []
-            let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
-            self.calendarDateArray.forEach {
-                let date = $0
-                let totalBalance = kakeiboDataArray
-                    .filter { $0.date == date }
-                    .reduce(0) { $0 + $1.balance.fetchValueSigned }
-                let dayItemData = DayItemData(
-                    date: date, totalBalance: totalBalance, firstDay: firstDay
-                )
-                dayItemDataArray.append(dayItemData)
-            }
-            self.dayItemDataRelay.accept(dayItemDataArray)
-        }
-    }
+        guard !monthDateArray.isEmpty else { return }
+        let firstDay = monthDateArray[0] // 月の初日
 
-    private func acceptTableViewData() {
-        var cellDataArray: [[CellDateKakeiboData]] = [[]]
-        var headerDataArray: [HeaderDateKakeiboData] = []
+        var dayItemDataArray: [DayItemData] = []
 
-        self.monthDateArray.forEach {
+        calendarDateArray.forEach {
             let date = $0
-            var cellData: [CellDateKakeiboData] = []
-            let dateFilterData = kakeiboDataArray
-                .filter { $0.date == date }
-
-            if !dateFilterData.isEmpty {
-                dateFilterData.forEach {
-                    cellData.append(
-                        CellDateKakeiboData(
-                            categoryId: $0.categoryId, balance: $0.balance, memo: $0.memo
-                        )
-                    )
-                }
-                cellDataArray.append(cellData)
-
-                let totalBalance = dateFilterData
-                    .reduce(0) { $0 + $1.balance.fetchValueSigned }
-                headerDataArray.append(
-                    HeaderDateKakeiboData(date: date, totalBalance: totalBalance)
-                )
-            }
+            let dateDataArray = kakeiboDataArray.filter { $0.date == date }
+            let totalBalance = dateDataArray.reduce(0) { $0 + $1.balance.fetchValueSigned }
+            let isCalendarMonth =
+            Calendar(identifier: .gregorian).isDate(date, equalTo: firstDay, toGranularity: .year)
+            && Calendar(identifier: .gregorian).isDate(date, equalTo: firstDay, toGranularity: .month)
+            dayItemDataArray.append(
+                DayItemData(date: date, totalBalance: totalBalance, isCalendarMonth: isCalendarMonth)
+            )
         }
-
-        self.cellDateDataRelay.accept(cellDataArray.filter { !$0.isEmpty })
-        self.headerDateDataRelay.accept(headerDataArray)
+        dayItemDataRelay.accept(dayItemDataArray)
     }
 
-    private func acceptSetLabelEvent() {
-        let firstDay = self.monthDateArray[0] // 月の初日(ついたち)
-        let dateFilterData = kakeiboDataArray.filter {
-            Calendar(identifier: .gregorian)
-                .isDate(firstDay, equalTo: $0.date, toGranularity: .year)
-                && Calendar(identifier: .gregorian)
-                .isDate(firstDay, equalTo: $0.date, toGranularity: .month)
+    private func acceptCellDateData() {
+        var cellDateDataArray: [[CellDateKakeiboData]] = []
+        monthDateArray.forEach {
+            var cellDateData: [CellDateKakeiboData] = []
+            let date = $0
+            let dateDataArray = kakeiboDataArray.filter { $0.date == date }
+            dateDataArray.forEach {
+                // categoryIdからCategoryDataに変換
+                var categoryData: CategoryData
+                switch $0.categoryId {
+                case .income(let id):
+                    categoryData = incomeCategoryArray.first { $0.id == id } ??
+                    CategoryData(id: "", name: "", color: .red)
+                case .expense(let id):
+                    categoryData = expenseCategoryArray.first { $0.id == id } ??
+                    CategoryData(id: "", name: "", color: .red)
+                }
+
+                cellDateData.append(
+                    CellDateKakeiboData(categoryData: categoryData, balance: $0.balance, memo: $0.memo)
+                )
+            }
+            if !cellDateData.isEmpty {
+                cellDateDataArray.append(cellDateData)
+            }
+        }
+        cellDateDataRelay.accept(cellDateDataArray)
+    }
+
+    private func acceptHeaderDateDataArray() {
+        var headerDateDataArray: [HeaderDateKakeiboData] = []
+        monthDateArray.forEach {
+            let date = $0
+            var totalBalance = 0
+            let dateDataArray = kakeiboDataArray.filter { $0.date == date }
+            if !dateDataArray.isEmpty {
+                totalBalance = dateDataArray.reduce(0) { $0 + $1.balance.fetchValueSigned }
+                headerDateDataArray.append(HeaderDateKakeiboData(date: date, totalBalance: totalBalance))
+            }
+        }
+        headerDateDataRelay.accept(headerDateDataArray)
+    }
+
+    private func acceptTotalText() {
+        guard !monthDateArray.isEmpty else { return }
+        let firstDay = monthDateArray[0] // 月の初日
+
+        var totalIncome = 0
+        var totalExpense = 0
+        var totalBalance = 0
+
+        let monthKakeiboData = kakeiboDataArray.filter {
+            Calendar(identifier: .gregorian).isDate($0.date, equalTo: firstDay, toGranularity: .year)
+            && Calendar(identifier: .gregorian).isDate($0.date, equalTo: firstDay, toGranularity: .month)
         }
 
-        let totalIncome = dateFilterData
-            .filter {
-                switch $0.balance {
-                case .income(_): return true
-                case .expense(_): return false
-                }
+        monthKakeiboData.forEach {
+            switch $0.balance {
+            case .income(let income):
+                totalIncome += income
+            case .expense(let expense):
+                totalExpense += expense
             }
-            .reduce(0) { $0 + $1.balance.fetchValue }
-        incomeTextRelay.accept(NumberFormatterUtility.changeToCurrencyNotation(from: totalIncome) ?? "0円")
+        }
 
-        let totalExpense = dateFilterData
-            .filter {
-                switch $0.balance {
-                case .income(_): return false
-                case .expense(_): return true
-                }
-            }
-            .reduce(0) { $0 + $1.balance.fetchValue }
-        expenseTextRelay.accept(NumberFormatterUtility.changeToCurrencyNotation(from: totalExpense) ?? "0円")
+        totalBalance = totalIncome - totalExpense
 
-        let totalBalance = totalIncome - totalExpense
-        balanceTextRelay.accept(NumberFormatterUtility.changeToCurrencyNotation(from: totalBalance) ?? "0円")
+        let totalIncomeText = NumberFormatterUtility.changeToCurrencyNotation(from: totalIncome) ?? "0円"
+        let totalExpenseText = NumberFormatterUtility.changeToCurrencyNotation(from: totalExpense) ?? "0円"
+        let totalBalanceText = NumberFormatterUtility.changeToCurrencyNotation(from: totalBalance) ?? "0円"
+        incomeTextRelay.accept(totalIncomeText)
+        expenseTextRelay.accept(totalExpenseText)
+        balanceTextRelay.accept(totalBalanceText)
     }
 
     var dayItemDataObservable: Observable<[DayItemData]> {
@@ -203,9 +233,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         balanceTextRelay.asDriver()
     }
 
-    var isAnimatedIndicator: Driver<Bool> {
-        isAnimatedIndicatorRelay.asDriver()
-    }
+    //    var isAnimatedIndicator: Driver<Bool> {
+    //        isAnimatedIndicatorRelay.asDriver()
+    //    }
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
@@ -232,9 +262,17 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     func didSelectRowAt(index: IndexPath) {
         let cellDateData = cellDateDataRelay.value[index.section][index.row]
         let headerDateData = headerDateDataRelay.value[index.section]
+        // categoryData.idをcategoryIdに変換
+        let categoryId: CategoryId
+        switch cellDateData.balance {
+        case .income(_):
+            categoryId = CategoryId.income(cellDateData.categoryData.id)
+        case .expense(_):
+            categoryId = CategoryId.expense(cellDateData.categoryData.id)
+        }
         let kakeiboData = KakeiboData(
             date: headerDateData.date,
-            categoryId: cellDateData.categoryId,
+            categoryId: categoryId,
             balance: cellDateData.balance,
             memo: cellDateData.memo)
         eventRelay.accept(.presentEdit(kakeiboData))
@@ -245,9 +283,17 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     func didDeleateCell(index: IndexPath) {
         let cellDateData = cellDateDataRelay.value[index.section][index.row]
         let headerDateData = headerDateDataRelay.value[index.section]
+        // categoryData.idをcategoryIdに変換
+        let categoryId: CategoryId
+        switch cellDateData.balance {
+        case .income(_):
+            categoryId = CategoryId.income(cellDateData.categoryData.id)
+        case .expense(_):
+            categoryId = CategoryId.expense(cellDateData.categoryData.id)
+        }
         let kakeiboData = KakeiboData(
             date: headerDateData.date,
-            categoryId: cellDateData.categoryId,
+            categoryId: categoryId,
             balance: cellDateData.balance,
             memo: cellDateData.memo)
         if let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == kakeiboData }) {

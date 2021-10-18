@@ -15,13 +15,4 @@ struct DayItemData {
     let date: Date // 日付
     let totalBalance: Int // totalの収支
     let isCalendarMonth: Bool // カレンダーの表示月であるか
-
-    init(date: Date, totalBalance: Int, firstDay: Date) {
-        self.date = date
-        self.totalBalance = totalBalance
-        isCalendarMonth = Calendar(identifier: .gregorian)
-            .isDate(firstDay, equalTo: date, toGranularity: .year)
-            && Calendar(identifier: .gregorian)
-            .isDate(firstDay, equalTo: date, toGranularity: .month)
-    }
 }

@@ -23,22 +23,7 @@ class CalendarTableViewCell: UITableViewCell {
     }
 
     func configure(data: CellDateKakeiboData) {
-        let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
-        switch data.categoryId {
-        case .income(let categoryId):
-            let incomeCategoryDataArray = categoryDataRepository.loadIncomeCategoryData()
-            var categoryName: String?
-            incomeCategoryDataArray.forEach {
-                if categoryId == $0.id { categoryName = $0.name }
-            }
-            categoryLabel.text = categoryName ?? ""
-        case .expense(let categoryId):
-            let expenseCategoryDataArray = categoryDataRepository.loadExpenseCategoryData()
-            var categoryName: String?
-            expenseCategoryDataArray.forEach {
-                if categoryId == $0.id { categoryName = $0.name }
-            }
-            categoryLabel.text = categoryName ?? ""        }
+        categoryLabel.text = data.categoryData.name
         memoLabel.text = data.memo
         switch data.balance {
         case .income(let income):
