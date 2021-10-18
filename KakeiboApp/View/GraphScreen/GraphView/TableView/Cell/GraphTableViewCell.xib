@@ -41,13 +41,11 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="1zq-hg-6mh" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="2cf-zs-Ype"/>
-                    <constraint firstItem="Ult-Kp-v1s" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="7" id="OVc-N7-0aM"/>
                     <constraint firstItem="kOZ-No-BdE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UDc-rx-vEX"/>
                     <constraint firstAttribute="trailing" secondItem="kOZ-No-BdE" secondAttribute="trailing" constant="10" id="UNa-Uh-uZa"/>
                     <constraint firstItem="Ult-Kp-v1s" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="coD-eo-SU3"/>
                     <constraint firstItem="Ult-Kp-v1s" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iIZ-Io-giQ"/>
                     <constraint firstItem="1zq-hg-6mh" firstAttribute="leading" secondItem="Ult-Kp-v1s" secondAttribute="trailing" constant="10" id="mAk-We-tHm"/>
-                    <constraint firstAttribute="bottom" secondItem="Ult-Kp-v1s" secondAttribute="bottom" constant="7" id="xak-Ld-rHv"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
