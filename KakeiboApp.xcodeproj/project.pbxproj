@@ -99,7 +99,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		472189B926EB3AF3006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Library/Mobile Documents/com~apple~CloudDocs/.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		472189B926EB3AF3006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboDataRepository.swift; sourceTree = "<group>"; };
 		47218A1926EF4AD4006C10EF /* CalendarImageName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarImageName.swift; sourceTree = "<group>"; };
 		472EFDC42704324C00A80640 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
