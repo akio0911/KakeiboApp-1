@@ -35,7 +35,7 @@ final class SettingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        navigationItem.title = "設定"
+        navigationItem.title = "アカウント"
         configureStackViewLayer()
     }
 

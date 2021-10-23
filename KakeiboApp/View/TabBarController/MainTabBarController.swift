@@ -35,8 +35,8 @@ final class MainTabBarController: UITabBarController {
 
         let settingViewController = SettingViewController()
         settingViewController.tabBarItem = UITabBarItem(
-            title: "設定",
-            image: UIImage(systemName: "gear"),
+            title: "アカウント",
+            image: UIImage(systemName: "person"),
             tag: 2
         )
         viewControllers.append(settingViewController)
