@@ -1,5 +1,5 @@
 //
-//  UserFormViewController.swift
+//  AuthFormViewController.swift
 //  KakeiboApp
 //
 //  Created by 今村京平 on 2021/10/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserFormViewController: UIViewController {
+class AuthFormViewController: UIViewController {
 
     enum Mode {
         case login
@@ -15,7 +15,7 @@ class UserFormViewController: UIViewController {
         case forgotPassword
     }
 
-    @IBOutlet private weak var userFormImageView: UIImageView!
+    @IBOutlet private weak var authFormImageView: UIImageView!
     @IBOutlet private weak var userNameStackView: UIStackView!
     @IBOutlet private weak var mailStackView: UIStackView!
     @IBOutlet private weak var passwordStackView: UIStackView!
@@ -65,7 +65,7 @@ class UserFormViewController: UIViewController {
     private func setupUserFormImageViewCornerRadius() {
         // userFormImageViewをフィレット
         let cornerRadiusRate: CGFloat = 0.15
-        userFormImageView.layer.cornerRadius = userFormImageView.bounds.height * cornerRadiusRate
-        userFormImageView.layer.masksToBounds = true
+        authFormImageView.layer.cornerRadius = authFormImageView.bounds.height * cornerRadiusRate
+        authFormImageView.layer.masksToBounds = true
     }
 }

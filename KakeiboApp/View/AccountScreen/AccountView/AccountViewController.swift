@@ -97,7 +97,7 @@ final class AccountViewController: UIViewController {
     }
 
     @IBAction func didTapEntryButton(_ sender: Any) {
-        let userFormViewController = UserFormViewController()
+        let userFormViewController = AuthFormViewController()
         let navigationController = UINavigationController(rootViewController: userFormViewController)
         present(navigationController, animated: true, completion: nil)
     }
