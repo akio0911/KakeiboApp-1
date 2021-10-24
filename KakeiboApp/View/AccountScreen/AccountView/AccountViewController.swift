@@ -1,5 +1,5 @@
 //
-//  SettingViewController.swift
+//  AccountViewController.swift
 //  KakeiboApp
 //
 //  Created by 今村京平 on 2021/09/29.
@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class SettingViewController: UIViewController {
+final class AccountViewController: UIViewController {
 
     @IBOutlet private weak var settingStackView: UIStackView!
     @IBOutlet private weak var appStackView: UIStackView!
@@ -19,10 +19,10 @@ final class SettingViewController: UIViewController {
     @IBOutlet private weak var shareButton: BackgroundHighlightedButton!
     @IBOutlet private weak var reviewButton: BackgroundHighlightedButton!
 
-    private let viewModel: SettingViewModelType
+    private let viewModel: AccountViewModelType
     private let disposeBag = DisposeBag()
 
-    init(viewModel: SettingViewModelType = SettingViewModel()) {
+    init(viewModel: AccountViewModelType = AccountViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SettingViewController" customModule="KakeiboApp" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
                 <outlet property="appStackView" destination="05r-fS-bd4" id="0DU-vx-eUH"/>
                 <outlet property="categoryEditButton" destination="lep-y7-PNY" id="pJI-pR-ge1"/>

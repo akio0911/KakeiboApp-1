@@ -10,9 +10,9 @@
 		472189BA26EB3AF3006C10EF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 472189B926EB3AF3006C10EF /* GoogleService-Info.plist */; };
 		47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */; };
 		47218A1A26EF4AD4006C10EF /* CalendarImageName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47218A1926EF4AD4006C10EF /* CalendarImageName.swift */; };
-		472EFDC62704324C00A80640 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC42704324C00A80640 /* SettingViewController.swift */; };
-		472EFDC72704324C00A80640 /* SettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDC52704324C00A80640 /* SettingViewController.xib */; };
-		472EFDCA270443F300A80640 /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC9270443F300A80640 /* SettingViewModel.swift */; };
+		472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC42704324C00A80640 /* AccountViewController.swift */; };
+		472EFDC72704324C00A80640 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDC52704324C00A80640 /* AccountViewController.xib */; };
+		472EFDCA270443F300A80640 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC9270443F300A80640 /* AccountViewModel.swift */; };
 		472EFDD4270456F400A80640 /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD2270456F400A80640 /* PasscodeViewController.swift */; };
 		472EFDD5270456F400A80640 /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDD3270456F400A80640 /* PasscodeViewController.xib */; };
 		472EFDD7270488A500A80640 /* PasscodeInputButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */; };
@@ -102,9 +102,9 @@
 		472189B926EB3AF3006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboDataRepository.swift; sourceTree = "<group>"; };
 		47218A1926EF4AD4006C10EF /* CalendarImageName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarImageName.swift; sourceTree = "<group>"; };
-		472EFDC42704324C00A80640 /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		472EFDC52704324C00A80640 /* SettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingViewController.xib; sourceTree = "<group>"; };
-		472EFDC9270443F300A80640 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
+		472EFDC42704324C00A80640 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		472EFDC52704324C00A80640 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
+		472EFDC9270443F300A80640 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		472EFDD2270456F400A80640 /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewController.swift; sourceTree = "<group>"; };
 		472EFDD3270456F400A80640 /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PasscodeViewController.xib; sourceTree = "<group>"; };
 		472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInputButtonView.swift; sourceTree = "<group>"; };
@@ -233,22 +233,22 @@
 			path = ImageName;
 			sourceTree = "<group>";
 		};
-		472EFDC32704317500A80640 /* SettingView */ = {
+		472EFDC32704317500A80640 /* AccountView */ = {
 			isa = PBXGroup;
 			children = (
-				472EFDC42704324C00A80640 /* SettingViewController.swift */,
-				472EFDC52704324C00A80640 /* SettingViewController.xib */,
+				472EFDC42704324C00A80640 /* AccountViewController.swift */,
+				472EFDC52704324C00A80640 /* AccountViewController.xib */,
 				4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */,
 			);
-			path = SettingView;
+			path = AccountView;
 			sourceTree = "<group>";
 		};
-		472EFDC82704418600A80640 /* SettingViewModel */ = {
+		472EFDC82704418600A80640 /* AccountViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				472EFDC9270443F300A80640 /* SettingViewModel.swift */,
+				472EFDC9270443F300A80640 /* AccountViewModel.swift */,
 			);
-			path = SettingViewModel;
+			path = AccountViewModel;
 			sourceTree = "<group>";
 		};
 		472EFDCB2704525D00A80640 /* CalendarScreen */ = {
@@ -269,15 +269,15 @@
 			path = GraphScreen;
 			sourceTree = "<group>";
 		};
-		472EFDCD2704538700A80640 /* SettingScreen */ = {
+		472EFDCD2704538700A80640 /* AccountScreen */ = {
 			isa = PBXGroup;
 			children = (
-				472EFDC82704418600A80640 /* SettingViewModel */,
+				472EFDC82704418600A80640 /* AccountViewModel */,
 				472EFDD82705648A00A80640 /* PasscodeViewModel */,
 				4773CBFB270C650000C52DE0 /* CategoryEditViewModel */,
 				47A6BFDB270FDE8400698113 /* HowToUseViewModel */,
 			);
-			path = SettingScreen;
+			path = AccountScreen;
 			sourceTree = "<group>";
 		};
 		472EFDCE270453D700A80640 /* CalendarScreen */ = {
@@ -298,16 +298,16 @@
 			path = GraphScreen;
 			sourceTree = "<group>";
 		};
-		472EFDD02704542400A80640 /* SettingScreen */ = {
+		472EFDD02704542400A80640 /* AccountScreen */ = {
 			isa = PBXGroup;
 			children = (
 				472EFDDD2705EE8F00A80640 /* Observer */,
-				472EFDC32704317500A80640 /* SettingView */,
+				472EFDC32704317500A80640 /* AccountView */,
 				472EFDD1270456C500A80640 /* PasscodeView */,
 				4773CBE9270AF79000C52DE0 /* CategoryEditView */,
 				47A6BFD6270FDC0200698113 /* HowToUseView */,
 			);
-			path = SettingScreen;
+			path = AccountScreen;
 			sourceTree = "<group>";
 		};
 		472EFDD1270456C500A80640 /* PasscodeView */ = {
@@ -640,7 +640,7 @@
 				47DC3EF826E4BE9000693980 /* TabBarController */,
 				472EFDCE270453D700A80640 /* CalendarScreen */,
 				472EFDCF270453F600A80640 /* GraphScreen */,
-				472EFDD02704542400A80640 /* SettingScreen */,
+				472EFDD02704542400A80640 /* AccountScreen */,
 				47D5065926F1863800CDA849 /* SegmentedControlView.swift */,
 			);
 			path = View;
@@ -651,7 +651,7 @@
 			children = (
 				472EFDCB2704525D00A80640 /* CalendarScreen */,
 				472EFDCC2704536100A80640 /* GraphScreen */,
-				472EFDCD2704538700A80640 /* SettingScreen */,
+				472EFDCD2704538700A80640 /* AccountScreen */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -864,7 +864,7 @@
 				4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */,
 				472EFDD5270456F400A80640 /* PasscodeViewController.xib in Resources */,
 				4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */,
-				472EFDC72704324C00A80640 /* SettingViewController.xib in Resources */,
+				472EFDC72704324C00A80640 /* AccountViewController.xib in Resources */,
 				47A6BFF02710531900698113 /* HowToUseTableViewCell.xib in Resources */,
 				47480074268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib in Resources */,
 				47C7A35826846737001B8EB4 /* CalendarTableViewHeaderFooterView.xib in Resources */,
@@ -964,7 +964,7 @@
 				47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */,
 				47EBC576271BE8A500BA64F6 /* CategoryModel.swift in Sources */,
 				47793F0826E8770E0004E5F6 /* GraphTableViewDataSource.swift in Sources */,
-				472EFDC62704324C00A80640 /* SettingViewController.swift in Sources */,
+				472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */,
 				47A6BFEF2710531900698113 /* HowToUseTableViewCell.swift in Sources */,
 				47CC9A6D26F759E600126467 /* CategoryTableViewDataSource.swift in Sources */,
 				477C3F2926E5E60600FFCB64 /* CalendarColorName.swift in Sources */,
@@ -980,7 +980,7 @@
 				4773CBFA270BDE2400C52DE0 /* CategoryDataRepository.swift in Sources */,
 				47CC9A7026F75BD600126467 /* CategoryTableViewCell.swift in Sources */,
 				47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */,
-				472EFDCA270443F300A80640 /* SettingViewModel.swift in Sources */,
+				472EFDCA270443F300A80640 /* AccountViewModel.swift in Sources */,
 				47A6BFD9270FDCC700698113 /* HowToUseViewController.swift in Sources */,
 				47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */,
 				4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */,

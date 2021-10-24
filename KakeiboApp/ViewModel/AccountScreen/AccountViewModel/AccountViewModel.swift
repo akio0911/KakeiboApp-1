@@ -1,5 +1,5 @@
 //
-//  SettingViewModel.swift
+//  AccountViewModel.swift
 //  KakeiboApp
 //
 //  Created by 今村京平 on 2021/09/29.
@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-protocol SettingViewModelInput {
+protocol AccountViewModelInput {
     func didValueChangedPasscodeSwitch(value: Bool)
     func didTapCategoryEditButton()
     func didTapHowtoUseButton()
@@ -16,17 +16,17 @@ protocol SettingViewModelInput {
     func didTapReviewButton()
 }
 
-protocol SettingViewModelOutput {
+protocol AccountViewModelOutput {
     var isOnPasscode: Driver<Bool> { get }
-    var event: Driver<SettingViewModel.Event> { get }
+    var event: Driver<AccountViewModel.Event> { get }
 }
 
-protocol SettingViewModelType {
-    var inputs: SettingViewModelInput { get }
-    var outputs: SettingViewModelOutput { get }
+protocol AccountViewModelType {
+    var inputs: AccountViewModelInput { get }
+    var outputs: AccountViewModelOutput { get }
 }
 
-final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
+final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     enum Event {
         case presentPasscodeVC
         case pushCategoryEditVC
@@ -99,12 +99,12 @@ final class SettingViewModel: SettingViewModelInput, SettingViewModelOutput {
     }
 }
 
-extension SettingViewModel: SettingViewModelType {
-    var inputs: SettingViewModelInput {
+extension AccountViewModel: AccountViewModelType {
+    var inputs: AccountViewModelInput {
         return self
     }
 
-    var outputs: SettingViewModelOutput {
+    var outputs: AccountViewModelOutput {
         return self
     }
 }

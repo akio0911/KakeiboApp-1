@@ -33,13 +33,13 @@ final class MainTabBarController: UITabBarController {
         )
         viewControllers.append(graphViewController)
 
-        let settingViewController = SettingViewController()
-        settingViewController.tabBarItem = UITabBarItem(
+        let accountViewController = AccountViewController()
+        accountViewController.tabBarItem = UITabBarItem(
             title: "アカウント",
             image: UIImage(systemName: "person"),
             tag: 2
         )
-        viewControllers.append(settingViewController)
+        viewControllers.append(accountViewController)
 
         let navigationControllers =
             viewControllers.map {
