@@ -96,6 +96,12 @@ final class AccountViewController: UIViewController {
             .disposed(by: disposeBag)
     }
 
+    @IBAction func didTapEntryButton(_ sender: Any) {
+        let userFormViewController = UserFormViewController()
+        let navigationController = UINavigationController(rootViewController: userFormViewController)
+        present(navigationController, animated: true, completion: nil)
+    }
+
     private func configureStackViewLayer() {
         settingStackView.layer.cornerRadius = 10
         settingStackView.layer.masksToBounds = true

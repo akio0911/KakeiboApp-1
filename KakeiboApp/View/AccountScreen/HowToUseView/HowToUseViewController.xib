@@ -12,7 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HowToUseViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
                 <outlet property="howToUseTableView" destination="wNZ-AC-PPU" id="zSk-Es-2pL"/>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="O5k-bm-sAg"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -35,7 +35,7 @@
                 <constraint firstItem="wNZ-AC-PPU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="idn-zY-2Ff"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="435" y="34"/>
+            <point key="canvasLocation" x="552" y="-43"/>
         </view>
     </objects>
     <resources>

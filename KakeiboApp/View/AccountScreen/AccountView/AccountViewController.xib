@@ -19,7 +19,7 @@
                 <outlet property="reviewButton" destination="gaf-0T-fSE" id="lta-KQ-a41"/>
                 <outlet property="settingStackView" destination="hgC-Nj-nuR" id="80s-6v-Bpg"/>
                 <outlet property="shareButton" destination="keu-uR-9rf" id="5oo-b6-ZWr"/>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="mZI-9b-wmv"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -371,6 +371,9 @@
                                             <state key="normal" title="Button">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
+                                            <connections>
+                                                <action selector="didTapEntryButton:" destination="-1" eventType="touchUpInside" id="snl-ye-0cn"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -421,7 +424,7 @@
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-            <point key="canvasLocation" x="-91.304347826086968" y="-104.46428571428571"/>
+            <point key="canvasLocation" x="404" y="-191"/>
         </view>
     </objects>
     <resources>

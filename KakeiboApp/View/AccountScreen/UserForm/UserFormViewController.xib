@@ -11,7 +11,20 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserFormViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
+                <outlet property="enterButton" destination="R1v-ym-drK" id="abx-CK-bZC"/>
+                <outlet property="forgotPasswordButton" destination="GdU-Ml-CR4" id="cRI-Qo-wE4"/>
+                <outlet property="mailStackView" destination="wic-RL-35e" id="jPU-Qj-rWd"/>
+                <outlet property="mailTextField" destination="bMN-To-Cgl" id="e2N-gf-25l"/>
+                <outlet property="passwordSecureTextButton" destination="ego-L4-b2v" id="h8w-oh-XFn"/>
+                <outlet property="passwordStackView" destination="Hgy-TP-9Qq" id="9mC-pt-FeG"/>
+                <outlet property="passwordTextField" destination="Mkf-lw-Rbh" id="C1Q-Co-7q2"/>
+                <outlet property="userFormImageView" destination="IPI-6w-VKM" id="WTl-j9-GBz"/>
+                <outlet property="userNameStackView" destination="ymd-6d-EXl" id="ter-qD-VWI"/>
+                <outlet property="userNameTextField" destination="fxa-Zh-77T" id="V9C-eN-94z"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outletCollection property="iconViews" destination="P9g-5e-hym" collectionClass="NSMutableArray" id="pHM-yf-s3G"/>
+                <outletCollection property="iconViews" destination="Czg-u5-MgY" collectionClass="NSMutableArray" id="JGx-wX-1og"/>
+                <outletCollection property="iconViews" destination="yIz-eB-FUd" collectionClass="NSMutableArray" id="F4e-Mh-9TV"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -187,7 +200,7 @@
                 <constraint firstItem="TpE-QV-ulC" firstAttribute="top" secondItem="IPI-6w-VKM" secondAttribute="bottom" constant="30" id="xq5-kd-FtM"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="131.8840579710145" y="60.9375"/>
+            <point key="canvasLocation" x="352" y="-44"/>
         </view>
     </objects>
     <resources>

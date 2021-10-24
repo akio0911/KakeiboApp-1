@@ -11,8 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategoryEditViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
-                <outlet property="categoryTableView" destination="p0Q-fE-ecQ" id="ggG-H2-GtB"/>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="categoryTableView" destination="p0Q-fE-ecQ" id="iqN-5g-3cV"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="izc-0b-kxm"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -34,7 +34,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="p0Q-fE-ecQ" secondAttribute="bottom" constant="20" id="rEE-ol-Gxr"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="131.8840579710145" y="82.366071428571431"/>
+            <point key="canvasLocation" x="530" y="-176"/>
         </view>
     </objects>
     <resources>
