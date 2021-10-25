@@ -98,7 +98,7 @@
 		47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */; };
 		47EB81FA26900D3E008FA088 /* GraphTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */; };
 		47EBC576271BE8A500BA64F6 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EBC575271BE8A500BA64F6 /* CategoryModel.swift */; };
-		47FCF32227258B3200E3043F /* AuthFormLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FCF32127258B3200E3043F /* AuthFormLoginViewModel.swift */; };
+		47FCF32227258B3200E3043F /* AuthFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FCF32127258B3200E3043F /* AuthFormViewModel.swift */; };
 		A0FE98566C571733636113B5 /* Pods_KakeiboApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -196,7 +196,7 @@
 		47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
 		47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphTableViewCell.xib; sourceTree = "<group>"; };
 		47EBC575271BE8A500BA64F6 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
-		47FCF32127258B3200E3043F /* AuthFormLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFormLoginViewModel.swift; sourceTree = "<group>"; };
+		47FCF32127258B3200E3043F /* AuthFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFormViewModel.swift; sourceTree = "<group>"; };
 		4CA78BE969024FB289D67417 /* Pods-KakeiboApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KakeiboApp.release.xcconfig"; path = "Target Support Files/Pods-KakeiboApp/Pods-KakeiboApp.release.xcconfig"; sourceTree = "<group>"; };
 		7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KakeiboApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8374A06BF5FB26D14592739D /* Pods-KakeiboApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KakeiboApp.debug.xcconfig"; path = "Target Support Files/Pods-KakeiboApp/Pods-KakeiboApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -816,7 +816,7 @@
 		47FCF32027258AC200E3043F /* AuthFormViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				47FCF32127258B3200E3043F /* AuthFormLoginViewModel.swift */,
+				47FCF32127258B3200E3043F /* AuthFormViewModel.swift */,
 			);
 			path = AuthFormViewModel;
 			sourceTree = "<group>";
@@ -1017,7 +1017,7 @@
 				4773CBF2270B013500C52DE0 /* CategoryEditTableViewCell.swift in Sources */,
 				4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */,
 				47815702266128C8005E1020 /* AppDelegate.swift in Sources */,
-				47FCF32227258B3200E3043F /* AuthFormLoginViewModel.swift in Sources */,
+				47FCF32227258B3200E3043F /* AuthFormViewModel.swift in Sources */,
 				4773CBEC270AF7DF00C52DE0 /* CategoryEditViewController.swift in Sources */,
 				47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */,
 				47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */,
