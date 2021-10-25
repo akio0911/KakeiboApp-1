@@ -101,6 +101,7 @@ final class AccountViewController: UIViewController {
             viewModel: AuthFormViewModel(mode: .login)
         )
         let navigationController = UINavigationController(rootViewController: userFormViewController)
+//        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
 
