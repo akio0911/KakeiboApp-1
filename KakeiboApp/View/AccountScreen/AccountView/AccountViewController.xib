@@ -12,6 +12,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AccountViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
+                <outlet property="accountEnterButton" destination="KdN-Rg-kEF" id="JSS-df-h0f"/>
+                <outlet property="accountIconView" destination="IJ3-9r-gOb" id="NRc-ts-rVi"/>
                 <outlet property="appStackView" destination="05r-fS-bd4" id="0DU-vx-eUH"/>
                 <outlet property="categoryEditButton" destination="lep-y7-PNY" id="pJI-pR-ge1"/>
                 <outlet property="howToUseButton" destination="6gI-3e-JjT" id="wCe-1I-Zwd"/>
@@ -19,6 +21,8 @@
                 <outlet property="reviewButton" destination="gaf-0T-fSE" id="lta-KQ-a41"/>
                 <outlet property="settingStackView" destination="hgC-Nj-nuR" id="80s-6v-Bpg"/>
                 <outlet property="shareButton" destination="keu-uR-9rf" id="5oo-b6-ZWr"/>
+                <outlet property="signupButton" destination="0eK-vG-8hl" id="rNM-j6-Aw7"/>
+                <outlet property="userNameLabel" destination="ftp-Ig-4Nm" id="VOz-hO-No5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="mZI-9b-wmv"/>
             </connections>
         </placeholder>
@@ -371,9 +375,6 @@
                                             <state key="normal" title="Button">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </state>
-                                            <connections>
-                                                <action selector="didTapEntryButton:" destination="-1" eventType="touchUpInside" id="snl-ye-0cn"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>

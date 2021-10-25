@@ -313,7 +313,7 @@
 			children = (
 				472EFDDD2705EE8F00A80640 /* Observer */,
 				472EFDC32704317500A80640 /* AccountView */,
-				478C23132725306400BABDC1 /* AuthForm */,
+				478C23132725306400BABDC1 /* AuthFormView */,
 				472EFDD1270456C500A80640 /* PasscodeView */,
 				4773CBE9270AF79000C52DE0 /* CategoryEditView */,
 				47A6BFD6270FDC0200698113 /* HowToUseView */,
@@ -528,13 +528,13 @@
 			path = ColorName;
 			sourceTree = "<group>";
 		};
-		478C23132725306400BABDC1 /* AuthForm */ = {
+		478C23132725306400BABDC1 /* AuthFormView */ = {
 			isa = PBXGroup;
 			children = (
 				478C23142725315300BABDC1 /* AuthFormViewController.swift */,
 				478C23152725315300BABDC1 /* AuthFormViewController.xib */,
 			);
-			path = AuthForm;
+			path = AuthFormView;
 			sourceTree = "<group>";
 		};
 		4799911026F59DD200BD5B38 /* CategoryView */ = {

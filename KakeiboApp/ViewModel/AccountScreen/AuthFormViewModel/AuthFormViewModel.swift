@@ -11,9 +11,7 @@ import RxCocoa
 import FirebaseAuth
 
 protocol AuthFormViewModelInput {
-    func createUser(userName: String, mail: String, password: String)
-    func login(mail: String, password: String)
-    func sendPasswordReset(mail: String)
+    func didTapEnterButton(userName: String, mail: String, password: String)
     func didTapCancelButtton()
     func didTapForgotPasswordButton()
 }
@@ -135,16 +133,21 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func createUser(userName: String, mail: String, password: String) {
-        authForm.createUser(userName: userName, mail: mail, password: password)
-    }
-
-    func login(mail: String, password: String) {
-        authForm.signIn(mail: mail, password: password)
-    }
-
-    func sendPasswordReset(mail: String) {
-        authForm.sendPasswordReset(mail: mail)
+    func didTapEnterButton(userName: String, mail: String, password: String) {
+        switch mode {
+        case .login:
+            authForm.signIn(mail: mail, password: password)
+        case .create:
+            guard userName != "" else {
+                let alertTitle = "ユーザー名が未入力です。"
+                let message = "ユーザー名を入力してください。"
+                eventRelay.accept(.presentErrorAlertView(alertTitle, message))
+                return
+            }
+            authForm.createUser(userName: userName, mail: mail, password: password)
+        case .forgotPassword:
+            authForm.sendPasswordReset(mail: mail)
+        }
     }
 
     func didTapCancelButtton() {

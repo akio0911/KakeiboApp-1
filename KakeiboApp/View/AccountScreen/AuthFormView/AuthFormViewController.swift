@@ -158,17 +158,11 @@ class AuthFormViewController: UIViewController {
     }
 
     private func didTapEnterButton() {
-        switch viewModel.outputs.mode {
-        case .login:
-            viewModel.inputs.login(mail: mailTextField.text!,
-                                   password: passwordTextField.text!)
-        case .create:
-            viewModel.inputs.createUser(userName: userNameTextField.text!,
-                                        mail: mailTextField.text!,
-                                        password: passwordTextField.text!)
-        case .forgotPassword:
-            viewModel.inputs.sendPasswordReset(mail: mailTextField.text!)
-        }
+        viewModel.inputs.didTapEnterButton(
+            userName: userNameTextField.text!,
+            mail: mailTextField.text!,
+            password: passwordTextField.text!
+        )
     }
 
     private func presentAlert(alertTitle: String, message: String, action: UIAlertAction) {
