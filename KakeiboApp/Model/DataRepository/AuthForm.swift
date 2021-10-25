@@ -11,29 +11,23 @@ import RxSwift
 import RxRelay
 
 protocol AuthFormProtocol {
-    var currentUser: Observable<User> { get }
     var authError: Observable<Error> { get }
-    var successPasswordReset: Observable<Void> { get }
+    var authFormSuccess: Observable<Void> { get }
     func createUser(userName: String, mail: String, password: String)
     func signIn(mail: String, password: String)
     func sendPasswordReset(mail: String)
 }
 
 final class AuthForm: AuthFormProtocol {
-    private let currentUserRelay = PublishRelay<User>()
     private let authErrorRelay = PublishRelay<Error>()
-    private let successPasswordResetRelay = PublishRelay<Void>()
-
-    var currentUser: Observable<User> {
-        currentUserRelay.asObservable()
-    }
+    private let authFormSuccessRelay = PublishRelay<Void>()
 
     var authError: Observable<Error> {
         authErrorRelay.asObservable()
     }
 
-    var successPasswordReset: Observable<Void> {
-        successPasswordResetRelay.asObservable()
+    var authFormSuccess: Observable<Void> {
+        authFormSuccessRelay.asObservable()
     }
 
     func createUser(userName: String, mail: String, password: String) {
@@ -68,7 +62,7 @@ final class AuthForm: AuthFormProtocol {
                         strongSelf.authErrorRelay.accept(error)
                     } else {
                         // 確認メール送信成功
-                        strongSelf.currentUserRelay.accept(authResult.user)
+                        strongSelf.authFormSuccessRelay.accept(())
                     }
                 }
             }
@@ -83,9 +77,9 @@ final class AuthForm: AuthFormProtocol {
             if let error = error {
                 // ログインに失敗
                 strongSelf.authErrorRelay.accept(error)
-            } else if let authResult = authResult {
+            } else {
                 // ログインに成功
-                strongSelf.currentUserRelay.accept(authResult.user)
+                strongSelf.authFormSuccessRelay.accept(())
             }
         }
     }
@@ -99,7 +93,7 @@ final class AuthForm: AuthFormProtocol {
                 strongSelf.authErrorRelay.accept(error)
             } else {
                 // 送信に成功
-                strongSelf.successPasswordResetRelay.accept(())
+                strongSelf.authFormSuccessRelay.accept(())
             }
         }
     }
