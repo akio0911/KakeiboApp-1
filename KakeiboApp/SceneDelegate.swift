@@ -17,17 +17,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // アプリ起動時、sceneが呼ばれた時
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // FireBaseの匿名認証
-        Auth.auth().signInAnonymously(completion: { [weak self] userResult, error in
-            // 匿名認証の処理が返ってきた
-            guard let self = self else { return }
-            if let error = error {
-                print("Error 匿名認証に失敗しました \(error)")
-            } else if let user = userResult?.user {
-                let uid = user.uid
-                print("匿名認証に成功しました \(uid)")
-            }
+        // TODO: 画面表示処理をまとめる
+        let firebaseAuth = Auth.auth()
+        if firebaseAuth.currentUser == nil {
+            // ログアウト中
+            // FireBaseの匿名認証
+            Auth.auth().signInAnonymously(completion: { [weak self] userResult, error in
+                // 匿名認証の処理が返ってきた
+                guard let strongSelf = self else { return }
+                if let error = error {
+                    print("Error 匿名認証に失敗しました \(error)")
+                } else if let user = userResult?.user {
+                    let uid = user.uid
+                    print("匿名認証に成功しました \(uid)")
+                }
 
+                // 画面を表示する
+                guard let windowScene = (scene as? UIWindowScene) else { return }
+                strongSelf.window = UIWindow(windowScene: windowScene)
+                let mainTabBarController = MainTabBarController()
+                strongSelf.window?.rootViewController = mainTabBarController
+                strongSelf.window?.makeKeyAndVisible()
+
+                // パスコードが設定されていたら、パスコード画面表示する
+                if strongSelf.passcodeRepository.loadIsOnPasscode() {
+                    let passcodeViewController =
+                    PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
+                    passcodeViewController.modalPresentationStyle = .fullScreen
+                    strongSelf.window?.rootViewController?.present(passcodeViewController, animated: false, completion: nil)
+                }
+            })
+        } else {
+            // ログイン中
             // 画面を表示する
             guard let windowScene = (scene as? UIWindowScene) else { return }
             self.window = UIWindow(windowScene: windowScene)
@@ -42,7 +63,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 passcodeViewController.modalPresentationStyle = .fullScreen
                 self.window?.rootViewController?.present(passcodeViewController, animated: false, completion: nil)
             }
-        })
+        }
     }
 
     // アプリがフォアグラウンドに来た時

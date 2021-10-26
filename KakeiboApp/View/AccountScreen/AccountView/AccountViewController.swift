@@ -47,7 +47,7 @@ final class AccountViewController: UIViewController {
 
     private func setupBinding() {
         accountEnterButton.rx.tap
-            .subscribe(onNext: <#code#> )
+            .subscribe(onNext: didTapAccountEnterButton)
             .disposed(by: disposeBag)
 
         signupButton.rx.tap
@@ -111,24 +111,35 @@ final class AccountViewController: UIViewController {
     }
 
     private func didTapAccountEnterButton() {
-        // TODO: ボタンが押された時の処理を実装(匿名認証について調べる)
-        if Auth.auth().currentUser == nil {
-            // ログアウト中
-            let authFormViewController = AuthFormViewController(
-                viewModel: AuthFormViewModel(mode: .login)
-            )
-            let navigationViewController = UINavigationController(rootViewController: authFormViewController)
-            present(navigationViewController, animated: true, completion: nil)
-        } else {
+        let firebaseAuth = Auth.auth()
+        if let currentUser = firebaseAuth.currentUser {
             // ログイン中
+            if currentUser.displayName == nil {
+                // ユーザー名がない(匿名認証によるログイン中)
+                presentAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
+            } else {
+                // ユーザー名がある(メールとパスワードによるログイン中)
+                do {
+                    try firebaseAuth.signOut()
+                } catch let signOutError as NSError {
+                    print("Error signing out: %@", signOutError)
+                    print("signOutError: \(signOutError.localizedDescription)")
+                }
+            }
+        } else {
+            // ログアウト中
+            presentAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
         }
     }
 
     private func didTapSignupButton() {
-        let authFormViewController = AuthFormViewController(
-            viewModel: AuthFormViewModel(mode: .create)
-        )
+        presentAuthFormVC(viewModel: AuthFormViewModel(mode: .create))
+    }
+
+    private func presentAuthFormVC(viewModel: AuthFormViewModelType) {
+        let authFormViewController = AuthFormViewController(viewModel: viewModel)
         let navigationController = UINavigationController(rootViewController: authFormViewController)
+        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
 
@@ -157,16 +168,19 @@ final class AccountViewController: UIViewController {
                 // ログアウト中
                 strongSelf.userNameLabel.text = "ログアウト中"
                 strongSelf.accountEnterButton.setTitle("ログイン", for: .normal)
+                strongSelf.signupButton.isHidden = true
             } else {
                 // ログイン中
-                strongSelf.accountEnterButton.setTitle("ログアウト", for: .normal)
-                // ユーザー名がをラベルにセット
                 if let userName = user?.displayName {
-                    // ユーザー名がある
+                    // ユーザー名がある(メールとパスワードによるログイン中)
                     strongSelf.userNameLabel.text = userName
+                    strongSelf.accountEnterButton.setTitle("ログアウト", for: .normal)
+                    strongSelf.signupButton.isHidden = true
                 } else {
-                    // ユーザー名がない
-                    strongSelf.userNameLabel.text = "未設定"
+                    // ユーザー名がない(匿名認証によるログイン中)
+                    strongSelf.userNameLabel.text = "未登録"
+                    strongSelf.accountEnterButton.setTitle("ログイン", for: .normal)
+                    strongSelf.signupButton.isHidden = false
                 }
             }
         }

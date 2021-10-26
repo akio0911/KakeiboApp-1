@@ -31,9 +31,11 @@ final class AuthForm: AuthFormProtocol {
     }
 
     func createUser(userName: String, mail: String, password: String) {
-        // メールアドレスとパスワードで新しいアカウントを作成
-        Auth.auth().createUser(withEmail: mail,
-                               password: password) { [weak self] authResult, error in
+        // 匿名アカウントを永久アカウントに変換
+        // クレデンシャルを作成
+        let credential = EmailAuthProvider.credential(withEmail: mail, password: password)
+        // アカウントを作成
+        Auth.auth().currentUser?.link(with: credential) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
             // アカウント作成に失敗
             if let error = error {
