@@ -34,6 +34,8 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         case presentPopVCAlertView(String, String) // (alertTitle, message)
         case pushAuthFormForgotPasswordMode
         case popVC
+        case startAnimating
+        case stopAnimating
     }
 
     enum Mode {
@@ -57,6 +59,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         authForm.authError
             .subscribe(onNext: { [weak self] error in
                 guard let strongSelf = self else { return }
+                strongSelf.eventRelay.accept(.stopAnimating)
                 let (alertTitle, message) = strongSelf.createErrorAlertText(error: error)
                 strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle, message))
             })
@@ -65,12 +68,13 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         authForm.authFormSuccess
             .subscribe(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
+                strongSelf.eventRelay.accept(.stopAnimating)
                 switch strongSelf.mode {
                 case .login:
                     strongSelf.eventRelay.accept(.dismiss)
                 case .create:
-                    let alertTitle = "確認メールを送信しました。"
-                    let message = "確認メールが届いていない方は、メールアドレスが間違えて入力している可能性があります。正しいメールアドレスに変更してください。"
+                    let alertTitle = "入力されたメールアドレス宛に確認メールを送信しました。"
+                    let message = ""
                     strongSelf.eventRelay.accept(.presentDismissAlertView(alertTitle, message))
                 case .forgotPassword:
                     let alertTitle = "再設定メールを送信しました。"
@@ -134,6 +138,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     }
 
     func didTapEnterButton(userName: String, mail: String, password: String) {
+        eventRelay.accept(.startAnimating)
         switch mode {
         case .login:
             authForm.signIn(mail: mail, password: password)

@@ -119,6 +119,7 @@ final class AccountViewController: UIViewController {
                 presentAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
             } else {
                 // ユーザー名がある(メールとパスワードによるログイン中)
+                // ログアウト処理
                 do {
                     try firebaseAuth.signOut()
                 } catch let signOutError as NSError {

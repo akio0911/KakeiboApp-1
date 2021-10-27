@@ -25,6 +25,7 @@ class AuthFormViewController: UIViewController {
 
     private let viewModel: AuthFormViewModelType
     private let disposeBag = DisposeBag()
+    private var activityIndicatorView: UIActivityIndicatorView!
 
     init(viewModel: AuthFormViewModelType) {
         self.viewModel = viewModel
@@ -40,6 +41,7 @@ class AuthFormViewController: UIViewController {
         super.viewDidLoad()
         setupCornerRadius()
         setupMode()
+        addActivityIndicatorView()
         setupBinding()
     }
 
@@ -104,6 +106,18 @@ class AuthFormViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelBarButton
     }
 
+    // ActivityIndicatorViewを反映
+    private func addActivityIndicatorView() {
+        activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicatorView.style = .large
+        activityIndicatorView.color = .darkGray
+        activityIndicatorView.backgroundColor = .systemGray5
+        activityIndicatorView.layer.cornerRadius = 10
+        activityIndicatorView.layer.masksToBounds = true
+        view.addSubview(activityIndicatorView)
+    }
+
     private func setupBinding() {
         enterButton.rx.tap
             .subscribe(onNext: didTapEnterButton)
@@ -152,6 +166,10 @@ class AuthFormViewController: UIViewController {
                         .pushViewController(authFormViewController, animated: true)
                 case .popVC:
                     strongSelf.navigationController?.popViewController(animated: true)
+                case .startAnimating:
+                    strongSelf.activityIndicatorView.startAnimating()
+                case .stopAnimating:
+                    strongSelf.activityIndicatorView.stopAnimating()
                 }
             })
             .disposed(by: disposeBag)
@@ -193,6 +211,7 @@ class AuthFormViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupUserFormImageViewCornerRadius()
+        setupActivityIndicatorCenter()
     }
 
     private func setupUserFormImageViewCornerRadius() {
@@ -200,6 +219,10 @@ class AuthFormViewController: UIViewController {
         let cornerRadiusRate: CGFloat = 0.15
         authFormImageView.layer.cornerRadius = authFormImageView.bounds.height * cornerRadiusRate
         authFormImageView.layer.masksToBounds = true
+    }
+
+    private func setupActivityIndicatorCenter() {
+        activityIndicatorView.center = view.center
     }
 
     // MARK: - @objc
