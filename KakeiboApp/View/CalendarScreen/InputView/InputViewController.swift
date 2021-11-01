@@ -49,7 +49,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         super.viewDidLoad()
         setupSegmentedControlView() // segmentedControlViewを設定
         settingPickerKeybord() // pickerViewをキーボードに設定
-        categoryTextField.text = "飲食費"
         setupBinding()
         setupMode()
         setupBarButtonItem()
@@ -57,6 +56,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         setupScrollToShowKeyboard()
         configureSaveBtnLayer() // セーブボタンをフィレット
         configureMosaicViewLayer() // モザイク用のviewをフィレット
+        categoryTextField.text = expenseCategoryArray[0].name
         navigationItem.title = "収支入力"
     }
 
@@ -364,12 +364,12 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         if selectedSegmentIndex == 0 {
             balanceLabel.text = Balance.expenseName
             categoryTextField.inputView = expenseCategoryPickerView
-            categoryTextField.text = "飲食費"
+            categoryTextField.text = expenseCategoryArray[0].name
             categoryTextField.endEditing(true)
         } else if selectedSegmentIndex == 1 {
             balanceLabel.text = Balance.incomeName
             categoryTextField.inputView = incomeCategoryPickerView
-            categoryTextField.text = "給料"
+            categoryTextField.text = incomeCategoryArray[0].name
             categoryTextField.endEditing(true)
         }
     }
