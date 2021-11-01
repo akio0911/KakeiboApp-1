@@ -40,6 +40,7 @@ class AuthFormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCornerRadius()
+        setupTapGesture()
         setupMode()
         addActivityIndicatorView()
         setupBinding()
@@ -66,6 +67,14 @@ class AuthFormViewController: UIViewController {
         // enterButtonをフィレット
         enterButton.layer.cornerRadius = enterButton.bounds.height / 2
         enterButton.layer.masksToBounds = true
+    }
+
+    private func setupTapGesture() {
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(didTapView(_:))
+        )
+        view.addGestureRecognizer(tapGesture)
     }
 
     private func setupMode() {
@@ -232,5 +241,9 @@ class AuthFormViewController: UIViewController {
 
     @objc private func didTapEnterBarButton() {
         didTapEnterButton()
+    }
+
+    @objc private func didTapView(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 }
