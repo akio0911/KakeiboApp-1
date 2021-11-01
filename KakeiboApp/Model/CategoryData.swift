@@ -14,6 +14,7 @@ struct CategoryData: Equatable {
     }
 
     let id: String
+    var displayOrder: Int
     var name: String
     var color: UIColor
 }
@@ -21,6 +22,7 @@ struct CategoryData: Equatable {
 extension CategoryData: Codable {
     enum CodingKeys: String, CodingKey {
         case id
+        case displayOrder
         case name
         case color
     }
@@ -28,6 +30,7 @@ extension CategoryData: Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
+        displayOrder = try container.decode(Int.self, forKey: .displayOrder)
         name = try container.decode(String.self, forKey: .name)
         let colorData = try container.decode(Data.self, forKey: .color)
         color = try! NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)!
@@ -36,6 +39,7 @@ extension CategoryData: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
+        try container.encode(displayOrder, forKey: .displayOrder)
         try container.encode(name, forKey: .name)
         let colorData = try! NSKeyedArchiver.archivedData(
             withRootObject: color, requiringSecureCoding: UIColor.supportsSecureCoding)

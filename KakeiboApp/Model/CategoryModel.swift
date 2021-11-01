@@ -12,12 +12,12 @@ import RxRelay
 protocol CategoryModelProtocol {
     var incomeCategoryData: Observable<[CategoryData]> { get }
     var expenseCategoryData: Observable<[CategoryData]> { get }
-    func addIncomeCategoryData(addData: CategoryData)
-    func addExpenseCategoryData(addData: CategoryData)
-    func editIncomeCategoryData(editData: CategoryData)
-    func editExpenseCategoryData(editData: CategoryData)
-    func deleteIncomeCategoryData(index: Int)
-    func deleteExpenseCategoryData(index: Int)
+    func setIncomeCategoryData(data: CategoryData)
+    func setExpenseCategoryData(data: CategoryData)
+    func deleteIncomeCategoryData(data: CategoryData)
+    func deleteExpenseCategoryData(data: CategoryData)
+    func setIncomeCategoryDataArray(data: [CategoryData])
+    func setExpenseCategoryDataArray(data: [CategoryData])
 }
 
 final class CategoryModel: CategoryModelProtocol {
@@ -28,10 +28,15 @@ final class CategoryModel: CategoryModelProtocol {
 
     init(repository: CategoryDataRepositoryProtocol = CategoryDataRepository()) {
         self.repository = repository
-        let incomeCategoryData = repository.loadIncomeCategoryData()
-        let expenseCategoryData = repository.loadExpenseCategoryData()
-        incomeCategoryDataRelay.accept(incomeCategoryData)
-        expenseCategoryDataRelay.accept(expenseCategoryData)
+        repository.loadIncomeCategoryData { [weak self] categoryDataArray in
+            guard let strongSelf = self else { return }
+            strongSelf.incomeCategoryDataRelay.accept(categoryDataArray)
+        }
+        repository.loadExpenseCategoryData { [weak self] categoryDataArray in
+            guard let strongSelf = self else { return }
+            strongSelf.expenseCategoryDataRelay.accept(categoryDataArray)
+            print("💣categoryDataArray: \(categoryDataArray)")
+        }
     }
 
     var incomeCategoryData: Observable<[CategoryData]> {
@@ -42,63 +47,37 @@ final class CategoryModel: CategoryModelProtocol {
         expenseCategoryDataRelay.asObservable()
     }
 
-    func addIncomeCategoryData(addData: CategoryData) {
-        var incomeCategoryData = incomeCategoryDataRelay.value
-        incomeCategoryData.append(addData)
-        repository.saveIncomeCategoryData(data: incomeCategoryData)
-        incomeCategoryDataRelay.accept(incomeCategoryData)
+    func setIncomeCategoryDataArray(data: [CategoryData]) {
+        repository.setExpenseCategoryDataArray(data: data)
+        incomeCategoryDataRelay.accept(data)
     }
 
-    func addExpenseCategoryData(addData: CategoryData) {
-        var expenseCategoryData = expenseCategoryDataRelay.value
-        expenseCategoryData.append(addData)
-        repository.saveExpenseCategoryData(data: expenseCategoryData)
-        expenseCategoryDataRelay.accept(expenseCategoryData)
+    func setExpenseCategoryDataArray(data: [CategoryData]) {
+        repository.setExpenseCategoryDataArray(data: data)
+        expenseCategoryDataRelay.accept(data)
     }
 
-    func editIncomeCategoryData(editData: CategoryData) {
-        var incomeCategoryData = incomeCategoryDataRelay.value
-        let index = incomeCategoryData.firstIndex { $0.id == editData.id }
-        if let index = index {
-            // idが一致して、indexを取得できた場合
-            incomeCategoryData[index] = editData
-            repository.saveIncomeCategoryData(data: incomeCategoryData)
-            incomeCategoryDataRelay.accept(incomeCategoryData)
-        } else {
-            // idが一致せず、indexを取得できなかった場合
-            incomeCategoryData.append(editData)
-            repository.saveIncomeCategoryData(data: incomeCategoryData)
-            incomeCategoryDataRelay.accept(incomeCategoryData)
+    func setIncomeCategoryData(data: CategoryData) {
+        repository.setIncomeCategoryData(data: data)
+        repository.loadIncomeCategoryData { [weak self] categoryDataArray in
+            guard let strongSelf = self else { return }
+            strongSelf.incomeCategoryDataRelay.accept(categoryDataArray)
         }
     }
 
-    func editExpenseCategoryData(editData: CategoryData) {
-        var expenseCategoryData = expenseCategoryDataRelay.value
-        let index = expenseCategoryData.firstIndex { $0.id == editData.id }
-        if let index = index {
-            // idが一致して、indexを取得できた場合
-            expenseCategoryData[index] = editData
-            repository.saveExpenseCategoryData(data: expenseCategoryData)
-            expenseCategoryDataRelay.accept(expenseCategoryData)
-        } else {
-            // idが一致せず、indexを取得できなかった場合
-            expenseCategoryData.append(editData)
-            repository.saveExpenseCategoryData(data: expenseCategoryData)
-            expenseCategoryDataRelay.accept(expenseCategoryData)
+    func setExpenseCategoryData(data: CategoryData) {
+        repository.setExpenseCategoryData(data: data)
+        repository.loadExpenseCategoryData { [weak self] categoryDataArray in
+            guard let strongSelf = self else { return }
+            strongSelf.expenseCategoryDataRelay.accept(categoryDataArray)
         }
     }
 
-    func deleteIncomeCategoryData(index: Int) {
-        var incomeCategoryData = incomeCategoryDataRelay.value
-        incomeCategoryData.remove(at: index)
-        repository.saveIncomeCategoryData(data: incomeCategoryData)
-        incomeCategoryDataRelay.accept(incomeCategoryData)
+    func deleteIncomeCategoryData(data: CategoryData) {
+        repository.deleteIncomeCategoryData(data: data)
     }
 
-    func deleteExpenseCategoryData(index: Int) {
-        var expenseCategoryData = expenseCategoryDataRelay.value
-        expenseCategoryData.remove(at: index)
-        repository.saveExpenseCategoryData(data: expenseCategoryData)
-        expenseCategoryDataRelay.accept(expenseCategoryData)
+    func deleteExpenseCategoryData(data: CategoryData) {
+        repository.deleteExpenseCategoryData(data: data)
     }
 }

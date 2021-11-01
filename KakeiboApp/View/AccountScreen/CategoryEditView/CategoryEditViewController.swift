@@ -65,8 +65,8 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
 
     private func setupBinding() {
         viewModel.outputs.categoryData
-            .bind(to:
-                    categoryTableView.rx.items(dataSource: categoryEditTableViewDataSource)
+            .bind(
+                to: categoryTableView.rx.items(dataSource: categoryEditTableViewDataSource)
             )
             .disposed(by: disposeBag)
 

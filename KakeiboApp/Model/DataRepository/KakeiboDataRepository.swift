@@ -17,7 +17,9 @@ protocol DataRepositoryProtocol {
 
 final class KakeiboDataRepository: DataRepositoryProtocol {
 
-    let db: Firestore
+    private let db: Firestore
+    private let firstCollectionName = "users"
+    private let secondCollectionName = "KakeiboData"
 
     init() {
         let setting = FirestoreSettings()
@@ -26,8 +28,8 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
     }
 
     func loadData(data: @escaping ([KakeiboData]) -> Void) {
-        db.collection("users").document(Auth.auth().currentUser!.uid)
-            .collection("KakeiboData").getDocuments { querySnapshot, error in
+        db.collection(firstCollectionName).document(Auth.auth().currentUser!.uid)
+            .collection(secondCollectionName).getDocuments { querySnapshot, error in
                 if let error = error {
                     print("----Error getting documents: \(error)----")
                 } else if let documents = querySnapshot?.documents {
@@ -52,8 +54,8 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
 
     func addData(data: KakeiboData) {
         do {
-            let ref = db.collection("users").document(Auth.auth().currentUser!.uid)
-                .collection("KakeiboData").document(data.instantiateTime)
+            let ref = db.collection(firstCollectionName).document(Auth.auth().currentUser!.uid)
+                .collection(secondCollectionName).document(data.instantiateTime)
             try ref.setData(from: data)
             print("----dataが追加されました----")
         } catch let error {
@@ -62,8 +64,8 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
     }
 
     func deleteData(data: KakeiboData) {
-        db.collection("users").document(Auth.auth().currentUser!.uid)
-            .collection("KakeiboData").document(data.instantiateTime).delete() { err in
+        db.collection(firstCollectionName).document(Auth.auth().currentUser!.uid)
+            .collection(secondCollectionName).document(data.instantiateTime).delete() { err in
                 if let err = err {
                     print("Error removing document: \(err)")
                 } else {

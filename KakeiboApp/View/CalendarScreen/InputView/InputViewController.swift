@@ -11,9 +11,6 @@ import RxCocoa
 
 final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, SegmentedControlViewDelegate {
 
-    private var expenseCategoryDataArray: [CategoryData] { CategoryDataRepository().loadExpenseCategoryData() }
-    private var incomeCategoryDataArray: [CategoryData] { CategoryDataRepository().loadIncomeCategoryData() }
-
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var dateView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
@@ -35,6 +32,8 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private var selectedSegmentIndex: Int = 0
     private var editingTextField: UITextField?
     private var keyboardOverlap: CGFloat = 0
+    private var incomeCategoryArray: [CategoryData] = []
+    private var expenseCategoryArray: [CategoryData] = []
 
     init(viewModel: InputViewModelType) {
         self.viewModel = viewModel
@@ -110,6 +109,20 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
         viewModel.outputs.memo
             .drive(memoTextField.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.incomeCategory
+            .drive(onNext: { [weak self] incomeCategory in
+                guard let strongSelf = self else { return }
+                strongSelf.incomeCategoryArray = incomeCategory
+            })
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.expenseCategory
+            .drive(onNext: { [weak self] expenseCategory in
+                guard let strongSelf = self else { return }
+                strongSelf.expenseCategoryArray = expenseCategory
+            })
             .disposed(by: disposeBag)
     }
 
@@ -203,12 +216,12 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         case 0:
             balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
             categoryId = CategoryId.expense(
-                expenseCategoryDataArray.first(where: { $0.name == categoryTextField.text! })!.id
+                expenseCategoryArray.first(where: { $0.name == categoryTextField.text! })!.id
             )
         case 1:
             balance = Balance.income(Int(balanceTextField.text!) ?? 0)
             categoryId = CategoryId.income(
-                incomeCategoryDataArray.first(where: { $0.name == categoryTextField.text! })!.id
+                incomeCategoryArray.first(where: { $0.name == categoryTextField.text! })!.id
             )
         default:
             fatalError("想定していないsegmentIndex")
@@ -305,9 +318,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         switch pickerView {
         case incomeCategoryPickerView:
-            return incomeCategoryDataArray.count
+            return incomeCategoryArray.count
         case expenseCategoryPickerView:
-            return expenseCategoryDataArray.count
+            return expenseCategoryArray.count
         default:
             fatalError("想定していないpickerView")
         }
@@ -317,9 +330,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case incomeCategoryPickerView:
-            categoryTextField.text = incomeCategoryDataArray[row].name
+            categoryTextField.text = incomeCategoryArray[row].name
         case expenseCategoryPickerView:
-            categoryTextField.text = expenseCategoryDataArray[row].name
+            categoryTextField.text = expenseCategoryArray[row].name
         default:
             fatalError("想定していないpickerView")
         }
@@ -328,9 +341,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch pickerView {
         case incomeCategoryPickerView:
-            return incomeCategoryDataArray[row].name
+            return incomeCategoryArray[row].name
         case expenseCategoryPickerView:
-            return expenseCategoryDataArray[row].name
+            return expenseCategoryArray[row].name
         default:
             fatalError("想定していないpickerView")
         }

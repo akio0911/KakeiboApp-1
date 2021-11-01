@@ -25,6 +25,8 @@ protocol InputViewModelOutput {
     var segmentIndex: Driver<Int> { get }
     var balance: Driver<String> { get }
     var memo: Driver<String> { get }
+    var incomeCategory: Driver<[CategoryData]> { get }
+    var expenseCategory: Driver<[CategoryData]> { get }
 }
 
 protocol InputViewModelType {
@@ -44,6 +46,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     let mode: Mode
     private let model: KakeiboModelProtocol
+    private let categoryModel: CategoryModelProtocol
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
     private var kakeiboDataArray: [KakeiboData] = []
@@ -52,10 +55,14 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let segmentIndexRelay = PublishRelay<Int>()
     private let balanceRelay = PublishRelay<String>()
     private let memoRelay = PublishRelay<String>()
+    private let incomeCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
+    private let expenseCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
 
     init(model: KakeiboModelProtocol = ModelLocator.shared.model,
+         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
          mode: Mode) {
         self.model = model
+        self.categoryModel = categoryModel
         self.mode = mode
         setupBinding()
     }
@@ -66,6 +73,14 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 guard let self = self else { return }
                 self.kakeiboDataArray = kakeiboDataArray
             })
+            .disposed(by: disposeBag)
+
+        categoryModel.incomeCategoryData
+            .bind(to: incomeCategoryRelay)
+            .disposed(by: disposeBag)
+
+        categoryModel.expenseCategoryData
+            .bind(to: expenseCategoryRelay)
             .disposed(by: disposeBag)
     }
 
@@ -93,6 +108,14 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         memoRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    var incomeCategory: Driver<[CategoryData]> {
+        incomeCategoryRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    var expenseCategory: Driver<[CategoryData]> {
+        expenseCategoryRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
     func didTapSaveButton(data: KakeiboData) {
         switch mode {
         case .add:
@@ -117,20 +140,18 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         dateRelay.accept(DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月dd日"))
         switch data.categoryId {
         case .income(let id):
-            let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
-            let categoryDataArray = categoryDataRepository.loadIncomeCategoryData()
             var categoryData: CategoryData?
-            categoryDataArray.forEach { if $0.id == id { categoryData = $0 } }
+            let incomeCategoryArray = incomeCategoryRelay.value
+            incomeCategoryArray.forEach { if $0.id == id { categoryData = $0 } }
             if let categoryData = categoryData {
                 categoryRelay.accept(categoryData.name)
             } else {
                 categoryRelay.accept("") // idが一致しないエラー
             }
         case .expense(let id):
-            let categoryDataRepository: CategoryDataRepositoryProtocol = CategoryDataRepository()
-            let categoryDataArray = categoryDataRepository.loadExpenseCategoryData()
             var categoryData: CategoryData?
-            categoryDataArray.forEach { if $0.id == id { categoryData = $0 } }
+            let expenseCategoryArray = expenseCategoryRelay.value
+            expenseCategoryArray.forEach { if $0.id == id { categoryData = $0 } }
             if let categoryData = categoryData {
                 categoryRelay.accept(categoryData.name)
             } else {

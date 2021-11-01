@@ -142,10 +142,10 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 switch $0.categoryId {
                 case .income(let id):
                     categoryData = incomeCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: "", name: "", color: .red)
+                    CategoryData(id: "", displayOrder: 999, name: "", color: .red)
                 case .expense(let id):
                     categoryData = expenseCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: "", name: "", color: .red)
+                    CategoryData(id: "", displayOrder: 999, name: "", color: .red)
                 }
 
                 cellDateData.append(
