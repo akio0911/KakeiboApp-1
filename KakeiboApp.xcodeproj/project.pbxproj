@@ -60,6 +60,7 @@
 		478C23162725315300BABDC1 /* AuthFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C23142725315300BABDC1 /* AuthFormViewController.swift */; };
 		478C23172725315300BABDC1 /* AuthFormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 478C23152725315300BABDC1 /* AuthFormViewController.xib */; };
 		478F93E8273150E400D58719 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E7273150E400D58719 /* AuthError.swift */; };
+		478F93EA2731766500D58719 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E92731766500D58719 /* UserInfo.swift */; };
 		4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911126F59E4500BD5B38 /* CategoryViewController.swift */; };
 		4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4799911226F59E4500BD5B38 /* CategoryViewController.xib */; };
 		4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911626F59F6400BD5B38 /* CategoryViewModel.swift */; };
@@ -159,6 +160,7 @@
 		478C23142725315300BABDC1 /* AuthFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFormViewController.swift; sourceTree = "<group>"; };
 		478C23152725315300BABDC1 /* AuthFormViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthFormViewController.xib; sourceTree = "<group>"; };
 		478F93E7273150E400D58719 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
+		478F93E92731766500D58719 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		4799911126F59E4500BD5B38 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		4799911226F59E4500BD5B38 /* CategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
 		4799911626F59F6400BD5B38 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
@@ -688,6 +690,7 @@
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
 				4773CBF4270BD30600C52DE0 /* CategoryData.swift */,
 				478F93E7273150E400D58719 /* AuthError.swift */,
+				478F93E92731766500D58719 /* UserInfo.swift */,
 				47218A1526EEC64F006C10EF /* DataRepository */,
 			);
 			path = Model;
@@ -994,6 +997,7 @@
 				4781573026612ED5005E1020 /* CalendarDate.swift in Sources */,
 				4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */,
 				47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */,
+				478F93EA2731766500D58719 /* UserInfo.swift in Sources */,
 				47EBC576271BE8A500BA64F6 /* CategoryModel.swift in Sources */,
 				47793F0826E8770E0004E5F6 /* GraphTableViewDataSource.swift in Sources */,
 				472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */,

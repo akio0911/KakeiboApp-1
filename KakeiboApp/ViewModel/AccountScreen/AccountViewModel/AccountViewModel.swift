@@ -46,18 +46,29 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol
+    private let authType: AuthTypeProtocol
     private let userNameLabelRelay = BehaviorRelay<String>(value: "")
     private let accountEnterButtonTitleRelay = BehaviorRelay<String>(value: "")
     private let isHiddenSignupButtonRelay = BehaviorRelay<Bool>(value: false)
     private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
     private let eventRelay = PublishRelay<Event>()
     private var handle: AuthStateDidChangeListenerHandle?
+    private var currentUser: User?
 
-    init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository()) {
+    init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository(),
+         authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.passcodeRepository = passcodeRepository
+        self.authType = authType
         isOnPasscodeRelay.accept(passcodeRepository.loadIsOnPasscode())
         setupPasscodeObserver()
     }
+
+//    private func setupBinding() {
+//        authType.currentUser
+//            .subscribe(onNext: { [weak self] currentUser in
+//
+//            })
+//    }
 
     private func setupPasscodeObserver() {
         NotificationCenter.default.addObserver(

@@ -12,5 +12,6 @@ final class ModelLocator {
     let model = KakeiboModel()
     let calendarDate = CalendarDate()
     let categoryModel = CategoryModel()
+    let authType = AuthType()
     private init() {}
 }

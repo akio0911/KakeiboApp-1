@@ -13,7 +13,7 @@ import RxRelay
 protocol AuthTypeProtocol {
     var authError: Observable<AuthError?> { get }
     var authSuccess: Observable<Void> { get }
-    var currentUser: Observable<User?> { get }
+    var currentUser: Observable<UserInfo?> { get }
     func createUser(userName: String, mail: String, password: String)
     func signIn(mail: String, password: String)
     func sendPasswordReset(mail: String)
@@ -22,11 +22,11 @@ protocol AuthTypeProtocol {
 final class AuthType: AuthTypeProtocol {
     private let authErrorRelay = PublishRelay<AuthError?>()
     private let authSuccessRelay = PublishRelay<Void>()
-    private let currentUserRelay = BehaviorRelay<User?>(value: nil)
+    private let currentUserRelay = BehaviorRelay<UserInfo?>(value: nil)
 
     init() {
         let currentUser = Auth.auth().currentUser
-        currentUserRelay.accept(currentUser)
+        currentUserRelay.accept(UserInfo(user: currentUser))
     }
 
     var authError: Observable<AuthError?> {
@@ -37,7 +37,7 @@ final class AuthType: AuthTypeProtocol {
         authSuccessRelay.asObservable()
     }
 
-    var currentUser: Observable<User?> {
+    var currentUser: Observable<UserInfo?> {
         currentUserRelay.asObservable()
     }
 
@@ -56,7 +56,8 @@ final class AuthType: AuthTypeProtocol {
 
             // アカウント作成に成功
             guard let authResult = authResult else { return }
-            strongSelf.currentUserRelay.accept(authResult.user)
+            let userInfo = UserInfo(user: authResult.user)
+            strongSelf.currentUserRelay.accept(userInfo)
             // ユーザー名の設定
             let changeRequest = authResult.user.createProfileChangeRequest()
             changeRequest.displayName = userName
@@ -93,7 +94,8 @@ final class AuthType: AuthTypeProtocol {
             } else {
                 // ログインに成功
                 strongSelf.authSuccessRelay.accept(())
-                strongSelf.currentUserRelay.accept(authResult?.user)
+                let userInfo = UserInfo(user: authResult?.user)
+                strongSelf.currentUserRelay.accept(userInfo)
             }
         }
     }
