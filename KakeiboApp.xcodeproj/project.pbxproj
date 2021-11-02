@@ -59,6 +59,8 @@
 		4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDC82662878500FF6ADF /* CalendarViewController.swift */; };
 		478C23162725315300BABDC1 /* AuthFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C23142725315300BABDC1 /* AuthFormViewController.swift */; };
 		478C23172725315300BABDC1 /* AuthFormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 478C23152725315300BABDC1 /* AuthFormViewController.xib */; };
+		478F93E627314D5F00D58719 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E527314D5F00D58719 /* UserInfo.swift */; };
+		478F93E8273150E400D58719 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E7273150E400D58719 /* AuthError.swift */; };
 		4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911126F59E4500BD5B38 /* CategoryViewController.swift */; };
 		4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4799911226F59E4500BD5B38 /* CategoryViewController.xib */; };
 		4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911626F59F6400BD5B38 /* CategoryViewModel.swift */; };
@@ -157,6 +159,8 @@
 		4786EDC82662878500FF6ADF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		478C23142725315300BABDC1 /* AuthFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFormViewController.swift; sourceTree = "<group>"; };
 		478C23152725315300BABDC1 /* AuthFormViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthFormViewController.xib; sourceTree = "<group>"; };
+		478F93E527314D5F00D58719 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		478F93E7273150E400D58719 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		4799911126F59E4500BD5B38 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		4799911226F59E4500BD5B38 /* CategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
 		4799911626F59F6400BD5B38 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
@@ -685,6 +689,8 @@
 				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
 				4773CBF4270BD30600C52DE0 /* CategoryData.swift */,
+				478F93E527314D5F00D58719 /* UserInfo.swift */,
+				478F93E7273150E400D58719 /* AuthError.swift */,
 				47218A1526EEC64F006C10EF /* DataRepository */,
 			);
 			path = Model;
@@ -1009,6 +1015,7 @@
 				4773CBFA270BDE2400C52DE0 /* CategoryDataRepository.swift in Sources */,
 				47CC9A7026F75BD600126467 /* CategoryTableViewCell.swift in Sources */,
 				47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */,
+				478F93E8273150E400D58719 /* AuthError.swift in Sources */,
 				472EFDCA270443F300A80640 /* AccountViewModel.swift in Sources */,
 				47A6BFD9270FDCC700698113 /* HowToUseViewController.swift in Sources */,
 				47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */,
@@ -1052,6 +1059,7 @@
 				4773CC24270D24BC00C52DE0 /* CategoryInputViewController.swift in Sources */,
 				47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */,
 				4799911A26F5A0BB00BD5B38 /* CategoryTableViewData.swift in Sources */,
+				478F93E627314D5F00D58719 /* UserInfo.swift in Sources */,
 				4773CBFD270C653000C52DE0 /* CategoryEditViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

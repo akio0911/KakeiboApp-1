@@ -11,23 +11,23 @@ import RxSwift
 import RxRelay
 
 protocol AuthFormProtocol {
-    var authError: Observable<Error> { get }
-    var authFormSuccess: Observable<Void> { get }
+    var authError: Observable<AuthError?> { get }
+    var authSuccess: Observable<Void> { get }
     func createUser(userName: String, mail: String, password: String)
     func signIn(mail: String, password: String)
     func sendPasswordReset(mail: String)
 }
 
 final class AuthForm: AuthFormProtocol {
-    private let authErrorRelay = PublishRelay<Error>()
-    private let authFormSuccessRelay = PublishRelay<Void>()
+    private let authErrorRelay = PublishRelay<AuthError?>()
+    private let authSuccessRelay = PublishRelay<Void>()
 
-    var authError: Observable<Error> {
+    var authError: Observable<AuthError?> {
         authErrorRelay.asObservable()
     }
 
-    var authFormSuccess: Observable<Void> {
-        authFormSuccessRelay.asObservable()
+    var authSuccess: Observable<Void> {
+        authSuccessRelay.asObservable()
     }
 
     func createUser(userName: String, mail: String, password: String) {
@@ -39,7 +39,7 @@ final class AuthForm: AuthFormProtocol {
             guard let strongSelf = self else { return }
             // アカウント作成に失敗
             if let error = error {
-                strongSelf.authErrorRelay.accept(error)
+                strongSelf.authErrorRelay.accept(AuthError(error: error))
                 return
             }
 
@@ -52,7 +52,7 @@ final class AuthForm: AuthFormProtocol {
             changeRequest.commitChanges { error in
                 // ユーザー名の設定に失敗
                 if let error = error {
-                    strongSelf.authErrorRelay.accept(error)
+                    strongSelf.authErrorRelay.accept(AuthError(error: error))
                     return
                 }
 
@@ -61,10 +61,10 @@ final class AuthForm: AuthFormProtocol {
                 authResult.user.sendEmailVerification{ error in
                     if let error = error {
                         // 確認メール送信失敗
-                        strongSelf.authErrorRelay.accept(error)
+                        strongSelf.authErrorRelay.accept(AuthError(error: error))
                     } else {
                         // 確認メール送信成功
-                        strongSelf.authFormSuccessRelay.accept(())
+                        strongSelf.authSuccessRelay.accept(())
                     }
                 }
             }
@@ -78,10 +78,10 @@ final class AuthForm: AuthFormProtocol {
             guard let strongSelf = self else { return }
             if let error = error {
                 // ログインに失敗
-                strongSelf.authErrorRelay.accept(error)
+                strongSelf.authErrorRelay.accept(AuthError(error: error))
             } else {
                 // ログインに成功
-                strongSelf.authFormSuccessRelay.accept(())
+                strongSelf.authSuccessRelay.accept(())
             }
         }
     }
@@ -92,10 +92,10 @@ final class AuthForm: AuthFormProtocol {
             guard let strongSelf = self else { return }
             if let error = error {
                 // 送信に失敗
-                strongSelf.authErrorRelay.accept(error)
+                strongSelf.authErrorRelay.accept(AuthError(error: error))
             } else {
                 // 送信に成功
-                strongSelf.authFormSuccessRelay.accept(())
+                strongSelf.authSuccessRelay.accept(())
             }
         }
     }

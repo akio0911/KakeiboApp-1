@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import FirebaseAuth
+//import FirebaseAuth
 
 protocol AuthFormViewModelInput {
     func didTapEnterButton(userName: String, mail: String, password: String)
@@ -57,15 +57,15 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
 
     private func setupBinding() {
         authForm.authError
-            .subscribe(onNext: { [weak self] error in
+            .subscribe(onNext: { [weak self] authError in
                 guard let strongSelf = self else { return }
                 strongSelf.eventRelay.accept(.stopAnimating)
-                let (alertTitle, message) = strongSelf.createErrorAlertText(error: error)
+                let (alertTitle, message) = strongSelf.createErrorAlertText(authError: authError)
                 strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle, message))
             })
             .disposed(by: disposeBag)
 
-        authForm.authFormSuccess
+        authForm.authSuccess
             .subscribe(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
                 strongSelf.eventRelay.accept(.stopAnimating)
@@ -85,7 +85,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             .disposed(by: disposeBag)
     }
 
-    private func createErrorAlertText(error: Error) -> (String, String) {
+    private func createErrorAlertText(authError: AuthError?) -> (String, String) {
         var alertTitle: String
         switch mode {
         case .login:
@@ -96,40 +96,13 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             alertTitle = "再設定メールの送信に失敗しました。"
         }
         var message = ""
-        let errorCode = AuthErrorCode(rawValue: error._code)
-        guard let errorCode = errorCode else { return (alertTitle,message) }
-        switch errorCode {
-        case .invalidEmail:
-            // メールアドレスの形式が正しくないことを示します。
-            alertTitle = "メールアドレスの形式が正しくありません。"
-            message = "メールアドレスを正しく入力してください。"
-        case .userDisabled:
-            // ユーザーのアカウントが無効になっていることを示します。
-            alertTitle = "無効なアカウントです。"
-            message = "他のアカウントでログインしてください。"
-        case .wrongPassword:
-            // ユーザーが間違ったパスワードでログインしようとしたことを示します。
-            alertTitle = "パスワードが一致しません。"
-            message = "パスワードを正しく入力してください。"
-        case .userNotFound:
-            // ユーザーアカウントが見つからなかったことを示します。
-            alertTitle = "アカウントが見つかりません。"
-            message = "メールアドレスを正しく入力してください。"
-        case .tooManyRequests:
-            /* 呼び出し元の端末から Firebase Authenticationサーバーに
-             異常な数のリクエストが行われた後で、リクエストがブロックされたことを示します。*/
-            message = "しばらくしてからもう一度お試しください。"
-        case .emailAlreadyInUse:
-            // 登録に使用されたメールアドレスがすでに存在することを示します。
-            alertTitle = "登録済みのメールアドレスです。"
-            message = "ログイン画面からログインしてください。"
-        case .weakPassword:
-            // 設定しようとしたパスワードが弱すぎると判断されたことを示します。
-            alertTitle = "パスワードが脆弱です。"
-            message = "第三者から判定されづらいパスワードにしてください"
-        default:
-            message = error.localizedDescription
+        guard let authError = authError else {
+            return (alertTitle, message)
         }
+        if let reason = authError.reason {
+            alertTitle = reason
+        }
+        message = authError.message
         return (alertTitle, message)
     }
 

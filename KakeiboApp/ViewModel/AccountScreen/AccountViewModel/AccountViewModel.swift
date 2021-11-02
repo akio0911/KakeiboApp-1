@@ -44,7 +44,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         case presentActivityVC([Any])
         case applicationSharedOpen(URL)
     }
-    
+
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol
     private let userNameLabelRelay = BehaviorRelay<String>(value: "")
     private let accountEnterButtonTitleRelay = BehaviorRelay<String>(value: "")
@@ -52,13 +52,13 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
     private let eventRelay = PublishRelay<Event>()
     private var handle: AuthStateDidChangeListenerHandle?
-    
+
     init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository()) {
         self.passcodeRepository = passcodeRepository
         isOnPasscodeRelay.accept(passcodeRepository.loadIsOnPasscode())
         setupPasscodeObserver()
     }
-    
+
     private func setupPasscodeObserver() {
         NotificationCenter.default.addObserver(
             self,
@@ -66,36 +66,36 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
             name: PasscodePoster.passcodeViewDidTapCancelButton,
             object: nil)
     }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
+
     @objc func passcodeViewDidTapCancelButton(_ notification: Notification) {
         passcodeRepository.saveIsOnPasscode(isOnPasscode: false)
         isOnPasscodeRelay.accept(false)
     }
-    
+
     var userNameLabel: Driver<String> {
         userNameLabelRelay.asDriver(onErrorDriveWith: .empty())
     }
-    
+
     var accountEnterButtonTitle: Driver<String> {
         accountEnterButtonTitleRelay.asDriver(onErrorDriveWith: .empty())
     }
-    
+
     var isHiddenSignupButton: Driver<Bool> {
         isHiddenSignupButtonRelay.asDriver(onErrorDriveWith: .empty())
     }
-    
+
     var isOnPasscode: Driver<Bool> {
         isOnPasscodeRelay.asDriver(onErrorDriveWith: .empty())
     }
-    
+
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
-    
+
     func viewWillAppear() {
         // 認証状態をリッスン
         // ログイン状態が変わるたびに呼ばれる
@@ -122,12 +122,12 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
             }
         }
     }
-    
+
     func viewWillDisappear() {
         // リスナーをデタッチ
         Auth.auth().removeStateDidChangeListener(handle!)
     }
-    
+
     func didTapAccountEnterButton() {
         let firebaseAuth = Auth.auth()
         if let currentUser = firebaseAuth.currentUser {
@@ -150,33 +150,33 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
             eventRelay.accept(.presentLogin)
         }
     }
-    
+
     func didTapSignupButton() {
         eventRelay.accept(.presentCreate)
     }
-    
+
     func didValueChangedPasscodeSwitch(value: Bool) {
         passcodeRepository.saveIsOnPasscode(isOnPasscode: value)
         if value {
             eventRelay.accept(.presentPasscodeVC)
         }
     }
-    
+
     func didTapCategoryEditButton() {
         eventRelay.accept(.pushCategoryEditVC)
     }
-    
+
     func didTapHowtoUseButton() {
         eventRelay.accept(.pushHowToVC)
     }
-    
+
     func didTapShareButton() {
         let shareText = "Sample"
         guard let shareUrl = NSURL(string: "https://www.apple.com/") else { return }
         let activityItems = [shareText, shareUrl] as [Any]
         eventRelay.accept(.presentActivityVC(activityItems))
     }
-    
+
     func didTapReviewButton() {
         let appId = "375380948"
         guard let url = URL(string: "https://apps.apple.com/jp/app/apple-store/id\(appId)?action=write-review") else { return }
@@ -188,7 +188,7 @@ extension AccountViewModel: AccountViewModelType {
     var inputs: AccountViewModelInput {
         return self
     }
-    
+
     var outputs: AccountViewModelOutput {
         return self
     }
