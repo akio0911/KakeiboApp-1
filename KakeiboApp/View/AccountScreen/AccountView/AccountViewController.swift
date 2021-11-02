@@ -8,7 +8,6 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import FirebaseAuth
 
 final class AccountViewController: UIViewController {
 
@@ -26,7 +25,6 @@ final class AccountViewController: UIViewController {
 
     private let viewModel: AccountViewModelType
     private let disposeBag = DisposeBag()
-    private var handle: AuthStateDidChangeListenerHandle?
 
     init(viewModel: AccountViewModelType = AccountViewModel()) {
         self.viewModel = viewModel
@@ -47,11 +45,11 @@ final class AccountViewController: UIViewController {
 
     private func setupBinding() {
         accountEnterButton.rx.tap
-            .subscribe(onNext: didTapAccountEnterButton)
+            .subscribe(onNext: viewModel.inputs.didTapAccountEnterButton)
             .disposed(by: disposeBag)
 
         signupButton.rx.tap
-            .subscribe(onNext: didTapSignupButton)
+            .subscribe(onNext: viewModel.inputs.didTapSignupButton)
             .disposed(by: disposeBag)
 
         passcodeSwitch.rx.value
@@ -75,32 +73,51 @@ final class AccountViewController: UIViewController {
             .subscribe(onNext: viewModel.inputs.didTapReviewButton)
             .disposed(by: disposeBag)
 
+        viewModel.outputs.userNameLabel
+            .drive(userNameLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.accountEnterButtonTitle
+            .drive(onNext: { [weak self] title in
+                guard let strongSelf = self else { return }
+                strongSelf.accountEnterButton.setTitle(title, for: .normal)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.isHiddenSignupButton
+            .drive(signupButton.rx.isHidden)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.isOnPasscode
             .drive(passcodeSwitch.rx.value)
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 switch event {
+                case .presentLogin:
+                    strongSelf.presentAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
+                case .presentCreate:
+                    strongSelf.presentAuthFormVC(viewModel: AuthFormViewModel(mode: .create))
                 case .presentPasscodeVC:
                     let passcodeViewController = PasscodeViewController(
                         viewModel: PasscodeViewModel(mode: .create(.first))
                     )
                     let navigationController = UINavigationController(rootViewController: passcodeViewController)
                     navigationController.modalPresentationStyle = .fullScreen
-                    self.present(navigationController, animated: true, completion: nil)
+                    strongSelf.present(navigationController, animated: true, completion: nil)
                 case .pushCategoryEditVC:
                     let categoryEditViewController = CategoryEditViewController()
                     categoryEditViewController.hidesBottomBarWhenPushed = true
-                    self.navigationController?.pushViewController(categoryEditViewController, animated: true)
+                    strongSelf.navigationController?.pushViewController(categoryEditViewController, animated: true)
                 case .pushHowToVC:
                     let howToViewController = HowToUseViewController()
                     howToViewController.hidesBottomBarWhenPushed = true
-                    self.navigationController?.pushViewController(howToViewController, animated: true)
+                    strongSelf.navigationController?.pushViewController(howToViewController, animated: true)
                 case .presentActivityVC(let items):
                     let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
-                    self.present(activityVC, animated: true, completion: nil)
+                    strongSelf.present(activityVC, animated: true, completion: nil)
                 case .applicationSharedOpen(let url):
                     if UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -108,33 +125,6 @@ final class AccountViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-    }
-
-    private func didTapAccountEnterButton() {
-        let firebaseAuth = Auth.auth()
-        if let currentUser = firebaseAuth.currentUser {
-            // ログイン中
-            if currentUser.displayName == nil {
-                // ユーザー名がない(匿名認証によるログイン中)
-                presentAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
-            } else {
-                // ユーザー名がある(メールとパスワードによるログイン中)
-                // ログアウト処理
-                do {
-                    try firebaseAuth.signOut()
-                } catch let signOutError as NSError {
-                    print("Error signing out: %@", signOutError)
-                    print("signOutError: \(signOutError.localizedDescription)")
-                }
-            }
-        } else {
-            // ログアウト中
-            presentAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
-        }
-    }
-
-    private func didTapSignupButton() {
-        presentAuthFormVC(viewModel: AuthFormViewModel(mode: .create))
     }
 
     private func presentAuthFormVC(viewModel: AuthFormViewModelType) {
@@ -158,33 +148,10 @@ final class AccountViewController: UIViewController {
         appStackView.layer.masksToBounds = true
     }
 
-    // MARK: - viewWillApper(_:)
+    // MARK: - viewWillAppear(_:)
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // 認証状態をリッスン
-        // ログイン状態が変わるたびに呼ばれる
-        handle = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-            guard let strongSelf = self else { return }
-            if user == nil {
-                // ログアウト中
-                strongSelf.userNameLabel.text = "ログアウト中"
-                strongSelf.accountEnterButton.setTitle("ログイン", for: .normal)
-                strongSelf.signupButton.isHidden = true
-            } else {
-                // ログイン中
-                if let userName = user?.displayName {
-                    // ユーザー名がある(メールとパスワードによるログイン中)
-                    strongSelf.userNameLabel.text = userName
-                    strongSelf.accountEnterButton.setTitle("ログアウト", for: .normal)
-                    strongSelf.signupButton.isHidden = true
-                } else {
-                    // ユーザー名がない(匿名認証によるログイン中)
-                    strongSelf.userNameLabel.text = "未登録"
-                    strongSelf.accountEnterButton.setTitle("ログイン", for: .normal)
-                    strongSelf.signupButton.isHidden = false
-                }
-            }
-        }
+        viewModel.inputs.viewWillAppear()
     }
 
     // MARK: - viewDidLayoutSubviews()
@@ -199,10 +166,9 @@ final class AccountViewController: UIViewController {
         accountIconView.layer.masksToBounds = true
     }
 
-    // MARK: - viewWillDIsappear(_:)
+    // MARK: - viewWillDisappear(_:)
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // リスナーをデタッチ
-        Auth.auth().removeStateDidChangeListener(handle!)
+        viewModel.inputs.viewWillDisappear()
     }
 }
