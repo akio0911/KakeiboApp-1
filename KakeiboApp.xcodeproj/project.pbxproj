@@ -19,7 +19,7 @@
 		472EFDDA270564DD00A80640 /* PasscodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD9270564DD00A80640 /* PasscodeViewModel.swift */; };
 		472EFDDC2705A6DB00A80640 /* PasscodeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */; };
 		472EFDDF2705EECB00A80640 /* PasscodeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDDE2705EECB00A80640 /* PasscodeObserver.swift */; };
-		472F6F542725996A00DB44E9 /* AuthForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472F6F532725996A00DB44E9 /* AuthForm.swift */; };
+		472F6F542725996A00DB44E9 /* AuthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472F6F532725996A00DB44E9 /* AuthType.swift */; };
 		4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */; };
 		4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */; };
 		473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */; };
@@ -59,7 +59,6 @@
 		4786EDC92662878500FF6ADF /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4786EDC82662878500FF6ADF /* CalendarViewController.swift */; };
 		478C23162725315300BABDC1 /* AuthFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478C23142725315300BABDC1 /* AuthFormViewController.swift */; };
 		478C23172725315300BABDC1 /* AuthFormViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 478C23152725315300BABDC1 /* AuthFormViewController.xib */; };
-		478F93E627314D5F00D58719 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E527314D5F00D58719 /* UserInfo.swift */; };
 		478F93E8273150E400D58719 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E7273150E400D58719 /* AuthError.swift */; };
 		4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911126F59E4500BD5B38 /* CategoryViewController.swift */; };
 		4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4799911226F59E4500BD5B38 /* CategoryViewController.xib */; };
@@ -117,7 +116,7 @@
 		472EFDD9270564DD00A80640 /* PasscodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModel.swift; sourceTree = "<group>"; };
 		472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeRepository.swift; sourceTree = "<group>"; };
 		472EFDDE2705EECB00A80640 /* PasscodeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeObserver.swift; sourceTree = "<group>"; };
-		472F6F532725996A00DB44E9 /* AuthForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthForm.swift; sourceTree = "<group>"; };
+		472F6F532725996A00DB44E9 /* AuthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthType.swift; sourceTree = "<group>"; };
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
 		473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewHeaderFooterView.swift; sourceTree = "<group>"; };
@@ -159,7 +158,6 @@
 		4786EDC82662878500FF6ADF /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		478C23142725315300BABDC1 /* AuthFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFormViewController.swift; sourceTree = "<group>"; };
 		478C23152725315300BABDC1 /* AuthFormViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AuthFormViewController.xib; sourceTree = "<group>"; };
-		478F93E527314D5F00D58719 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		478F93E7273150E400D58719 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		4799911126F59E4500BD5B38 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		4799911226F59E4500BD5B38 /* CategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
@@ -230,7 +228,7 @@
 		47218A1526EEC64F006C10EF /* DataRepository */ = {
 			isa = PBXGroup;
 			children = (
-				472F6F532725996A00DB44E9 /* AuthForm.swift */,
+				472F6F532725996A00DB44E9 /* AuthType.swift */,
 				47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */,
 				472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */,
 				4773CBF9270BDE2400C52DE0 /* CategoryDataRepository.swift */,
@@ -689,7 +687,6 @@
 				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
 				4773CBF4270BD30600C52DE0 /* CategoryData.swift */,
-				478F93E527314D5F00D58719 /* UserInfo.swift */,
 				478F93E7273150E400D58719 /* AuthError.swift */,
 				47218A1526EEC64F006C10EF /* DataRepository */,
 			);
@@ -1046,7 +1043,7 @@
 				47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */,
 				478C23162725315300BABDC1 /* AuthFormViewController.swift in Sources */,
 				47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */,
-				472F6F542725996A00DB44E9 /* AuthForm.swift in Sources */,
+				472F6F542725996A00DB44E9 /* AuthType.swift in Sources */,
 				4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */,
 				47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */,
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
@@ -1059,7 +1056,6 @@
 				4773CC24270D24BC00C52DE0 /* CategoryInputViewController.swift in Sources */,
 				47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */,
 				4799911A26F5A0BB00BD5B38 /* CategoryTableViewData.swift in Sources */,
-				478F93E627314D5F00D58719 /* UserInfo.swift in Sources */,
 				4773CBFD270C653000C52DE0 /* CategoryEditViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

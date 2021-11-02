@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
-//import FirebaseAuth
+import FirebaseAuth
 
 protocol AuthFormViewModelInput {
     func didTapEnterButton(userName: String, mail: String, password: String)
@@ -44,19 +44,19 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         case forgotPassword
     }
 
-    private let authForm: AuthFormProtocol
+    private let authType: AuthTypeProtocol
     let mode: Mode
     private let eventRelay = PublishRelay<Event>()
     private let disposeBag = DisposeBag()
 
-    init(authForm: AuthFormProtocol = AuthForm(), mode: Mode) {
-        self.authForm = authForm
+    init(authType: AuthTypeProtocol = AuthType(), mode: Mode) {
+        self.authType = authType
         self.mode = mode
         setupBinding()
     }
 
     private func setupBinding() {
-        authForm.authError
+        authType.authError
             .subscribe(onNext: { [weak self] authError in
                 guard let strongSelf = self else { return }
                 strongSelf.eventRelay.accept(.stopAnimating)
@@ -65,7 +65,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             })
             .disposed(by: disposeBag)
 
-        authForm.authSuccess
+        authType.authSuccess
             .subscribe(onNext: { [weak self] _ in
                 guard let strongSelf = self else { return }
                 strongSelf.eventRelay.accept(.stopAnimating)
@@ -114,7 +114,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         eventRelay.accept(.startAnimating)
         switch mode {
         case .login:
-            authForm.signIn(mail: mail, password: password)
+            authType.signIn(mail: mail, password: password)
         case .create:
             guard userName != "" else {
                 let alertTitle = "ユーザー名が未入力です。"
@@ -122,9 +122,9 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
                 eventRelay.accept(.presentErrorAlertView(alertTitle, message))
                 return
             }
-            authForm.createUser(userName: userName, mail: mail, password: password)
+            authType.createUser(userName: userName, mail: mail, password: password)
         case .forgotPassword:
-            authForm.sendPasswordReset(mail: mail)
+            authType.sendPasswordReset(mail: mail)
         }
     }
 

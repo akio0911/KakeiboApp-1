@@ -1,5 +1,5 @@
 //
-//  AuthForm.swift
+//  AuthType.swift
 //  KakeiboApp
 //
 //  Created by 今村京平 on 2021/10/24.
@@ -10,17 +10,24 @@ import FirebaseAuth
 import RxSwift
 import RxRelay
 
-protocol AuthFormProtocol {
+protocol AuthTypeProtocol {
     var authError: Observable<AuthError?> { get }
     var authSuccess: Observable<Void> { get }
+    var currentUser: Observable<User?> { get }
     func createUser(userName: String, mail: String, password: String)
     func signIn(mail: String, password: String)
     func sendPasswordReset(mail: String)
 }
 
-final class AuthForm: AuthFormProtocol {
+final class AuthType: AuthTypeProtocol {
     private let authErrorRelay = PublishRelay<AuthError?>()
     private let authSuccessRelay = PublishRelay<Void>()
+    private let currentUserRelay = BehaviorRelay<User?>(value: nil)
+
+    init() {
+        let currentUser = Auth.auth().currentUser
+        currentUserRelay.accept(currentUser)
+    }
 
     var authError: Observable<AuthError?> {
         authErrorRelay.asObservable()
@@ -28,6 +35,10 @@ final class AuthForm: AuthFormProtocol {
 
     var authSuccess: Observable<Void> {
         authSuccessRelay.asObservable()
+    }
+
+    var currentUser: Observable<User?> {
+        currentUserRelay.asObservable()
     }
 
     func createUser(userName: String, mail: String, password: String) {
@@ -45,7 +56,7 @@ final class AuthForm: AuthFormProtocol {
 
             // アカウント作成に成功
             guard let authResult = authResult else { return }
-
+            strongSelf.currentUserRelay.accept(authResult.user)
             // ユーザー名の設定
             let changeRequest = authResult.user.createProfileChangeRequest()
             changeRequest.displayName = userName
@@ -82,6 +93,7 @@ final class AuthForm: AuthFormProtocol {
             } else {
                 // ログインに成功
                 strongSelf.authSuccessRelay.accept(())
+                strongSelf.currentUserRelay.accept(authResult?.user)
             }
         }
     }
