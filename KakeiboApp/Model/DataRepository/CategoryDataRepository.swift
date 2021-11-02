@@ -45,19 +45,16 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                 guard let strongSelf = self else { return }
                 if let error = error {
                     // 読み込みに失敗
-                    print("💣----Error getting documents: \(error.localizedDescription)----")
+                    print("----Error getting documents: \(error.localizedDescription)----")
                 } else {
                     // 読み込みに成功
                     if let documents = querySnapshot?.documents {
                         // 保存データがある
-                        print("💣保存データがある")
-                        print("💣documents: \(documents)")
                         if documents.isEmpty {
                             // 保存データ配列が空の時
                             let initialIncomeCategory = strongSelf.createInitialIncomeCategory()
                             strongSelf.setIncomeCategoryDataArray(data: initialIncomeCategory)
                             data(initialIncomeCategory)
-                            print("💣💣💣")
                             return
                         }
                         var categoryArray: [CategoryData] = []
@@ -67,13 +64,11 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                             }
                             switch result {
                             case .success(let data):
-                                print("💣変換成功")
                                 // CategoryData型に変換成功
                                 if let data = data {
                                     categoryArray.append(data)
                                 }
                             case .failure(let error):
-                                print("💣変換失敗")
                                 // CategoryData型に変換失敗
                                 print("----Error decoding item: \(error)----")
                             }
@@ -178,7 +173,6 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                 .document(Auth.auth().currentUser!.uid)
                 .collection(expenseCategoryName)
                 .document(data.id)
-            print("💣data.id: \(data.id)")
             try ref.setData(from: data)
         } catch let error {
             print("Error writing categoryData to Firestore: \(error)")

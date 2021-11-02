@@ -35,7 +35,6 @@ final class CategoryModel: CategoryModelProtocol {
         repository.loadExpenseCategoryData { [weak self] categoryDataArray in
             guard let strongSelf = self else { return }
             strongSelf.expenseCategoryDataRelay.accept(categoryDataArray)
-            print("💣categoryDataArray: \(categoryDataArray)")
         }
     }
 

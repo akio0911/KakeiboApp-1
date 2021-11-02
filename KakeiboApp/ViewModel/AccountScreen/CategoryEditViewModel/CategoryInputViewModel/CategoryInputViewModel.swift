@@ -245,7 +245,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
             )
             categoryModel.setIncomeCategoryData(data: categoryData)
         case .expenseCategoryEdit(let categoryData):
-            print("💣\(categoryData.id)")
             let categoryData =
             CategoryData(
                 id: categoryData.id,

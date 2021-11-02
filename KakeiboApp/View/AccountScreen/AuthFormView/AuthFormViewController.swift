@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class AuthFormViewController: UIViewController {
+class AuthFormViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet private weak var authFormImageView: UIImageView!
     @IBOutlet private weak var userNameStackView: UIStackView!
@@ -22,10 +22,17 @@ class AuthFormViewController: UIViewController {
     @IBOutlet private weak var enterButton: UIButton!
     @IBOutlet private weak var forgotPasswordButton: UIButton!
     @IBOutlet private weak var passwordSecureTextButton: UIButton!
+    @IBOutlet private weak var baseScrollView: UIScrollView!
+    @IBOutlet private weak var contentsView: UIView!
 
     private let viewModel: AuthFormViewModelType
     private let disposeBag = DisposeBag()
     private var activityIndicatorView: UIActivityIndicatorView!
+    // 編集中のTextField
+    private var editingTextField: UITextField?
+    // 重なっている高さ
+    private var overlap: CGFloat = 0
+    private var lastOffsetY: CGFloat = 0
 
     init(viewModel: AuthFormViewModelType) {
         self.viewModel = viewModel
@@ -39,11 +46,43 @@ class AuthFormViewController: UIViewController {
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupAuthFormTextFields()
+        setupKeyboardNotification()
         setupCornerRadius()
         setupTapGesture()
         setupMode()
         addActivityIndicatorView()
         setupBinding()
+    }
+
+    private func setupAuthFormTextFields() {
+        let authFormTextFields = [
+            userNameTextField,
+            mailTextField,
+            passwordTextField
+        ]
+        authFormTextFields.forEach {
+            $0?.delegate = self
+        }
+    }
+
+    private func setupKeyboardNotification() {
+        let notification = NotificationCenter.default
+        // キーボードのframeが変化した
+        notification.addObserver(self,
+                                 selector: #selector(keyboardDidChangeFrame(_:)),
+                                 name: UIResponder.keyboardDidChangeFrameNotification,
+                                 object: nil)
+        // キーボードが登場する直前
+        notification.addObserver(self,
+                                 selector: #selector(keyboardWillShow(_:)),
+                                 name: UIResponder.keyboardWillShowNotification,
+                                 object: nil)
+        // キーボードが退場した
+        notification.addObserver(self,
+                                 selector: #selector(keyboardDidHide(_:)),
+                                 name: UIResponder.keyboardDidHideNotification,
+                                 object: nil)
     }
 
     private func setupCornerRadius() {
@@ -245,5 +284,46 @@ class AuthFormViewController: UIViewController {
 
     @objc private func didTapView(_ sender: UITapGestureRecognizer) {
         view.endEditing(true)
+    }
+
+    @objc private func keyboardDidChangeFrame(_ notification: Notification) {
+        // 編集中のTextFieldがない場合は中断
+        guard let editingTextField = editingTextField else { return }
+        // キーボードのframeを調べる
+        let userInfo = (notification as NSNotification).userInfo!
+        let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        // テキストフィールドのframeをview座標で取得
+        let textFieldFrame = view.convert(editingTextField.frame, from: editingTextField.superview)
+        // 重なっている高さ
+        let spaceOfTextFieldAndKeyboard: CGFloat = 8
+        overlap = textFieldFrame.maxY - keyboardFrame.minY + spaceOfTextFieldAndKeyboard
+
+        if overlap > 0 {
+            baseScrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
+        }
+    }
+
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        // 現在のスクロール量を保持
+        lastOffsetY = baseScrollView.contentOffset.y
+    }
+
+    @objc private func keyboardDidHide(_ notification: Notification) {
+        // スクロールを戻す
+        baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
+    }
+
+    // MARK: - UITextFieldDelegate
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        editingTextField = textField
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        editingTextField = nil
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return false
     }
 }

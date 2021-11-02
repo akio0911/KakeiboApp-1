@@ -12,6 +12,8 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthFormViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
                 <outlet property="authFormImageView" destination="IPI-6w-VKM" id="Lwq-5Z-Bua"/>
+                <outlet property="baseScrollView" destination="xL1-Cr-Uzi" id="Xlw-gL-NNg"/>
+                <outlet property="contentsView" destination="Lag-kc-g9r" id="3S6-M9-2w8"/>
                 <outlet property="enterButton" destination="R1v-ym-drK" id="abx-CK-bZC"/>
                 <outlet property="forgotPasswordButton" destination="GdU-Ml-CR4" id="cRI-Qo-wE4"/>
                 <outlet property="mailStackView" destination="wic-RL-35e" id="jPU-Qj-rWd"/>
@@ -196,10 +198,10 @@
                                 <constraint firstAttribute="trailing" secondItem="TpE-QV-ulC" secondAttribute="trailing" constant="50" id="4j2-kf-3gd"/>
                                 <constraint firstItem="TpE-QV-ulC" firstAttribute="top" secondItem="IPI-6w-VKM" secondAttribute="bottom" constant="30" id="5Cx-ww-9gD"/>
                                 <constraint firstItem="R1v-ym-drK" firstAttribute="top" secondItem="GdU-Ml-CR4" secondAttribute="bottom" constant="30" id="7Wr-qt-M29"/>
+                                <constraint firstAttribute="bottom" secondItem="R1v-ym-drK" secondAttribute="bottom" constant="30" id="7kj-Wx-LRB"/>
                                 <constraint firstItem="R1v-ym-drK" firstAttribute="centerX" secondItem="Lag-kc-g9r" secondAttribute="centerX" constant="-9" id="KEh-Qe-FxO"/>
                                 <constraint firstItem="R1v-ym-drK" firstAttribute="top" relation="greaterThanOrEqual" secondItem="TpE-QV-ulC" secondAttribute="bottom" constant="30" id="RdA-EA-bs4"/>
                                 <constraint firstItem="IPI-6w-VKM" firstAttribute="top" secondItem="Lag-kc-g9r" secondAttribute="top" constant="30" id="UmM-vG-T9C"/>
-                                <constraint firstAttribute="bottom" secondItem="R1v-ym-drK" secondAttribute="bottom" constant="30" id="UzQ-O1-DuD"/>
                                 <constraint firstItem="IPI-6w-VKM" firstAttribute="width" secondItem="Lag-kc-g9r" secondAttribute="width" multiplier="0.4" id="VoY-45-s4K"/>
                                 <constraint firstItem="GdU-Ml-CR4" firstAttribute="trailing" secondItem="TpE-QV-ulC" secondAttribute="trailing" id="elW-mT-Hcd"/>
                                 <constraint firstItem="GdU-Ml-CR4" firstAttribute="top" secondItem="TpE-QV-ulC" secondAttribute="bottom" id="n5z-zR-ne5"/>
