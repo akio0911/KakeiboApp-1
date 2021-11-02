@@ -56,7 +56,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         setupScrollToShowKeyboard()
         configureSaveBtnLayer() // セーブボタンをフィレット
         configureMosaicViewLayer() // モザイク用のviewをフィレット
-        categoryTextField.text = expenseCategoryArray[0].name
         navigationItem.title = "収支入力"
     }
 
