@@ -30,9 +30,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private var activityIndicatorView: UIActivityIndicatorView!
     // 編集中のTextField
     private var editingTextField: UITextField?
-    // 重なっている高さ
-    private var overlap: CGFloat = 0
-    private var lastOffsetY: CGFloat = 0
 
     init(viewModel: AuthFormViewModelType) {
         self.viewModel = viewModel
@@ -68,15 +65,10 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
 
     private func setupKeyboardNotification() {
         let notification = NotificationCenter.default
-        // キーボードのframeが変化した
+        // キーボードが表示された
         notification.addObserver(self,
-                                 selector: #selector(keyboardDidChangeFrame(_:)),
-                                 name: UIResponder.keyboardDidChangeFrameNotification,
-                                 object: nil)
-        // キーボードが登場する直前
-        notification.addObserver(self,
-                                 selector: #selector(keyboardWillShow(_:)),
-                                 name: UIResponder.keyboardWillShowNotification,
+                                 selector: #selector(keyboardDidShow(_:)),
+                                 name: UIResponder.keyboardDidShowNotification,
                                  object: nil)
         // キーボードが退場した
         notification.addObserver(self,
@@ -286,8 +278,7 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
 
-    @objc private func keyboardDidChangeFrame(_ notification: Notification) {
-        // 編集中のTextFieldがない場合は中断
+    @objc private func keyboardDidShow(_ notification: Notification) {
         guard let editingTextField = editingTextField else { return }
         // キーボードのframeを調べる
         let userInfo = (notification as NSNotification).userInfo!
@@ -296,21 +287,16 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         let textFieldFrame = view.convert(editingTextField.frame, from: editingTextField.superview)
         // 重なっている高さ
         let spaceOfTextFieldAndKeyboard: CGFloat = 8
-        overlap = textFieldFrame.maxY - keyboardFrame.minY + spaceOfTextFieldAndKeyboard
+        let overlap = textFieldFrame.maxY - keyboardFrame.minY + spaceOfTextFieldAndKeyboard
 
         if overlap > 0 {
             baseScrollView.setContentOffset(CGPoint(x: 0, y: overlap), animated: true)
         }
     }
 
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        // 現在のスクロール量を保持
-        lastOffsetY = baseScrollView.contentOffset.y
-    }
-
     @objc private func keyboardDidHide(_ notification: Notification) {
         // スクロールを戻す
-        baseScrollView.setContentOffset(CGPoint(x: 0, y: lastOffsetY), animated: true)
+        baseScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
     }
 
     // MARK: - UITextFieldDelegate

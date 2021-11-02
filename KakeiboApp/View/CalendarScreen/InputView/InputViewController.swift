@@ -191,10 +191,15 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     // キーボードが隠れないようにスクロールする設定
     private func setupScrollToShowKeyboard() {
-        dateTextField.delegate = self
-        categoryTextField.delegate = self
-        balanceTextField.delegate = self
-        memoTextField.delegate = self
+        let textFields = [
+            dateTextField,
+            categoryTextField,
+            balanceTextField,
+            memoTextField
+        ]
+        textFields.forEach {
+            $0?.delegate = self
+        }
         let notification = NotificationCenter.default
         notification.addObserver(self,
                                  selector: #selector(keyboardDidShow(_:)),
