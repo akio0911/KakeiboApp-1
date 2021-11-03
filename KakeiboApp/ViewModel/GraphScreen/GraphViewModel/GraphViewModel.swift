@@ -85,7 +85,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
 
     private func acceptGraphData() {
         var graphDataArray: [GraphData] = []
-        let firstDay = monthDateArray[0] // 月の初日(ついたち)
+        let firstDay = monthDateArray.first! // 月の初日(ついたち)
         let monthData = kakeiboDataArray.filter {
             Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .year)

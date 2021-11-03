@@ -76,11 +76,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .subscribe(onNext: { [weak self] userInfo in
                 guard let strongSelf = self else { return }
                 strongSelf.userInfo = userInfo
-                if let userInfo = userInfo {
-                    strongSelf.model.loadData(userId: userInfo.id)
-                } else {
-                    strongSelf.model.loadData(userId: nil)
-                }
+                strongSelf.model.loadData(userId: userInfo?.id)
+                strongSelf.categoryModel.loadIncomeCategoryDataArray(userId: userInfo?.id)
+                strongSelf.categoryModel.loadExpenseCategoryDataArray(userId: userInfo?.id)
             })
             .disposed(by: disposeBag)
 
@@ -132,7 +130,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
 
     private func acceptDayItemData() {
         guard !monthDateArray.isEmpty else { return }
-        let firstDay = monthDateArray[0] // 月の初日
+        let firstDay = monthDateArray.first! // 月の初日
 
         var dayItemDataArray: [DayItemData] = []
 
@@ -195,7 +193,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
 
     private func acceptTotalText() {
         guard !monthDateArray.isEmpty else { return }
-        let firstDay = monthDateArray[0] // 月の初日
+        let firstDay = monthDateArray.first! // 月の初日
 
         var totalIncome = 0
         var totalExpense = 0

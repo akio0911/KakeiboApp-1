@@ -368,12 +368,12 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         if selectedSegmentIndex == 0 {
             balanceLabel.text = Balance.expenseName
             categoryTextField.inputView = expenseCategoryPickerView
-            categoryTextField.text = expenseCategoryArray[0].name
+            categoryTextField.text = expenseCategoryArray.first?.name ?? ""
             categoryTextField.endEditing(true)
         } else if selectedSegmentIndex == 1 {
             balanceLabel.text = Balance.incomeName
             categoryTextField.inputView = incomeCategoryPickerView
-            categoryTextField.text = incomeCategoryArray[0].name
+            categoryTextField.text = incomeCategoryArray.first?.name ?? ""
             categoryTextField.endEditing(true)
         }
     }

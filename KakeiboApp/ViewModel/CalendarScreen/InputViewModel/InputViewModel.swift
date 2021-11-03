@@ -144,7 +144,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     func addDate(date: Date) {
         dateRelay.accept(DateUtility.stringFromDate(date: date, format: "YYYY年MM月dd日"))
-        categoryRelay.accept(expenseCategoryRelay.value[0].name)
+        categoryRelay.accept(expenseCategoryRelay.value.first?.name ?? "")
     }
 
     func editData(data: KakeiboData) {

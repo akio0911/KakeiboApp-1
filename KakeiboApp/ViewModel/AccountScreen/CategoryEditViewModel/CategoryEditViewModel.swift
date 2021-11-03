@@ -35,15 +35,19 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     }
 
     private let categoryModel: CategoryModelProtocol
+    private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let categoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let eventRelay = PublishRelay<Event>()
     private var incomeCategoryDataArray: [CategoryData] = []
     private var expenseCategoryDataArray: [CategoryData] = []
+    private var userInfo: UserInfo?
     private var currentSegmentIndex = 0
 
-    init(categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
+    init(categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
+         authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.categoryModel = categoryModel
+        self.authType = authType
         setupBinding()
     }
 
@@ -61,6 +65,13 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
                 guard let self = self else { return }
                 self.categoryDataRelay.accept(expenseCategoryDataArray)
                 self.expenseCategoryDataArray = expenseCategoryDataArray
+            })
+            .disposed(by: disposeBag)
+
+        authType.userInfo
+            .subscribe(onNext: { [weak self] userInfo in
+                guard let strongSelf = self else { return }
+                strongSelf.userInfo = userInfo
             })
             .disposed(by: disposeBag)
     }
@@ -104,23 +115,23 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         case 0:
             // 支出が選択されている場合
             categoryModel.deleteExpenseCategoryData(
-                data: expenseCategoryDataArray[index.row]
+                userId: userInfo?.id, data: expenseCategoryDataArray[index.row]
             )
             expenseCategoryDataArray.remove(at: index.row)
             expenseCategoryDataArray.indices.forEach {
                 expenseCategoryDataArray[$0].displayOrder = $0
             }
-            categoryModel.setExpenseCategoryDataArray(data: expenseCategoryDataArray)
+            categoryModel.setExpenseCategoryDataArray(userId: userInfo?.id, data: expenseCategoryDataArray)
         case 1:
             // 収入が選択されている場合
             categoryModel.deleteIncomeCategoryData(
-                data: incomeCategoryDataArray[index.row]
+                userId: userInfo?.id, data: incomeCategoryDataArray[index.row]
             )
             incomeCategoryDataArray.remove(at: index.row)
             incomeCategoryDataArray.indices.forEach {
                 incomeCategoryDataArray[$0].displayOrder = $0
             }
-            categoryModel.setIncomeCategoryDataArray(data: incomeCategoryDataArray)
+            categoryModel.setIncomeCategoryDataArray(userId: userInfo?.id, data: incomeCategoryDataArray)
         default:
             fatalError("想定していないSegmentIndexです。")
         }

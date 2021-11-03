@@ -8,17 +8,16 @@
 import UIKit
 import FirebaseFirestore
 import FirebaseFirestoreSwift
-import FirebaseAuth
 
 protocol CategoryDataRepositoryProtocol {
-    func loadIncomeCategoryData(data: @escaping ([CategoryData]) -> Void)
-    func loadExpenseCategoryData(data: @escaping ([CategoryData]) -> Void)
-    func setIncomeCategoryDataArray(data: [CategoryData])
-    func setExpenseCategoryDataArray(data: [CategoryData])
-    func setIncomeCategoryData(data: CategoryData)
-    func setExpenseCategoryData(data: CategoryData)
-    func deleteIncomeCategoryData(data: CategoryData)
-    func deleteExpenseCategoryData(data: CategoryData)
+    func loadIncomeCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void)
+    func loadExpenseCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void)
+    func setIncomeCategoryDataArray(userId: String, data: [CategoryData])
+    func setExpenseCategoryDataArray(userId: String, data: [CategoryData])
+    func setIncomeCategoryData(userId: String, data: CategoryData)
+    func setExpenseCategoryData(userId: String, data: CategoryData)
+    func deleteIncomeCategoryData(userId: String, data: CategoryData)
+    func deleteExpenseCategoryData(userId: String, data: CategoryData)
 }
 
 final class CategoryDataRepository: CategoryDataRepositoryProtocol {
@@ -36,9 +35,9 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
     }
 
     // 収入カテゴリーを読み込む
-    func loadIncomeCategoryData(data: @escaping ([CategoryData]) -> Void) {
+    func loadIncomeCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void) {
         db.collection(firstCollectionName)
-            .document(Auth.auth().currentUser!.uid)
+            .document(userId)
             .collection(incomeCategoryName)
             .order(by: "displayOrder")
             .getDocuments { [weak self] querySnapshot, error in
@@ -53,7 +52,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                         if documents.isEmpty {
                             // 保存データ配列が空の時
                             let initialIncomeCategory = strongSelf.createInitialIncomeCategory()
-                            strongSelf.setIncomeCategoryDataArray(data: initialIncomeCategory)
+                            strongSelf.setIncomeCategoryDataArray(userId: userId, data: initialIncomeCategory)
                             data(initialIncomeCategory)
                             return
                         }
@@ -80,9 +79,9 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
     }
 
     // 支出カテゴリーを読み込む
-    func loadExpenseCategoryData(data: @escaping ([CategoryData]) -> Void) {
+    func loadExpenseCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void) {
         db.collection(firstCollectionName)
-            .document(Auth.auth().currentUser!.uid)
+            .document(userId)
             .collection(expenseCategoryName)
             .order(by: "displayOrder")
             .getDocuments { [weak self] querySnapshot, error in
@@ -97,7 +96,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                         if documents.isEmpty {
                             // 保存データ配列が空の時
                             let initialExpenseCategory = strongSelf.createInitialExpenseCategory()
-                            strongSelf.setExpenseCategoryDataArray(data: initialExpenseCategory)
+                            strongSelf.setExpenseCategoryDataArray(userId: userId, data: initialExpenseCategory)
                             data(initialExpenseCategory)
                             return
                         }
@@ -124,11 +123,11 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
     }
 
     // 収入カテゴリー配列を保存
-    func setIncomeCategoryDataArray(data: [CategoryData]) {
+    func setIncomeCategoryDataArray(userId: String, data: [CategoryData]) {
         data.forEach { categoryData in
             do {
                 let ref = db.collection(firstCollectionName)
-                    .document(Auth.auth().currentUser!.uid)
+                    .document(userId)
                     .collection(incomeCategoryName)
                     .document(categoryData.id)
                 try ref.setData(from: categoryData)
@@ -139,11 +138,11 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
     }
 
     // 支出カテゴリー配列を保存
-    func setExpenseCategoryDataArray(data: [CategoryData]) {
+    func setExpenseCategoryDataArray(userId: String, data: [CategoryData]) {
         data.forEach { categoryData in
             do {
                 let ref = db.collection(firstCollectionName)
-                    .document(Auth.auth().currentUser!.uid)
+                    .document(userId)
                     .collection(expenseCategoryName)
                     .document(categoryData.id)
                 try ref.setData(from: categoryData)
@@ -153,11 +152,11 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         }
     }
 
-    func setIncomeCategoryData(data: CategoryData) {
+    func setIncomeCategoryData(userId: String, data: CategoryData) {
         do {
             // 作成または上書き
             let ref = db.collection(firstCollectionName)
-                .document(Auth.auth().currentUser!.uid)
+                .document(userId)
                 .collection(incomeCategoryName)
                 .document(data.id)
             try ref.setData(from: data)
@@ -166,11 +165,11 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         }
     }
 
-    func setExpenseCategoryData(data: CategoryData) {
+    func setExpenseCategoryData(userId: String, data: CategoryData) {
         do {
             // 作成または上書き
             let ref = db.collection(firstCollectionName)
-                .document(Auth.auth().currentUser!.uid)
+                .document(userId)
                 .collection(expenseCategoryName)
                 .document(data.id)
             try ref.setData(from: data)
@@ -179,9 +178,9 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         }
     }
 
-    func deleteIncomeCategoryData(data: CategoryData) {
+    func deleteIncomeCategoryData(userId: String, data: CategoryData) {
         db.collection(firstCollectionName)
-            .document(Auth.auth().currentUser!.uid)
+            .document(userId)
             .collection(incomeCategoryName)
             .document(data.id)
             .delete { error in
@@ -191,9 +190,9 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
             }
     }
 
-    func deleteExpenseCategoryData(data: CategoryData) {
+    func deleteExpenseCategoryData(userId: String, data: CategoryData) {
         db.collection(firstCollectionName)
-            .document(Auth.auth().currentUser!.uid)
+            .document(userId)
             .collection(expenseCategoryName)
             .document(data.id)
             .delete { error in

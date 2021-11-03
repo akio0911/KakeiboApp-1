@@ -71,7 +71,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
         guard !monthDataArray.isEmpty else { return }
         var cellDataArray: [[CellDateCategoryData]] = []
         var headerDataArray: [HeaderDateCategoryData] = []
-        let firstDay = monthDataArray[0] // 月の初日(ついたち)
+        let firstDay = monthDataArray.first! // 月の初日(ついたち)
         let monthFilterData = kakeiboDataArray.filter {
             Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .year)

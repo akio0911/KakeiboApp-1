@@ -49,6 +49,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
 
     private let mode: Mode
     private let categoryModel: CategoryModelProtocol
+    private let authType: AuthTypeProtocol
     private let eventRelay = PublishRelay<Event>()
     private let disposeBag = DisposeBag()
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
@@ -71,11 +72,14 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
 
     private var incomeCategoryDataArray: [CategoryData] = []
     private var expenseCategoryDataArray: [CategoryData] = []
+    private var userInfo: UserInfo?
 
     init(mode: Mode,
-         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
+         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
+         authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.mode = mode
         self.categoryModel = categoryModel
+        self.authType = authType
         setupBinding()
         setupMode(mode: mode)
         hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
@@ -93,6 +97,13 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
             .subscribe(onNext: { [weak self] expenseCategoryData in
                 guard let strongSelf = self else { return }
                 strongSelf.expenseCategoryDataArray = expenseCategoryData
+            })
+            .disposed(by: disposeBag)
+
+        authType.userInfo
+            .subscribe(onNext: { [weak self] userInfo in
+                guard let strongSelf = self else { return }
+                strongSelf.userInfo = userInfo
             })
             .disposed(by: disposeBag)
     }
@@ -224,7 +235,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                 color: categoryColorRelay.value
             )
             incomeCategoryDataArray.append(categoryData)
-            categoryModel.setIncomeCategoryData(data: categoryData)
+            categoryModel.setIncomeCategoryData(userId: userInfo?.id, data: categoryData)
         case .expenseCategoryAdd:
             let categoryData =
                 CategoryData(
@@ -234,7 +245,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                     color: categoryColorRelay.value
                 )
             expenseCategoryDataArray.append(categoryData)
-            categoryModel.setExpenseCategoryData(data: categoryData)
+            categoryModel.setExpenseCategoryData(userId: userInfo?.id, data: categoryData)
         case .incomeCategoryEdit(let categoryData):
             let categoryData =
             CategoryData(
@@ -243,7 +254,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                 name: name,
                 color: categoryColorRelay.value
             )
-            categoryModel.setIncomeCategoryData(data: categoryData)
+            categoryModel.setIncomeCategoryData(userId: userInfo?.id, data: categoryData)
         case .expenseCategoryEdit(let categoryData):
             let categoryData =
             CategoryData(
@@ -252,7 +263,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                 name: name,
                 color: categoryColorRelay.value
             )
-            categoryModel.setExpenseCategoryData(data: categoryData)
+            categoryModel.setExpenseCategoryData(userId: userInfo?.id, data: categoryData)
         }
         eventRelay.accept(.dismiss)
     }
