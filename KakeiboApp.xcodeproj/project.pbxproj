@@ -105,7 +105,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		472189B926EB3AF3006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		472189B926EB3AF3006C10EF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboDataRepository.swift; sourceTree = "<group>"; };
 		47218A1926EF4AD4006C10EF /* CalendarImageName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarImageName.swift; sourceTree = "<group>"; };
 		472EFDC42704324C00A80640 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +121,7 @@
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
 		473995872692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewHeaderFooterView.swift; sourceTree = "<group>"; };
+		473E1ECB2732AC7A00888FA6 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		47436A3826F885D10056F60D /* NumberFormatterUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterUtility.swift; sourceTree = "<group>"; };
 		47480071268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeekdayCollectionViewCell.swift; sourceTree = "<group>"; };
 		47480072268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarWeekdayCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -480,6 +481,7 @@
 		478156F5266128C8005E1020 = {
 			isa = PBXGroup;
 			children = (
+				473E1ECB2732AC7A00888FA6 /* MyPlayground.playground */,
 				47815700266128C8005E1020 /* KakeiboApp */,
 				478156FF266128C8005E1020 /* Products */,
 				42EE7307A682EE180F9C5FAD /* Pods */,
@@ -683,10 +685,10 @@
 		47DC3EDC26E34DDF00693980 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 				47DC3EEA26E45AC400693980 /* KakeiboModel.swift */,
 				4781572F26612ED5005E1020 /* CalendarDate.swift */,
 				47EBC575271BE8A500BA64F6 /* CategoryModel.swift */,
-				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
 				4773CBF4270BD30600C52DE0 /* CategoryData.swift */,
 				478F93E7273150E400D58719 /* AuthError.swift */,

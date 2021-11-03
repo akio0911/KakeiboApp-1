@@ -13,20 +13,22 @@ import RxRelay
 protocol AuthTypeProtocol {
     var authError: Observable<AuthError?> { get }
     var authSuccess: Observable<Void> { get }
-    var currentUser: Observable<UserInfo?> { get }
+    var userInfo: Observable<UserInfo?> { get }
     func createUser(userName: String, mail: String, password: String)
     func signIn(mail: String, password: String)
     func sendPasswordReset(mail: String)
+    func signOut()
 }
 
 final class AuthType: AuthTypeProtocol {
     private let authErrorRelay = PublishRelay<AuthError?>()
     private let authSuccessRelay = PublishRelay<Void>()
-    private let currentUserRelay = BehaviorRelay<UserInfo?>(value: nil)
+    private let userInfoRelay = BehaviorRelay<UserInfo?>(value: nil)
 
     init() {
         let currentUser = Auth.auth().currentUser
-        currentUserRelay.accept(UserInfo(user: currentUser))
+        let userInfo = UserInfo(user: currentUser)
+        userInfoRelay.accept(userInfo)
     }
 
     var authError: Observable<AuthError?> {
@@ -37,8 +39,8 @@ final class AuthType: AuthTypeProtocol {
         authSuccessRelay.asObservable()
     }
 
-    var currentUser: Observable<UserInfo?> {
-        currentUserRelay.asObservable()
+    var userInfo: Observable<UserInfo?> {
+        userInfoRelay.asObservable()
     }
 
     func createUser(userName: String, mail: String, password: String) {
@@ -57,7 +59,7 @@ final class AuthType: AuthTypeProtocol {
             // アカウント作成に成功
             guard let authResult = authResult else { return }
             let userInfo = UserInfo(user: authResult.user)
-            strongSelf.currentUserRelay.accept(userInfo)
+            strongSelf.userInfoRelay.accept(userInfo)
             // ユーザー名の設定
             let changeRequest = authResult.user.createProfileChangeRequest()
             changeRequest.displayName = userName
@@ -95,7 +97,7 @@ final class AuthType: AuthTypeProtocol {
                 // ログインに成功
                 strongSelf.authSuccessRelay.accept(())
                 let userInfo = UserInfo(user: authResult?.user)
-                strongSelf.currentUserRelay.accept(userInfo)
+                strongSelf.userInfoRelay.accept(userInfo)
             }
         }
     }
@@ -111,6 +113,18 @@ final class AuthType: AuthTypeProtocol {
                 // 送信に成功
                 strongSelf.authSuccessRelay.accept(())
             }
+        }
+    }
+
+    func signOut() {
+        do {
+            let firebaseAuth = Auth.auth()
+            try firebaseAuth.signOut()
+            let userInfo = UserInfo(user: firebaseAuth.currentUser)
+            userInfoRelay.accept(userInfo)
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+            print("signOutError: \(signOutError.localizedDescription)")
         }
     }
 }

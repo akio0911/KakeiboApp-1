@@ -37,7 +37,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
 
     init(categoryData: CategoryData,
          calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         model: KakeiboModelProtocol = ModelLocator.shared.model) {
+         model: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel) {
         self.categoryData = categoryData
         self.calendarDate = calendarDate
         self.model = model

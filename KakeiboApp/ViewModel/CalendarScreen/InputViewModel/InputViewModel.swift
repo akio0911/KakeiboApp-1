@@ -47,6 +47,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     let mode: Mode
     private let model: KakeiboModelProtocol
     private let categoryModel: CategoryModelProtocol
+    private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
     private var kakeiboDataArray: [KakeiboData] = []
@@ -57,21 +58,31 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let memoRelay = PublishRelay<String>()
     private let incomeCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let expenseCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
+    private var userInfo: UserInfo?
 
-    init(model: KakeiboModelProtocol = ModelLocator.shared.model,
+    init(model: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
-         mode: Mode) {
+         mode: Mode,
+         authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.model = model
         self.categoryModel = categoryModel
         self.mode = mode
+        self.authType = authType
         setupBinding()
     }
 
     private func setupBinding() {
+        authType.userInfo
+            .subscribe(onNext: { [weak self] userInfo in
+                guard let strongSelf = self else { return }
+                strongSelf.userInfo = userInfo
+            })
+            .disposed(by: disposeBag)
+
         model.dataObservable
             .subscribe(onNext: { [weak self] kakeiboDataArray in
-                guard let self = self else { return }
-                self.kakeiboDataArray = kakeiboDataArray
+                guard let strongSelf = self else { return }
+                strongSelf.kakeiboDataArray = kakeiboDataArray
             })
             .disposed(by: disposeBag)
 
@@ -119,11 +130,10 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     func didTapSaveButton(data: KakeiboData) {
         switch mode {
         case .add:
-            model.addData(data: data)
+            model.addData(userId: userInfo?.id, data: data)
         case .edit(let beforeData):
-            if let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == beforeData }) {
-                model.updateData(index: firstIndex, data: data)
-            }
+            guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == beforeData }) else { return }
+            model.updateData(userId: userInfo?.id, index: firstIndex, data: data)
         }
         eventRelay.accept(.dismiss)
     }

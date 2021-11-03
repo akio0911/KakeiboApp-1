@@ -8,7 +8,6 @@
 import Foundation
 import RxSwift
 import RxCocoa
-import FirebaseAuth
 
 protocol AuthFormViewModelInput {
     func didTapEnterButton(userName: String, mail: String, password: String)
@@ -49,7 +48,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     private let eventRelay = PublishRelay<Event>()
     private let disposeBag = DisposeBag()
 
-    init(authType: AuthTypeProtocol = AuthType(), mode: Mode) {
+    init(authType: AuthTypeProtocol = ModelLocator.shared.authType, mode: Mode) {
         self.authType = authType
         self.mode = mode
         setupBinding()

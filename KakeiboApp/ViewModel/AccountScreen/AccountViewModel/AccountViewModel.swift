@@ -7,11 +7,8 @@
 
 import RxSwift
 import RxCocoa
-import FirebaseAuth
 
 protocol AccountViewModelInput {
-    func viewWillAppear()
-    func viewWillDisappear()
     func didTapAccountEnterButton()
     func didTapSignupButton()
     func didValueChangedPasscodeSwitch(value: Bool)
@@ -47,28 +44,54 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
 
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol
     private let authType: AuthTypeProtocol
+    private let disposeBag = DisposeBag()
     private let userNameLabelRelay = BehaviorRelay<String>(value: "")
     private let accountEnterButtonTitleRelay = BehaviorRelay<String>(value: "")
     private let isHiddenSignupButtonRelay = BehaviorRelay<Bool>(value: false)
     private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
     private let eventRelay = PublishRelay<Event>()
-    private var handle: AuthStateDidChangeListenerHandle?
-    private var currentUser: User?
+    private var userInfo: UserInfo?
 
     init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository(),
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.passcodeRepository = passcodeRepository
         self.authType = authType
+        setupBinding()
         isOnPasscodeRelay.accept(passcodeRepository.loadIsOnPasscode())
         setupPasscodeObserver()
     }
 
-//    private func setupBinding() {
-//        authType.currentUser
-//            .subscribe(onNext: { [weak self] currentUser in
-//
-//            })
-//    }
+    private func setupBinding() {
+        authType.userInfo
+            .subscribe(onNext: { [weak self] userInfo in
+                guard let strongSelf = self else { return }
+                strongSelf.userInfo = userInfo
+                strongSelf.setupUserInfo()
+            })
+            .disposed(by: disposeBag)
+    }
+
+    private func setupUserInfo() {
+        if userInfo == nil {
+            // ログアウト中
+            userNameLabelRelay.accept("ログアウト中")
+            accountEnterButtonTitleRelay.accept("ログイン")
+            isHiddenSignupButtonRelay.accept(true)
+        } else {
+            // ログイン中
+            if let userName = userInfo?.name {
+                // ユーザー名がある(メールとパスワードによるログイン中)
+                userNameLabelRelay.accept(userName)
+                accountEnterButtonTitleRelay.accept("ログアウト")
+                isHiddenSignupButtonRelay.accept(true)
+            } else {
+                // ユーザー名がない(匿名認証によるログイン中)
+                userNameLabelRelay.accept("未登録")
+                accountEnterButtonTitleRelay.accept("ログイン")
+                isHiddenSignupButtonRelay.accept(false)
+            }
+        }
+    }
 
     private func setupPasscodeObserver() {
         NotificationCenter.default.addObserver(
@@ -107,54 +130,16 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func viewWillAppear() {
-        // 認証状態をリッスン
-        // ログイン状態が変わるたびに呼ばれる
-        handle = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-            guard let strongSelf = self else { return }
-            if user == nil {
-                // ログアウト中
-                strongSelf.userNameLabelRelay.accept("ログアウト中")
-                strongSelf.accountEnterButtonTitleRelay.accept("ログイン")
-                strongSelf.isHiddenSignupButtonRelay.accept(true)
-            } else {
-                // ログイン中
-                if let userName = user?.displayName {
-                    // ユーザー名がある(メールとパスワードによるログイン中)
-                    strongSelf.userNameLabelRelay.accept(userName)
-                    strongSelf.accountEnterButtonTitleRelay.accept("ログアウト")
-                    strongSelf.isHiddenSignupButtonRelay.accept(true)
-                } else {
-                    // ユーザー名がない(匿名認証によるログイン中)
-                    strongSelf.userNameLabelRelay.accept("未登録")
-                    strongSelf.accountEnterButtonTitleRelay.accept("ログイン")
-                    strongSelf.isHiddenSignupButtonRelay.accept(false)
-                }
-            }
-        }
-    }
-
-    func viewWillDisappear() {
-        // リスナーをデタッチ
-        Auth.auth().removeStateDidChangeListener(handle!)
-    }
-
     func didTapAccountEnterButton() {
-        let firebaseAuth = Auth.auth()
-        if let currentUser = firebaseAuth.currentUser {
+        if let userInfo = userInfo {
             // ログイン中
-            if currentUser.displayName == nil {
+            if userInfo.name == nil {
                 // ユーザー名がない(匿名認証によるログイン中)
                 eventRelay.accept(.presentLogin)
             } else {
                 // ユーザー名がある(メールとパスワードによるログイン中)
                 // ログアウト処理
-                do {
-                    try firebaseAuth.signOut()
-                } catch let signOutError as NSError {
-                    print("Error signing out: %@", signOutError)
-                    print("signOutError: \(signOutError.localizedDescription)")
-                }
+                authType.signOut()
             }
         } else {
             // ログアウト中

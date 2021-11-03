@@ -10,9 +10,10 @@ import RxRelay
 
 protocol KakeiboModelProtocol {
     var dataObservable: Observable<[KakeiboData]> { get }
-    func addData(data: KakeiboData)
-    func deleateData(index: Int)
-    func updateData(index: Int, data: KakeiboData)
+    func loadData(userId: String?)
+    func addData(userId: String?, data: KakeiboData)
+    func deleateData(userId: String?, index: Int)
+    func updateData(userId: String?, index: Int, data: KakeiboData)
 }
 
 final class KakeiboModel: KakeiboModelProtocol {
@@ -22,37 +23,51 @@ final class KakeiboModel: KakeiboModelProtocol {
 
     init(repository: DataRepositoryProtocol = KakeiboDataRepository()) {
         self.repository = repository
-        repository.loadData { [weak self] kakeiboData in
-            guard let self = self else { return }
-            self.dataRelay.accept(kakeiboData)
-        }
     }
 
     var dataObservable: Observable<[KakeiboData]> {
         dataRelay.asObservable()
     }
 
-    func addData(data: KakeiboData) {
+    // TODO: userIdがない場合の処理(アラート)
+    func loadData(userId: String?) {
+        guard let userId = userId else {
+            dataRelay.accept([])
+            return
+        }
+        repository.loadData(userId: userId) { [weak self] kakeiboData in
+            guard let strongSelf = self else { return }
+            strongSelf.dataRelay.accept(kakeiboData)
+        }
+    }
+
+    // TODO: userIdがない場合の処理(アラート)
+    func addData(userId: String?, data: KakeiboData) {
+        guard let userId = userId else { return }
         var kakeiboData = dataRelay.value
         kakeiboData.append(data)
         dataRelay.accept(kakeiboData)
-        repository.addData(data: data)
+        repository.addData(userId: userId, data: data)
     }
 
-    func deleateData(index: Int) {
+    // TODO: userIdがない場合の処理(アラート)
+    func deleateData(userId: String?, index: Int) {
+        guard let userId = userId else { return }
         var kakeiboData = dataRelay.value
         let data = kakeiboData[index]
-        repository.deleteData(data: data)
+        repository.deleteData(userId: userId, data: data)
         kakeiboData.remove(at: index)
         dataRelay.accept(kakeiboData)
     }
 
-    func updateData(index: Int, data: KakeiboData) {
+    // TODO: userIdがない場合の処理(アラート)
+    func updateData(userId: String?, index: Int, data: KakeiboData) {
+        guard let userId = userId else { return }
         var kakeiboData = dataRelay.value
         let beforeData = kakeiboData[index]
         kakeiboData[index] = data
         dataRelay.accept(kakeiboData)
-        repository.deleteData(data: beforeData)
-        repository.addData(data: data)
+        repository.deleteData(userId: userId, data: beforeData)
+        repository.addData(userId: userId, data: data)
     }
 }

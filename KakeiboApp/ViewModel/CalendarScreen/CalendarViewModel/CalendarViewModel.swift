@@ -42,6 +42,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let model: KakeiboModelProtocol
     private let calendarDate: CalendarDateProtocol
     private let categoryModel: CategoryModelProtocol
+    private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let dayItemDataRelay = BehaviorRelay<[DayItemData]>(value: [])
     private let cellDateDataRelay = BehaviorRelay<[[CellDateKakeiboData]]>(value: [])
@@ -51,13 +52,16 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let balanceTextRelay = BehaviorRelay<String>(value: "")
     //    private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
     private let eventRelay = PublishRelay<Event>()
+    private var userInfo: UserInfo?
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         model: KakeiboModelProtocol = ModelLocator.shared.model,
-         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
+         model: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
+         categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
+         authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.calendarDate = calendarDate
         self.model = model
         self.categoryModel = categoryModel
+        self.authType = authType
         setupBinding()
     }
 
@@ -68,44 +72,60 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private var expenseCategoryArray: [CategoryData] = []
 
     private func setupBinding() {
+        authType.userInfo
+            .subscribe(onNext: { [weak self] userInfo in
+                guard let strongSelf = self else { return }
+                strongSelf.userInfo = userInfo
+                if let userInfo = userInfo {
+                    strongSelf.model.loadData(userId: userInfo.id)
+                } else {
+                    strongSelf.model.loadData(userId: nil)
+                }
+            })
+            .disposed(by: disposeBag)
 
         calendarDate.calendarDate
-            .subscribe(onNext: { calendarDateArray in
-                self.calendarDateArray = calendarDateArray
+            .subscribe(onNext: { [weak self] calendarDateArray in
+                guard let strongSelf = self else { return }
+                strongSelf.calendarDateArray = calendarDateArray
             })
             .disposed(by: disposeBag)
 
         calendarDate.monthDate
-            .subscribe(onNext: { monthDateArray in
-                self.monthDateArray = monthDateArray
-                self.acceptDayItemData()
-                self.acceptCellDateData()
-                self.acceptHeaderDateDataArray()
-                self.acceptTotalText()
+            .subscribe(onNext: { [weak self] monthDateArray in
+                guard let strongSelf = self else { return }
+                strongSelf.monthDateArray = monthDateArray
+                strongSelf.acceptDayItemData()
+                strongSelf.acceptCellDateData()
+                strongSelf.acceptHeaderDateDataArray()
+                strongSelf.acceptTotalText()
             })
             .disposed(by: disposeBag)
 
         model.dataObservable
-            .subscribe(onNext: { kakeiboDataArray in
-                self.kakeiboDataArray = kakeiboDataArray
-                self.acceptDayItemData()
-                self.acceptCellDateData()
-                self.acceptHeaderDateDataArray()
-                self.acceptTotalText()
+            .subscribe(onNext: { [weak self] kakeiboDataArray in
+                guard let strongSelf = self else { return }
+                strongSelf.kakeiboDataArray = kakeiboDataArray
+                strongSelf.acceptDayItemData()
+                strongSelf.acceptCellDateData()
+                strongSelf.acceptHeaderDateDataArray()
+                strongSelf.acceptTotalText()
             })
             .disposed(by: disposeBag)
 
         categoryModel.incomeCategoryData
-            .subscribe(onNext: { incomeCategoryArray in
-                self.incomeCategoryArray = incomeCategoryArray
-                self.acceptCellDateData()
+            .subscribe(onNext: { [weak self] incomeCategoryArray in
+                guard let strongSelf = self else { return }
+                strongSelf.incomeCategoryArray = incomeCategoryArray
+                strongSelf.acceptCellDateData()
             })
             .disposed(by: disposeBag)
 
         categoryModel.expenseCategoryData
-            .subscribe(onNext: { expenseCategoryArray in
-                self.expenseCategoryArray = expenseCategoryArray
-                self.acceptCellDateData()
+            .subscribe(onNext: { [weak self] expenseCategoryArray in
+                guard let strongSelf = self else { return }
+                strongSelf.expenseCategoryArray = expenseCategoryArray
+                strongSelf.acceptCellDateData()
             })
             .disposed(by: disposeBag)
     }
@@ -296,9 +316,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             categoryId: categoryId,
             balance: cellDateData.balance,
             memo: cellDateData.memo)
-        if let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == kakeiboData }) {
-            model.deleateData(index: firstIndex)
-        }
+        guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == kakeiboData }) else { return }
+        model.deleateData(userId: userInfo?.id, index: firstIndex)
+
     }
 }
 

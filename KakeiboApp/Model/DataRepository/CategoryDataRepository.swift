@@ -222,8 +222,6 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         }
     }
 
-
-
     private func createInitialExpenseCategory() -> [CategoryData] {
         let expenseCategory: [(String, UIColor)] = [
             ("飲食費",UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)),

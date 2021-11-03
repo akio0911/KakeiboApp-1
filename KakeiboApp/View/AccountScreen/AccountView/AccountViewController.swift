@@ -148,12 +148,6 @@ final class AccountViewController: UIViewController {
         appStackView.layer.masksToBounds = true
     }
 
-    // MARK: - viewWillAppear(_:)
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.inputs.viewWillAppear()
-    }
-
     // MARK: - viewDidLayoutSubviews()
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -164,11 +158,5 @@ final class AccountViewController: UIViewController {
         // アカウントアイコンをフィレット
         accountIconView.layer.cornerRadius = accountIconView.bounds.height / 2
         accountIconView.layer.masksToBounds = true
-    }
-
-    // MARK: - viewWillDisappear(_:)
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.inputs.viewWillDisappear()
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 final class ModelLocator {
     static let shared = ModelLocator()
-    let model = KakeiboModel()
+    let kakeiboModel = KakeiboModel()
     let calendarDate = CalendarDate()
     let categoryModel = CategoryModel()
     let authType = AuthType()

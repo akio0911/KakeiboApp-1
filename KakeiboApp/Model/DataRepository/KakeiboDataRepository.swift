@@ -5,14 +5,13 @@
 //  Created by 今村京平 on 2021/09/13.
 //
 
-import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 protocol DataRepositoryProtocol {
-    func loadData(data: @escaping ([KakeiboData]) -> Void)
-    func addData(data: KakeiboData)
-    func deleteData(data: KakeiboData)
+    func loadData(userId: String, data: @escaping ([KakeiboData]) -> Void)
+    func addData(userId: String, data: KakeiboData)
+    func deleteData(userId: String, data: KakeiboData)
 }
 
 final class KakeiboDataRepository: DataRepositoryProtocol {
@@ -27,8 +26,8 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
         db = Firestore.firestore()
     }
 
-    func loadData(data: @escaping ([KakeiboData]) -> Void) {
-        db.collection(firstCollectionName).document(Auth.auth().currentUser!.uid)
+    func loadData(userId: String, data: @escaping ([KakeiboData]) -> Void) {
+        db.collection(firstCollectionName).document(userId)
             .collection(secondCollectionName).getDocuments { querySnapshot, error in
                 if let error = error {
                     print("----Error getting documents: \(error)----")
@@ -52,9 +51,9 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
             }
     }
 
-    func addData(data: KakeiboData) {
+    func addData(userId: String, data: KakeiboData) {
         do {
-            let ref = db.collection(firstCollectionName).document(Auth.auth().currentUser!.uid)
+            let ref = db.collection(firstCollectionName).document(userId)
                 .collection(secondCollectionName).document(data.instantiateTime)
             try ref.setData(from: data)
             print("----dataが追加されました----")
@@ -63,8 +62,8 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
         }
     }
 
-    func deleteData(data: KakeiboData) {
-        db.collection(firstCollectionName).document(Auth.auth().currentUser!.uid)
+    func deleteData(userId: String, data: KakeiboData) {
+        db.collection(firstCollectionName).document(userId)
             .collection(secondCollectionName).document(data.instantiateTime).delete() { err in
                 if let err = err {
                     print("Error removing document: \(err)")
