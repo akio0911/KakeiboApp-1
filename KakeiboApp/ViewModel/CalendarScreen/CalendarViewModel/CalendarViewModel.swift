@@ -299,6 +299,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     /* tableViewのcellDateDataとheaderDateDataからKakeiboDataを作成しindexを求める。
      求めたindexをmodel.deleateDataの引数に入れてデータを削除する*/
     func didDeleateCell(index: IndexPath) {
+        guard let userInfo = userInfo else { return }
         let cellDateData = cellDateDataRelay.value[index.section][index.row]
         let headerDateData = headerDateDataRelay.value[index.section]
         // categoryData.idをcategoryIdに変換
@@ -315,8 +316,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             balance: cellDateData.balance,
             memo: cellDateData.memo)
         guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == kakeiboData }) else { return }
-        model.deleateData(userId: userInfo?.id, index: firstIndex)
-
+        model.deleateData(userId: userInfo.id, index: firstIndex)
     }
 }
 

@@ -37,6 +37,7 @@ protocol InputViewModelType {
 final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     enum Event {
         case dismiss
+        case presetDismissAlert(String, String)
     }
 
     enum Mode {
@@ -128,12 +129,18 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     func didTapSaveButton(data: KakeiboData) {
+        guard let userInfo = userInfo else {
+            let alertTitle = "アカウントが見つかりません。"
+            let message = "データの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
+            eventRelay.accept(.presetDismissAlert(alertTitle, message))
+            return
+        }
         switch mode {
         case .add:
-            model.addData(userId: userInfo?.id, data: data)
+            model.addData(userId: userInfo.id, data: data)
         case .edit(let beforeData):
             guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == beforeData }) else { return }
-            model.updateData(userId: userInfo?.id, index: firstIndex, data: data)
+            model.updateData(userId: userInfo.id, index: firstIndex, data: data)
         }
         eventRelay.accept(.dismiss)
     }

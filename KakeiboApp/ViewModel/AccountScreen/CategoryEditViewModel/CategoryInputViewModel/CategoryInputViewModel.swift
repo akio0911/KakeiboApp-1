@@ -38,6 +38,8 @@ protocol CategoryInputViewModelType {
 final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputViewModelOutput {
     enum Event {
         case dismiss
+        case presentDismissAlert(String, String)
+        case presentBecomeFirstResponderAlert(String, String)
     }
 
     enum Mode {
@@ -225,6 +227,18 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
     }
 
     func didTapSaveBarButton(name: String) {
+        guard let userInfo = userInfo else {
+            let alertTitle = "アカウントが見つかりません。"
+            let message = "カテゴリーの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
+            eventRelay.accept(.presentDismissAlert(alertTitle, message))
+            return
+        }
+        guard name != "" else {
+            let alertTitle = "カテゴリー名が未入力です。"
+            let message = "カテゴリー名を入力してください。"
+            eventRelay.accept(.presentBecomeFirstResponderAlert(alertTitle, message))
+            return
+        }
         switch mode {
         case .incomeCategoryAdd:
             let categoryData =
@@ -235,7 +249,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                 color: categoryColorRelay.value
             )
             incomeCategoryDataArray.append(categoryData)
-            categoryModel.setIncomeCategoryData(userId: userInfo?.id, data: categoryData)
+            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
         case .expenseCategoryAdd:
             let categoryData =
                 CategoryData(
@@ -245,7 +259,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                     color: categoryColorRelay.value
                 )
             expenseCategoryDataArray.append(categoryData)
-            categoryModel.setExpenseCategoryData(userId: userInfo?.id, data: categoryData)
+            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
         case .incomeCategoryEdit(let categoryData):
             let categoryData =
             CategoryData(
@@ -254,7 +268,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                 name: name,
                 color: categoryColorRelay.value
             )
-            categoryModel.setIncomeCategoryData(userId: userInfo?.id, data: categoryData)
+            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
         case .expenseCategoryEdit(let categoryData):
             let categoryData =
             CategoryData(
@@ -263,7 +277,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
                 name: name,
                 color: categoryColorRelay.value
             )
-            categoryModel.setExpenseCategoryData(userId: userInfo?.id, data: categoryData)
+            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
         }
         eventRelay.accept(.dismiss)
     }

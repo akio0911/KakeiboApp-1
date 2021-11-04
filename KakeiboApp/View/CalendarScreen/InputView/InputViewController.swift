@@ -74,10 +74,12 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 switch event {
                 case .dismiss:
-                    self.dismiss(animated: true, completion: nil)
+                    strongSelf.dismiss(animated: true, completion: nil)
+                case .presetDismissAlert(let alertTitle, let message):
+                    strongSelf.presentDismissAlert(alertTitle: alertTitle, message: message)
                 }
             })
             .disposed(by: disposeBag)
@@ -123,6 +125,16 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
                 strongSelf.expenseCategoryArray = expenseCategory
             })
             .disposed(by: disposeBag)
+    }
+
+    private func presentDismissAlert(alertTitle: String, message: String) {
+        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
     }
 
     private func setupMode() {
@@ -220,12 +232,12 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         case 0:
             balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
             categoryId = CategoryId.expense(
-                expenseCategoryArray.first(where: { $0.name == categoryTextField.text! })!.id
+                expenseCategoryArray.first(where: { $0.name == categoryTextField.text! })?.id ?? ""
             )
         case 1:
             balance = Balance.income(Int(balanceTextField.text!) ?? 0)
             categoryId = CategoryId.income(
-                incomeCategoryArray.first(where: { $0.name == categoryTextField.text! })!.id
+                incomeCategoryArray.first(where: { $0.name == categoryTextField.text! })?.id ?? ""
             )
         default:
             fatalError("想定していないsegmentIndex")
@@ -334,9 +346,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case incomeCategoryPickerView:
-            categoryTextField.text = incomeCategoryArray[row].name
+            categoryTextField.text = incomeCategoryArray[safe: row]?.name
         case expenseCategoryPickerView:
-            categoryTextField.text = expenseCategoryArray[row].name
+            categoryTextField.text = expenseCategoryArray[safe: row]?.name
         default:
             fatalError("想定していないpickerView")
         }

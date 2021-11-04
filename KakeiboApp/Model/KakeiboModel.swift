@@ -11,9 +11,9 @@ import RxRelay
 protocol KakeiboModelProtocol {
     var dataObservable: Observable<[KakeiboData]> { get }
     func loadData(userId: String?)
-    func addData(userId: String?, data: KakeiboData)
-    func deleateData(userId: String?, index: Int)
-    func updateData(userId: String?, index: Int, data: KakeiboData)
+    func addData(userId: String, data: KakeiboData)
+    func deleateData(userId: String, index: Int)
+    func updateData(userId: String, index: Int, data: KakeiboData)
 }
 
 final class KakeiboModel: KakeiboModelProtocol {
@@ -29,7 +29,6 @@ final class KakeiboModel: KakeiboModelProtocol {
         dataRelay.asObservable()
     }
 
-    // TODO: userIdがない場合の処理(アラート)
     func loadData(userId: String?) {
         guard let userId = userId else {
             dataRelay.accept([])
@@ -41,18 +40,14 @@ final class KakeiboModel: KakeiboModelProtocol {
         }
     }
 
-    // TODO: userIdがない場合の処理(アラート)
-    func addData(userId: String?, data: KakeiboData) {
-        guard let userId = userId else { return }
+    func addData(userId: String, data: KakeiboData) {
         var kakeiboData = dataRelay.value
         kakeiboData.append(data)
         dataRelay.accept(kakeiboData)
         repository.addData(userId: userId, data: data)
     }
 
-    // TODO: userIdがない場合の処理(アラート)
-    func deleateData(userId: String?, index: Int) {
-        guard let userId = userId else { return }
+    func deleateData(userId: String, index: Int) {
         var kakeiboData = dataRelay.value
         let data = kakeiboData[index]
         repository.deleteData(userId: userId, data: data)
@@ -60,9 +55,7 @@ final class KakeiboModel: KakeiboModelProtocol {
         dataRelay.accept(kakeiboData)
     }
 
-    // TODO: userIdがない場合の処理(アラート)
-    func updateData(userId: String?, index: Int, data: KakeiboData) {
-        guard let userId = userId else { return }
+    func updateData(userId: String, index: Int, data: KakeiboData) {
         var kakeiboData = dataRelay.value
         let beforeData = kakeiboData[index]
         kakeiboData[index] = data

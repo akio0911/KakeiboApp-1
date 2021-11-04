@@ -137,13 +137,44 @@ class CategoryInputViewController: UIViewController {
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 switch event {
                 case .dismiss:
-                    self.dismiss(animated: true, completion: nil)
+                    strongSelf.dismiss(animated: true, completion: nil)
+                case .presentDismissAlert(let alertTitle, let message):
+                    strongSelf.presentAlert(
+                        alertTitle: alertTitle,
+                        message: message,
+                        alertAction: strongSelf.dismissAction()
+                    )
+                case .presentBecomeFirstResponderAlert(let alertTitle, let message):
+                    strongSelf.presentAlert(
+                        alertTitle: alertTitle,
+                        message: message,
+                        alertAction: strongSelf.becomeFirstResponderAction())
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func presentAlert(alertTitle: String, message: String, alertAction: UIAlertAction) {
+        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+        alert.addAction(alertAction)
+        present(alert, animated: true, completion: nil)
+    }
+
+    private func dismissAction() -> UIAlertAction {
+        UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    private func becomeFirstResponderAction() -> UIAlertAction {
+        UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.categoryTextField.becomeFirstResponder()
+        }
     }
 
     // MARK: - @objc
@@ -152,8 +183,6 @@ class CategoryInputViewController: UIViewController {
     }
 
     @objc private func didTapSaveBarButton() {
-        // TODO: 後でアラート実装しなければならない
-        guard categoryTextField.text != "" else { return }
         viewModel.inputs.didTapSaveBarButton(name: categoryTextField.text!)
     }
 
