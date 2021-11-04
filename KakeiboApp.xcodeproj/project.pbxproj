@@ -233,7 +233,6 @@
 		47218A1526EEC64F006C10EF /* DataRepository */ = {
 			isa = PBXGroup;
 			children = (
-				472F6F532725996A00DB44E9 /* AuthType.swift */,
 				47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */,
 				472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */,
 				4773CBF9270BDE2400C52DE0 /* CategoryDataRepository.swift */,
@@ -691,6 +690,7 @@
 				47DC3EEE26E4700B00693980 /* ModelLocator.swift */,
 				47DC3EEA26E45AC400693980 /* KakeiboModel.swift */,
 				4781572F26612ED5005E1020 /* CalendarDate.swift */,
+				472F6F532725996A00DB44E9 /* AuthType.swift */,
 				47EBC575271BE8A500BA64F6 /* CategoryModel.swift */,
 				47DC3EEC26E45C3B00693980 /* KakeiboData.swift */,
 				4773CBF4270BD30600C52DE0 /* CategoryData.swift */,
@@ -853,6 +853,7 @@
 				478156FC266128C8005E1020 /* Resources */,
 				4711605D26833B970032C4A8 /* Run Script */,
 				88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */,
+				478734AA273392D10028A0AD /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -948,6 +949,25 @@
 			shellScript = "
 
 ";
+		};
+		478734AA273392D10028A0AD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1207,6 +1227,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HAMLUR4PQA;
 				INFOPLIST_FILE = KakeiboApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1229,6 +1250,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HAMLUR4PQA;
 				INFOPLIST_FILE = KakeiboApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

@@ -12,6 +12,8 @@ pod 'RxCocoa'
 pod 'Firebase/Firestore'
 pod 'FirebaseFirestoreSwift'
 pod 'Firebase/Auth'
+pod 'Firebase/Crashlytics'
+pod 'Firebase/Analytics'
 end
 
 post_install do |installer|

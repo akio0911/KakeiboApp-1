@@ -58,8 +58,7 @@ final class AuthType: AuthTypeProtocol {
 
             // アカウント作成に成功
             guard let authResult = authResult else { return }
-            let userInfo = UserInfo(user: authResult.user)
-            strongSelf.userInfoRelay.accept(userInfo)
+
             // ユーザー名の設定
             let changeRequest = authResult.user.createProfileChangeRequest()
             changeRequest.displayName = userName
@@ -79,6 +78,8 @@ final class AuthType: AuthTypeProtocol {
                     } else {
                         // 確認メール送信成功
                         strongSelf.authSuccessRelay.accept(())
+                        let userInfo = UserInfo(user: authResult.user)
+                        strongSelf.userInfoRelay.accept(userInfo)
                     }
                 }
             }
