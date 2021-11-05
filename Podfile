@@ -14,6 +14,7 @@ pod 'FirebaseFirestoreSwift'
 pod 'Firebase/Auth'
 pod 'Firebase/Crashlytics'
 pod 'Firebase/Analytics'
+pod 'Firebase/Messaging'
 end
 
 post_install do |installer|
