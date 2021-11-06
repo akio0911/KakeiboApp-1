@@ -18,6 +18,7 @@ final class AccountViewController: UIViewController {
     @IBOutlet private weak var howToUseButton: BackgroundHighlightedButton!
     @IBOutlet private weak var shareButton: BackgroundHighlightedButton!
     @IBOutlet private weak var reviewButton: BackgroundHighlightedButton!
+    @IBOutlet private weak var accountStackView: UIStackView!
     @IBOutlet private weak var accountIconView: UIView!
     @IBOutlet private weak var userNameLabel: UILabel!
     @IBOutlet private weak var accountEnterButton: UIButton!
@@ -40,6 +41,7 @@ final class AccountViewController: UIViewController {
         super.viewDidLoad()
         setupBinding()
         navigationItem.title = "アカウント"
+        setupAccountStackViewSpace()
         setupCornerRadius()
     }
 
@@ -132,6 +134,11 @@ final class AccountViewController: UIViewController {
         let navigationController = UINavigationController(rootViewController: authFormViewController)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
+    }
+
+    private func setupAccountStackViewSpace() {
+        accountStackView.setCustomSpacing(8, after: accountIconView)
+        accountStackView.setCustomSpacing(20, after: userNameLabel)
     }
 
     private func setupCornerRadius() {
