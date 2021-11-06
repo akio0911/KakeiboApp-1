@@ -12,8 +12,7 @@ import RxRelay
 protocol CategoryModelProtocol {
     var incomeCategoryData: Observable<[CategoryData]> { get }
     var expenseCategoryData: Observable<[CategoryData]> { get }
-    func loadIncomeCategoryDataArray(userId: String?)
-    func loadExpenseCategoryDataArray(userId: String?)
+    func loadCategoryData(userId: String?)
     func setIncomeCategoryData(userId: String, data: CategoryData)
     func setExpenseCategoryData(userId: String, data: CategoryData)
     func deleteIncomeCategoryData(userId: String, data: CategoryData)
@@ -40,21 +39,15 @@ final class CategoryModel: CategoryModelProtocol {
         expenseCategoryDataRelay.asObservable()
     }
 
-    func loadIncomeCategoryDataArray(userId: String?) {
+    func loadCategoryData(userId: String?) {
         guard let userId = userId else {
             incomeCategoryDataRelay.accept([])
+            expenseCategoryDataRelay.accept([])
             return
         }
         repository.loadIncomeCategoryData(userId: userId) { [weak self] categoryDataArray in
             guard let strongSelf = self else { return }
             strongSelf.incomeCategoryDataRelay.accept(categoryDataArray)
-        }
-    }
-
-    func loadExpenseCategoryDataArray(userId: String?) {
-        guard let userId = userId else {
-            expenseCategoryDataRelay.accept([])
-            return
         }
         repository.loadExpenseCategoryData(userId: userId) { [weak self] categoryDataArray in
             guard let strongSelf = self else { return }

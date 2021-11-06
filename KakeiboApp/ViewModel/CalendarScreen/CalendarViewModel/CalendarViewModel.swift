@@ -77,8 +77,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 guard let strongSelf = self else { return }
                 strongSelf.userInfo = userInfo
                 strongSelf.model.loadData(userId: userInfo?.id)
-                strongSelf.categoryModel.loadIncomeCategoryDataArray(userId: userInfo?.id)
-                strongSelf.categoryModel.loadExpenseCategoryDataArray(userId: userInfo?.id)
+                strongSelf.categoryModel.loadCategoryData(userId: userInfo?.id)
             })
             .disposed(by: disposeBag)
 
