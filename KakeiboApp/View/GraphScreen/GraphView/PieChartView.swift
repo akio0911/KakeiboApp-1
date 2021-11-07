@@ -9,7 +9,7 @@ import UIKit
 
 final class PieChartView: UIView, CAAnimationDelegate {
 
-    struct Pie {
+    private struct Pie {
         let layer: CAShapeLayer
         let duration: CFTimeInterval
         let label: UILabel? // 項目の割合が小さい場合はラベルを表示しないためオプショナル
@@ -93,6 +93,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         // 初期化の処理
         count = 0
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+//        subviews.forEach { $0.removeFromSuperview() }
         pies.removeAll()
 
         // データが空の時の処理
@@ -133,6 +134,10 @@ final class PieChartView: UIView, CAAnimationDelegate {
         // 最初のラベルを反映
         if let label = pies[count].label {
             addSubview(label)
+            // アニメーションで表示
+            UIView.animate(withDuration: 0.2) {
+                label.alpha = 1
+            }
         }
     }
 
@@ -225,22 +230,20 @@ final class PieChartView: UIView, CAAnimationDelegate {
             // アニメーションを実行
             addCABasicAnimation(layer: pies[count].layer, duration: pies[count].duration)
             layer.addSublayer(pies[count].layer)
+            // ラベルを反映
+            if let label = pies[count].label {
+                addSubview(label)
+                // アニメーションで表示
+                UIView.animate(withDuration: 0.2) {
+                    label.alpha = 1
+                }
+            }
         }
 
         // 全ての実行を終えた時
         if count == pies.count {
             // グラフ中央のviewを反映
             addCenterView(text: totalBalanceText, duration: 0.2)
-            // ラベルを反映
-            pies.forEach {
-                if let label = $0.label {
-                    addSubview(label)
-                    // アニメーションで表示
-                    UIView.animate(withDuration: 0.2) {
-                        label.alpha = 1
-                    }
-                }
-            }
         }
     }
 }
