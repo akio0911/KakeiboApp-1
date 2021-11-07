@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, SegmentedControlViewDelegate {
+final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, BalanceSegmentedControlViewDelegate {
 
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var dateView: UIView!
@@ -26,7 +26,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     private var datePicker: UIDatePicker!
     private var expenseCategoryPickerView: UIPickerView!
     private var incomeCategoryPickerView: UIPickerView!
-    private var segmentedControlView: SegmentedControlView!
+    private var segmentedControlView: BalanceSegmentedControlView!
     private let viewModel: InputViewModelType
     private let disposeBag = DisposeBag()
     private var selectedSegmentIndex: Int = 0
@@ -189,7 +189,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     }
 
     private func setupSegmentedControlView() {
-        segmentedControlView = SegmentedControlView()
+        segmentedControlView = BalanceSegmentedControlView()
         segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
         segmentedControlView.delegate = self
         view.addSubview(segmentedControlView)
@@ -374,7 +374,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         editingTextField = nil
     }
 
-    // MARK: - SegmentedControlViewDelegate
+    // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         self.selectedSegmentIndex = selectedSegmentIndex
         if selectedSegmentIndex == 0 {

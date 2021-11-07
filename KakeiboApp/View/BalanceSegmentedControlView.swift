@@ -1,5 +1,5 @@
 //
-//  SegmentedControlView.swift
+//  BalanceSegmentedControlView.swift
 //  KakeiboApp
 //
 //  Created by 今村京平 on 2021/09/15.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol SegmentedControlViewDelegate: AnyObject {
+protocol BalanceSegmentedControlViewDelegate: AnyObject {
     func segmentedControlValueChanged(selectedSegmentIndex: Int)
 }
 
-final class SegmentedControlView: UIView {
+final class BalanceSegmentedControlView: UIView {
 
-    weak var delegate: SegmentedControlViewDelegate?
+    weak var delegate: BalanceSegmentedControlViewDelegate?
 
     // MARK: - init(frame:)
     override init(frame: CGRect) {

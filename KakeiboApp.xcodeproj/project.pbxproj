@@ -84,7 +84,7 @@
 		47CC9A7326F76BC700126467 /* CategoryTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A7226F76BC700126467 /* CategoryTableViewHeaderView.swift */; };
 		47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC9A7426F76BEF00126467 /* CategoryTableViewHeaderView.xib */; };
 		47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065626F185C900CDA849 /* ExtensionUIImage.swift */; };
-		47D5065A26F1863800CDA849 /* SegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065926F1863800CDA849 /* SegmentedControlView.swift */; };
+		47D5065A26F1863800CDA849 /* BalanceSegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */; };
 		47DC3EDE26E34E3800693980 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EDD26E34E3800693980 /* CalendarViewController.xib */; };
 		47DC3EE026E34E6A00693980 /* InputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EDF26E34E6A00693980 /* InputViewController.xib */; };
 		47DC3EE226E34E8C00693980 /* GraphViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EE126E34E8C00693980 /* GraphViewController.xib */; };
@@ -187,7 +187,7 @@
 		47CC9A7226F76BC700126467 /* CategoryTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewHeaderView.swift; sourceTree = "<group>"; };
 		47CC9A7426F76BEF00126467 /* CategoryTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewHeaderView.xib; sourceTree = "<group>"; };
 		47D5065626F185C900CDA849 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
-		47D5065926F1863800CDA849 /* SegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlView.swift; sourceTree = "<group>"; };
+		47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceSegmentedControlView.swift; sourceTree = "<group>"; };
 		47DC3EDD26E34E3800693980 /* CalendarViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
 		47DC3EDF26E34E6A00693980 /* InputViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputViewController.xib; sourceTree = "<group>"; };
 		47DC3EE126E34E8C00693980 /* GraphViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphViewController.xib; sourceTree = "<group>"; };
@@ -671,7 +671,7 @@
 				472EFDCE270453D700A80640 /* CalendarScreen */,
 				472EFDCF270453F600A80640 /* GraphScreen */,
 				472EFDD02704542400A80640 /* AccountScreen */,
-				47D5065926F1863800CDA849 /* SegmentedControlView.swift */,
+				47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1032,7 +1032,7 @@
 				47CC9A6D26F759E600126467 /* CategoryTableViewDataSource.swift in Sources */,
 				477C3F2926E5E60600FFCB64 /* CalendarColorName.swift in Sources */,
 				47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */,
-				47D5065A26F1863800CDA849 /* SegmentedControlView.swift in Sources */,
+				47D5065A26F1863800CDA849 /* BalanceSegmentedControlView.swift in Sources */,
 				47DC3EF626E4780100693980 /* CalendarTableViewData.swift in Sources */,
 				472EFDD4270456F400A80640 /* PasscodeViewController.swift in Sources */,
 				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,

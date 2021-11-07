@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class GraphViewController: UIViewController, UITableViewDelegate, SegmentedControlViewDelegate {
+final class GraphViewController: UIViewController, UITableViewDelegate, BalanceSegmentedControlViewDelegate {
 
     @IBOutlet private weak var graphNavigationBar: UINavigationBar!
     @IBOutlet private weak var graphNavigationItem: UINavigationItem!
@@ -23,7 +23,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     private let disposeBag = DisposeBag()
     private let graphTableViewDataSource = GraphTableViewDataSource()
     private var pieChartData = [GraphData]()
-    private var segmentedControlView: SegmentedControlView!
+    private var segmentedControlView: BalanceSegmentedControlView!
 
     init(viewModel: GraphViewModelType = GraphViewModel()) {
         self.viewModel = viewModel
@@ -105,7 +105,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
     }
 
     private func setupSegmentedControlView() {
-        segmentedControlView = SegmentedControlView()
+        segmentedControlView = BalanceSegmentedControlView()
         segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
         segmentedControlView.delegate = self
         graphView.addSubview(segmentedControlView)
@@ -139,7 +139,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, Segmente
         viewModel.inputs.didSelectRowAt(index: indexPath)
     }
 
-    // MARK: - SegmentedControlViewDelegate
+    // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
     }

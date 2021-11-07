@@ -9,11 +9,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate, UITableViewDelegate, CategoryEditTableViewDataSourceDelegate {
+class CategoryEditViewController: UIViewController, BalanceSegmentedControlViewDelegate, UITableViewDelegate, CategoryEditTableViewDataSourceDelegate {
 
     @IBOutlet private weak var categoryTableView: UITableView!
 
-    private var segmentedControlView: SegmentedControlView!
+    private var segmentedControlView: BalanceSegmentedControlView!
     private let viewModel: CategoryEditViewModelType
     private let disposeBag = DisposeBag()
     private let categoryEditTableViewDataSource =
@@ -40,7 +40,7 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
     }
 
     private func setupSegmentedControlView() {
-        segmentedControlView = SegmentedControlView()
+        segmentedControlView = BalanceSegmentedControlView()
         segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
         segmentedControlView.delegate = self
         view.addSubview(segmentedControlView)
@@ -108,7 +108,7 @@ class CategoryEditViewController: UIViewController, SegmentedControlViewDelegate
         viewModel.inputs.didSelectRowAt(index: indexPath)
     }
 
-    // MARK: - SegmentedControlViewDelegate
+    // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
     }
