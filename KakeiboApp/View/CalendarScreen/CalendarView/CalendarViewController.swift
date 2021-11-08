@@ -43,7 +43,7 @@ final class CalendarViewController: UIViewController,
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - viewDidLoad
+    // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         addActivityIndicatorView()
@@ -59,9 +59,12 @@ final class CalendarViewController: UIViewController,
     // ActivityIndicatorViewを反映
     private func addActivityIndicatorView() {
         activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
-        activityIndicatorView.center = view.center
+        activityIndicatorView.backgroundColor = .systemGray5
+        activityIndicatorView.layer.cornerRadius = 10
+        activityIndicatorView.layer.masksToBounds = true
         view.addSubview(activityIndicatorView)
     }
 
@@ -159,16 +162,16 @@ final class CalendarViewController: UIViewController,
             .drive(balanceLabel.rx.text)
             .disposed(by: disposeBag)
 
-//        viewModel.outputs.isAnimatedIndicator
-//            .drive(onNext: { [weak self] isAnimated in
-//                guard let self = self else { return }
-//                if isAnimated {
-//                    self.activityIndicatorView.startAnimating()
-//                } else {
-//                    self.activityIndicatorView.stopAnimating()
-//                }
-//            })
-//            .disposed(by: disposeBag)
+        viewModel.outputs.isAnimatedIndicator
+            .drive(onNext: { [weak self] isAnimated in
+                guard let self = self else { return }
+                if isAnimated {
+                    self.activityIndicatorView.startAnimating()
+                } else {
+                    self.activityIndicatorView.stopAnimating()
+                }
+            })
+            .disposed(by: disposeBag)
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
@@ -222,6 +225,12 @@ final class CalendarViewController: UIViewController,
             calendarTableView.sectionHeaderTopPadding = 0
         }
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
+    }
+
+    // MARK: - viewDidLayoutSubviews()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        activityIndicatorView.center = view.center
     }
 
     // MARK: - @objc(BarButtonItem)

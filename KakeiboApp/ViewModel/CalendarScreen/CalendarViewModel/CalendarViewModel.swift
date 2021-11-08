@@ -24,7 +24,7 @@ protocol CalendarViewModelOutput {
     var incomeText: Driver<String> { get }
     var expenseText: Driver<String> { get }
     var balanceTxet: Driver<String> { get }
-    //    var isAnimatedIndicator: Driver<Bool> { get }
+    var isAnimatedIndicator: Driver<Bool> { get }
     var event: Driver<CalendarViewModel.Event> { get }
 }
 
@@ -50,7 +50,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let incomeTextRelay = BehaviorRelay<String>(value: "")
     private let expenseTextRelay = BehaviorRelay<String>(value: "")
     private let balanceTextRelay = BehaviorRelay<String>(value: "")
-    //    private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
+    private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
     private let eventRelay = PublishRelay<Event>()
     private var userInfo: UserInfo?
 
@@ -76,6 +76,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .subscribe(onNext: { [weak self] userInfo in
                 guard let strongSelf = self else { return }
                 strongSelf.userInfo = userInfo
+                strongSelf.isAnimatedIndicatorRelay.accept(true)
                 strongSelf.kakeiboModel.loadData(userId: userInfo?.id)
                 strongSelf.categoryModel.loadCategoryData(userId: userInfo?.id)
             })
@@ -100,6 +101,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .disposed(by: disposeBag)
 
         kakeiboModel.dataObservable
+            .skip(1)
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let strongSelf = self else { return }
                 strongSelf.kakeiboDataArray = kakeiboDataArray
@@ -107,6 +109,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 strongSelf.acceptCellDateData()
                 strongSelf.acceptHeaderDateDataArray()
                 strongSelf.acceptTotalText()
+                if strongSelf.isAnimatedIndicatorRelay.value {
+                    strongSelf.isAnimatedIndicatorRelay.accept(false)
+                }
             })
             .disposed(by: disposeBag)
 
@@ -250,9 +255,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         balanceTextRelay.asDriver()
     }
 
-    //    var isAnimatedIndicator: Driver<Bool> {
-    //        isAnimatedIndicatorRelay.asDriver()
-    //    }
+    var isAnimatedIndicator: Driver<Bool> {
+        isAnimatedIndicatorRelay.asDriver()
+    }
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
