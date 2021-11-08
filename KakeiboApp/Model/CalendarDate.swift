@@ -46,7 +46,6 @@ class CalendarDate: CalendarDateProtocol {
         navigationTitleRelay.asObservable()
     }
 
-    // TODO: firstDayに依存
     private func acceptDateArray() {
         // 月の最初の曜日
         let firstWeekday = carendar.component(.weekday, from: firstDay)
@@ -73,7 +72,6 @@ class CalendarDate: CalendarDateProtocol {
         monthDateRelay.accept(monthDateArray)
     }
 
-    // TODO: firstDayに依存
     private func acceptNavigationTitle() {
         let navigationTitle = DateUtility.stringFromDate(date: firstDay, format: "YYYY年MM月")
         navigationTitleRelay.accept(navigationTitle)

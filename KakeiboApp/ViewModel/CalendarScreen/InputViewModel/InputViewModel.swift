@@ -46,7 +46,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     let mode: Mode
-    private let model: KakeiboModelProtocol
+    private let kakeiboModel: KakeiboModelProtocol
     private let categoryModel: CategoryModelProtocol
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
@@ -61,11 +61,11 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let expenseCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
     private var userInfo: UserInfo?
 
-    init(model: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
+    init(kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
          mode: Mode,
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
-        self.model = model
+        self.kakeiboModel = kakeiboModel
         self.categoryModel = categoryModel
         self.mode = mode
         self.authType = authType
@@ -80,7 +80,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             })
             .disposed(by: disposeBag)
 
-        model.dataObservable
+        kakeiboModel.dataObservable
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let strongSelf = self else { return }
                 strongSelf.kakeiboDataArray = kakeiboDataArray
@@ -137,10 +137,10 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         }
         switch mode {
         case .add:
-            model.addData(userId: userInfo.id, data: data)
+            kakeiboModel.addData(userId: userInfo.id, data: data)
         case .edit(let beforeData):
             guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == beforeData }) else { return }
-            model.updateData(userId: userInfo.id, index: firstIndex, data: data)
+            kakeiboModel.updateData(userId: userInfo.id, index: firstIndex, data: data)
         }
         eventRelay.accept(.dismiss)
     }

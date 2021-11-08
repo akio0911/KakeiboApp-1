@@ -33,7 +33,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     private let calendarDate: CalendarDateProtocol
-    private let model: KakeiboModelProtocol
+    private let kakeiboModel: KakeiboModelProtocol
     private let categoryModel: CategoryModelProtocol
     private var balanceSegmentIndex: Int = 0
     private let disposeBag = DisposeBag()
@@ -41,10 +41,10 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let eventRelay = PublishRelay<Event>()
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         model: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
+         kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel) {
         self.calendarDate = calendarDate
-        self.model = model
+        self.kakeiboModel = kakeiboModel
         self.categoryModel = categoryModel
         setupBinding()
     }
@@ -61,7 +61,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
             })
             .disposed(by: disposeBag)
 
-        model.dataObservable
+        kakeiboModel.dataObservable
             .subscribe(onNext: { kakeiboDataArray in
                 self.kakeiboDataArray = kakeiboDataArray
                 self.acceptGraphData()

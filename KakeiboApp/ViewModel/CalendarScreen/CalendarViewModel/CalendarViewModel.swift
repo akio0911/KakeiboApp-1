@@ -39,7 +39,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         case presentEdit(KakeiboData)
     }
 
-    private let model: KakeiboModelProtocol
+    private let kakeiboModel: KakeiboModelProtocol
     private let calendarDate: CalendarDateProtocol
     private let categoryModel: CategoryModelProtocol
     private let authType: AuthTypeProtocol
@@ -55,11 +55,11 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private var userInfo: UserInfo?
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         model: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
+         kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.calendarDate = calendarDate
-        self.model = model
+        self.kakeiboModel = kakeiboModel
         self.categoryModel = categoryModel
         self.authType = authType
         setupBinding()
@@ -76,7 +76,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .subscribe(onNext: { [weak self] userInfo in
                 guard let strongSelf = self else { return }
                 strongSelf.userInfo = userInfo
-                strongSelf.model.loadData(userId: userInfo?.id)
+                strongSelf.kakeiboModel.loadData(userId: userInfo?.id)
                 strongSelf.categoryModel.loadCategoryData(userId: userInfo?.id)
             })
             .disposed(by: disposeBag)
@@ -99,7 +99,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             })
             .disposed(by: disposeBag)
 
-        model.dataObservable
+        kakeiboModel.dataObservable
             .subscribe(onNext: { [weak self] kakeiboDataArray in
                 guard let strongSelf = self else { return }
                 strongSelf.kakeiboDataArray = kakeiboDataArray
@@ -315,7 +315,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             balance: cellDateData.balance,
             memo: cellDateData.memo)
         guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == kakeiboData }) else { return }
-        model.deleateData(userId: userInfo.id, index: firstIndex)
+        kakeiboModel.deleateData(userId: userInfo.id, index: firstIndex)
     }
 }
 

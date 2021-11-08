@@ -28,7 +28,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private var monthDataArray: [Date] = [] // 月の日付
     private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private let calendarDate: CalendarDateProtocol
-    private let model: KakeiboModelProtocol
+    private let kakeiboModel: KakeiboModelProtocol
     private let disposeBag = DisposeBag()
     private let cellDateDataRelay =  BehaviorRelay<[[CellDateCategoryData]]>(value: [])
     private let headerDateDataRelay =
@@ -37,10 +37,10 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
 
     init(categoryData: CategoryData,
          calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         model: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel) {
+         kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel) {
         self.categoryData = categoryData
         self.calendarDate = calendarDate
-        self.model = model
+        self.kakeiboModel = kakeiboModel
         acceptNavigationTitle()
         setupBinding()
     }
@@ -58,7 +58,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
             })
             .disposed(by: disposeBag)
 
-        model.dataObservable
+        kakeiboModel.dataObservable
             .subscribe(onNext: { [weak self] dateArray in
                 guard let self = self else { return }
                 self.kakeiboDataArray = dateArray
