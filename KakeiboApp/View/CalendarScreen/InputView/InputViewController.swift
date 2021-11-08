@@ -171,6 +171,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
             datePicker.preferredDatePickerStyle = .wheels // ホイールピッカーとして表示
         }
         datePicker.calendar = Calendar(identifier: .gregorian)
+        datePicker.locale = .current
         datePicker.addTarget(self,
                              action: #selector(datePickerValueChange(_:)),
                              for: .valueChanged)
@@ -186,7 +187,26 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
         incomeCategoryPickerView = UIPickerView()
         incomeCategoryPickerView.delegate = self
         incomeCategoryPickerView.dataSource = self
+
+        // キーボードにツールバーを設定
+        dateTextField.inputAccessoryView = toolBar
+        categoryTextField.inputAccessoryView = toolBar
+        balanceTextField.inputAccessoryView = toolBar
+        memoTextField.inputAccessoryView = toolBar
     }
+
+    private let toolBar: UIToolbar = {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(didTapKeyboardDoneButton)
+        )
+        toolbar.setItems([spacer, doneButton], animated: true)
+        return toolbar
+    }()
 
     private func setupSegmentedControlView() {
         segmentedControlView = BalanceSegmentedControlView()
@@ -282,9 +302,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         NSLayoutConstraint.activate([
-            datePicker.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            expenseCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
-            incomeCategoryPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height / 3),
             segmentedControlView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
             segmentedControlView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
             segmentedControlView.topAnchor.constraint(equalTo: dateView.bottomAnchor),
@@ -324,6 +341,10 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     @objc func keyboardWillHide(_ notification: Notification) {
         baseScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+
+    @objc func didTapKeyboardDoneButton() {
+        view.endEditing(true)
     }
 
     // MARK: - UIPickerViewDataSource

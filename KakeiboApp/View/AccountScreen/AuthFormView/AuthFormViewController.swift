@@ -60,8 +60,22 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         ]
         authFormTextFields.forEach {
             $0?.delegate = self
+            $0?.inputAccessoryView = toolBar
         }
     }
+
+    private let toolBar: UIToolbar = {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(didTapKeyboardDoneButton)
+        )
+        toolbar.setItems([spacer, doneButton], animated: true)
+        return toolbar
+    }()
 
     private func setupKeyboardNotification() {
         let notification = NotificationCenter.default
@@ -297,6 +311,10 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     @objc private func keyboardDidHide(_ notification: Notification) {
         // スクロールを戻す
         baseScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+    }
+
+    @objc func didTapKeyboardDoneButton() {
+        view.endEditing(true)
     }
 
     // MARK: - UITextFieldDelegate

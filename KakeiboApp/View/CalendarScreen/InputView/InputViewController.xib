@@ -331,7 +331,6 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="MOn-VR-kUK" firstAttribute="leading" secondItem="5mu-OS-oAK" secondAttribute="leading" id="8eZ-MW-xTK"/>
                                 <constraint firstItem="cqj-Vc-Ssg" firstAttribute="top" secondItem="LfG-Tk-uZh" secondAttribute="bottom" constant="50" id="9U9-6g-1Qm"/>
@@ -352,6 +351,7 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="5mu-OS-oAK" firstAttribute="width" secondItem="bit-Iz-aVU" secondAttribute="width" id="9Hf-3A-77x"/>
                         <constraint firstItem="5mu-OS-oAK" firstAttribute="bottom" secondItem="dpb-AE-LoG" secondAttribute="bottom" id="AV3-GZ-zsJ"/>
@@ -381,9 +381,6 @@
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <systemColor name="separatorColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray6Color">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
