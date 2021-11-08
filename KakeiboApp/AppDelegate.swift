@@ -50,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.// swiftlint:disable:next force_cast
     }
 
+    // バックグランドPUSH通知を受信した場合に呼ばれるメソッド
     // トピック メッセージを受信して処理する
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
@@ -65,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         print(userInfo)
     }
 
+    // バックグランドPUSH通知を受信した場合に呼ばれるメソッド
     // トピック メッセージを受信して処理する
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
@@ -99,6 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     // MARK: - UNUserNotificationCenterDelegate
+    // アプリが起動している時にPUSH通知を受信した場合に呼ばれるメソッド
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions)
@@ -115,6 +118,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         completionHandler([])
     }
 
+    // アプリが起動していない時にPUSH通知を受信した場合に呼ばれるメソッド
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
