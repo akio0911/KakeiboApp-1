@@ -13,9 +13,9 @@ protocol CategoryEditTableViewDataSourceDelegate: AnyObject {
     func didDeleteCell(index: IndexPath)
 }
 
-final class CategoryEditTableViewDataSource:
-    NSObject, UITableViewDataSource, RxTableViewDataSourceType {
-
+final class CategoryEditTableViewDataSource: NSObject,
+                                             UITableViewDataSource,
+                                             RxTableViewDataSourceType {
     typealias Element = [CategoryData]
     private var items: Element = []
 
@@ -29,7 +29,7 @@ final class CategoryEditTableViewDataSource:
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CategoryEditTableViewCell.identifier
-        ) as! CategoryEditTableViewCell
+        ) as! CategoryEditTableViewCell // swiftlint:disable:this force_cast
         cell.configure(data: items[indexPath.row])
         return cell
     }
@@ -38,7 +38,9 @@ final class CategoryEditTableViewDataSource:
         return true // cellの変更を許可する
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             delegate?.didDeleteCell(index: indexPath)
         }

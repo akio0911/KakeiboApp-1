@@ -13,7 +13,7 @@ struct CategoryData: Equatable {
         lhs.id == rhs.id
     }
 
-    let id: String
+    let id: String // swiftlint:disable:this identifier_name
     var displayOrder: Int
     var name: String
     var color: UIColor
@@ -21,7 +21,7 @@ struct CategoryData: Equatable {
 
 extension CategoryData: Codable {
     enum CodingKeys: String, CodingKey {
-        case id
+        case id // swiftlint:disable:this identifier_name
         case displayOrder
         case name
         case color
@@ -33,7 +33,15 @@ extension CategoryData: Codable {
         displayOrder = try container.decode(Int.self, forKey: .displayOrder)
         name = try container.decode(String.self, forKey: .name)
         let colorData = try container.decode(Data.self, forKey: .color)
-        color = try! NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData)!
+        guard let color =
+                try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: colorData) else {
+                    throw DecodingError.dataCorruptedError(
+                        forKey: .color,
+                        in: container,
+                        debugDescription: "Invalid color"
+                    )
+                }
+        self.color = color
     }
 
     func encode(to encoder: Encoder) throws {
@@ -41,8 +49,9 @@ extension CategoryData: Codable {
         try container.encode(id, forKey: .id)
         try container.encode(displayOrder, forKey: .displayOrder)
         try container.encode(name, forKey: .name)
-        let colorData = try! NSKeyedArchiver.archivedData(
-            withRootObject: color, requiringSecureCoding: UIColor.supportsSecureCoding)
+        let colorData = try NSKeyedArchiver.archivedData(
+            withRootObject: color, requiringSecureCoding: UIColor.supportsSecureCoding
+        )
         try container.encode(colorData, forKey: .color)
     }
 }

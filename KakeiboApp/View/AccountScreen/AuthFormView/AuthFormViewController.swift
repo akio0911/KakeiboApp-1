@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 class AuthFormViewController: UIViewController, UITextFieldDelegate {
-
     @IBOutlet private weak var authFormImageView: UIImageView!
     @IBOutlet private weak var userNameStackView: UIStackView!
     @IBOutlet private weak var mailStackView: UIStackView!
@@ -35,11 +34,11 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,7 +165,7 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
-        activityIndicatorView.backgroundColor = .systemGray5
+        activityIndicatorView.backgroundColor = .systemGray5.withAlphaComponent(0.6)
         activityIndicatorView.layer.cornerRadius = 10
         activityIndicatorView.layer.masksToBounds = true
         view.addSubview(activityIndicatorView)
@@ -188,11 +187,11 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
                 if strongSelf.passwordTextField.isSecureTextEntry {
                     // 入力内容が非表示
                     strongSelf.passwordSecureTextButton.setImage(
-                        UIImage(systemName: "eye"),for: .normal)
+                        UIImage(systemName: "eye"), for: .normal)
                 } else {
                     // 入力内容が表示
                     strongSelf.passwordSecureTextButton.setImage(
-                        UIImage(systemName: "eye.slash"),for: .normal)
+                        UIImage(systemName: "eye.slash"), for: .normal)
                 }
             })
             .disposed(by: disposeBag)
@@ -296,6 +295,7 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         guard let editingTextField = editingTextField else { return }
         // キーボードのframeを調べる
         let userInfo = (notification as NSNotification).userInfo!
+        // swiftlint:disable:next force_cast
         let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         // テキストフィールドのframeをview座標で取得
         let textFieldFrame = view.convert(editingTextField.frame, from: editingTextField.superview)

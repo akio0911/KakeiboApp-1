@@ -22,7 +22,6 @@ protocol CategoryModelProtocol {
 }
 
 final class CategoryModel: CategoryModelProtocol {
-
     private let repository: CategoryDataRepositoryProtocol
     private let incomeCategoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let expenseCategoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
@@ -80,7 +79,7 @@ final class CategoryModel: CategoryModelProtocol {
             strongSelf.expenseCategoryDataRelay.accept(categoryDataArray)
         }
     }
-    
+
     func deleteIncomeCategoryData(userId: String, data: CategoryData) {
         repository.deleteIncomeCategoryData(userId: userId, data: data)
     }

@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 
 struct UserInfo {
-    let id: String
+    let id: String // swiftlint:disable:this identifier_name
     let name: String?
 
     init?(user: User?) {

@@ -27,7 +27,6 @@ protocol GraphViewModelType {
 }
 
 final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
-
     enum Event {
         case presentCategoryVC(CategoryData)
     }
@@ -141,7 +140,14 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     var navigationTitle: Driver<String> {
-        calendarDate.navigationTitle.asDriver(onErrorDriveWith: .empty())
+        calendarDate.firstDay
+            .map {
+                DateUtility.stringFromDate(
+                    date: $0,
+                    format: "YYYY年MM月"
+                )
+            }
+            .asDriver(onErrorDriveWith: .empty())
     }
 
     var event: Driver<Event> {

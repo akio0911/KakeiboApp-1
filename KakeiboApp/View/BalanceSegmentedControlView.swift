@@ -12,7 +12,6 @@ protocol BalanceSegmentedControlViewDelegate: AnyObject {
 }
 
 final class BalanceSegmentedControlView: UIView {
-
     weak var delegate: BalanceSegmentedControlViewDelegate?
 
     private var segmentedControl: UISegmentedControl!
@@ -35,13 +34,16 @@ final class BalanceSegmentedControlView: UIView {
         segmentedControl.tintColor = .clear
         let clearColorImage = UIImage(color: .clear, size: CGSize(width: 1, height: 1))
         segmentedControl.setBackgroundImage(clearColorImage, for: .normal, barMetrics: .default)
-        segmentedControl.setDividerImage(clearColorImage, forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        segmentedControl.setDividerImage(clearColorImage,
+                                         forLeftSegmentState: .normal,
+                                         rightSegmentState: .normal,
+                                         barMetrics: .default)
         segmentedControl.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18),
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
             NSAttributedString.Key.foregroundColor: UIColor.lightGray
         ], for: .normal)
         segmentedControl.setTitleTextAttributes([
-            NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18),
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
             NSAttributedString.Key.foregroundColor: UIColor.orange
         ], for: .selected)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
@@ -66,7 +68,8 @@ final class BalanceSegmentedControlView: UIView {
         setupSegmentedControlConstraint()
         setupBottomBarConstraint()
         bottomBar.frame.origin.x =
-        (segmentedControl.frame.width / CGFloat(segmentedControl.numberOfSegments)) * CGFloat(segmentedControl.selectedSegmentIndex)
+        (segmentedControl.frame.width / CGFloat(segmentedControl.numberOfSegments))
+        * CGFloat(segmentedControl.selectedSegmentIndex)
     }
 
     private func setupSegmentedControlConstraint() {

@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class GraphViewController: UIViewController, UITableViewDelegate, BalanceSegmentedControlViewDelegate {
-
     @IBOutlet private weak var graphNavigationBar: UINavigationBar!
     @IBOutlet private weak var graphNavigationItem: UINavigationItem!
     @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
@@ -70,7 +69,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
         lastBarButtonItem.rx.tap
             .subscribe(onNext: viewModel.inputs.didActionLastMonth)
             .disposed(by: disposeBag)
-        
+
         viewModel.outputs.navigationTitle
             .drive(graphNavigationItem.rx.title)
             .disposed(by: disposeBag)

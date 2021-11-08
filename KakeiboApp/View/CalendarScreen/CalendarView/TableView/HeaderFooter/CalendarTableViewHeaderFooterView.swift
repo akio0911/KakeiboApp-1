@@ -8,9 +8,8 @@
 import UIKit
 
 class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
-
-    @IBOutlet weak var titleHeaderLabel: UILabel!
-    @IBOutlet weak var balanceHeaderLabel: UILabel!
+    @IBOutlet private weak var titleHeaderLabel: UILabel!
+    @IBOutlet private weak var balanceHeaderLabel: UILabel!
 
     func configure(data: HeaderDateKakeiboData) {
         titleHeaderLabel.text =
@@ -19,10 +18,10 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
             NumberFormatterUtility.changeToCurrencyNotation(from: data.totalBalance) ?? "0円"
         if data.totalBalance >= 0 {
             balanceHeaderLabel.textColor =
-                UIColor(named: CalendarColorName.CarolinaBlue.rawValue)
+                UIColor(named: CalendarColorName.carolinaBlue.rawValue)
         } else {
             balanceHeaderLabel.textColor =
-                UIColor(named: CalendarColorName.SafetyOrangeBlazeOrange.rawValue)
+                UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
         }
     }
 }

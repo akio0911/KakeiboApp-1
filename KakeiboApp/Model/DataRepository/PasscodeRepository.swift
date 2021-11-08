@@ -17,9 +17,8 @@ protocol IsOnPasscodeRepositoryProtocol {
     func saveIsOnPasscode(isOnPasscode: Bool)
 }
 
-final class PasscodeRepository:
-    PasscodeDataRepositoryProtocol,IsOnPasscodeRepositoryProtocol {
-
+final class PasscodeRepository: PasscodeDataRepositoryProtocol,
+                                IsOnPasscodeRepositoryProtocol {
     private let userDefaults = UserDefaults.standard
     private let passcodeDataKey = "passcode"
     private let isOnPasscodeKey = "isOnPasscode"

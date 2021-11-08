@@ -157,7 +157,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     func editData(data: KakeiboData) {
         dateRelay.accept(DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月dd日"))
         switch data.categoryId {
-        case .income(let id):
+        case .income(let id): // swiftlint:disable:this identifier_name
             var categoryData: CategoryData?
             let incomeCategoryArray = incomeCategoryRelay.value
             incomeCategoryArray.forEach { if $0.id == id { categoryData = $0 } }
@@ -166,7 +166,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             } else {
                 categoryRelay.accept("") // idが一致しないエラー
             }
-        case .expense(let id):
+        case .expense(let id): // swiftlint:disable:this identifier_name
             var categoryData: CategoryData?
             let expenseCategoryArray = expenseCategoryRelay.value
             expenseCategoryArray.forEach { if $0.id == id { categoryData = $0 } }

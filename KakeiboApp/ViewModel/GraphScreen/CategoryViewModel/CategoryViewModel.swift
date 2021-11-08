@@ -23,7 +23,6 @@ protocol CategoryViewModelType {
 }
 
 final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
-
     private let categoryData: CategoryData
     private var monthDataArray: [Date] = [] // 月の日付
     private var kakeiboDataArray: [KakeiboData] = [] // 保存データ

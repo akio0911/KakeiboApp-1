@@ -72,5 +72,4 @@ final class KeyImageStackView: UIStackView {
     func configureFourthKeyAlpha(alpha: CGFloat) {
         keyImageView4.alpha = alpha
     }
-
 }

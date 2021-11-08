@@ -9,7 +9,6 @@ import RxSwift
 import RxCocoa
 
 final class HowToUseTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
-
     typealias Element = [HowToUseItem]
     private var items: Element = []
 
@@ -21,7 +20,7 @@ final class HowToUseTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: HowToUseTableViewCell.identifier
-        ) as! HowToUseTableViewCell
+        ) as! HowToUseTableViewCell // swiftlint:disable:this force_cast
         cell.configure(item: items[indexPath.row])
         cell.selectedBackgroundView = UIView()
         return cell

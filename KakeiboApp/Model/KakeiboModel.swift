@@ -17,7 +17,6 @@ protocol KakeiboModelProtocol {
 }
 
 final class KakeiboModel: KakeiboModelProtocol {
-
     private let dataRelay = BehaviorRelay<[KakeiboData]>(value: [])
     private let repository: DataRepositoryProtocol
 

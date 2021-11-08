@@ -8,6 +8,6 @@
 import Foundation
 
 enum CalendarImageName: String {
-    case Income
-    case Expense
+    case income
+    case expense
 }

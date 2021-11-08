@@ -14,7 +14,6 @@ final class CalendarViewController: UIViewController,
                                     UICollectionViewDelegateFlowLayout,
                                     UITableViewDelegate,
                                     CalendarTableViewDataSourceDelegate {
-
     @IBOutlet private weak var calendarNavigationItem: UINavigationItem!
     @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
@@ -62,7 +61,7 @@ final class CalendarViewController: UIViewController,
         activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicatorView.style = .large
         activityIndicatorView.color = .darkGray
-        activityIndicatorView.backgroundColor = .systemGray5
+        activityIndicatorView.backgroundColor = .systemGray5.withAlphaComponent(0.6)
         activityIndicatorView.layer.cornerRadius = 10
         activityIndicatorView.layer.masksToBounds = true
         view.addSubview(activityIndicatorView)
@@ -71,7 +70,7 @@ final class CalendarViewController: UIViewController,
     private func setupBarButtonItem() {
         let nextBarButton =
         UIBarButtonItem(
-            image:UIImage(systemName: "square.and.pencil"),
+            image: UIImage(systemName: "square.and.pencil"),
             style: .plain,
             target: self,
             action: #selector(didTapInputBarButton)
@@ -259,7 +258,7 @@ final class CalendarViewController: UIViewController,
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
         didHighlightItemIndexPath = indexPath
     }
-    
+
     // MARK: - UICollectionViewDelegateFlowLayout
     private let spaceOfCell: CGFloat = 1 // セルの間隔
     private let weekdayCellHeight: CGFloat = 20 // 週のセルの高さ
@@ -269,7 +268,6 @@ final class CalendarViewController: UIViewController,
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-
         var height: CGFloat
         switch indexPath.section {
         case 0:
@@ -279,7 +277,7 @@ final class CalendarViewController: UIViewController,
         default:
             fatalError("collectionViewで想定していないsection")
         }
-        
+
         let totalItemWidth: CGFloat =
         collectionView.bounds.width
         - spaceOfCell * (numberOfDaysInWeek - 1)

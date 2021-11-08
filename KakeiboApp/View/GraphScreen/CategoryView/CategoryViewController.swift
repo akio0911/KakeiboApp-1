@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 class CategoryViewController: UIViewController, UITableViewDelegate {
-
     @IBOutlet private weak var categoryTableView: UITableView!
 
     private let viewModel: CategoryViewModelType
@@ -55,13 +54,16 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
             CategoryTableViewCell.nib,
             forCellReuseIdentifier: CategoryTableViewCell.identifier
         )
+
         categoryTableView.register(
             CategoryTableViewHeaderView.nib,
             forHeaderFooterViewReuseIdentifier: CategoryTableViewHeaderView.identifier
         )
+
         if #available(iOS 15.0, *) {
             categoryTableView.sectionHeaderTopPadding = 0
-        } 
+        }
+
         categoryTableView.rx.setDelegate(self).disposed(by: disposeBag)
     }
 

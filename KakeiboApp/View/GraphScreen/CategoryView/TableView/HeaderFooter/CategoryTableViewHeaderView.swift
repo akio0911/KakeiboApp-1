@@ -8,9 +8,8 @@
 import UIKit
 
 class CategoryTableViewHeaderView: UITableViewHeaderFooterView {
-
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var totalBalanceLabel: UILabel!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var totalBalanceLabel: UILabel!
 
     func configure(data: HeaderDateCategoryData) {
         dateLabel.text = DateUtility.stringFromDate(

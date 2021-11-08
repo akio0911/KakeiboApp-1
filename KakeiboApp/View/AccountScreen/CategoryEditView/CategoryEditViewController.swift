@@ -9,8 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CategoryEditViewController: UIViewController, BalanceSegmentedControlViewDelegate, UITableViewDelegate, CategoryEditTableViewDataSourceDelegate {
-
+class CategoryEditViewController: UIViewController,
+                                  BalanceSegmentedControlViewDelegate,
+                                  UITableViewDelegate,
+                                  CategoryEditTableViewDataSourceDelegate {
     @IBOutlet private weak var categoryTableView: UITableView!
 
     private var segmentedControlView: BalanceSegmentedControlView!
@@ -19,7 +21,7 @@ class CategoryEditViewController: UIViewController, BalanceSegmentedControlViewD
     private let categoryEditTableViewDataSource =
     CategoryEditTableViewDataSource()
 
-    init(viewModel:CategoryEditViewModelType = CategoryEditViewModel()) {
+    init(viewModel: CategoryEditViewModelType = CategoryEditViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

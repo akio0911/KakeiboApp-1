@@ -8,11 +8,11 @@
 import Foundation
 
 enum CalendarColorName: String {
-    case AtomicTangerine // オレンジ系
-    case BattleshipGrey // グレー系
-    case Cultured // ホワイト系
-    case SpaceCadet // 濃いブルー系
-    case SafetyOrangeBlazeOrange // オレンジ系
-    case CarolinaBlue // ブルー系
-    case Seashell // ホワイト系(collectionViewHighlight用)
+    case atomicTangerine // オレンジ系
+    case battleshipGrey // グレー系
+    case cultured // ホワイト系
+    case spaceCadet // 濃いブルー系
+    case safetyOrangeBlazeOrange // オレンジ系
+    case carolinaBlue // ブルー系
+    case seashell // ホワイト系(collectionViewHighlight用)
 }

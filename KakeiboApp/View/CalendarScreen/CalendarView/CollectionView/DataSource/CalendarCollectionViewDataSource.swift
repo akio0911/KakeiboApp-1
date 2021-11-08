@@ -9,21 +9,17 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSource, RxCollectionViewDataSourceType {
-
+final class CalendarCollectionViewDataSource: NSObject,
+                                              UICollectionViewDataSource,
+                                              RxCollectionViewDataSourceType {
     typealias Element = [DayItemData]
     private var items: Element = []
     private let weekdayItemData = WeekdayItemData()
 
     // MARK: - UICollectionViewDataSource
-    // TODO: numberOfSectionsのreturnがマジックナンバーになっている
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        switch items.count {
-        case 0:
-            return 0
-        default:
-            return 2 // 曜日Sectionと日にちSection
-        }
+        guard !items.isEmpty else { return 0 }
+        return 2
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -37,13 +33,14 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CalendarWeekdayCollectionViewCell.identifier,
                 for: indexPath
-            ) as! CalendarWeekdayCollectionViewCell
+            ) as! CalendarWeekdayCollectionViewCell // swiftlint:disable:this force_cast
             cell.configure(
                 weekday: weekdayItemData.weekdays[indexPath.row],
                 at: indexPath.row
@@ -54,7 +51,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CalendarDayCollectionViewCell.identifier,
                 for: indexPath
-            ) as! CalendarDayCollectionViewCell
+            ) as! CalendarDayCollectionViewCell // swiftlint:disable:this force_cast
             cell.configure(
                 data: items[indexPath.row],
                 index: indexPath.row
@@ -65,7 +62,7 @@ final class CalendarCollectionViewDataSource: NSObject, UICollectionViewDataSour
                 cell.backgroundColor = .systemGray6
             }
             let highlightView = UIView(frame: cell.frame)
-            highlightView.backgroundColor = UIColor(named: CalendarColorName.Seashell.rawValue)
+            highlightView.backgroundColor = UIColor(named: CalendarColorName.seashell.rawValue)
             cell.selectedBackgroundView = highlightView
             return cell
         default:

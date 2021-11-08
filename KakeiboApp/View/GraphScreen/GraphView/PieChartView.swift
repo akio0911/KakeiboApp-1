@@ -8,7 +8,6 @@
 import UIKit
 
 final class PieChartView: UIView, CAAnimationDelegate {
-
     private struct Pie {
         let layer: CAShapeLayer
         let duration: CFTimeInterval
@@ -73,8 +72,8 @@ final class PieChartView: UIView, CAAnimationDelegate {
 
         // ピクセルデータを取得
         var pixelData: [UInt8] = [0, 0, 0, 0]
-        let context = CGContext(data: &pixelData, width: 1, height: 1,bitsPerComponent: 8,
-                                bytesPerRow: 4,space: colorSpace,bitmapInfo: bitmapInfo.rawValue)
+        let context = CGContext(data: &pixelData, width: 1, height: 1, bitsPerComponent: 8,
+                                bytesPerRow: 4, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
         context!.translateBy(x: -point.x, y: -point.y)
         self.layer.render(in: context!)
 
@@ -93,7 +92,7 @@ final class PieChartView: UIView, CAAnimationDelegate {
         // 初期化の処理
         count = 0
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-//        subviews.forEach { $0.removeFromSuperview() }
+        subviews.forEach { $0.removeFromSuperview() }
         pies.removeAll()
 
         // データが空の時の処理
@@ -218,8 +217,8 @@ final class PieChartView: UIView, CAAnimationDelegate {
     // グラフの上に載せるラベルのcenterを計算
     private func calcCenter(startAngle: Double, endAngle: Double) -> CGPoint {
         let angle = (endAngle - startAngle) / 2 + startAngle
-        let x = cos(angle) * radius
-        let y = sin(angle) * radius
+        let x = cos(angle) * radius // swiftlint:disable:this identifier_name
+        let y = sin(angle) * radius // swiftlint:disable:this identifier_name
         return CGPoint(x: Double(size / 2) + x, y: Double(size / 2) + y)
     }
 

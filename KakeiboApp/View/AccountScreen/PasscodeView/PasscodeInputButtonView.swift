@@ -13,7 +13,6 @@ protocol PasscodeInputButtonViewDelegate: AnyObject {
 }
 
 final class PasscodeInputButtonView: UIView {
-
     weak var delegate: PasscodeInputButtonViewDelegate?
 
     private var button1: UIButton!

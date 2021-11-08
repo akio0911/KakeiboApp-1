@@ -8,7 +8,6 @@
 import UIKit
 
 class CalendarTableViewCell: UITableViewCell {
-
     @IBOutlet private weak var balanceImageView: UIImageView!
     @IBOutlet private weak var categoryLabel: UILabel!
     @IBOutlet private weak var balanceLabel: UILabel!
@@ -27,13 +26,13 @@ class CalendarTableViewCell: UITableViewCell {
         memoLabel.text = data.memo
         switch data.balance {
         case .income(let income):
-            balanceImageView.image = UIImage(named: CalendarImageName.Income.rawValue)
+            balanceImageView.image = UIImage(named: CalendarImageName.income.rawValue)
             balanceLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: income) ?? "0円"
-            balanceLabel.textColor = UIColor(named: CalendarColorName.CarolinaBlue.rawValue)
+            balanceLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
         case .expense(let expense):
-            balanceImageView.image = UIImage(named: CalendarImageName.Expense.rawValue)
+            balanceImageView.image = UIImage(named: CalendarImageName.expense.rawValue)
             balanceLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: expense) ?? "0円"
-            balanceLabel.textColor = UIColor(named: CalendarColorName.SafetyOrangeBlazeOrange.rawValue)
+            balanceLabel.textColor = UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
         }
     }
 }

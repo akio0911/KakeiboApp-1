@@ -35,7 +35,8 @@ protocol CategoryInputViewModelType {
     var outputs: CategoryInputViewModelOutput { get }
 }
 
-final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputViewModelOutput {
+final class CategoryInputViewModel: CategoryInputViewModelInput,
+                                    CategoryInputViewModelOutput {
     enum Event {
         case dismiss
         case presentDismissAlert(String, String)
@@ -185,7 +186,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
         return colors
     }
 
-
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
@@ -233,12 +233,14 @@ final class CategoryInputViewModel: CategoryInputViewModelInput, CategoryInputVi
             eventRelay.accept(.presentDismissAlert(alertTitle, message))
             return
         }
-        guard name != "" else {
+
+        guard !name.isEmpty else {
             let alertTitle = "カテゴリー名が未入力です。"
             let message = "カテゴリー名を入力してください。"
             eventRelay.accept(.presentBecomeFirstResponderAlert(alertTitle, message))
             return
         }
+
         switch mode {
         case .incomeCategoryAdd:
             let categoryData =

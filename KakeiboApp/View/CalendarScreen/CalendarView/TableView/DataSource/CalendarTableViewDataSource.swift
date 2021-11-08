@@ -14,7 +14,6 @@ protocol CalendarTableViewDataSourceDelegate: AnyObject {
 }
 
 final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
-
     typealias Element = [[CellDateKakeiboData]]
     private var items: Element = [[]]
 
@@ -31,7 +30,7 @@ final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CalendarTableViewCell.identifier
-        ) as! CalendarTableViewCell
+        ) as! CalendarTableViewCell // swiftlint:disable:this force_cast
         cell.configure(data: items[indexPath.section][indexPath.row])
         return cell
     }
@@ -40,7 +39,9 @@ final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
         return true // cellの変更を許可する
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             delegate?.didDeleteCell(index: indexPath)
         }

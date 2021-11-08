@@ -8,9 +8,8 @@
 import UIKit
 
 class CalendarDayCollectionViewCell: UICollectionViewCell {
-
-    @IBOutlet weak var dayLabel: UILabel!
-    @IBOutlet weak var balanceLabel: UILabel!
+    @IBOutlet private weak var dayLabel: UILabel!
+    @IBOutlet private weak var balanceLabel: UILabel!
 
     // ラベルのテキストを設定
     func configure(data: DayItemData, index: Int) {
@@ -19,10 +18,10 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         if data.totalBalance != 0 {
             if data.totalBalance > 0 {
                 balanceLabel.text = String(data.totalBalance)
-                balanceLabel.textColor = UIColor(named: CalendarColorName.CarolinaBlue.rawValue)
+                balanceLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
             } else {
                 balanceLabel.text = String(-data.totalBalance)
-                balanceLabel.textColor = UIColor(named: CalendarColorName.SafetyOrangeBlazeOrange.rawValue)
+                balanceLabel.textColor = UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
             }
         } else {
             balanceLabel.text = ""
@@ -31,11 +30,11 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         // 日付のテキストカラーを曜日毎に色分けしている
         switch index % 7 {
         case 0:
-            dayLabel.textColor = UIColor(named: CalendarColorName.SafetyOrangeBlazeOrange.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
         case 6:
-            dayLabel.textColor = UIColor(named: CalendarColorName.CarolinaBlue.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
         default:
-            dayLabel.textColor = UIColor(named: CalendarColorName.SpaceCadet.rawValue)
+            dayLabel.textColor = UIColor(named: CalendarColorName.spaceCadet.rawValue)
         }
     }
 }

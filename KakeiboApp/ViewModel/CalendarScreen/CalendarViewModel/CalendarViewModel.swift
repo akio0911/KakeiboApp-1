@@ -162,10 +162,10 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 // categoryIdからCategoryDataに変換
                 var categoryData: CategoryData
                 switch $0.categoryId {
-                case .income(let id):
+                case .income(let id): // swiftlint:disable:this identifier_name
                     categoryData = incomeCategoryArray.first { $0.id == id } ??
                     CategoryData(id: "", displayOrder: 999, name: "", color: .red)
-                case .expense(let id):
+                case .expense(let id): // swiftlint:disable:this identifier_name
                     categoryData = expenseCategoryArray.first { $0.id == id } ??
                     CategoryData(id: "", displayOrder: 999, name: "", color: .red)
                 }
@@ -240,7 +240,14 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     var navigationTitle: Driver<String> {
-        calendarDate.navigationTitle.asDriver(onErrorDriveWith: .empty())
+        calendarDate.firstDay
+            .map {
+                DateUtility.stringFromDate(
+                    date: $0,
+                    format: "YYYY年MM月"
+                )
+            }
+            .asDriver(onErrorDriveWith: .empty())
     }
 
     var incomeText: Driver<String> {

@@ -9,8 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class CategoryInputViewController: UIViewController {
-
+final class CategoryInputViewController: UIViewController {
     @IBOutlet private weak var categoryTextField: UITextField!
     @IBOutlet private var contentsView: [UIView]!
     @IBOutlet private weak var mosaicView: UIView!

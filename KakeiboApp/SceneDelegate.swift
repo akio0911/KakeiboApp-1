@@ -10,14 +10,14 @@ import FirebaseAuth
 import LocalAuthentication
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
     private let passcodeRepository: IsOnPasscodeRepositoryProtocol =
     PasscodeRepository()
 
     // アプリ起動時、sceneが呼ばれた時
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // TODO: 画面表示処理をまとめる
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
         let firebaseAuth = Auth.auth()
         if firebaseAuth.currentUser == nil {
             // ログアウト中
@@ -44,7 +44,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     let passcodeViewController =
                     PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
                     passcodeViewController.modalPresentationStyle = .fullScreen
-                    strongSelf.window?.rootViewController?.present(passcodeViewController, animated: false, completion: nil)
+                    strongSelf.window?.rootViewController?.present(
+                        passcodeViewController, animated: false, completion: nil
+                    )
                 }
             })
         } else {
@@ -119,6 +121,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             if let rootViewController = self.window?.rootViewController {
                 let passcodeViewController =
                 rootViewController.presentedViewController as! PasscodeViewController
+                // swiftlint:disable:previous force_cast
                 passcodeViewController.dismiss(animated: true, completion: nil)
             }
         }
@@ -137,4 +140,3 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 }
-

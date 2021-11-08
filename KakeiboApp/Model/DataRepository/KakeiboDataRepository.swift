@@ -15,8 +15,7 @@ protocol DataRepositoryProtocol {
 }
 
 final class KakeiboDataRepository: DataRepositoryProtocol {
-
-    private let db: Firestore
+    private let db: Firestore // swiftlint:disable:this identifier_name
     private let firstCollectionName = "users"
     private let secondCollectionName = "KakeiboData"
 
@@ -64,9 +63,9 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
 
     func deleteData(userId: String, data: KakeiboData) {
         db.collection(firstCollectionName).document(userId)
-            .collection(secondCollectionName).document(data.instantiateTime).delete() { err in
-                if let err = err {
-                    print("Error removing document: \(err)")
+            .collection(secondCollectionName).document(data.instantiateTime).delete { error in
+                if let error = error {
+                    print("Error removing document: \(error)")
                 } else {
                     print("Document successfully removed!")
                 }

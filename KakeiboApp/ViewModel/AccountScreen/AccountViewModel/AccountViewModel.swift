@@ -175,7 +175,9 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
 
     func didTapReviewButton() {
         let appId = "375380948"
-        guard let url = URL(string: "https://apps.apple.com/jp/app/apple-store/id\(appId)?action=write-review") else { return }
+        guard let url =
+                URL(string: "https://apps.apple.com/jp/app/apple-store/id\(appId)?action=write-review")
+        else { return }
         eventRelay.accept(.applicationSharedOpen(url))
     }
 }

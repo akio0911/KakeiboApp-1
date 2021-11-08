@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDelegate {
-
     @IBOutlet private weak var messageLable: UILabel!
     @IBOutlet private weak var validateMessageLabel: UILabel!
 
@@ -20,10 +19,10 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     private let disposeBag = DisposeBag()
     private let passcodePoster = PasscodePoster()
 
-    private var validateMessage: (String) -> () = { _ in }
+    private var validateMessage: (String) -> Void = { _ in }
 
     init(viewModel: PasscodeViewModelType,
-         validateMessage: ((String) -> ())? = nil) {
+         validateMessage: ((String) -> Void)? = nil) {
         self.viewModel = viewModel
         if let validateMessage = validateMessage {
             self.validateMessage = validateMessage
@@ -73,7 +72,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
                 }
             })
             .disposed(by: disposeBag)
-        
+
         viewModel.outputs.messageLabelText
             .drive(messageLable.rx.text)
             .disposed(by: disposeBag)

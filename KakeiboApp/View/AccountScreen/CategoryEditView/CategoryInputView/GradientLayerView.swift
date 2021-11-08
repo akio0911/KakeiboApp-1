@@ -13,7 +13,7 @@ class GradientLayerView: UIView {
         gradientLayer.colors = colors
         gradientLayer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         gradientLayer.startPoint = CGPoint.init(x: 0, y: 0.5)
-        gradientLayer.endPoint = CGPoint.init(x: 1, y:0.5)
+        gradientLayer.endPoint = CGPoint.init(x: 1, y: 0.5)
         self.layer.addSublayer(gradientLayer)
     }
 }

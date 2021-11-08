@@ -71,7 +71,7 @@ final class AuthType: AuthTypeProtocol {
 
                 // ユーザー名の設定に成功
                 // 確認メールの送信
-                authResult.user.sendEmailVerification{ error in
+                authResult.user.sendEmailVerification { error in
                     if let error = error {
                         // 確認メール送信失敗
                         strongSelf.authErrorRelay.accept(AuthError(error: error))

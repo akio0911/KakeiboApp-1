@@ -9,8 +9,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class InputViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, BalanceSegmentedControlViewDelegate {
-
+final class InputViewController: UIViewController,
+                                 UIPickerViewDelegate,
+                                 UIPickerViewDataSource,
+                                 UITextFieldDelegate,
+                                 BalanceSegmentedControlViewDelegate {
     @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var dateView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
@@ -328,7 +331,9 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     @objc func keyboardDidShow(_ notification: Notification) {
         guard let editingTextField = editingTextField else { return }
+        // swiftlint:disable:next force_cast
         let userInfo = (notification as Notification).userInfo!
+        // swiftlint:disable:next force_cast
         let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         let keyboardFrameMinY = view.frame.size.height - keyboardFrame.height
         let textFieldFrame = view.convert(editingTextField.frame, from: editingTextField.superview)
@@ -397,7 +402,6 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
-        print("💣")
         self.selectedSegmentIndex = selectedSegmentIndex
         if selectedSegmentIndex == 0 {
             balanceLabel.text = Balance.expenseName

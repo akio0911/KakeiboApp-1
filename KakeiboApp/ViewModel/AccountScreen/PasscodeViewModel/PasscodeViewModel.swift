@@ -35,11 +35,6 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
         case create(Times)
         case unlock
 
-        enum Times {
-            case first
-            case second([String]) // String型の配列にはfirstで設定したpasscodeが入る
-        }
-
         var message: String {
             switch self {
             case .create(let times):
@@ -71,6 +66,11 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
                 return false
             }
         }
+    }
+
+    enum Times {
+        case first
+        case second([String]) // String型の配列にはfirstで設定したpasscodeが入る
     }
 
     enum Event {

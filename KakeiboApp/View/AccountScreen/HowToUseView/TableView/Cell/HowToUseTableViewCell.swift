@@ -8,7 +8,6 @@
 import UIKit
 
 class HowToUseTableViewCell: UITableViewCell {
-
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var stateImageView: UIImageView!
     @IBOutlet private weak var underLineView: UIView!

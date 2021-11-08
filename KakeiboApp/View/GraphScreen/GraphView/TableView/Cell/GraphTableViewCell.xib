@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,7 +13,7 @@
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="KGk-i7-Jjw" customClass="GraphTableViewCell" customModule="KakeiboApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="294.5" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -44,8 +44,8 @@
                     <constraint firstItem="kOZ-No-BdE" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="UDc-rx-vEX"/>
                     <constraint firstAttribute="trailing" secondItem="kOZ-No-BdE" secondAttribute="trailing" constant="10" id="UNa-Uh-uZa"/>
                     <constraint firstItem="Ult-Kp-v1s" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="coD-eo-SU3"/>
-                    <constraint firstItem="Ult-Kp-v1s" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="iIZ-Io-giQ"/>
                     <constraint firstItem="1zq-hg-6mh" firstAttribute="leading" secondItem="Ult-Kp-v1s" secondAttribute="trailing" constant="10" id="mAk-We-tHm"/>
+                    <constraint firstItem="Ult-Kp-v1s" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vdX-kf-UEB"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

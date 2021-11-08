@@ -26,7 +26,6 @@ protocol CategoryEditViewModelType {
 }
 
 final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewModelOutput {
-
     enum Event {
         case presentIncomeCategoryAdd
         case presentExpenseCategoryAdd

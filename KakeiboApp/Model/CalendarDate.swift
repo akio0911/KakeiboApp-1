@@ -11,27 +11,24 @@ import RxRelay
 protocol CalendarDateProtocol {
     var calendarDate: Observable<[Date]> { get } // calendarの日付
     var monthDate: Observable<[Date]> { get } // 月の日付
-    var navigationTitle: Observable<String> { get } // title(〇〇年〇〇月)
+    var firstDay: Observable<Date> { get } // title(〇〇年〇〇月)
     func nextMonth()
     func lastMonth()
 }
 
-class CalendarDate: CalendarDateProtocol {
-
+final class CalendarDate: CalendarDateProtocol {
     private let calendarDateRelay = BehaviorRelay<[Date]>(value: [])
     private let monthDateRelay = BehaviorRelay<[Date]>(value: [])
-    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
+    private let firstDayRelay = BehaviorRelay<Date>(value: Date())
     private let carendar = Calendar(identifier: .gregorian)
-    private var firstDay: Date!
 
     init() {
         let component = carendar.dateComponents([.year, .month], from: Date())
         guard let firstDay = carendar.date(
             from: DateComponents(year: component.year, month: component.month, day: 1)
         ) else { return }
-        self.firstDay = firstDay
-        acceptDateArray()
-        acceptNavigationTitle()
+        firstDayRelay.accept(firstDay)
+        acceptDateArray(firstDay: firstDay)
     }
 
     var calendarDate: Observable<[Date]> {
@@ -42,11 +39,11 @@ class CalendarDate: CalendarDateProtocol {
         monthDateRelay.asObservable()
     }
 
-    var navigationTitle: Observable<String> {
-        navigationTitleRelay.asObservable()
+    var firstDay: Observable<Date> {
+        firstDayRelay.asObservable()
     }
 
-    private func acceptDateArray() {
+    private func acceptDateArray(firstDay: Date) {
         // 月の最初の曜日
         let firstWeekday = carendar.component(.weekday, from: firstDay)
         // 月の週の数
@@ -72,26 +69,19 @@ class CalendarDate: CalendarDateProtocol {
         monthDateRelay.accept(monthDateArray)
     }
 
-    private func acceptNavigationTitle() {
-        let navigationTitle = DateUtility.stringFromDate(date: firstDay, format: "YYYY年MM月")
-        navigationTitleRelay.accept(navigationTitle)
-    }
-
     func nextMonth() {
         guard let firstDay = carendar.date(
-            byAdding: .month, value: 1, to: firstDay
+            byAdding: .month, value: 1, to: firstDayRelay.value
         ) else { return }
-        self.firstDay = firstDay
-        acceptDateArray()
-        acceptNavigationTitle()
+        firstDayRelay.accept(firstDay)
+        acceptDateArray(firstDay: firstDay)
     }
 
     func lastMonth() {
         guard let firstDay = carendar.date(
-                byAdding: .month, value: -1, to: firstDay
+            byAdding: .month, value: -1, to: firstDayRelay.value
         ) else { return }
-        self.firstDay = firstDay
-        acceptDateArray()
-        acceptNavigationTitle()
+        firstDayRelay.accept(firstDay)
+        acceptDateArray(firstDay: firstDay)
     }
 }

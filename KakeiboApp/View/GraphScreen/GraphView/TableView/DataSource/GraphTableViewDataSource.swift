@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class GraphTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
-
     typealias Element = [GraphData]
     private var items: Element = []
 
@@ -22,7 +21,7 @@ final class GraphTableViewDataSource: NSObject, UITableViewDataSource, RxTableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: GraphTableViewCell.identifier
-        ) as! GraphTableViewCell
+        ) as! GraphTableViewCell // swiftlint:disable:this force_cast
         cell.configure(data: items[indexPath.row])
         return cell
     }

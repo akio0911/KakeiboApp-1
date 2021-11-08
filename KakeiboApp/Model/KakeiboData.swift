@@ -14,7 +14,7 @@ struct KakeiboData: Codable, Equatable {
             && lhs.balance == rhs.balance
             && lhs.memo == rhs.memo
     }
-    
+
     var instantiateTime =
         DateUtility.stringFromDate(date: Date(), format: "YYYY年MM月dd日 HH:mm:ss")
     let date: Date //　日付

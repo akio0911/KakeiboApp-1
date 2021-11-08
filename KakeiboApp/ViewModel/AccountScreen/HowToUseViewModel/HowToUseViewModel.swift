@@ -22,7 +22,6 @@ protocol HowToUseViewModelType {
 }
 
 final class HowToUseViewModel: HowToUseViewModelInput, HowToUseViewModelOutput {
-
     private let itemsRelay = BehaviorRelay<[HowToUseItem]>(value: [
         HowToUseItem(title: HowToUseCase.balanceInput.title,
                      message: HowToUseCase.balanceInput.message,

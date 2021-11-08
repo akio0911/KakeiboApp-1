@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class AccountViewController: UIViewController {
-
     @IBOutlet private weak var settingStackView: UIStackView!
     @IBOutlet private weak var appStackView: UIStackView!
     @IBOutlet private weak var passcodeSwitch: UISwitch!

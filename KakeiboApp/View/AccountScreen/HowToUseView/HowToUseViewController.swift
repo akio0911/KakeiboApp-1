@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class HowToUseViewController: UIViewController, UITableViewDelegate {
-
     @IBOutlet private weak var howToUseTableView: UITableView!
 
     private let viewModel: HowToUseViewModelType

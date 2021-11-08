@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class CategoryTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
-
     typealias Element = [[CellDateCategoryData]]
     private var items: Element = [[]]
 
@@ -26,7 +25,7 @@ final class CategoryTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CategoryTableViewCell.identifier
-        ) as! CategoryTableViewCell
+        ) as! CategoryTableViewCell // swiftlint:disable:this force_cast
         cell.configure(data: items[indexPath.section][indexPath.row])
         return cell
     }

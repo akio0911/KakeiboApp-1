@@ -8,7 +8,6 @@
 import UIKit
 
 class CategoryTableViewCell: UITableViewCell {
-    
     @IBOutlet private weak var memoLabel: UILabel!
     @IBOutlet private weak var balanceLabel: UILabel!
 

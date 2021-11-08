@@ -8,7 +8,6 @@
 import UIKit
 
 final class CategoryEditTableViewCell: UITableViewCell {
-
     @IBOutlet private weak var categoryColorView: UIView!
     @IBOutlet private weak var categoryLabel: UILabel!
 
