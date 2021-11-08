@@ -15,15 +15,18 @@ final class BalanceSegmentedControlView: UIView {
 
     weak var delegate: BalanceSegmentedControlViewDelegate?
 
+    private var segmentedControl: UISegmentedControl!
+    private var bottomBar: UIView!
+
     // MARK: - init(frame:)
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(segmentedControl)
-        addSubview(bottomBar)
+        setupSegmentedControl()
+        setupBottomBar()
     }
 
-    private let segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl()
+    private func setupSegmentedControl() {
+        segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: "支出", at: 0, animated: true)
         segmentedControl.insertSegment(withTitle: "収入", at: 1, animated: true)
         segmentedControl.selectedSegmentIndex = 0
@@ -42,15 +45,15 @@ final class BalanceSegmentedControlView: UIView {
             NSAttributedString.Key.foregroundColor: UIColor.orange
         ], for: .selected)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
-        return segmentedControl
-    }()
+        addSubview(segmentedControl)
+    }
 
-    private let bottomBar: UIView = {
-        let bottomBar = UIView()
+    private func setupBottomBar() {
+        bottomBar = UIView()
         bottomBar.translatesAutoresizingMaskIntoConstraints = false
         bottomBar.backgroundColor = .orange
-        return bottomBar
-    }()
+        addSubview(bottomBar)
+    }
 
     // MARK: - init?(coder:)
     required init?(coder: NSCoder) {

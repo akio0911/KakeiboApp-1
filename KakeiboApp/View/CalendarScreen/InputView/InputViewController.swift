@@ -397,6 +397,7 @@ final class InputViewController: UIViewController, UIPickerViewDelegate, UIPicke
 
     // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
+        print("💣")
         self.selectedSegmentIndex = selectedSegmentIndex
         if selectedSegmentIndex == 0 {
             balanceLabel.text = Balance.expenseName
