@@ -29,7 +29,7 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
         db.collection(firstCollectionName).document(userId)
             .collection(secondCollectionName).getDocuments { querySnapshot, error in
                 if let error = error {
-                    print("----Error getting documents: \(error)----")
+                    print("----Error getting documents: \(error.localizedDescription)----")
                 } else if let documents = querySnapshot?.documents {
                     var kakeiboData: [KakeiboData] = []
                     for document in documents {
@@ -42,7 +42,7 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
                                 kakeiboData.append(data)
                             }
                         case .failure(let error):
-                            print("----Error decoding item: \(error)----")
+                            print("----Error decoding item: \(error.localizedDescription)----")
                         }
                     }
                     data(kakeiboData)
@@ -57,7 +57,7 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
             try ref.setData(from: data)
             print("----dataが追加されました----")
         } catch let error {
-            print("----Error writing kakeiboData to Firestore: \(error)----")
+            print("----Error writing kakeiboData to Firestore: \(error.localizedDescription)----")
         }
     }
 
@@ -65,7 +65,7 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
         db.collection(firstCollectionName).document(userId)
             .collection(secondCollectionName).document(data.instantiateTime).delete { error in
                 if let error = error {
-                    print("Error removing document: \(error)")
+                    print("Error removing document: \(error.localizedDescription)")
                 } else {
                     print("Document successfully removed!")
                 }

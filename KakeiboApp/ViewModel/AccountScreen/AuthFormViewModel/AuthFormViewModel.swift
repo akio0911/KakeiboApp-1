@@ -115,7 +115,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         case .login:
             authType.signIn(mail: mail, password: password)
         case .create:
-            guard userName != "" else {
+            guard !userName.isEmpty else {
                 let alertTitle = "ユーザー名が未入力です。"
                 let message = "ユーザー名を入力してください。"
                 eventRelay.accept(.presentErrorAlertView(alertTitle, message))

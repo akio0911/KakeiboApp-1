@@ -92,7 +92,6 @@ final class PieChartView: UIView, CAAnimationDelegate {
         // 初期化の処理
         count = 0
         layer.sublayers?.forEach { $0.removeFromSuperlayer() }
-        subviews.forEach { $0.removeFromSuperview() }
         pies.removeAll()
 
         // データが空の時の処理

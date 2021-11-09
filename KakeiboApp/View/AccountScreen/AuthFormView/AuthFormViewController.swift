@@ -29,6 +29,8 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private var activityIndicatorView: UIActivityIndicatorView!
     // 編集中のTextField
     private var editingTextField: UITextField?
+    private let eyeImage = UIImage(systemName: "eye")
+    private let eyeSlashImage = UIImage(systemName: "eye.slash")
 
     init(viewModel: AuthFormViewModelType) {
         self.viewModel = viewModel
@@ -187,11 +189,11 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
                 if strongSelf.passwordTextField.isSecureTextEntry {
                     // 入力内容が非表示
                     strongSelf.passwordSecureTextButton.setImage(
-                        UIImage(systemName: "eye"), for: .normal)
+                        strongSelf.eyeImage, for: .normal)
                 } else {
                     // 入力内容が表示
                     strongSelf.passwordSecureTextButton.setImage(
-                        UIImage(systemName: "eye.slash"), for: .normal)
+                        strongSelf.eyeSlashImage, for: .normal)
                 }
             })
             .disposed(by: disposeBag)
@@ -199,31 +201,7 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
                 guard let strongSelf = self else { return }
-                switch event {
-                case .dismiss:
-                    strongSelf.dismiss(animated: true, completion: nil)
-                case .presentErrorAlertView(let alertTitle, let message):
-                    strongSelf.presentAlert(alertTitle: alertTitle, message: message,
-                                            action: strongSelf.errorAction())
-                case .presentDismissAlertView(let alertTitle, let message):
-                    strongSelf.presentAlert(alertTitle: alertTitle, message: message,
-                                            action: strongSelf.dismissAction())
-                case .presentPopVCAlertView(let alertTitle, let message):
-                    strongSelf.presentAlert(alertTitle: alertTitle, message: message,
-                                            action: strongSelf.popVCAction())
-                case .pushAuthFormForgotPasswordMode:
-                    let authFormViewController = AuthFormViewController(
-                        viewModel: AuthFormViewModel(mode: .forgotPassword)
-                    )
-                    strongSelf.navigationController?
-                        .pushViewController(authFormViewController, animated: true)
-                case .popVC:
-                    strongSelf.navigationController?.popViewController(animated: true)
-                case .startAnimating:
-                    strongSelf.activityIndicatorView.startAnimating()
-                case .stopAnimating:
-                    strongSelf.activityIndicatorView.stopAnimating()
-                }
+                strongSelf.executeEvent(event: event)
             })
             .disposed(by: disposeBag)
     }
@@ -234,6 +212,34 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
             mail: mailTextField.text!,
             password: passwordTextField.text!
         )
+    }
+
+    private func executeEvent(event: AuthFormViewModel.Event) {
+        switch event {
+        case .dismiss:
+            dismiss(animated: true, completion: nil)
+        case .presentErrorAlertView(let alertTitle, let message):
+            presentAlert(alertTitle: alertTitle, message: message,
+                         action: errorAction())
+        case .presentDismissAlertView(let alertTitle, let message):
+            presentAlert(alertTitle: alertTitle, message: message,
+                         action: dismissAction())
+        case .presentPopVCAlertView(let alertTitle, let message):
+            presentAlert(alertTitle: alertTitle, message: message,
+                         action: popVCAction())
+        case .pushAuthFormForgotPasswordMode:
+            let authFormViewController = AuthFormViewController(
+                viewModel: AuthFormViewModel(mode: .forgotPassword)
+            )
+            navigationController?
+                .pushViewController(authFormViewController, animated: true)
+        case .popVC:
+            navigationController?.popViewController(animated: true)
+        case .startAnimating:
+            activityIndicatorView.startAnimating()
+        case .stopAnimating:
+            activityIndicatorView.stopAnimating()
+        }
     }
 
     private func presentAlert(alertTitle: String, message: String, action: UIAlertAction) {

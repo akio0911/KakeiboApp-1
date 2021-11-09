@@ -244,7 +244,7 @@ final class InputViewController: UIViewController,
     }
 
     private func didTapSaveButton() {
-        guard balanceTextField.text != "" else {
+        guard !balanceTextField.text!.isEmpty else {
             showBalanceAlert()
             return
         }
@@ -331,7 +331,6 @@ final class InputViewController: UIViewController,
 
     @objc func keyboardDidShow(_ notification: Notification) {
         guard let editingTextField = editingTextField else { return }
-        // swiftlint:disable:next force_cast
         let userInfo = (notification as Notification).userInfo!
         // swiftlint:disable:next force_cast
         let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue

@@ -5,7 +5,7 @@
 //  Created by 今村京平 on 2021/10/05.
 //
 
-import UIKit
+import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
@@ -68,7 +68,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                                 }
                             case .failure(let error):
                                 // CategoryData型に変換失敗
-                                print("----Error decoding item: \(error)----")
+                                print("----Error decoding item: \(error.localizedDescription)----")
                             }
                         }
                         data(categoryArray)
@@ -87,7 +87,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                 guard let strongSelf = self else { return }
                 if let error = error {
                     // 読み込みに失敗
-                    print("----Error getting documents: \(error)----")
+                    print("----Error getting documents: \(error.localizedDescription)----")
                 } else {
                     // 読み込みに成功
                     if let documents = querySnapshot?.documents {
@@ -112,7 +112,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                                 }
                             case .failure(let error):
                                 // CategoryData型に変換失敗
-                                print("----Error decoding item: \(error)----")
+                                print("----Error decoding item: \(error.localizedDescription)----")
                             }
                         }
                         data(categoryArray)
@@ -131,7 +131,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                     .document(categoryData.id)
                 try ref.setData(from: categoryData)
             } catch let error {
-                print("----Error writing categoryData to Firestore: \(error)----")
+                print("----Error writing categoryData to Firestore: \(error.localizedDescription)----")
             }
         }
     }
@@ -146,7 +146,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                     .document(categoryData.id)
                 try ref.setData(from: categoryData)
             } catch let error {
-                print("----Error writing categoryData to Firestore: \(error)----")
+                print("----Error writing categoryData to Firestore: \(error.localizedDescription)----")
             }
         }
     }
@@ -160,7 +160,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                 .document(data.id)
             try ref.setData(from: data)
         } catch let error {
-            print("Error writing categoryData to Firestore: \(error)")
+            print("Error writing categoryData to Firestore: \(error.localizedDescription)")
         }
     }
 
@@ -173,7 +173,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                 .document(data.id)
             try ref.setData(from: data)
         } catch let error {
-            print("Error writing categoryData to Firestore: \(error)")
+            print("Error writing categoryData to Firestore: \(error.localizedDescription)")
         }
     }
 
@@ -184,7 +184,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
             .document(data.id)
             .delete { error in
                 if let error = error {
-                    print("Error delete categoryData to Firestore: \(error)")
+                    print("Error delete categoryData to Firestore: \(error.localizedDescription)")
                 }
             }
     }
@@ -196,7 +196,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
             .document(data.id)
             .delete { error in
                 if let error = error {
-                    print("Error delete categoryData to Firestore: \(error)")
+                    print("Error delete categoryData to Firestore: \(error.localizedDescription)")
                 }
             }
     }

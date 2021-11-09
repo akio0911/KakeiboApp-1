@@ -12,7 +12,7 @@ struct NumberFormatterUtility {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currencyPlural
         numberFormatter.locale = Locale(identifier: "ja_JP")
-        let value = NSNumber(integerLiteral: from)
+        let value = NSNumber(value: from)
         return numberFormatter.string(from: value)
     }
 }

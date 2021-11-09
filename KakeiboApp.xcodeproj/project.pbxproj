@@ -66,6 +66,7 @@
 		4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4799911226F59E4500BD5B38 /* CategoryViewController.xib */; };
 		4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911626F59F6400BD5B38 /* CategoryViewModel.swift */; };
 		4799911A26F5A0BB00BD5B38 /* CategoryTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911926F5A0BB00BD5B38 /* CategoryTableViewData.swift */; };
+		47A1E1F3273A540500A8BCCC /* StoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A1E1F2273A540500A8BCCC /* StoreError.swift */; };
 		47A6BFD9270FDCC700698113 /* HowToUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A6BFD7270FDCC700698113 /* HowToUseViewController.swift */; };
 		47A6BFDA270FDCC700698113 /* HowToUseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47A6BFD8270FDCC700698113 /* HowToUseViewController.xib */; };
 		47A6BFDD270FDEBC00698113 /* HowToUseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A6BFDC270FDEBC00698113 /* HowToUseViewModel.swift */; };
@@ -168,6 +169,7 @@
 		4799911226F59E4500BD5B38 /* CategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
 		4799911626F59F6400BD5B38 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		4799911926F5A0BB00BD5B38 /* CategoryTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewData.swift; sourceTree = "<group>"; };
+		47A1E1F2273A540500A8BCCC /* StoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreError.swift; sourceTree = "<group>"; };
 		47A6BFD7270FDCC700698113 /* HowToUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseViewController.swift; sourceTree = "<group>"; };
 		47A6BFD8270FDCC700698113 /* HowToUseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HowToUseViewController.xib; sourceTree = "<group>"; };
 		47A6BFDC270FDEBC00698113 /* HowToUseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseViewModel.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */,
 				472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */,
 				4773CBF9270BDE2400C52DE0 /* CategoryDataRepository.swift */,
+				47A1E1F2273A540500A8BCCC /* StoreError.swift */,
 			);
 			path = DataRepository;
 			sourceTree = "<group>";
@@ -851,8 +854,8 @@
 				478156FA266128C8005E1020 /* Sources */,
 				478156FB266128C8005E1020 /* Frameworks */,
 				478156FC266128C8005E1020 /* Resources */,
-				4711605D26833B970032C4A8 /* Run Script */,
 				88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */,
+				47A1E1F127393EC000A8BCCC /* ShellScript */,
 				478734AA273392D10028A0AD /* ShellScript */,
 			);
 			buildRules = (
@@ -930,26 +933,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4711605D26833B970032C4A8 /* Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "
-
-";
-		};
 		478734AA273392D10028A0AD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -968,6 +951,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
+		47A1E1F127393EC000A8BCCC /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1075,6 +1075,7 @@
 				472F6F542725996A00DB44E9 /* AuthType.swift in Sources */,
 				4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */,
 				478734A927335CA70028A0AD /* ExtensionArray.swift in Sources */,
+				47A1E1F3273A540500A8BCCC /* StoreError.swift in Sources */,
 				47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */,
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
 				472EFDDF2705EECB00A80640 /* PasscodeObserver.swift in Sources */,
