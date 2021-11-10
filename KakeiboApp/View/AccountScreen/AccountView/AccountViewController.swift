@@ -89,6 +89,10 @@ final class AccountViewController: UIViewController {
             .drive(signupButton.rx.isHidden)
             .disposed(by: disposeBag)
 
+        viewModel.outputs.isHiddenAccountEnterButton
+            .drive(accountEnterButton.rx.isHidden)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.isOnPasscode
             .drive(passcodeSwitch.rx.value)
             .disposed(by: disposeBag)

@@ -22,6 +22,7 @@ protocol AccountViewModelOutput {
     var userNameLabel: Driver<String> { get }
     var accountEnterButtonTitle: Driver<String> { get }
     var isHiddenSignupButton: Driver<Bool> { get }
+    var isHiddenAccountEnterButton: Driver<Bool> { get }
     var isOnPasscode: Driver<Bool> { get }
     var event: Driver<AccountViewModel.Event> { get }
 }
@@ -48,9 +49,11 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     private let userNameLabelRelay = BehaviorRelay<String>(value: "")
     private let accountEnterButtonTitleRelay = BehaviorRelay<String>(value: "")
     private let isHiddenSignupButtonRelay = BehaviorRelay<Bool>(value: false)
+    private let isHiddenAccountEnterButtonRelay = BehaviorRelay<Bool>(value: false)
     private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
     private let eventRelay = PublishRelay<Event>()
     private var userInfo: UserInfo?
+    private let appId = "1571086397"
 
     init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository(),
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
@@ -72,24 +75,18 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     private func setupUserInfo() {
-        if userInfo == nil {
-            // ログアウト中
-            userNameLabelRelay.accept("ログアウト中")
-            accountEnterButtonTitleRelay.accept("ログイン")
+        guard let userInfo = userInfo else { return }
+        if let userName = userInfo.name {
+            // ユーザー名がある(メールとパスワードによるログイン中)
+            userNameLabelRelay.accept(userName)
             isHiddenSignupButtonRelay.accept(true)
+            isHiddenAccountEnterButtonRelay.accept(true)
         } else {
-            // ログイン中
-            if let userName = userInfo?.name {
-                // ユーザー名がある(メールとパスワードによるログイン中)
-                userNameLabelRelay.accept(userName)
-                accountEnterButtonTitleRelay.accept("ログアウト")
-                isHiddenSignupButtonRelay.accept(true)
-            } else {
-                // ユーザー名がない(匿名認証によるログイン中)
-                userNameLabelRelay.accept("未登録")
-                accountEnterButtonTitleRelay.accept("ログイン")
-                isHiddenSignupButtonRelay.accept(false)
-            }
+            // ユーザー名がない(匿名認証によるログイン中)
+            userNameLabelRelay.accept("未登録")
+            accountEnterButtonTitleRelay.accept("ログイン")
+            isHiddenSignupButtonRelay.accept(false)
+            isHiddenAccountEnterButtonRelay.accept(false)
         }
     }
 
@@ -122,6 +119,10 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         isHiddenSignupButtonRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    var isHiddenAccountEnterButton: Driver<Bool> {
+        isHiddenAccountEnterButtonRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
     var isOnPasscode: Driver<Bool> {
         isOnPasscodeRelay.asDriver(onErrorDriveWith: .empty())
     }
@@ -131,20 +132,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     func didTapAccountEnterButton() {
-        if let userInfo = userInfo {
-            // ログイン中
-            if userInfo.name == nil {
-                // ユーザー名がない(匿名認証によるログイン中)
-                eventRelay.accept(.presentLogin)
-            } else {
-                // ユーザー名がある(メールとパスワードによるログイン中)
-                // ログアウト処理
-                authType.signOut()
-            }
-        } else {
-            // ログアウト中
-            eventRelay.accept(.presentLogin)
-        }
+        eventRelay.accept(.presentLogin)
     }
 
     func didTapSignupButton() {
@@ -167,14 +155,13 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     func didTapShareButton() {
-        let shareText = "Sample"
-        guard let shareUrl = NSURL(string: "https://www.apple.com/") else { return }
+        let shareText = "私の家計簿！"
+        guard let shareUrl = NSURL(string: "https://apps.apple.com/jp/app/apple-store/id\(appId)") else { return }
         let activityItems = [shareText, shareUrl] as [Any]
         eventRelay.accept(.presentActivityVC(activityItems))
     }
 
     func didTapReviewButton() {
-        let appId = "375380948"
         guard let url =
                 URL(string: "https://apps.apple.com/jp/app/apple-store/id\(appId)?action=write-review")
         else { return }

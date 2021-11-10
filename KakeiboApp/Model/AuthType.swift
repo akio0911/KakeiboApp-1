@@ -17,7 +17,6 @@ protocol AuthTypeProtocol {
     func createUser(userName: String, mail: String, password: String)
     func signIn(mail: String, password: String)
     func sendPasswordReset(mail: String)
-    func signOut()
 }
 
 final class AuthType: AuthTypeProtocol {
@@ -114,18 +113,6 @@ final class AuthType: AuthTypeProtocol {
                 // 送信に成功
                 strongSelf.authSuccessRelay.accept(())
             }
-        }
-    }
-
-    func signOut() {
-        do {
-            let firebaseAuth = Auth.auth()
-            try firebaseAuth.signOut()
-            let userInfo = UserInfo(user: firebaseAuth.currentUser)
-            userInfoRelay.accept(userInfo)
-        } catch let signOutError as NSError {
-            print("Error signing out: %@", signOutError)
-            print("signOutError: \(signOutError.localizedDescription)")
         }
     }
 }
