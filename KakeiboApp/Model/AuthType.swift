@@ -65,11 +65,6 @@ final class AuthType: AuthTypeProtocol {
                 // ユーザー名の設定に失敗
                 if let error = error {
                     strongSelf.authErrorRelay.accept(AuthError(error: error))
-                    authResult.user.delete { error in
-                        if let error = error {
-                            print("Error-user.delete: \(error.localizedDescription)")
-                        }
-                    }
                     return
                 }
 
@@ -79,11 +74,6 @@ final class AuthType: AuthTypeProtocol {
                     if let error = error {
                         // 確認メール送信失敗
                         strongSelf.authErrorRelay.accept(AuthError(error: error))
-                        authResult.user.delete { error in
-                            if let error = error {
-                                print("Error-user.delete: \(error.localizedDescription)")
-                            }
-                        }
                     } else {
                         // 確認メール送信成功
                         strongSelf.authSuccessRelay.accept(())
