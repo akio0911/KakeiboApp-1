@@ -43,32 +43,34 @@ final class AuthType: AuthTypeProtocol {
     }
 
     func createUser(userName: String, mail: String, password: String) {
-        // 匿名アカウントを永久アカウントに変換
-        // クレデンシャルを作成
-        let credential = EmailAuthProvider.credential(withEmail: mail, password: password)
-        // アカウントを作成
-        Auth.auth().currentUser?.link(with: credential) { [weak self] authResult, error in
+        // ユーザー名の設定
+        guard let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest() else { return }
+        changeRequest.displayName = userName
+        changeRequest.commitChanges { [weak self] error in
             guard let strongSelf = self else { return }
-            // アカウント作成に失敗
+            // ユーザー名の設定に失敗
             if let error = error {
                 strongSelf.authErrorRelay.accept(AuthError(error: error))
                 return
             }
 
-            // アカウント作成に成功
-            guard let authResult = authResult else { return }
-
-            // ユーザー名の設定
-            let changeRequest = authResult.user.createProfileChangeRequest()
-            changeRequest.displayName = userName
-            changeRequest.commitChanges { error in
-                // ユーザー名の設定に失敗
+            // ユーザー名の設定に成功
+            // 匿名アカウントを永久アカウントに変換
+            // クレデンシャルを作成
+            let credential = EmailAuthProvider.credential(withEmail: mail, password: password)
+            // アカウントを作成
+            Auth.auth().currentUser?.link(with: credential) { [weak self] authResult, error in
+                guard let strongSelf = self else { return }
+                // アカウント作成に失敗
                 if let error = error {
                     strongSelf.authErrorRelay.accept(AuthError(error: error))
                     return
                 }
+                // アカウント作成に成功
+                guard let authResult = authResult else { return }
+                let userInfo = UserInfo(user: authResult.user)
+                strongSelf.userInfoRelay.accept(userInfo)
 
-                // ユーザー名の設定に成功
                 // 確認メールの送信
                 authResult.user.sendEmailVerification { error in
                     if let error = error {
@@ -77,8 +79,6 @@ final class AuthType: AuthTypeProtocol {
                     } else {
                         // 確認メール送信成功
                         strongSelf.authSuccessRelay.accept(())
-                        let userInfo = UserInfo(user: authResult.user)
-                        strongSelf.userInfoRelay.accept(userInfo)
                     }
                 }
             }
