@@ -23,7 +23,6 @@ enum AuthError: Error {
 
     init?(error: Error) {
         guard let errorCode = AuthErrorCode(rawValue: error._code) else { return nil }
-        print("💣\(error._code)")
         switch errorCode {
         case .invalidEmail:
             // メールアドレスの形式が正しくないことを示します。

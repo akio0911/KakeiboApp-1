@@ -84,8 +84,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
             isHiddenAccountEnterButtonRelay.accept(false)
         } else {
             // メールとパスワードによるログイン中
-            guard let userName = userInfo.name else { return }
-            userNameLabelRelay.accept(userName)
+            userNameLabelRelay.accept(userInfo.name ?? "未設定")
             isHiddenSignupButtonRelay.accept(true)
             isHiddenAccountEnterButtonRelay.accept(true)
         }

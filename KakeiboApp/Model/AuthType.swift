@@ -72,6 +72,8 @@ final class AuthType: AuthTypeProtocol {
                 strongSelf.authErrorRelay.accept(AuthError.failureSendEmailVerification)
             } else {
                 // 確認メール送信成功
+                let userInfo = UserInfo(user: currentUser)
+                strongSelf.userInfoRelay.accept(userInfo)
                 strongSelf.authSuccessRelay.accept(())
             }
         }
