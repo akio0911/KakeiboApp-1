@@ -16,12 +16,14 @@ enum AuthError: Error {
     case tooManyRequests
     case emailAlreadyInUse
     case weakPassword
+    case networkError
     case failureUpdateDisplayName
     case failureSendEmailVerification
     case other(String)
 
     init?(error: Error) {
         guard let errorCode = AuthErrorCode(rawValue: error._code) else { return nil }
+        print("💣\(error._code)")
         switch errorCode {
         case .invalidEmail:
             // メールアドレスの形式が正しくないことを示します。
@@ -45,6 +47,9 @@ enum AuthError: Error {
         case .weakPassword:
             // 設定しようとしたパスワードが弱すぎると判断されたことを示します。
             self = .weakPassword
+        case .networkError:
+            // ネットワークエラーが発生したことを示します。
+            self = .networkError
         default:
             self = .other(error.localizedDescription)
         }
@@ -66,6 +71,8 @@ enum AuthError: Error {
             return "登録済みのメールアドレスです。"
         case .weakPassword:
             return "パスワードが脆弱です。"
+        case .networkError:
+            return "ネットワークエラーが発生しました。"
         case .failureUpdateDisplayName:
             return "ユーザー名の設定に失敗しました。"
         case .failureSendEmailVerification:
@@ -91,6 +98,8 @@ enum AuthError: Error {
             return "ログイン画面からログインしてください。"
         case .weakPassword:
             return "第三者から判定されづらいパスワードにしてください"
+        case .networkError:
+            return "電波の良いところでやり直してください。"
         case .failureUpdateDisplayName:
             return "電波の良いところでユーザー名を再設定してください。"
         case .failureSendEmailVerification:

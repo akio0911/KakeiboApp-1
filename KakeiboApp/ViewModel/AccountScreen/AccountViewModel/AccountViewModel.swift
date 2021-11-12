@@ -76,17 +76,18 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
 
     private func setupUserInfo() {
         guard let userInfo = userInfo else { return }
-        if let userName = userInfo.name {
-            // ユーザー名がある(メールとパスワードによるログイン中)
-            userNameLabelRelay.accept(userName)
-            isHiddenSignupButtonRelay.accept(true)
-            isHiddenAccountEnterButtonRelay.accept(true)
-        } else {
-            // ユーザー名がない(匿名認証によるログイン中)
+        if userInfo.isAnonymous {
+            //　匿名認証によるログイン中
             userNameLabelRelay.accept("未登録")
             accountEnterButtonTitleRelay.accept("ログイン")
             isHiddenSignupButtonRelay.accept(false)
             isHiddenAccountEnterButtonRelay.accept(false)
+        } else {
+            // メールとパスワードによるログイン中
+            guard let userName = userInfo.name else { return }
+            userNameLabelRelay.accept(userName)
+            isHiddenSignupButtonRelay.accept(true)
+            isHiddenAccountEnterButtonRelay.accept(true)
         }
     }
 
