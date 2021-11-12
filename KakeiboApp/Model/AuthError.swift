@@ -16,6 +16,8 @@ enum AuthError: Error {
     case tooManyRequests
     case emailAlreadyInUse
     case weakPassword
+    case failureUpdateDisplayName
+    case failureSendEmailVerification
     case other(String)
 
     init?(error: Error) {
@@ -64,6 +66,10 @@ enum AuthError: Error {
             return "登録済みのメールアドレスです。"
         case .weakPassword:
             return "パスワードが脆弱です。"
+        case .failureUpdateDisplayName:
+            return "ユーザー名の設定に失敗しました。"
+        case .failureSendEmailVerification:
+            return "確認メールを送信に失敗しました。"
         case .other(_):
             return nil
         }
@@ -85,6 +91,10 @@ enum AuthError: Error {
             return "ログイン画面からログインしてください。"
         case .weakPassword:
             return "第三者から判定されづらいパスワードにしてください"
+        case .failureUpdateDisplayName:
+            return "電波の良いところでユーザー名を再設定してください。"
+        case .failureSendEmailVerification:
+            return "電波の良いところでメールを再送信してください。"
         case .other(let message):
             return message
         }

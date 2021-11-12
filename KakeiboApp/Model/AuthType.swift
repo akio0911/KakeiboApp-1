@@ -17,6 +17,8 @@ protocol AuthTypeProtocol {
     func createUser(userName: String, mail: String, password: String)
     func signIn(mail: String, password: String)
     func sendPasswordReset(mail: String)
+    func updateDisplayName(userName: String)
+    func sendEmailVerification()
 }
 
 final class AuthType: AuthTypeProtocol {
@@ -42,23 +44,7 @@ final class AuthType: AuthTypeProtocol {
         userInfoRelay.asObservable()
     }
 
-    private func updateDisplayName(userName: String, mail: String, password: String) {
-        // ユーザー名の設定
-        guard let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest() else { return }
-        changeRequest.displayName = userName
-        changeRequest.commitChanges { [weak self] error in
-            guard let strongSelf = self else { return }
-            if let error = error {
-                // ユーザー名の設定に失敗
-                strongSelf.authErrorRelay.accept(AuthError(error: error))
-                return
-            }
-            // ユーザー名の設定に成功
-            strongSelf.currentUserLink(mail: mail, password: password)
-        }
-    }
-
-    private func currentUserLink(mail: String, password: String) {
+    private func currentUserLink(userName: String, mail: String, password: String) {
         // 匿名アカウントを永久アカウントに変換
         let credential = EmailAuthProvider.credential(withEmail: mail, password: password)
         Auth.auth().currentUser?.link(with: credential) { [weak self] authResult, error in
@@ -72,17 +58,18 @@ final class AuthType: AuthTypeProtocol {
             guard let authResult = authResult else { return }
             let userInfo = UserInfo(user: authResult.user)
             strongSelf.userInfoRelay.accept(userInfo)
-            strongSelf.sendEmailVerification(user: authResult.user)
+            strongSelf.updateDisplayName(userName: userName)
         }
     }
 
-    private func sendEmailVerification(user: User) {
+    func sendEmailVerification() {
+        guard let currentUser = Auth.auth().currentUser else { return }
         // 確認メールの送信
-        user.sendEmailVerification { [weak self] error in
+        currentUser.sendEmailVerification { [weak self] error in
             guard let strongSelf = self else { return }
-            if let error = error {
+            if error != nil {
                 // 確認メール送信失敗
-                strongSelf.authErrorRelay.accept(AuthError(error: error))
+                strongSelf.authErrorRelay.accept(AuthError.failureSendEmailVerification)
             } else {
                 // 確認メール送信成功
                 strongSelf.authSuccessRelay.accept(())
@@ -90,8 +77,25 @@ final class AuthType: AuthTypeProtocol {
         }
     }
 
+    func updateDisplayName(userName: String) {
+        // ユーザー名の設定
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let changeRequest = currentUser.createProfileChangeRequest()
+        changeRequest.displayName = userName
+        changeRequest.commitChanges { [weak self] error in
+            guard let strongSelf = self else { return }
+            if error != nil {
+                // ユーザー名の設定に失敗
+                strongSelf.authErrorRelay.accept(AuthError.failureUpdateDisplayName)
+                return
+            }
+            // ユーザー名の設定に成功
+            strongSelf.sendEmailVerification()
+        }
+    }
+
     func createUser(userName: String, mail: String, password: String) {
-        updateDisplayName(userName: userName, mail: mail, password: password)
+        currentUserLink(userName: userName, mail: mail, password: password)
     }
 
     func signIn(mail: String, password: String) {

@@ -13,6 +13,8 @@ protocol AuthFormViewModelInput {
     func didTapEnterButton(userName: String, mail: String, password: String)
     func didTapCancelButtton()
     func didTapForgotPasswordButton()
+    func updateDisplayName(userName: String)
+    func sendEmailVerification()
 }
 
 protocol AuthFormViewModelOutput {
@@ -31,6 +33,8 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         case presentErrorAlertView(String, String) // (alertTitle, message)
         case presentDismissAlertView(String, String) // (alertTitle, message)
         case presentPopVCAlertView(String, String) // (alertTitle, message)
+        case presentTextAlertView(String, String) // (alertTitle, message)
+        case presentSendEmailVerification(String, String) // (alertTitle, message)
         case pushAuthFormForgotPasswordMode
         case popVC
         case startAnimating
@@ -59,8 +63,17 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             .subscribe(onNext: { [weak self] authError in
                 guard let strongSelf = self else { return }
                 strongSelf.eventRelay.accept(.stopAnimating)
-                let (alertTitle, message) = strongSelf.createErrorAlertText(authError: authError)
-                strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle, message))
+                switch authError {
+                case .failureUpdateDisplayName:
+                    let (alertTitle, message) = (authError!.reason, authError!.message)
+                    strongSelf.eventRelay.accept(.presentTextAlertView(alertTitle!, message))
+                case .failureSendEmailVerification:
+                    let (alertTitle, message) = (authError!.reason, authError!.message)
+                    strongSelf.eventRelay.accept(.presentSendEmailVerification(alertTitle!, message))
+                default:
+                    let (alertTitle, message) = strongSelf.createErrorAlertText(authError: authError)
+                    strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle, message))
+                }
             })
             .disposed(by: disposeBag)
 
@@ -86,6 +99,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
 
     private func createErrorAlertText(authError: AuthError?) -> (String, String) {
         var alertTitle: String
+        var message = ""
         switch mode {
         case .login:
             alertTitle = "ログインに失敗しました。"
@@ -94,7 +108,6 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
         case .forgotPassword:
             alertTitle = "再設定メールの送信に失敗しました。"
         }
-        var message = ""
         guard let authError = authError else {
             return (alertTitle, message)
         }
@@ -119,6 +132,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
                 let alertTitle = "ユーザー名が未入力です。"
                 let message = "ユーザー名を入力してください。"
                 eventRelay.accept(.presentErrorAlertView(alertTitle, message))
+                eventRelay.accept(.stopAnimating)
                 return
             }
             authType.createUser(userName: userName, mail: mail, password: password)
@@ -138,6 +152,16 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
 
     func didTapForgotPasswordButton() {
         eventRelay.accept(.pushAuthFormForgotPasswordMode)
+    }
+
+    func updateDisplayName(userName: String) {
+        eventRelay.accept(.startAnimating)
+        authType.updateDisplayName(userName: userName)
+    }
+
+    func sendEmailVerification() {
+        eventRelay.accept(.startAnimating)
+        authType.sendEmailVerification()
     }
 }
 

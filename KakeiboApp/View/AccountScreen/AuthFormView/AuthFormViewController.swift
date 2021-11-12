@@ -31,6 +31,7 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private var editingTextField: UITextField?
     private let eyeImage = UIImage(systemName: "eye")
     private let eyeSlashImage = UIImage(systemName: "eye.slash")
+    private let alertTextField = "alertTextField"
 
     init(viewModel: AuthFormViewModelType) {
         self.viewModel = viewModel
@@ -227,6 +228,12 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         case .presentPopVCAlertView(let alertTitle, let message):
             presentAlert(alertTitle: alertTitle, message: message,
                          action: popVCAction())
+        case .presentTextAlertView(let alertTitle, let message):
+            presentAlert(alertTitle: alertTitle, message: message,
+                         action: errorAction(title: "再送信"), isAddedTextField: true)
+        case .presentSendEmailVerification(let alertTitle, let message):
+            presentAlert(alertTitle: alertTitle, message: message,
+                         action: sendEmailVerificationAction())
         case .pushAuthFormForgotPasswordMode:
             let authFormViewController = AuthFormViewController(
                 viewModel: AuthFormViewModel(mode: .forgotPassword)
@@ -242,14 +249,22 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    private func presentAlert(alertTitle: String, message: String, action: UIAlertAction) {
+    private func presentAlert(alertTitle: String, message: String,
+                              action: UIAlertAction, isAddedTextField: Bool = false) {
         let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
         alert.addAction(action)
+        if isAddedTextField {
+            alert.addTextField { [weak self] textField in
+                guard let strongSelf = self else { return }
+                textField.accessibilityIdentifier = strongSelf.alertTextField
+                textField.delegate = strongSelf
+            }
+        }
         present(alert, animated: true, completion: nil)
     }
 
-    private func errorAction() -> UIAlertAction {
-        UIAlertAction(title: "OK", style: .default, handler: nil)
+    private func errorAction(title: String = "OK") -> UIAlertAction {
+        UIAlertAction(title: title, style: .default, handler: nil)
     }
 
     private func dismissAction() -> UIAlertAction {
@@ -263,6 +278,13 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.navigationController?.popViewController(animated: true)
+        }
+    }
+
+    private func sendEmailVerificationAction() -> UIAlertAction {
+        UIAlertAction(title: "再送信", style: .default) { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.viewModel.inputs.sendEmailVerification()
         }
     }
 
@@ -329,6 +351,10 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
+        guard textField.accessibilityIdentifier != alertTextField else {
+            viewModel.inputs.updateDisplayName(userName: textField.text!)
+            return
+        }
         editingTextField = nil
     }
 
