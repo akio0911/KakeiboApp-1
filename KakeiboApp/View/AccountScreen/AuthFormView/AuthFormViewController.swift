@@ -134,19 +134,19 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         case .forgotPassword:
             userNameStackView.isHidden = true
             passwordStackView.isHidden = true
-            forgotPasswordButton.removeFromSuperview()
+            forgotPasswordButton.isHidden = true
             enterButton.setTitle("再設定メールを送信", for: .normal)
             setupBarButtonItem(enterButtonTitle: "送信")
         case .register:
             let next = "次へ"
             passwordStackView.isHidden = true
-            forgotPasswordButton.removeFromSuperview()
+            forgotPasswordButton.isHidden = true
             enterButton.setTitle(next, for: .normal)
             setupBarButtonItem(enterButtonTitle: next)
         case .setPassword:
             userNameStackView.isHidden = true
             mailStackView.isHidden = true
-            forgotPasswordButton.removeFromSuperview()
+            forgotPasswordButton.isHidden = true
             enterButton.setTitle("パスワードを設定", for: .normal)
             setupBarButtonItem(enterButtonTitle: "設定")
         }
@@ -249,7 +249,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
             activityIndicatorView.startAnimating()
         case .stopAnimating:
             activityIndicatorView.stopAnimating()
-
         }
     }
 
