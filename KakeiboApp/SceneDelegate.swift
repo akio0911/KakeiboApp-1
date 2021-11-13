@@ -19,12 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         let firebaseAuth = Auth.auth()
-        // TODO: リリース時削除
-        do {
-          try firebaseAuth.signOut()
-        } catch let signOutError as NSError {
-          print("Error signing out: %@", signOutError)
-        }
         if firebaseAuth.currentUser == nil {
             // ログアウト中
             // FireBaseの匿名認証
