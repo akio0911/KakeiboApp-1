@@ -10,123 +10,123 @@ import FirebaseAuth
 import RxSwift
 import RxRelay
 
+typealias AuthCompletion = (AuthError?) -> Void
+
 protocol AuthTypeProtocol {
-    var authError: Observable<AuthError?> { get }
-    var authSuccess: Observable<Void> { get }
     var userInfo: Observable<UserInfo?> { get }
-    func createUser(userName: String, mail: String, password: String)
-    func signIn(mail: String, password: String)
-    func sendPasswordReset(mail: String)
-    func updateDisplayName(userName: String)
-    func sendEmailVerification()
+    func registerUser(userName: String, email: String, completion: @escaping AuthCompletion)
+    func signIn(email: String, password: String, completion: @escaping AuthCompletion)
+    func sendPasswordReset(email: String, completion: @escaping AuthCompletion)
+    func currentUserLink(password: String, completion: @escaping AuthCompletion)
+    func sendSignInLink(email: String, completion: @escaping AuthCompletion)
 }
 
 final class AuthType: AuthTypeProtocol {
-    private let authErrorRelay = PublishRelay<AuthError?>()
-    private let authSuccessRelay = PublishRelay<Void>()
     private let userInfoRelay = BehaviorRelay<UserInfo?>(value: nil)
+    private var actionCodeSettings: ActionCodeSettings!
+    private let emailKey = "email"
 
     init() {
         let currentUser = Auth.auth().currentUser
         let userInfo = UserInfo(user: currentUser)
         userInfoRelay.accept(userInfo)
-    }
-
-    var authError: Observable<AuthError?> {
-        authErrorRelay.asObservable()
-    }
-
-    var authSuccess: Observable<Void> {
-        authSuccessRelay.asObservable()
+        setupActionCode()
     }
 
     var userInfo: Observable<UserInfo?> {
         userInfoRelay.asObservable()
     }
 
-    private func currentUserLink(userName: String, mail: String, password: String) {
-        // 匿名アカウントを永久アカウントに変換
-        let credential = EmailAuthProvider.credential(withEmail: mail, password: password)
-        Auth.auth().currentUser?.link(with: credential) { [weak self] authResult, error in
-            guard let strongSelf = self else { return }
-            if let error = error {
-                // アカウント変換に失敗
-                strongSelf.authErrorRelay.accept(AuthError(error: error))
-                return
-            }
-            // アカウント変換に成功
-            guard let authResult = authResult else { return }
-            let userInfo = UserInfo(user: authResult.user)
-            strongSelf.userInfoRelay.accept(userInfo)
-            strongSelf.updateDisplayName(userName: userName)
-        }
+    private func setupActionCode() {
+        actionCodeSettings = ActionCodeSettings()
+        actionCodeSettings.url = URL(string: "https://kakeiboapp-22658.firebaseapp.com")
+        actionCodeSettings.handleCodeInApp = true
+        actionCodeSettings.setIOSBundleID(Bundle.main.bundleIdentifier!)
     }
 
-    func sendEmailVerification() {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        // 確認メールの送信
-        currentUser.sendEmailVerification { [weak self] error in
-            guard let strongSelf = self else { return }
-            if error != nil {
-                // 確認メール送信失敗
-                strongSelf.authErrorRelay.accept(AuthError.failureSendEmailVerification)
-            } else {
-                // 確認メール送信成功
-                let userInfo = UserInfo(user: currentUser)
-                strongSelf.userInfoRelay.accept(userInfo)
-                strongSelf.authSuccessRelay.accept(())
-            }
-        }
-    }
-
-    func updateDisplayName(userName: String) {
+    private func updateDisplayName(userName: String, email: String, completion: @escaping AuthCompletion) {
         // ユーザー名の設定
         guard let currentUser = Auth.auth().currentUser else { return }
         let changeRequest = currentUser.createProfileChangeRequest()
         changeRequest.displayName = userName
         changeRequest.commitChanges { [weak self] error in
             guard let strongSelf = self else { return }
-            if error != nil {
+            if let error = error {
                 // ユーザー名の設定に失敗
-                strongSelf.authErrorRelay.accept(AuthError.failureUpdateDisplayName)
-                return
+                completion(AuthError(error: error))
+            } else {
+                // ユーザー名の設定に成功
+                strongSelf.sendSignInLink(email: email, completion: completion)
             }
-            // ユーザー名の設定に成功
-            strongSelf.sendEmailVerification()
         }
     }
 
-    func createUser(userName: String, mail: String, password: String) {
-        currentUserLink(userName: userName, mail: mail, password: password)
+    func sendSignInLink(email: String, completion: @escaping AuthCompletion) {
+        Auth.auth().sendSignInLink(toEmail: email, actionCodeSettings: actionCodeSettings) { [weak self] error in
+            guard let strongSelf = self else { return }
+            if let error = error {
+                // メールリンク送信に失敗
+                completion(AuthError(error: error))
+            } else {
+                // メールリンク送信に成功
+                UserDefaults.standard.set(email, forKey: strongSelf.emailKey)
+                completion(nil)
+            }
+        }
     }
 
-    func signIn(mail: String, password: String) {
+    func registerUser(userName: String, email: String, completion: @escaping AuthCompletion) {
+        updateDisplayName(userName: userName, email: email, completion: completion)
+    }
+
+    func currentUserLink(password: String, completion: @escaping AuthCompletion) {
+        guard let email = UserDefaults.standard.value(forKey: emailKey) as? String else {
+            completion(AuthError.other("お手数おかけしますが、新規登録からやり直してください。"))
+            return
+        }
+        // 匿名アカウントを永久アカウントに変換
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+        Auth.auth().currentUser?.link(with: credential) { [weak self] authResult, error in
+            guard let strongSelf = self else { return }
+            if let error = error {
+                // アカウント変換に失敗
+                completion(AuthError(error: error))
+            } else {
+                // アカウント変換に成功
+                guard let authResult = authResult else { return }
+                let userInfo = UserInfo(user: authResult.user)
+                strongSelf.userInfoRelay.accept(userInfo)
+                completion(nil)
+            }
+        }
+    }
+
+    func signIn(email: String, password: String, completion: @escaping AuthCompletion) {
         // メールアドレスとパスワードでログイン
-        Auth.auth().signIn(withEmail: mail,
+        Auth.auth().signIn(withEmail: email,
                            password: password) { [weak self] authResult, error in
             guard let strongSelf = self else { return }
             if let error = error {
                 // ログインに失敗
-                strongSelf.authErrorRelay.accept(AuthError(error: error))
+                completion(AuthError(error: error))
             } else {
                 // ログインに成功
-                strongSelf.authSuccessRelay.accept(())
                 let userInfo = UserInfo(user: authResult?.user)
                 strongSelf.userInfoRelay.accept(userInfo)
+                completion(nil)
             }
         }
     }
 
-    func sendPasswordReset(mail: String) {
+    func sendPasswordReset(email: String, completion: @escaping AuthCompletion) {
         // 再設定メールを送信
-        Auth.auth().sendPasswordReset(withEmail: mail) { [weak self] error in
-            guard let strongSelf = self else { return }
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
                 // 送信に失敗
-                strongSelf.authErrorRelay.accept(AuthError(error: error))
+                completion(AuthError(error: error))
             } else {
                 // 送信に成功
-                strongSelf.authSuccessRelay.accept(())
+                completion(nil)
             }
         }
     }

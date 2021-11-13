@@ -10,11 +10,9 @@ import RxSwift
 import RxCocoa
 
 protocol AuthFormViewModelInput {
-    func didTapEnterButton(userName: String, mail: String, password: String)
+    func didTapEnterButton(userName: String, email: String, password: String)
     func didTapCancelButtton()
     func didTapForgotPasswordButton()
-    func updateDisplayName(userName: String)
-    func sendEmailVerification()
 }
 
 protocol AuthFormViewModelOutput {
@@ -29,22 +27,21 @@ protocol AuthFormViewModelType {
 
 final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     enum Event {
-        case dismiss
-        case presentErrorAlertView(String, String) // (alertTitle, message)
-        case presentDismissAlertView(String, String) // (alertTitle, message)
-        case presentPopVCAlertView(String, String) // (alertTitle, message)
-        case presentTextAlertView(String, String) // (alertTitle, message)
-        case presentSendEmailVerification(String, String) // (alertTitle, message)
-        case pushAuthFormForgotPasswordMode
+        case presentErrorAlertView(alertTitle: String, message: String)
+        case presentPopVCAlertView(alertTitle: String, message: String)
+        case pushEmailLinkAuthSuccess(email: String)
+        case popToRootVC
         case popVC
+        case pushAuthFormForgotPasswordMode
         case startAnimating
         case stopAnimating
     }
 
     enum Mode {
         case login
-        case create
         case forgotPassword
+        case register
+        case setPassword
     }
 
     private let authType: AuthTypeProtocol
@@ -55,113 +52,111 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     init(authType: AuthTypeProtocol = ModelLocator.shared.authType, mode: Mode) {
         self.authType = authType
         self.mode = mode
-        setupBinding()
-    }
-
-    private func setupBinding() {
-        authType.authError
-            .subscribe(onNext: { [weak self] authError in
-                guard let strongSelf = self else { return }
-                strongSelf.eventRelay.accept(.stopAnimating)
-                switch authError {
-                case .failureUpdateDisplayName:
-                    let (alertTitle, message) = (authError!.reason, authError!.message)
-                    strongSelf.eventRelay.accept(.presentTextAlertView(alertTitle!, message))
-                case .failureSendEmailVerification:
-                    let (alertTitle, message) = (authError!.reason, authError!.message)
-                    strongSelf.eventRelay.accept(.presentSendEmailVerification(alertTitle!, message))
-                default:
-                    let (alertTitle, message) = strongSelf.createErrorAlertText(authError: authError)
-                    strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle, message))
-                }
-            })
-            .disposed(by: disposeBag)
-
-        authType.authSuccess
-            .subscribe(onNext: { [weak self] _ in
-                guard let strongSelf = self else { return }
-                strongSelf.eventRelay.accept(.stopAnimating)
-                switch strongSelf.mode {
-                case .login:
-                    strongSelf.eventRelay.accept(.dismiss)
-                case .create:
-                    let alertTitle = "入力されたメールアドレス宛に確認メールを送信しました。"
-                    let message = ""
-                    strongSelf.eventRelay.accept(.presentDismissAlertView(alertTitle, message))
-                case .forgotPassword:
-                    let alertTitle = "再設定メールを送信しました。"
-                    let message = "メールを確認し、パスワードの再設定を行ってください。"
-                    strongSelf.eventRelay.accept(.presentPopVCAlertView(alertTitle, message))
-                }
-            })
-            .disposed(by: disposeBag)
-    }
-
-    private func createErrorAlertText(authError: AuthError?) -> (String, String) {
-        var alertTitle: String
-        var message = ""
-        switch mode {
-        case .login:
-            alertTitle = "ログインに失敗しました。"
-        case .create:
-            alertTitle = "アカウント登録に失敗しました。"
-        case .forgotPassword:
-            alertTitle = "再設定メールの送信に失敗しました。"
-        }
-        guard let authError = authError else {
-            return (alertTitle, message)
-        }
-        if let reason = authError.reason {
-            alertTitle = reason
-        }
-        message = authError.message
-        return (alertTitle, message)
     }
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func didTapEnterButton(userName: String, mail: String, password: String) {
+    func didTapEnterButton(userName: String, email: String, password: String) {
         eventRelay.accept(.startAnimating)
         switch mode {
         case .login:
-            authType.signIn(mail: mail, password: password)
-        case .create:
+            login(email: email, password: password)
+        case .forgotPassword:
+            forgotPassword(email: email)
+        case .register:
             guard !userName.isEmpty else {
                 let alertTitle = "ユーザー名が未入力です。"
                 let message = "ユーザー名を入力してください。"
-                eventRelay.accept(.presentErrorAlertView(alertTitle, message))
+                eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
                 eventRelay.accept(.stopAnimating)
                 return
             }
-            authType.createUser(userName: userName, mail: mail, password: password)
-        case .forgotPassword:
-            authType.sendPasswordReset(mail: mail)
+            register(userName: userName, email: email)
+        case .setPassword:
+            setPassword(password: password)
+        }
+    }
+
+    private func login(email: String, password: String) {
+        authType.signIn(email: email, password: password) { [weak self] error in
+            guard let strongSelf = self else { return }
+            strongSelf.eventRelay.accept(.stopAnimating)
+            if let error = error {
+                // ログインに失敗
+                let alertTitle = error.reason ?? "ログインに失敗しました。"
+                let message = error.message
+                strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
+            } else {
+                // ログインに成功
+                strongSelf.eventRelay.accept(.popVC)
+            }
+        }
+    }
+
+    private func forgotPassword(email: String) {
+        // 再設定メールを送信
+        authType.sendPasswordReset(email: email) { [weak self] error in
+            guard let strongSelf = self else { return }
+            strongSelf.eventRelay.accept(.stopAnimating)
+            if let error = error {
+                // 送信に失敗
+                let alertTitle = error.reason ?? "再設定メールの送信に失敗しました。"
+                let message = error.message
+                strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
+            } else {
+                // 送信に成功
+                let alertTitle = "再設定メールを送信しました。"
+                let message = "メールを確認し、パスワードの再設定を行ってください。"
+                strongSelf.eventRelay.accept(.presentPopVCAlertView(alertTitle: alertTitle, message: message))
+            }
+        }
+    }
+
+    private func register(userName: String, email: String) {
+        authType.registerUser(userName: userName, email: email) { [weak self] error in
+            guard let strongSelf = self else { return }
+            strongSelf.eventRelay.accept(.stopAnimating)
+            if let error = error {
+                // 登録に失敗
+                let alertTitle = error.reason ?? "登録に失敗しました。"
+                let message = error.message
+                strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
+            } else {
+                // 登録に成功
+                strongSelf.eventRelay.accept(.pushEmailLinkAuthSuccess(email: email))
+            }
+        }
+    }
+
+    private func setPassword(password: String) {
+        authType.currentUserLink(password: password) { [weak self] error in
+            guard let strongSelf = self else { return }
+            strongSelf.eventRelay.accept(.stopAnimating)
+            if let error = error {
+                // 登録に失敗
+                let alertTitle = error.reason ?? "登録に失敗しました。"
+                let message = error.message
+                strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
+            } else {
+                // 登録に成功
+                strongSelf.eventRelay.accept(.popToRootVC)
+            }
         }
     }
 
     func didTapCancelButtton() {
         switch mode {
-        case .login, .create:
-            eventRelay.accept(.dismiss)
-        case .forgotPassword:
+        case .login, .forgotPassword, .register:
             eventRelay.accept(.popVC)
+        case .setPassword:
+            eventRelay.accept(.popToRootVC)
         }
     }
 
     func didTapForgotPasswordButton() {
         eventRelay.accept(.pushAuthFormForgotPasswordMode)
-    }
-
-    func updateDisplayName(userName: String) {
-        eventRelay.accept(.startAnimating)
-        authType.updateDisplayName(userName: userName)
-    }
-
-    func sendEmailVerification() {
-        eventRelay.accept(.startAnimating)
-        authType.sendEmailVerification()
     }
 }
 

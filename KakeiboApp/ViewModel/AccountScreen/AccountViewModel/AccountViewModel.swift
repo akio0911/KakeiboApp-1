@@ -34,8 +34,8 @@ protocol AccountViewModelType {
 
 final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     enum Event {
-        case presentLogin
-        case presentCreate
+        case pushLogin
+        case pushRegister
         case presentPasscodeVC
         case pushCategoryEditVC
         case pushHowToVC
@@ -132,11 +132,11 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     func didTapAccountEnterButton() {
-        eventRelay.accept(.presentLogin)
+        eventRelay.accept(.pushLogin)
     }
 
     func didTapSignupButton() {
-        eventRelay.accept(.presentCreate)
+        eventRelay.accept(.pushRegister)
     }
 
     func didValueChangedPasscodeSwitch(value: Bool) {

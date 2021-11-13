@@ -101,42 +101,61 @@ final class AccountViewController: UIViewController {
             .drive(onNext: { [weak self] event in
                 guard let strongSelf = self else { return }
                 switch event {
-                case .presentLogin:
-                    strongSelf.presentAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
-                case .presentCreate:
-                    strongSelf.presentAuthFormVC(viewModel: AuthFormViewModel(mode: .create))
+                case .pushLogin:
+                    strongSelf.pushAuthFormVC(viewModel: AuthFormViewModel(mode: .login))
+                case .pushRegister:
+                    strongSelf.pushAuthFormVC(viewModel: AuthFormViewModel(mode: .register))
                 case .presentPasscodeVC:
-                    let passcodeViewController = PasscodeViewController(
-                        viewModel: PasscodeViewModel(mode: .create(.first))
-                    )
-                    let navigationController = UINavigationController(rootViewController: passcodeViewController)
-                    navigationController.modalPresentationStyle = .fullScreen
-                    strongSelf.present(navigationController, animated: true, completion: nil)
+                    strongSelf.presentPasscodeVC()
                 case .pushCategoryEditVC:
-                    let categoryEditViewController = CategoryEditViewController()
-                    categoryEditViewController.hidesBottomBarWhenPushed = true
-                    strongSelf.navigationController?.pushViewController(categoryEditViewController, animated: true)
+                    strongSelf.pushCategoryEditVC()
                 case .pushHowToVC:
-                    let howToViewController = HowToUseViewController()
-                    howToViewController.hidesBottomBarWhenPushed = true
-                    strongSelf.navigationController?.pushViewController(howToViewController, animated: true)
+                    strongSelf.pushHowToVC()
                 case .presentActivityVC(let items):
-                    let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
-                    strongSelf.present(activityVC, animated: true, completion: nil)
+                    strongSelf.presentActivityVC(items: items)
                 case .applicationSharedOpen(let url):
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
+                    strongSelf.applicationSharedOpen(url: url)
                 }
             })
             .disposed(by: disposeBag)
     }
 
-    private func presentAuthFormVC(viewModel: AuthFormViewModelType) {
+    private func pushAuthFormVC(viewModel: AuthFormViewModelType) {
         let authFormViewController = AuthFormViewController(viewModel: viewModel)
-        let navigationController = UINavigationController(rootViewController: authFormViewController)
+        authFormViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(authFormViewController, animated: true)
+    }
+
+    private func presentPasscodeVC() {
+        let passcodeViewController = PasscodeViewController(
+            viewModel: PasscodeViewModel(mode: .create(.first))
+        )
+        let navigationController = UINavigationController(rootViewController: passcodeViewController)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
+    }
+
+    private func pushCategoryEditVC() {
+        let categoryEditViewController = CategoryEditViewController()
+        categoryEditViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(categoryEditViewController, animated: true)
+    }
+
+    private func pushHowToVC() {
+        let howToViewController = HowToUseViewController()
+        howToViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(howToViewController, animated: true)
+    }
+
+    private func presentActivityVC(items: [Any]) {
+        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        present(activityVC, animated: true, completion: nil)
+    }
+
+    private func applicationSharedOpen(url: URL) {
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
     }
 
     private func setupAccountStackViewSpace() {

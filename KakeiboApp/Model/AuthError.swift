@@ -17,12 +17,13 @@ enum AuthError: Error {
     case emailAlreadyInUse
     case weakPassword
     case networkError
-    case failureUpdateDisplayName
-    case failureSendEmailVerification
+    case missingEmail
     case other(String)
 
+    // swiftlint:disable:next cyclomatic_complexity
     init?(error: Error) {
         guard let errorCode = AuthErrorCode(rawValue: error._code) else { return nil }
+        print("💣\(error._code)")
         switch errorCode {
         case .invalidEmail:
             // メールアドレスの形式が正しくないことを示します。
@@ -49,6 +50,9 @@ enum AuthError: Error {
         case .networkError:
             // ネットワークエラーが発生したことを示します。
             self = .networkError
+        case .missingEmail:
+            // 電子メールアドレスが予期されていたが、提供されなかったことを示します。
+            self = .missingEmail
         default:
             self = .other(error.localizedDescription)
         }
@@ -72,10 +76,8 @@ enum AuthError: Error {
             return "パスワードが脆弱です。"
         case .networkError:
             return "ネットワークエラーが発生しました。"
-        case .failureUpdateDisplayName:
-            return "ユーザー名の設定に失敗しました。"
-        case .failureSendEmailVerification:
-            return "確認メールを送信に失敗しました。"
+        case .missingEmail:
+            return "メールアドレスを認識できませんでした。"
         case .other(_):
             return nil
         }
@@ -99,10 +101,8 @@ enum AuthError: Error {
             return "第三者から判定されづらいパスワードにしてください"
         case .networkError:
             return "電波の良いところでやり直してください。"
-        case .failureUpdateDisplayName:
-            return "電波の良いところでユーザー名を再設定してください。"
-        case .failureSendEmailVerification:
-            return "電波の良いところでメールを再送信してください。"
+        case .missingEmail:
+            return "メールアドレスを正しく入力してください。"
         case .other(let message):
             return message
         }

@@ -28,6 +28,9 @@
 		47480074268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47480072268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib */; };
 		47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */; };
 		47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */; };
+		474D6B76273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474D6B74273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift */; };
+		474D6B77273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 474D6B75273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib */; };
+		474D6B7A273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474D6B79273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift */; };
 		4773CBE427085F9900C52DE0 /* KeyImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */; };
 		4773CBE8270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */; };
 		4773CBEC270AF7DF00C52DE0 /* CategoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4773CBEA270AF7DF00C52DE0 /* CategoryEditViewController.swift */; };
@@ -128,6 +131,9 @@
 		47480072268D5CC10077EC08 /* CalendarWeekdayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarWeekdayCollectionViewCell.xib; sourceTree = "<group>"; };
 		47480075268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		47480076268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarDayCollectionViewCell.xib; sourceTree = "<group>"; };
+		474D6B74273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLinkAuthSuccessViewController.swift; sourceTree = "<group>"; };
+		474D6B75273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmailLinkAuthSuccessViewController.xib; sourceTree = "<group>"; };
+		474D6B79273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailLinkAuthSuccessViewModel.swift; sourceTree = "<group>"; };
 		4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyImageStackView.swift; sourceTree = "<group>"; };
 		4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundHighlightedButton.swift; sourceTree = "<group>"; };
 		4773CBEA270AF7DF00C52DE0 /* CategoryEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryEditViewController.swift; sourceTree = "<group>"; };
@@ -376,6 +382,23 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		474D6B73273F7A5E00563B1C /* EmailLinkAuthSuccessView */ = {
+			isa = PBXGroup;
+			children = (
+				474D6B74273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift */,
+				474D6B75273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib */,
+			);
+			path = EmailLinkAuthSuccessView;
+			sourceTree = "<group>";
+		};
+		474D6B78273F832A00563B1C /* EmailLinkAuthSuccessViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				474D6B79273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift */,
+			);
+			path = EmailLinkAuthSuccessViewModel;
+			sourceTree = "<group>";
+		};
 		4773CBE9270AF79000C52DE0 /* CategoryEditView */ = {
 			isa = PBXGroup;
 			children = (
@@ -544,6 +567,7 @@
 			children = (
 				478C23142725315300BABDC1 /* AuthFormViewController.swift */,
 				478C23152725315300BABDC1 /* AuthFormViewController.xib */,
+				474D6B73273F7A5E00563B1C /* EmailLinkAuthSuccessView */,
 			);
 			path = AuthFormView;
 			sourceTree = "<group>";
@@ -831,6 +855,7 @@
 			isa = PBXGroup;
 			children = (
 				47FCF32127258B3200E3043F /* AuthFormViewModel.swift */,
+				474D6B78273F832A00563B1C /* EmailLinkAuthSuccessViewModel */,
 			);
 			path = AuthFormViewModel;
 			sourceTree = "<group>";
@@ -914,6 +939,7 @@
 				47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */,
 				47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */,
 				4773CBED270AF7DF00C52DE0 /* CategoryEditViewController.xib in Resources */,
+				474D6B77273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib in Resources */,
 				478C23172725315300BABDC1 /* AuthFormViewController.xib in Resources */,
 				4773CC25270D24BC00C52DE0 /* CategoryInputViewController.xib in Resources */,
 				47A6BFDA270FDCC700698113 /* HowToUseViewController.xib in Resources */,
@@ -1033,6 +1059,7 @@
 				47D5065A26F1863800CDA849 /* BalanceSegmentedControlView.swift in Sources */,
 				47DC3EF626E4780100693980 /* CalendarTableViewData.swift in Sources */,
 				472EFDD4270456F400A80640 /* PasscodeViewController.swift in Sources */,
+				474D6B76273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift in Sources */,
 				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,
 				47436A3926F885D10056F60D /* NumberFormatterUtility.swift in Sources */,
 				47DC3EF326E4773B00693980 /* CalendarCollectionViewData.swift in Sources */,
@@ -1071,6 +1098,7 @@
 				47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */,
 				47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */,
 				478C23162725315300BABDC1 /* AuthFormViewController.swift in Sources */,
+				474D6B7A273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift in Sources */,
 				47C7A35626846712001B8EB4 /* CalendarTableViewHeaderFooterView.swift in Sources */,
 				472F6F542725996A00DB44E9 /* AuthType.swift in Sources */,
 				4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */,
@@ -1228,8 +1256,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KakeiboApp/KakeiboApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HAMLUR4PQA;
 				INFOPLIST_FILE = KakeiboApp/Info.plist;
@@ -1240,7 +1268,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "KakeiboApp Development";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1254,8 +1282,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KakeiboApp/KakeiboApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HAMLUR4PQA;
 				INFOPLIST_FILE = KakeiboApp/Info.plist;
@@ -1266,7 +1294,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "KakeiboApp Distribution";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

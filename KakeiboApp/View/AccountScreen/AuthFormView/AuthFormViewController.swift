@@ -96,9 +96,9 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private func setupCornerRadius() {
         // 各入力欄をフィレット
         let contentsStackView: [UIStackView] = [
-        userNameStackView,
-        mailStackView,
-        passwordStackView
+            userNameStackView,
+            mailStackView,
+            passwordStackView
         ]
         contentsStackView.forEach {
             $0.layer.cornerRadius = $0.bounds.height / 2
@@ -131,17 +131,24 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
             userNameStackView.isHidden = true
             enterButton.setTitle(login, for: .normal)
             setupBarButtonItem(enterButtonTitle: login)
-        case .create:
-            let register = "登録"
-            forgotPasswordButton.removeFromSuperview()
-            enterButton.setTitle(register, for: .normal)
-            setupBarButtonItem(enterButtonTitle: register)
         case .forgotPassword:
             userNameStackView.isHidden = true
             passwordStackView.isHidden = true
             forgotPasswordButton.removeFromSuperview()
             enterButton.setTitle("再設定メールを送信", for: .normal)
             setupBarButtonItem(enterButtonTitle: "送信")
+        case .register:
+            let next = "次へ"
+            passwordStackView.isHidden = true
+            forgotPasswordButton.removeFromSuperview()
+            enterButton.setTitle(next, for: .normal)
+            setupBarButtonItem(enterButtonTitle: next)
+        case .setPassword:
+            userNameStackView.isHidden = true
+            mailStackView.isHidden = true
+            forgotPasswordButton.removeFromSuperview()
+            enterButton.setTitle("パスワードを設定", for: .normal)
+            setupBarButtonItem(enterButtonTitle: "設定")
         }
     }
 
@@ -210,30 +217,24 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private func didTapEnterButton() {
         viewModel.inputs.didTapEnterButton(
             userName: userNameTextField.text!,
-            mail: mailTextField.text!,
+            email: mailTextField.text!,
             password: passwordTextField.text!
         )
     }
 
     private func executeEvent(event: AuthFormViewModel.Event) {
         switch event {
-        case .dismiss:
-            dismiss(animated: true, completion: nil)
         case .presentErrorAlertView(let alertTitle, let message):
             presentAlert(alertTitle: alertTitle, message: message,
                          action: errorAction())
-        case .presentDismissAlertView(let alertTitle, let message):
-            presentAlert(alertTitle: alertTitle, message: message,
-                         action: dismissAction())
         case .presentPopVCAlertView(let alertTitle, let message):
             presentAlert(alertTitle: alertTitle, message: message,
                          action: popVCAction())
-        case .presentTextAlertView(let alertTitle, let message):
-            presentAlert(alertTitle: alertTitle, message: message,
-                         action: errorAction(title: "再送信"), isAddedTextField: true)
-        case .presentSendEmailVerification(let alertTitle, let message):
-            presentAlert(alertTitle: alertTitle, message: message,
-                         action: sendEmailVerificationAction())
+        case .pushEmailLinkAuthSuccess(email: let email):
+            let emailLinkAuthSuccessViewController = EmailLinkAuthSuccessViewController(
+                viewModel: EmailLinkAuthSuccessViewModel(email: email)
+            )
+            navigationController?.pushViewController(emailLinkAuthSuccessViewController, animated: true)
         case .pushAuthFormForgotPasswordMode:
             let authFormViewController = AuthFormViewController(
                 viewModel: AuthFormViewModel(mode: .forgotPassword)
@@ -242,24 +243,19 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
                 .pushViewController(authFormViewController, animated: true)
         case .popVC:
             navigationController?.popViewController(animated: true)
+        case .popToRootVC:
+            navigationController?.popToRootViewController(animated: true)
         case .startAnimating:
             activityIndicatorView.startAnimating()
         case .stopAnimating:
             activityIndicatorView.stopAnimating()
+
         }
     }
 
-    private func presentAlert(alertTitle: String, message: String,
-                              action: UIAlertAction, isAddedTextField: Bool = false) {
+    private func presentAlert(alertTitle: String, message: String, action: UIAlertAction) {
         let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
         alert.addAction(action)
-        if isAddedTextField {
-            alert.addTextField { [weak self] textField in
-                guard let strongSelf = self else { return }
-                textField.accessibilityIdentifier = strongSelf.alertTextField
-                textField.delegate = strongSelf
-            }
-        }
         present(alert, animated: true, completion: nil)
     }
 
@@ -267,24 +263,10 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         UIAlertAction(title: title, style: .default, handler: nil)
     }
 
-    private func dismissAction() -> UIAlertAction {
-        UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.dismiss(animated: true, completion: nil)
-        }
-    }
-
     private func popVCAction() -> UIAlertAction {
         UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             guard let strongSelf = self else { return }
             strongSelf.navigationController?.popViewController(animated: true)
-        }
-    }
-
-    private func sendEmailVerificationAction() -> UIAlertAction {
-        UIAlertAction(title: "再送信", style: .default) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.viewModel.inputs.sendEmailVerification()
         }
     }
 
@@ -351,10 +333,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
-        guard textField.accessibilityIdentifier != alertTextField else {
-            viewModel.inputs.updateDisplayName(userName: textField.text!)
-            return
-        }
         editingTextField = nil
     }
 

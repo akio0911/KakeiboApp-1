@@ -19,6 +19,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         let firebaseAuth = Auth.auth()
+        // TODO: リリース時削除
+        do {
+          try firebaseAuth.signOut()
+        } catch let signOutError as NSError {
+          print("Error signing out: %@", signOutError)
+        }
         if firebaseAuth.currentUser == nil {
             // ログアウト中
             // FireBaseの匿名認証
@@ -66,6 +72,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.window?.rootViewController?.present(passcodeViewController, animated: false, completion: nil)
             }
         }
+    }
+
+    // DynamicLinksからアプリを起動した時
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        let authFormViewController = AuthFormViewController(
+            viewModel: AuthFormViewModel(mode: .setPassword)
+        )
+        let mainTabBarController = window?.rootViewController as? MainTabBarController
+        let navigationController = mainTabBarController?.selectedViewController as? UINavigationController
+        let topViewController = navigationController?.topViewController
+        topViewController?.navigationController?.pushViewController(authFormViewController, animated: true)
     }
 
     // アプリがフォアグラウンドに来た時
