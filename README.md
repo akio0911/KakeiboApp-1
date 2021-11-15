@@ -1,22 +1,21 @@
 # KakeiboApp
-家計簿アプリです。　　
+家計簿アプリ。　　
 
-家計簿をカレンダー形式で見れます。
+![preview](https://user-images.githubusercontent.com/82946608/141708670-5c5ec81f-c967-4106-ac00-200b330cde7f.gif)
 
-![kakeiboApp](https://user-images.githubusercontent.com/82946608/123735888-077cf800-d8db-11eb-9f9f-e1a7dcd1f4ae.gif)
 
 # 環境
-Xcode version 12.5.1   
+Xcode version 13.1 
 
-Swift version 5.4.2
+Swift version 5.５.１
 
-# 機能
-* カレンダー画面
-  * collectionViewでカレンダーを表示
-  * tableViewで収支内容を表示
-* 入力画面
-　　 
-  * 収支を未入力で入力した場合アラートを表示
-  * textFieldで日付、カテゴリー、収支、メモを入力
-  * 日付のtextFieldにはDatePickerを使用
-  * カテゴリーのtextFieldにはPickerViewを使用
+# 使用ライブラリー
+- SwiftLint
+- RxSwift
+- RxCocoa
+- Firebase/Firestore
+- FirebaseFirestoreSwift
+- Firebase/Auth
+- Firebase/Crashlytics
+- Firebase/Analytics
+- Firebase/Messaging
