@@ -69,7 +69,6 @@
 		4799911426F59E4500BD5B38 /* CategoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4799911226F59E4500BD5B38 /* CategoryViewController.xib */; };
 		4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911626F59F6400BD5B38 /* CategoryViewModel.swift */; };
 		4799911A26F5A0BB00BD5B38 /* CategoryTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911926F5A0BB00BD5B38 /* CategoryTableViewData.swift */; };
-		47A1E1F3273A540500A8BCCC /* StoreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A1E1F2273A540500A8BCCC /* StoreError.swift */; };
 		47A6BFD9270FDCC700698113 /* HowToUseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A6BFD7270FDCC700698113 /* HowToUseViewController.swift */; };
 		47A6BFDA270FDCC700698113 /* HowToUseViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47A6BFD8270FDCC700698113 /* HowToUseViewController.xib */; };
 		47A6BFDD270FDEBC00698113 /* HowToUseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A6BFDC270FDEBC00698113 /* HowToUseViewModel.swift */; };
@@ -175,7 +174,6 @@
 		4799911226F59E4500BD5B38 /* CategoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryViewController.xib; sourceTree = "<group>"; };
 		4799911626F59F6400BD5B38 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		4799911926F5A0BB00BD5B38 /* CategoryTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewData.swift; sourceTree = "<group>"; };
-		47A1E1F2273A540500A8BCCC /* StoreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreError.swift; sourceTree = "<group>"; };
 		47A6BFD7270FDCC700698113 /* HowToUseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseViewController.swift; sourceTree = "<group>"; };
 		47A6BFD8270FDCC700698113 /* HowToUseViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HowToUseViewController.xib; sourceTree = "<group>"; };
 		47A6BFDC270FDEBC00698113 /* HowToUseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowToUseViewModel.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 				47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */,
 				472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */,
 				4773CBF9270BDE2400C52DE0 /* CategoryDataRepository.swift */,
-				47A1E1F2273A540500A8BCCC /* StoreError.swift */,
 			);
 			path = DataRepository;
 			sourceTree = "<group>";
@@ -1103,7 +1100,6 @@
 				472F6F542725996A00DB44E9 /* AuthType.swift in Sources */,
 				4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */,
 				478734A927335CA70028A0AD /* ExtensionArray.swift in Sources */,
-				47A1E1F3273A540500A8BCCC /* StoreError.swift in Sources */,
 				47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */,
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
 				472EFDDF2705EECB00A80640 /* PasscodeObserver.swift in Sources */,
@@ -1256,7 +1252,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KakeiboApp/KakeiboApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HAMLUR4PQA;
@@ -1268,7 +1264,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "KakeiboApp Distribution 11/14";
+				PROVISIONING_PROFILE_SPECIFIER = "KakeiboApp Development 11/14";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1282,7 +1278,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = KakeiboApp/KakeiboApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = HAMLUR4PQA;
@@ -1294,7 +1290,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.kyohei.KakeiboApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "KakeiboApp Distribution 11/14";
+				PROVISIONING_PROFILE_SPECIFIER = "KakeiboApp Development 11/14";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

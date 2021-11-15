@@ -193,6 +193,7 @@ final class CalendarViewController: UIViewController,
         let inputViewController = InputViewController(viewModel: viewModel)
         let navigationController =
         UINavigationController(rootViewController: inputViewController)
+        navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true, completion: nil)
     }
 

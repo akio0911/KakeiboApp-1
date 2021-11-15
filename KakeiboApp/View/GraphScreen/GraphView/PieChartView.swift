@@ -103,9 +103,9 @@ final class PieChartView: UIView, CAAnimationDelegate {
         // Pieの配列を作成
         let totalBalance = data.reduce(0) { $0 + $1.totalBalance }
         var startAngle = -Double.pi / 2
-        data.sorted { $0.totalBalance > $1.totalBalance}
+        data.sorted { $0.totalBalance > $1.totalBalance }
         .forEach {
-            let angleRate = Double($0.totalBalance) / Double(totalBalance)
+            let angleRate = ceil(Double($0.totalBalance) / Double(totalBalance) * pow(10, 5)) / pow(10, 5)
             let angle = Double.pi * 2 * angleRate + startAngle
             let arcPath = createArcPath(startAngle: startAngle, endAngle: angle)
             let layer = createCAShapeLayer(path: arcPath, storokeColor: $0.categoryData.color.cgColor)
