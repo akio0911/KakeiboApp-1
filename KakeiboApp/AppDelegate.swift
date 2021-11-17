@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Firebaseを初期化する
         FirebaseApp.configure()
-
         // リモート通知に登録する
         Messaging.messaging().delegate = self
         UNUserNotificationCenter.current().delegate = self
