@@ -44,13 +44,17 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     }
 
     enum Mode {
-        case incomeCategoryAdd
-        case expenseCategoryAdd
-        case incomeCategoryEdit(CategoryData)
-        case expenseCategoryEdit(CategoryData)
+        case add
+        case edit(CategoryData)
+    }
+
+    enum CategoryBalance {
+        case income
+        case expense
     }
 
     private let mode: Mode
+    private let categoryBalance: CategoryBalance
     private let categoryModel: CategoryModelProtocol
     private let authType: AuthTypeProtocol
     private let eventRelay = PublishRelay<Event>()
@@ -77,14 +81,16 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     private var expenseCategoryDataArray: [CategoryData] = []
     private var userInfo: UserInfo?
 
-    init(mode: Mode,
+    init(mode: Mode, categoryBalance: CategoryBalance,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.mode = mode
+        self.categoryBalance = categoryBalance
         self.categoryModel = categoryModel
         self.authType = authType
         setupBinding()
         setupMode(mode: mode)
+        setupCategoryBalance(categoryBalance: categoryBalance)
         hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
     }
 
@@ -112,21 +118,20 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     }
 
     private func setupMode(mode: Mode) {
-        let incomeNavigationTitle = "収支カテゴリー"
-        let expenseNavigationTitle = "支出カテゴリー"
         switch mode {
-        case .incomeCategoryAdd:
-            navigationTitleRelay.accept(incomeNavigationTitle)
+        case .add:
             setRandomColor()
-        case .expenseCategoryAdd:
-            navigationTitleRelay.accept(expenseNavigationTitle)
-            setRandomColor()
-        case .incomeCategoryEdit(let categoryData):
-            navigationTitleRelay.accept(incomeNavigationTitle)
+        case .edit(let categoryData):
             setCategoryData(data: categoryData)
-        case .expenseCategoryEdit(let categoryData):
-            navigationTitleRelay.accept(expenseNavigationTitle)
-            setCategoryData(data: categoryData)
+        }
+    }
+
+    private func setupCategoryBalance(categoryBalance: CategoryBalance) {
+        switch categoryBalance {
+        case .income:
+            navigationTitleRelay.accept("収入カテゴリー")
+        case .expense:
+            navigationTitleRelay.accept("支出カテゴリー")
         }
     }
 
@@ -242,7 +247,18 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         }
 
         switch mode {
-        case .incomeCategoryAdd:
+        case .add:
+            addCategory(name: name, userInfo: userInfo)
+        case .edit(let categoryData):
+            editCategory(name: name, userInfo: userInfo, categoryData: categoryData)
+        }
+
+        eventRelay.accept(.dismiss)
+    }
+
+    private func addCategory(name: String, userInfo: UserInfo) {
+        switch categoryBalance {
+        case .income:
             let categoryData =
             CategoryData(
                 id: UUID().uuidString,
@@ -252,36 +268,32 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
             )
             incomeCategoryDataArray.append(categoryData)
             categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
-        case .expenseCategoryAdd:
+        case .expense:
             let categoryData =
-                CategoryData(
-                    id: UUID().uuidString,
-                    displayOrder: expenseCategoryDataArray.count,
-                    name: name,
-                    color: categoryColorRelay.value
-                )
+            CategoryData(
+                id: UUID().uuidString,
+                displayOrder: expenseCategoryDataArray.count,
+                name: name,
+                color: categoryColorRelay.value
+            )
             expenseCategoryDataArray.append(categoryData)
             categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
-        case .incomeCategoryEdit(let categoryData):
-            let categoryData =
-            CategoryData(
-                id: categoryData.id,
-                displayOrder: categoryData.displayOrder,
-                name: name,
-                color: categoryColorRelay.value
-            )
+        }
+    }
+
+    private func editCategory(name: String, userInfo: UserInfo, categoryData: CategoryData) {
+        let categoryData = CategoryData(
+            id: categoryData.id,
+            displayOrder: categoryData.displayOrder,
+            name: name,
+            color: categoryColorRelay.value
+        )
+        switch categoryBalance {
+        case .income:
             categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
-        case .expenseCategoryEdit(let categoryData):
-            let categoryData =
-            CategoryData(
-                id: categoryData.id,
-                displayOrder: categoryData.displayOrder,
-                name: name,
-                color: categoryColorRelay.value
-            )
+        case .expense:
             categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
         }
-        eventRelay.accept(.dismiss)
     }
 
     func didTapCancelBarButton() {
@@ -320,7 +332,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     }
 
     func didTapRandomButton() {
-         setRandomColor()
+        setRandomColor()
     }
 }
 
