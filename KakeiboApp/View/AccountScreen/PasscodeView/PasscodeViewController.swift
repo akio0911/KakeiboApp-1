@@ -95,28 +95,34 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
-                guard let self = self else { return }
+                guard let strongSelf = self else { return }
                 switch event {
                 case .dismiss:
-                    self.dismiss(animated: true, completion: nil)
+                    strongSelf.dismiss(animated: true, completion: nil)
                 case .pushPasscodeVC(let passcode):
-                    let passcodeViewController = PasscodeViewController(
-                        viewModel: PasscodeViewModel(mode: .create(.second(passcode))),
-                        validateMessage: { [weak self] validateMessage in
-                            guard let self = self else { return }
-                            self.validateMessageLabel.text = validateMessage
-                        }
-                    )
-                    self.navigationController?.pushViewController(passcodeViewController, animated: true)
+                    strongSelf.pushPasscodeVC(passcode: passcode)
                 case .popViewController:
-                    self.navigationController?.popViewController(animated: true)
-                    self.validateMessage("パスコードが一致しません。もう一度入力してください。")
+                    strongSelf.navigationController?.popViewController(animated: true)
+                    strongSelf.validateMessage("パスコードが一致しません。もう一度入力してください。")
                 case .keyImageStackViewAnimation:
-                    self.keyImageStackViewAnimation()
+                    strongSelf.keyImageStackViewAnimation()
                     UINotificationFeedbackGenerator().notificationOccurred(.error)
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func pushPasscodeVC(passcode: [String]) {
+        let passcodeViewController = PasscodeViewController(
+            viewModel: PasscodeViewModel(
+                mode: .create(.second(passcode))
+            ),
+            validateMessage: { [weak self] validateMessage in
+                guard let self = self else { return }
+                self.validateMessageLabel.text = validateMessage
+            }
+        )
+        self.navigationController?.pushViewController(passcodeViewController, animated: true)
     }
 
     private func keyImageStackViewAnimation() {

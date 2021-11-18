@@ -92,6 +92,7 @@ final class CategoryInputViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
     }
 
+    // swiftlint:disable:next function_body_length
     private func setupBinding() {
         hueSlider.rx.value
             .skip(1) // 初期値をスキップ

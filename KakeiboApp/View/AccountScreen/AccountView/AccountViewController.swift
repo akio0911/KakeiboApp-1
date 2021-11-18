@@ -44,6 +44,7 @@ final class AccountViewController: UIViewController {
         setupCornerRadius()
     }
 
+    // swiftlint:disable:next function_body_length
     private func setupBinding() {
         accountEnterButton.rx.tap
             .subscribe(onNext: viewModel.inputs.didTapAccountEnterButton)
