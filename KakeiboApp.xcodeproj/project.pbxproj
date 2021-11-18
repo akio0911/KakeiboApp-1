@@ -882,6 +882,7 @@
 				88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */,
 				47A1E1F127393EC000A8BCCC /* ShellScript */,
 				47CCFDA12746138F00B887B2 /* ShellScript */,
+				47DD66342746317F00A96F9B /* ShellScript */,
 				478734AA273392D10028A0AD /* ShellScript */,
 			);
 			buildRules = (
@@ -1013,6 +1014,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if [ $CONFIGURATION = \"Debug\" ]; then\n${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN\nfi\n";
+		};
+		47DD66342746317F00A96F9B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:2:DefaultValue ${MARKETING_VERSION}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/Settings.bundle/Root.plist\"\n";
 		};
 		88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
