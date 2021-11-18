@@ -2,13 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>SchemeUserState</key>
-	<dict>
-		<key>KakeiboApp.xcscheme_^#shared#^_</key>
+	<key>PreferenceSpecifiers</key>
+	<array>
 		<dict>
-			<key>orderHint</key>
-			<integer>30</integer>
+			<key>FooterText</key>
+			<string>Copyright 2020 Google</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
 		</dict>
-	</dict>
+	</array>
 </dict>
 </plist>
