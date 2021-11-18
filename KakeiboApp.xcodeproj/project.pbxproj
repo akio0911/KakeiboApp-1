@@ -86,7 +86,6 @@
 		47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */; };
 		47CC9A7326F76BC700126467 /* CategoryTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A7226F76BC700126467 /* CategoryTableViewHeaderView.swift */; };
 		47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC9A7426F76BEF00126467 /* CategoryTableViewHeaderView.xib */; };
-		47CCFD952745DB2B00B887B2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 47CCFD942745DB2B00B887B2 /* Settings.bundle */; };
 		47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065626F185C900CDA849 /* ExtensionUIImage.swift */; };
 		47D5065A26F1863800CDA849 /* BalanceSegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */; };
 		47DC3EDE26E34E3800693980 /* CalendarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EDD26E34E3800693980 /* CalendarViewController.xib */; };
@@ -192,7 +191,6 @@
 		47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
 		47CC9A7226F76BC700126467 /* CategoryTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewHeaderView.swift; sourceTree = "<group>"; };
 		47CC9A7426F76BEF00126467 /* CategoryTableViewHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewHeaderView.xib; sourceTree = "<group>"; };
-		47CCFD942745DB2B00B887B2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		47D5065626F185C900CDA849 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
 		47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceSegmentedControlView.swift; sourceTree = "<group>"; };
 		47DC3EDD26E34E3800693980 /* CalendarViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarViewController.xib; sourceTree = "<group>"; };
@@ -526,7 +524,6 @@
 		47815700266128C8005E1020 /* KakeiboApp */ = {
 			isa = PBXGroup;
 			children = (
-				47CCFD942745DB2B00B887B2 /* Settings.bundle */,
 				478734AB2734E4300028A0AD /* KakeiboApp.entitlements */,
 				47CC7D1D26E9F8590049C488 /* Assets */,
 				47DC3EDC26E34DDF00693980 /* Model */,
@@ -881,7 +878,6 @@
 				478156FC266128C8005E1020 /* Resources */,
 				88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */,
 				47A1E1F127393EC000A8BCCC /* ShellScript */,
-				47CCFD932745D9D700B887B2 /* ShellScript */,
 				478734AA273392D10028A0AD /* ShellScript */,
 			);
 			buildRules = (
@@ -952,7 +948,6 @@
 				47DC3EDE26E34E3800693980 /* CalendarViewController.xib in Resources */,
 				47480078268D5CFE0077EC08 /* CalendarDayCollectionViewCell.xib in Resources */,
 				4773CBF3270B013500C52DE0 /* CategoryEditTableViewCell.xib in Resources */,
-				47CCFD952745DB2B00B887B2 /* Settings.bundle in Resources */,
 				47DC3EE026E34E6A00693980 /* InputViewController.xib in Resources */,
 				472189BA26EB3AF3006C10EF /* GoogleService-Info.plist in Resources */,
 			);
@@ -996,23 +991,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-		47CCFD932745D9D700B887B2 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ $CONFIGURATION = \"Debug\" ]; then\n${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle --github-token YOUR_GITHUB_TOKEN\nfi\n\n";
 		};
 		88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
