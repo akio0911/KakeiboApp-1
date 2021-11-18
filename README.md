@@ -1,5 +1,5 @@
 # KakeiboApp
-家計簿アプリ。　　
+家計簿アプリ
 
 ![preview](https://user-images.githubusercontent.com/82946608/141708670-5c5ec81f-c967-4106-ac00-200b330cde7f.gif)
 
@@ -22,6 +22,7 @@
 - Firebase/Crashlytics
 - Firebase/Analytics
 - Firebase/Messaging
+- LicensePlist
 
 # リリース
 - アプリ名: 私の家計簿！
