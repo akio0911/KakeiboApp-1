@@ -90,6 +90,7 @@ final class CalendarViewController: UIViewController,
         }
     }
 
+    // swiftlint:disable:next function_body_length
     private func setupBinding() {
         nextBarButtonItem.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -115,23 +116,7 @@ final class CalendarViewController: UIViewController,
             .disposed(by: disposeBag)
 
         collectionViewDataObservable
-            .subscribe(onNext: { [weak self] secondSectionItemData in
-                guard let self = self else { return }
-                let numberOfWeeksInMonth: CGFloat = ceil(CGFloat(secondSectionItemData.count / 7))
-                self.collectionViewNSLayoutConstraint?.isActive = false
-                self.collectionViewNSLayoutConstraint =
-                self.calendarCollectionView.heightAnchor.constraint(
-                    equalToConstant:
-                        self.weekdayCellHeight
-                    + self.dayCellHeight * numberOfWeeksInMonth
-                    + self.spaceOfCell * (numberOfWeeksInMonth - 1)
-                    + self.insetForSection.bottom * 2
-                    + self.insetForSection.top * 2
-                    + self.insetForSection.left * 2
-                    + self.insetForSection.right * 2
-                )
-                self.collectionViewNSLayoutConstraint?.isActive = true
-            })
+            .subscribe(onNext: setupCollectionViewNSLayoutConstraint(secondSectionItemData:))
             .disposed(by: disposeBag)
 
         viewModel.outputs.cellDateDataObservable
@@ -140,8 +125,8 @@ final class CalendarViewController: UIViewController,
 
         viewModel.outputs.headerDateDataObservable
             .subscribe(onNext: { [weak self] data in
-                guard let self = self else { return }
-                self.headerDataArray = data
+                guard let strongSelf = self else { return }
+                strongSelf.headerDataArray = data
             })
             .disposed(by: disposeBag)
 
@@ -162,34 +147,46 @@ final class CalendarViewController: UIViewController,
             .disposed(by: disposeBag)
 
         viewModel.outputs.isAnimatedIndicator
-            .drive(onNext: { [weak self] isAnimated in
-                guard let self = self else { return }
-                if isAnimated {
-                    self.activityIndicatorView.startAnimating()
-                } else {
-                    self.activityIndicatorView.stopAnimating()
-                }
-            })
+            .drive(onNext: animateActivityIndicatorView(isAnimated:))
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
-            .drive(onNext: { [weak self] event in
-                guard let self = self else { return }
-                switch event {
-                    // mode: .addで画面遷移
-                case .presentAdd(let date):
-                    self.presentInputVC(viewModel: InputViewModel(mode: .add(date)))
-
-                    // mode: .editで画面遷移
-                case .presentEdit(let kakeiboData):
-                    self.presentInputVC(viewModel: InputViewModel(mode: .edit(kakeiboData)))
-                }
-            })
+            .drive(onNext: presentInputVC(event:))
             .disposed(by: disposeBag)
     }
 
+    private func setupCollectionViewNSLayoutConstraint(secondSectionItemData: [DayItemData]) {
+        let numberOfWeeksInMonth: CGFloat = ceil(CGFloat(secondSectionItemData.count / 7))
+        collectionViewNSLayoutConstraint?.isActive = false
+        collectionViewNSLayoutConstraint =
+        calendarCollectionView.heightAnchor.constraint(
+            equalToConstant:
+                weekdayCellHeight
+            + dayCellHeight * numberOfWeeksInMonth
+            + spaceOfCell * (numberOfWeeksInMonth - 1)
+            + insetForSection.bottom * 2
+            + insetForSection.top * 2
+        )
+        collectionViewNSLayoutConstraint?.isActive = true
+    }
+
+    private func animateActivityIndicatorView(isAnimated: Bool) {
+        if isAnimated {
+            activityIndicatorView.startAnimating()
+        } else {
+            activityIndicatorView.stopAnimating()
+        }
+    }
+
     // InputViewControllerへ画面遷移
-    private func presentInputVC(viewModel: InputViewModelType) {
+    private func presentInputVC(event: CalendarViewModel.Event) {
+        let viewModel: InputViewModel
+        switch event {
+        case .presentAdd(let date):
+            viewModel = InputViewModel(mode: .add(date))
+        case .presentEdit(let kakeiboData):
+            viewModel = InputViewModel(mode: .edit(kakeiboData))
+        }
         let inputViewController = InputViewController(viewModel: viewModel)
         let navigationController =
         UINavigationController(rootViewController: inputViewController)

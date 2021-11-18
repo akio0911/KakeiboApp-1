@@ -62,6 +62,7 @@ final class InputViewController: UIViewController,
         navigationItem.title = "収支入力"
     }
 
+    // swiftlint:disable:next function_body_length
     private func setupBinding() {
         nextDayButton.rx.tap
             .subscribe(onNext: viewModel.inputs.didTapNextDayButton)
