@@ -31,7 +31,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let disposeBag = DisposeBag()
     private let cellDateDataRelay =  BehaviorRelay<[[CellDateCategoryData]]>(value: [])
     private let headerDateDataRelay =
-        BehaviorRelay<[HeaderDateCategoryData]>(value: [])
+    BehaviorRelay<[HeaderDateCategoryData]>(value: [])
     private let navigationTitleRelay = BehaviorRelay<String>(value: "")
 
     init(categoryData: CategoryData,
@@ -49,19 +49,13 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     }
 
     private func setupBinding() {
-        calendarDate.monthDate
-            .subscribe(onNext: { [weak self] dateArray in
-                guard let self = self else { return }
-                self.monthDataArray = dateArray
-                self.acceptTableViewData()
-            })
-            .disposed(by: disposeBag)
-
-        kakeiboModel.dataObservable
-            .subscribe(onNext: { [weak self] dateArray in
-                guard let self = self else { return }
-                self.kakeiboDataArray = dateArray
-                self.acceptTableViewData()
+        Observable
+            .combineLatest(calendarDate.monthDate, kakeiboModel.dataObservable)
+            .subscribe(onNext: { [weak self] monthDate, kakeiboData in
+                guard let strongSelf = self else { return }
+                strongSelf.monthDataArray = monthDate
+                strongSelf.kakeiboDataArray = kakeiboData
+                strongSelf.acceptTableViewData()
             })
             .disposed(by: disposeBag)
     }
@@ -74,7 +68,7 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
         let monthFilterData = kakeiboDataArray.filter {
             Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .year)
-                && Calendar(identifier: .gregorian)
+            && Calendar(identifier: .gregorian)
                 .isDate(firstDay, equalTo: $0.date, toGranularity: .month)
         }
 

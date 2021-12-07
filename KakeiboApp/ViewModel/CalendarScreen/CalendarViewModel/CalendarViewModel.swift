@@ -82,28 +82,12 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             })
             .disposed(by: disposeBag)
 
-        calendarDate.calendarDate
-            .subscribe(onNext: { [weak self] calendarDateArray in
+        Observable
+            .combineLatest(calendarDate.calendarDate, calendarDate.monthDate, kakeiboModel.dataObservable.skip(1))
+            .subscribe(onNext: { [weak self] calendarDateArray, monthDateArray, kakeiboDataArray in
                 guard let strongSelf = self else { return }
                 strongSelf.calendarDateArray = calendarDateArray
-            })
-            .disposed(by: disposeBag)
-
-        calendarDate.monthDate
-            .subscribe(onNext: { [weak self] monthDateArray in
-                guard let strongSelf = self else { return }
                 strongSelf.monthDateArray = monthDateArray
-                strongSelf.acceptDayItemData()
-                strongSelf.acceptCellDateData()
-                strongSelf.acceptHeaderDateDataArray()
-                strongSelf.acceptTotalText()
-            })
-            .disposed(by: disposeBag)
-
-        kakeiboModel.dataObservable
-            .skip(1)
-            .subscribe(onNext: { [weak self] kakeiboDataArray in
-                guard let strongSelf = self else { return }
                 strongSelf.kakeiboDataArray = kakeiboDataArray
                 strongSelf.acceptDayItemData()
                 strongSelf.acceptCellDateData()
@@ -115,17 +99,11 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             })
             .disposed(by: disposeBag)
 
-        categoryModel.incomeCategoryData
-            .subscribe(onNext: { [weak self] incomeCategoryArray in
+        Observable
+            .combineLatest(categoryModel.incomeCategoryData, categoryModel.expenseCategoryData)
+            .subscribe(onNext: { [weak self] incomeCategoryArray, expenseCategoryArray in
                 guard let strongSelf = self else { return }
                 strongSelf.incomeCategoryArray = incomeCategoryArray
-                strongSelf.acceptCellDateData()
-            })
-            .disposed(by: disposeBag)
-
-        categoryModel.expenseCategoryData
-            .subscribe(onNext: { [weak self] expenseCategoryArray in
-                guard let strongSelf = self else { return }
                 strongSelf.expenseCategoryArray = expenseCategoryArray
                 strongSelf.acceptCellDateData()
             })

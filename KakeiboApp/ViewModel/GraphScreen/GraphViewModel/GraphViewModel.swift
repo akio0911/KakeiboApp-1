@@ -53,31 +53,18 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private var expenseCategoryDataArray: [CategoryData] = []
 
     private func setupBinding() {
-        calendarDate.monthDate
-            .subscribe(onNext: { dateArray in
-                self.monthDateArray = dateArray
-                self.acceptGraphData()
-            })
-            .disposed(by: disposeBag)
-
-        kakeiboModel.dataObservable
-            .subscribe(onNext: { kakeiboDataArray in
-                self.kakeiboDataArray = kakeiboDataArray
-                self.acceptGraphData()
-            })
-            .disposed(by: disposeBag)
-
-        categoryModel.incomeCategoryData
-            .subscribe(onNext: { incomeCategoryDataArray in
-                self.incomeCategoryDataArray = incomeCategoryDataArray
-                self.acceptGraphData()
-            })
-            .disposed(by: disposeBag)
-
-        categoryModel.expenseCategoryData
-            .subscribe(onNext: { expenseCategoryDataArray in
-                self.expenseCategoryDataArray = expenseCategoryDataArray
-                self.acceptGraphData()
+        Observable
+            .combineLatest(calendarDate.monthDate,
+                           kakeiboModel.dataObservable,
+                           categoryModel.incomeCategoryData,
+                           categoryModel.expenseCategoryData)
+            .subscribe(onNext: { [weak self] monthDate, kakeiboData, incomeCategoryData, expenseCategoryData in
+                guard let strongSelf = self else { return }
+                strongSelf.monthDateArray = monthDate
+                strongSelf.kakeiboDataArray = kakeiboData
+                strongSelf.incomeCategoryDataArray = incomeCategoryData
+                strongSelf.expenseCategoryDataArray = expenseCategoryData
+                strongSelf.acceptGraphData()
             })
             .disposed(by: disposeBag)
     }
