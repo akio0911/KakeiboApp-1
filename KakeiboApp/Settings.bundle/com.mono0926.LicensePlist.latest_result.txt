@@ -98,7 +98,7 @@ name: LicensePlist, nameSpecified:
 body: MIT License
 
 Copyrig…
-version: 3.14.4
+version: 3.15.0
 
 name: nanopb, nameSpecified: 
 body: Copyright (c) 2011 P…
@@ -130,8 +130,8 @@ version: 6.2.0
 
 name: SwiftLint, nameSpecified: 
 body: The MIT License (MIT…
-version: 0.45.0
+version: 0.45.1
 
 add-version-numbers: false
 
-LicensePlist Version: 3.14.4
+LicensePlist Version: 3.15.0
