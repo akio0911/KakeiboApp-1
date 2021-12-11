@@ -129,12 +129,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // passcodeViewControllerを閉じる
     private func dismissPasscodeViewController() {
         DispatchQueue.main.async {
-            if let rootViewController = self.window?.rootViewController {
-                let passcodeViewController =
-                rootViewController.presentedViewController as! PasscodeViewController
-                // swiftlint:disable:previous force_cast
-                passcodeViewController.dismiss(animated: true, completion: nil)
+            var topViewController = self.window?.rootViewController
+            while topViewController?.presentedViewController != nil {
+                topViewController = topViewController?.presentedViewController
             }
+            let passcodeViewController = topViewController as! PasscodeViewController
+            // swiftlint:disable:previous force_cast
+            passcodeViewController.dismiss(animated: true, completion: nil)
         }
     }
 
@@ -142,12 +143,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         // パスコードが設定されていたら、パスコード画面を表示する
         if passcodeRepository.loadIsOnPasscode() {
-            if let rootViewController = window?.rootViewController {
-                let passcodeViewController =
-                PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
-                passcodeViewController.modalPresentationStyle = .fullScreen
-                rootViewController.present(passcodeViewController, animated: false, completion: nil)
+            var topViewController = window?.rootViewController
+            while topViewController?.presentedViewController != nil {
+                topViewController = topViewController?.presentedViewController
             }
+            let passcodeViewController =
+            PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
+            passcodeViewController.modalPresentationStyle = .fullScreen
+            topViewController!.present(passcodeViewController, animated: false, completion: nil)
         }
     }
 }
