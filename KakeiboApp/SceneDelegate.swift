@@ -147,6 +147,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             while topViewController?.presentedViewController != nil {
                 topViewController = topViewController?.presentedViewController
             }
+            // すでにPasscodeViewControllerが表示されている場合、処理を終わらせる
+            guard topViewController as? PasscodeViewController == nil else { return }
             let passcodeViewController =
             PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
             passcodeViewController.modalPresentationStyle = .fullScreen
