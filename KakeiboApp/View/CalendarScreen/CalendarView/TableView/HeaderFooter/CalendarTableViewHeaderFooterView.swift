@@ -13,7 +13,7 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
 
     func configure(data: HeaderDateKakeiboData) {
         titleHeaderLabel.text =
-            DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月d日")
+            DateUtility.stringFromDate(date: data.date, format: "yyyy年MM月d日")
         balanceHeaderLabel.text =
             NumberFormatterUtility.changeToCurrencyNotation(from: data.totalBalance) ?? "0円"
         if data.totalBalance >= 0 {

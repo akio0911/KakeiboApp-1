@@ -222,7 +222,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .map {
                 DateUtility.stringFromDate(
                     date: $0,
-                    format: "YYYY年MM月"
+                    format: "yyyy年MM月"
                 )
             }
             .asDriver(onErrorDriveWith: .empty())

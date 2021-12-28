@@ -150,12 +150,12 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     func addDate(date: Date) {
-        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "YYYY年MM月dd日"))
+        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
         categoryRelay.accept(expenseCategoryRelay.value.first?.name ?? "")
     }
 
     func editData(data: KakeiboData) {
-        dateRelay.accept(DateUtility.stringFromDate(date: data.date, format: "YYYY年MM月dd日"))
+        dateRelay.accept(DateUtility.stringFromDate(date: data.date, format: "yyyy年MM月dd日"))
         switch data.categoryId {
         case .income(let id): // swiftlint:disable:this identifier_name
             var categoryData: CategoryData?
@@ -188,21 +188,21 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     func didTapNextDayButton() {
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "YYYY年MM月dd日")
+        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
         let carendar = Calendar(identifier: .gregorian)
         guard let nextDay = carendar.date(
             byAdding: .day, value: 1, to: date
         ) else { return }
-        dateRelay.accept(DateUtility.stringFromDate(date: nextDay, format: "YYYY年MM月dd日"))
+        dateRelay.accept(DateUtility.stringFromDate(date: nextDay, format: "yyyy年MM月dd日"))
     }
 
     func didTapLastDayButton() {
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "YYYY年MM月dd日")
+        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
         let carendar = Calendar(identifier: .gregorian)
         guard let lastDay = carendar.date(
             byAdding: .day, value: -1, to: date
         ) else { return }
-        dateRelay.accept(DateUtility.stringFromDate(date: lastDay, format: "YYYY年MM月dd日"))
+        dateRelay.accept(DateUtility.stringFromDate(date: lastDay, format: "yyyy年MM月dd日"))
     }
 }
 

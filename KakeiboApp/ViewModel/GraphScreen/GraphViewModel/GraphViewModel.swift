@@ -131,7 +131,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
             .map {
                 DateUtility.stringFromDate(
                     date: $0,
-                    format: "YYYY年MM月"
+                    format: "yyyy年MM月"
                 )
             }
             .asDriver(onErrorDriveWith: .empty())

@@ -16,7 +16,7 @@ struct KakeiboData: Codable, Equatable {
     }
 
     var instantiateTime =
-        DateUtility.stringFromDate(date: Date(), format: "YYYY年MM月dd日 HH:mm:ss")
+        DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月dd日 HH:mm:ss")
     let date: Date //　日付
     let categoryId: CategoryId // カテゴリー
     let balance: Balance // 収支

@@ -249,7 +249,7 @@ final class InputViewController: UIViewController,
             showBalanceAlert()
             return
         }
-        let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "YYYY年MM月dd日")
+        let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "yyyy年MM月dd日")
         var balance: Balance
         var categoryId: CategoryId
         switch selectedSegmentIndex {
