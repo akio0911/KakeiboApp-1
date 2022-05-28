@@ -256,29 +256,22 @@
 			path = ImageName;
 			sourceTree = "<group>";
 		};
-		472EFDC32704317500A80640 /* AccountView */ = {
-			isa = PBXGroup;
-			children = (
-				472EFDC42704324C00A80640 /* AccountViewController.swift */,
-				472EFDC52704324C00A80640 /* AccountViewController.xib */,
-				4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */,
-			);
-			path = AccountView;
-			sourceTree = "<group>";
-		};
-		472EFDC82704418600A80640 /* AccountViewModel */ = {
+		472EFDC82704418600A80640 /* Account */ = {
 			isa = PBXGroup;
 			children = (
 				472EFDC9270443F300A80640 /* AccountViewModel.swift */,
+				472EFDC52704324C00A80640 /* AccountViewController.xib */,
+				472EFDC42704324C00A80640 /* AccountViewController.swift */,
+				4773CBE7270ADB8F00C52DE0 /* BackgroundHighlightedButton.swift */,
 			);
-			path = AccountViewModel;
+			path = Account;
 			sourceTree = "<group>";
 		};
 		472EFDCB2704525D00A80640 /* CalendarScreen */ = {
 			isa = PBXGroup;
 			children = (
-				47DC3EF726E4AEBF00693980 /* CalendarViewModel */,
-				47793EF626E76A8C0004E5F6 /* InputViewModel */,
+				47DC3EF726E4AEBF00693980 /* Calendar */,
+				47793EF626E76A8C0004E5F6 /* Input */,
 			);
 			path = CalendarScreen;
 			sourceTree = "<group>";
@@ -286,8 +279,8 @@
 		472EFDCC2704536100A80640 /* GraphScreen */ = {
 			isa = PBXGroup;
 			children = (
-				47793EFB26E83F770004E5F6 /* GraphViewModel */,
-				4799911526F59F3800BD5B38 /* CategoryViewModel */,
+				47793EFB26E83F770004E5F6 /* Graph */,
+				4799911526F59F3800BD5B38 /* Category */,
 			);
 			path = GraphScreen;
 			sourceTree = "<group>";
@@ -295,63 +288,26 @@
 		472EFDCD2704538700A80640 /* AccountScreen */ = {
 			isa = PBXGroup;
 			children = (
-				472EFDC82704418600A80640 /* AccountViewModel */,
-				47FCF32027258AC200E3043F /* AuthFormViewModel */,
-				472EFDD82705648A00A80640 /* PasscodeViewModel */,
-				4773CBFB270C650000C52DE0 /* CategoryEditViewModel */,
+				472EFDC82704418600A80640 /* Account */,
+				47FCF32027258AC200E3043F /* AuthForm */,
+				472EFDD82705648A00A80640 /* Passcode */,
+				4773CBFB270C650000C52DE0 /* CategoryEdit */,
 				47A6BFDB270FDE8400698113 /* HowToUseViewModel */,
-			);
-			path = AccountScreen;
-			sourceTree = "<group>";
-		};
-		472EFDCE270453D700A80640 /* CalendarScreen */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EE326E3733400693980 /* CalendarView */,
-				47DC3EE426E3734000693980 /* InputView */,
-			);
-			path = CalendarScreen;
-			sourceTree = "<group>";
-		};
-		472EFDCF270453F600A80640 /* GraphScreen */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EE526E3735300693980 /* GraphView */,
-				4799911026F59DD200BD5B38 /* CategoryView */,
-			);
-			path = GraphScreen;
-			sourceTree = "<group>";
-		};
-		472EFDD02704542400A80640 /* AccountScreen */ = {
-			isa = PBXGroup;
-			children = (
 				472EFDDD2705EE8F00A80640 /* Observer */,
-				472EFDC32704317500A80640 /* AccountView */,
-				478C23132725306400BABDC1 /* AuthFormView */,
-				472EFDD1270456C500A80640 /* PasscodeView */,
-				4773CBE9270AF79000C52DE0 /* CategoryEditView */,
-				47A6BFD6270FDC0200698113 /* HowToUseView */,
 			);
 			path = AccountScreen;
 			sourceTree = "<group>";
 		};
-		472EFDD1270456C500A80640 /* PasscodeView */ = {
-			isa = PBXGroup;
-			children = (
-				472EFDD2270456F400A80640 /* PasscodeViewController.swift */,
-				472EFDD3270456F400A80640 /* PasscodeViewController.xib */,
-				472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */,
-				4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */,
-			);
-			path = PasscodeView;
-			sourceTree = "<group>";
-		};
-		472EFDD82705648A00A80640 /* PasscodeViewModel */ = {
+		472EFDD82705648A00A80640 /* Passcode */ = {
 			isa = PBXGroup;
 			children = (
 				472EFDD9270564DD00A80640 /* PasscodeViewModel.swift */,
+				472EFDD3270456F400A80640 /* PasscodeViewController.xib */,
+				472EFDD2270456F400A80640 /* PasscodeViewController.swift */,
+				472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */,
+				4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */,
 			);
-			path = PasscodeViewModel;
+			path = Passcode;
 			sourceTree = "<group>";
 		};
 		472EFDDD2705EE8F00A80640 /* Observer */ = {
@@ -381,32 +337,14 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
-		474D6B73273F7A5E00563B1C /* EmailLinkAuthSuccessView */ = {
-			isa = PBXGroup;
-			children = (
-				474D6B74273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift */,
-				474D6B75273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib */,
-			);
-			path = EmailLinkAuthSuccessView;
-			sourceTree = "<group>";
-		};
-		474D6B78273F832A00563B1C /* EmailLinkAuthSuccessViewModel */ = {
+		474D6B78273F832A00563B1C /* EmailLinkAuthSuccess */ = {
 			isa = PBXGroup;
 			children = (
 				474D6B79273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift */,
+				474D6B75273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib */,
+				474D6B74273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift */,
 			);
-			path = EmailLinkAuthSuccessViewModel;
-			sourceTree = "<group>";
-		};
-		4773CBE9270AF79000C52DE0 /* CategoryEditView */ = {
-			isa = PBXGroup;
-			children = (
-				4773CBEA270AF7DF00C52DE0 /* CategoryEditViewController.swift */,
-				4773CBEB270AF7DF00C52DE0 /* CategoryEditViewController.xib */,
-				4773CBEE270B00E300C52DE0 /* TableView */,
-				4773CC21270D236200C52DE0 /* CategoryInputView */,
-			);
-			path = CategoryEditView;
+			path = EmailLinkAuthSuccess;
 			sourceTree = "<group>";
 		};
 		4773CBEE270B00E300C52DE0 /* TableView */ = {
@@ -427,13 +365,16 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		4773CBFB270C650000C52DE0 /* CategoryEditViewModel */ = {
+		4773CBFB270C650000C52DE0 /* CategoryEdit */ = {
 			isa = PBXGroup;
 			children = (
 				4773CBFC270C653000C52DE0 /* CategoryEditViewModel.swift */,
-				4773CC26270D56B900C52DE0 /* CategoryInputViewModel */,
+				4773CBEB270AF7DF00C52DE0 /* CategoryEditViewController.xib */,
+				4773CBEA270AF7DF00C52DE0 /* CategoryEditViewController.swift */,
+				4773CBEE270B00E300C52DE0 /* TableView */,
+				4773CC26270D56B900C52DE0 /* CategoryInput */,
 			);
-			path = CategoryEditViewModel;
+			path = CategoryEdit;
 			sourceTree = "<group>";
 		};
 		4773CBFE270C6C9F00C52DE0 /* DataSource */ = {
@@ -444,39 +385,38 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
-		4773CC21270D236200C52DE0 /* CategoryInputView */ = {
-			isa = PBXGroup;
-			children = (
-				4773CC22270D24BC00C52DE0 /* CategoryInputViewController.swift */,
-				4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */,
-				4773CC29270DF3E900C52DE0 /* GradientLayerView.swift */,
-			);
-			path = CategoryInputView;
-			sourceTree = "<group>";
-		};
-		4773CC26270D56B900C52DE0 /* CategoryInputViewModel */ = {
+		4773CC26270D56B900C52DE0 /* CategoryInput */ = {
 			isa = PBXGroup;
 			children = (
 				4773CC27270D56E400C52DE0 /* CategoryInputViewModel.swift */,
+				4773CC23270D24BC00C52DE0 /* CategoryInputViewController.xib */,
+				4773CC22270D24BC00C52DE0 /* CategoryInputViewController.swift */,
+				4773CC29270DF3E900C52DE0 /* GradientLayerView.swift */,
 			);
-			path = CategoryInputViewModel;
+			path = CategoryInput;
 			sourceTree = "<group>";
 		};
-		47793EF626E76A8C0004E5F6 /* InputViewModel */ = {
+		47793EF626E76A8C0004E5F6 /* Input */ = {
 			isa = PBXGroup;
 			children = (
 				47793EF726E76ABE0004E5F6 /* InputViewModel.swift */,
+				47DC3EDF26E34E6A00693980 /* InputViewController.xib */,
+				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
 			);
-			path = InputViewModel;
+			path = Input;
 			sourceTree = "<group>";
 		};
-		47793EFB26E83F770004E5F6 /* GraphViewModel */ = {
+		47793EFB26E83F770004E5F6 /* Graph */ = {
 			isa = PBXGroup;
 			children = (
 				47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */,
+				47DC3EE126E34E8C00693980 /* GraphViewController.xib */,
+				47EB81F1268EFD96008FA088 /* GraphViewController.swift */,
+				47AF02B32717BF6A00085804 /* PieChartView.swift */,
+				47DC3EE826E44D5600693980 /* TableView */,
 				47793EFE26E84B730004E5F6 /* GraphData */,
 			);
-			path = GraphViewModel;
+			path = Graph;
 			sourceTree = "<group>";
 		};
 		47793EFE26E84B730004E5F6 /* GraphData */ = {
@@ -530,9 +470,12 @@
 				478734AB2734E4300028A0AD /* KakeiboApp.entitlements */,
 				47CC7D1D26E9F8590049C488 /* Assets */,
 				47DC3EDC26E34DDF00693980 /* Model */,
-				47DC3EDB26E34DD400693980 /* ViewModel */,
-				47DC3EDA26E34DB300693980 /* View */,
+				472EFDCB2704525D00A80640 /* CalendarScreen */,
+				472EFDCC2704536100A80640 /* GraphScreen */,
+				472EFDCD2704538700A80640 /* AccountScreen */,
+				47DC3EDA26E34DB300693980 /* PartsView */,
 				47DC3EE926E44D8600693980 /* Utility */,
+				47DC3EE626E3928F00693980 /* MainTabBarController.swift */,
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
 				4781570C266128C8005E1020 /* LaunchScreen.storyboard */,
@@ -562,33 +505,16 @@
 			path = ColorName;
 			sourceTree = "<group>";
 		};
-		478C23132725306400BABDC1 /* AuthFormView */ = {
-			isa = PBXGroup;
-			children = (
-				478C23142725315300BABDC1 /* AuthFormViewController.swift */,
-				478C23152725315300BABDC1 /* AuthFormViewController.xib */,
-				474D6B73273F7A5E00563B1C /* EmailLinkAuthSuccessView */,
-			);
-			path = AuthFormView;
-			sourceTree = "<group>";
-		};
-		4799911026F59DD200BD5B38 /* CategoryView */ = {
-			isa = PBXGroup;
-			children = (
-				4799911126F59E4500BD5B38 /* CategoryViewController.swift */,
-				4799911226F59E4500BD5B38 /* CategoryViewController.xib */,
-				47CC9A6826F7597900126467 /* TableView */,
-			);
-			path = CategoryView;
-			sourceTree = "<group>";
-		};
-		4799911526F59F3800BD5B38 /* CategoryViewModel */ = {
+		4799911526F59F3800BD5B38 /* Category */ = {
 			isa = PBXGroup;
 			children = (
 				4799911626F59F6400BD5B38 /* CategoryViewModel.swift */,
+				4799911226F59E4500BD5B38 /* CategoryViewController.xib */,
+				4799911126F59E4500BD5B38 /* CategoryViewController.swift */,
+				47CC9A6826F7597900126467 /* TableView */,
 				4799911826F5A08900BD5B38 /* CategoryData */,
 			);
-			path = CategoryViewModel;
+			path = Category;
 			sourceTree = "<group>";
 		};
 		4799911826F5A08900BD5B38 /* CategoryData */ = {
@@ -599,21 +525,14 @@
 			path = CategoryData;
 			sourceTree = "<group>";
 		};
-		47A6BFD6270FDC0200698113 /* HowToUseView */ = {
-			isa = PBXGroup;
-			children = (
-				47A6BFD7270FDCC700698113 /* HowToUseViewController.swift */,
-				47A6BFD8270FDCC700698113 /* HowToUseViewController.xib */,
-				47A6BFE0270FE1D800698113 /* TableView */,
-			);
-			path = HowToUseView;
-			sourceTree = "<group>";
-		};
 		47A6BFDB270FDE8400698113 /* HowToUseViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				47A6BFDC270FDEBC00698113 /* HowToUseViewModel.swift */,
+				47A6BFD8270FDCC700698113 /* HowToUseViewController.xib */,
+				47A6BFD7270FDCC700698113 /* HowToUseViewController.swift */,
 				47A6BFDE270FDFE900698113 /* HowToUseItem.swift */,
+				47A6BFE0270FE1D800698113 /* TableView */,
 			);
 			path = HowToUseViewModel;
 			sourceTree = "<group>";
@@ -689,26 +608,12 @@
 			path = HeaderFooter;
 			sourceTree = "<group>";
 		};
-		47DC3EDA26E34DB300693980 /* View */ = {
+		47DC3EDA26E34DB300693980 /* PartsView */ = {
 			isa = PBXGroup;
 			children = (
-				47DC3EF826E4BE9000693980 /* TabBarController */,
-				472EFDCE270453D700A80640 /* CalendarScreen */,
-				472EFDCF270453F600A80640 /* GraphScreen */,
-				472EFDD02704542400A80640 /* AccountScreen */,
 				47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */,
 			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		47DC3EDB26E34DD400693980 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				472EFDCB2704525D00A80640 /* CalendarScreen */,
-				472EFDCC2704536100A80640 /* GraphScreen */,
-				472EFDCD2704538700A80640 /* AccountScreen */,
-			);
-			path = ViewModel;
+			path = PartsView;
 			sourceTree = "<group>";
 		};
 		47DC3EDC26E34DDF00693980 /* Model */ = {
@@ -726,37 +631,6 @@
 				47218A1526EEC64F006C10EF /* DataRepository */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		47DC3EE326E3733400693980 /* CalendarView */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EDD26E34E3800693980 /* CalendarViewController.xib */,
-				4786EDC82662878500FF6ADF /* CalendarViewController.swift */,
-				4748006F268D5C1D0077EC08 /* TableView */,
-				47480070268D5C5F0077EC08 /* CollectionView */,
-			);
-			path = CalendarView;
-			sourceTree = "<group>";
-		};
-		47DC3EE426E3734000693980 /* InputView */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EDF26E34E6A00693980 /* InputViewController.xib */,
-				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
-			);
-			path = InputView;
-			sourceTree = "<group>";
-		};
-		47DC3EE526E3735300693980 /* GraphView */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EE126E34E8C00693980 /* GraphViewController.xib */,
-				47EB81F1268EFD96008FA088 /* GraphViewController.swift */,
-				47AF02B32717BF6A00085804 /* PieChartView.swift */,
-				47DC3EE826E44D5600693980 /* TableView */,
-			);
-			path = GraphView;
 			sourceTree = "<group>";
 		};
 		47DC3EE826E44D5600693980 /* TableView */ = {
@@ -789,21 +663,17 @@
 			path = CalendarData;
 			sourceTree = "<group>";
 		};
-		47DC3EF726E4AEBF00693980 /* CalendarViewModel */ = {
+		47DC3EF726E4AEBF00693980 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
 				47DC3EF026E4723E00693980 /* CalendarViewModel.swift */,
+				47DC3EDD26E34E3800693980 /* CalendarViewController.xib */,
+				4786EDC82662878500FF6ADF /* CalendarViewController.swift */,
+				4748006F268D5C1D0077EC08 /* TableView */,
+				47480070268D5C5F0077EC08 /* CollectionView */,
 				47DC3EF426E477E300693980 /* CalendarData */,
 			);
-			path = CalendarViewModel;
-			sourceTree = "<group>";
-		};
-		47DC3EF826E4BE9000693980 /* TabBarController */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EE626E3928F00693980 /* MainTabBarController.swift */,
-			);
-			path = TabBarController;
+			path = Calendar;
 			sourceTree = "<group>";
 		};
 		47DC3EFA26E4C2CD00693980 /* HeaderFooter */ = {
@@ -851,13 +721,15 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
-		47FCF32027258AC200E3043F /* AuthFormViewModel */ = {
+		47FCF32027258AC200E3043F /* AuthForm */ = {
 			isa = PBXGroup;
 			children = (
 				47FCF32127258B3200E3043F /* AuthFormViewModel.swift */,
-				474D6B78273F832A00563B1C /* EmailLinkAuthSuccessViewModel */,
+				478C23152725315300BABDC1 /* AuthFormViewController.xib */,
+				478C23142725315300BABDC1 /* AuthFormViewController.swift */,
+				474D6B78273F832A00563B1C /* EmailLinkAuthSuccess */,
 			);
-			path = AuthFormViewModel;
+			path = AuthForm;
 			sourceTree = "<group>";
 		};
 		F80E1A3A0C6B7344DB421BF8 /* Frameworks */ = {
