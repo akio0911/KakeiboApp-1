@@ -202,10 +202,10 @@ final class InputViewController: UIViewController,
     private let toolBar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: InputViewController.self, action: nil)
         let doneButton = UIBarButtonItem(
             barButtonSystemItem: .done,
-            target: self,
+            target: InputViewController.self,
             action: #selector(didTapKeyboardDoneButton)
         )
         toolbar.setItems([spacer, doneButton], animated: true)
