@@ -142,10 +142,10 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 switch $0.categoryId {
                 case .income(let id): // swiftlint:disable:this identifier_name
                     categoryData = incomeCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: "", displayOrder: 999, name: "", color: .red)
+                    CategoryData(id: id, displayOrder: 999, name: "", color: .red)
                 case .expense(let id): // swiftlint:disable:this identifier_name
                     categoryData = expenseCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: "", displayOrder: 999, name: "", color: .red)
+                    CategoryData(id: id, displayOrder: 999, name: "", color: .red)
                 }
 
                 cellDateData.append(
@@ -277,6 +277,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         case .expense(_):
             categoryId = CategoryId.expense(cellDateData.categoryData.id)
         }
+        // TODO: ここで新しいKakeiboDataを作成しないようにする
         let kakeiboData = KakeiboData(
             date: headerDateData.date,
             categoryId: categoryId,
