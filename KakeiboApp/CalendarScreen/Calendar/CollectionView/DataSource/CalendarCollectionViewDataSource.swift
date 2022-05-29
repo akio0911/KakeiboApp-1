@@ -65,6 +65,7 @@ final class CalendarCollectionViewDataSource: NSObject,
             let highlightView = UIView(frame: cell.frame)
             highlightView.backgroundColor = UIColor(named: CalendarColorName.seashell.rawValue)
             cell.selectedBackgroundView = highlightView
+            // 日付が今日の場合、cellをハイライト表示する
             if Calendar(identifier: .gregorian).isDate(data.date, equalTo: Date(), toGranularity: .day) {
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
             }
