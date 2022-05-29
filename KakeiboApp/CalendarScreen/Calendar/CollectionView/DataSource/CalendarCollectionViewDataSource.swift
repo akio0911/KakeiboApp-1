@@ -52,11 +52,12 @@ final class CalendarCollectionViewDataSource: NSObject,
                 withReuseIdentifier: CalendarDayCollectionViewCell.identifier,
                 for: indexPath
             ) as! CalendarDayCollectionViewCell // swiftlint:disable:this force_cast
+            let data = items[indexPath.row]
             cell.configure(
-                data: items[indexPath.row],
+                data: data,
                 index: indexPath.row
             )
-            if items[indexPath.row].isCalendarMonth {
+            if data.isCalendarMonth {
                 cell.backgroundColor = .white
             } else {
                 cell.backgroundColor = .systemGray6
@@ -64,6 +65,10 @@ final class CalendarCollectionViewDataSource: NSObject,
             let highlightView = UIView(frame: cell.frame)
             highlightView.backgroundColor = UIColor(named: CalendarColorName.seashell.rawValue)
             cell.selectedBackgroundView = highlightView
+            // 日付が今日の場合、cellをハイライト表示する
+            if Calendar(identifier: .gregorian).isDate(data.date, equalTo: Date(), toGranularity: .day) {
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+            }
             return cell
         default:
             fatalError("collectionViewで想定していないsection")
