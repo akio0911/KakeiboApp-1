@@ -199,13 +199,13 @@ final class InputViewController: UIViewController,
         memoTextField.inputAccessoryView = toolBar
     }
 
-    private let toolBar: UIToolbar = {
+    private lazy var toolBar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: InputViewController.self, action: nil)
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let doneButton = UIBarButtonItem(
             barButtonSystemItem: .done,
-            target: InputViewController.self,
+            target: self,
             action: #selector(didTapKeyboardDoneButton)
         )
         toolbar.setItems([spacer, doneButton], animated: true)

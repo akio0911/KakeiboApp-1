@@ -43,13 +43,13 @@ final class CategoryInputViewController: UIViewController {
         setupBinding()
     }
 
-    private let toolBar: UIToolbar = {
+    private lazy var toolBar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: CategoryInputViewController.self, action: nil)
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let doneButton = UIBarButtonItem(
             barButtonSystemItem: .done,
-            target: CategoryInputViewController.self,
+            target: self,
             action: #selector(didTapKeyboardDoneButton)
         )
         toolbar.setItems([spacer, doneButton], animated: true)

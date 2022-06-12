@@ -66,13 +66,13 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
-    private let toolBar: UIToolbar = {
+    private lazy var toolBar: UIToolbar = {
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: AuthFormViewController.self, action: nil)
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let doneButton = UIBarButtonItem(
             barButtonSystemItem: .done,
-            target: AuthFormViewController.self,
+            target: self,
             action: #selector(didTapKeyboardDoneButton)
         )
         toolbar.setItems([spacer, doneButton], animated: true)
