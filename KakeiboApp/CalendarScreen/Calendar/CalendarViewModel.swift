@@ -51,8 +51,13 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let expenseTextRelay = BehaviorRelay<String>(value: "")
     private let balanceTextRelay = BehaviorRelay<String>(value: "")
     private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
+    private let navigationTitleRelay = BehaviorRelay<String>(
+        value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月")
+    )
     private let eventRelay = PublishRelay<Event>()
     private var userInfo: UserInfo?
+    private var displayDate = Date()
+    private let changeMonthRelay = BehaviorRelay<Void>(value: ())
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
@@ -65,8 +70,6 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         setupBinding()
     }
 
-    private var calendarDateArray: [Date] = []
-    private var monthDateArray: [Date] = []
     private var kakeiboDataArray: [KakeiboData] = []
     private var incomeCategoryArray: [CategoryData] = []
     private var expenseCategoryArray: [CategoryData] = []
@@ -83,11 +86,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             .disposed(by: disposeBag)
 
         Observable
-            .combineLatest(calendarDate.calendarDate, calendarDate.monthDate, kakeiboModel.dataObservable.skip(1))
-            .subscribe(onNext: { [weak self] calendarDateArray, monthDateArray, kakeiboDataArray in
+            .combineLatest(changeMonthRelay, kakeiboModel.dataObservable.skip(1))
+            .subscribe(onNext: { [weak self] _, kakeiboDataArray in
                 guard let strongSelf = self else { return }
-                strongSelf.calendarDateArray = calendarDateArray
-                strongSelf.monthDateArray = monthDateArray
                 strongSelf.kakeiboDataArray = kakeiboDataArray
                 strongSelf.acceptDayItemData()
                 strongSelf.acceptCellDateData()
@@ -111,18 +112,21 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     private func acceptDayItemData() {
-        guard !monthDateArray.isEmpty else { return }
-        let firstDay = monthDateArray.first! // 月の初日
+        guard let year = Int(DateUtility.stringFromDate(date: displayDate, format: "yyyy")),
+              let month = Int(DateUtility.stringFromDate(date: displayDate, format: "MM")) else {
+            return
+        }
 
         var dayItemDataArray: [DayItemData] = []
 
+        let calendarDateArray = calendarDate.loadCalendarDate(year: year, month: month, isContainOtherMonth: true)
         calendarDateArray.forEach {
             let date = $0
             let dateDataArray = kakeiboDataArray.filter { $0.date == date }
             let totalBalance = dateDataArray.reduce(0) { $0 + $1.balance.fetchValueSigned }
             let isCalendarMonth =
-            Calendar(identifier: .gregorian).isDate(date, equalTo: firstDay, toGranularity: .year)
-            && Calendar(identifier: .gregorian).isDate(date, equalTo: firstDay, toGranularity: .month)
+            Calendar(identifier: .gregorian).isDate(date, equalTo: displayDate, toGranularity: .year)
+            && Calendar(identifier: .gregorian).isDate(date, equalTo: displayDate, toGranularity: .month)
             dayItemDataArray.append(
                 DayItemData(date: date, totalBalance: totalBalance, isCalendarMonth: isCalendarMonth)
             )
@@ -131,7 +135,13 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     private func acceptCellDateData() {
+        guard let year = Int(DateUtility.stringFromDate(date: displayDate, format: "yyyy")),
+              let month = Int(DateUtility.stringFromDate(date: displayDate, format: "MM")) else {
+            return
+        }
         var cellDateDataArray: [[CellDateKakeiboData]] = []
+
+        let monthDateArray = calendarDate.loadCalendarDate(year: year, month: month, isContainOtherMonth: false)
         monthDateArray.forEach {
             var cellDateData: [CellDateKakeiboData] = []
             let date = $0
@@ -160,7 +170,12 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     private func acceptHeaderDateDataArray() {
+        guard let year = Int(DateUtility.stringFromDate(date: displayDate, format: "yyyy")),
+              let month = Int(DateUtility.stringFromDate(date: displayDate, format: "MM")) else {
+            return
+        }
         var headerDateDataArray: [HeaderDateKakeiboData] = []
+        let monthDateArray = calendarDate.loadCalendarDate(year: year, month: month, isContainOtherMonth: false)
         monthDateArray.forEach {
             let date = $0
             var totalBalance = 0
@@ -174,16 +189,13 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     private func acceptTotalText() {
-        guard !monthDateArray.isEmpty else { return }
-        let firstDay = monthDateArray.first! // 月の初日
-
         var totalIncome = 0
         var totalExpense = 0
         var totalBalance = 0
 
         let monthKakeiboData = kakeiboDataArray.filter {
-            Calendar(identifier: .gregorian).isDate($0.date, equalTo: firstDay, toGranularity: .year)
-            && Calendar(identifier: .gregorian).isDate($0.date, equalTo: firstDay, toGranularity: .month)
+            Calendar(identifier: .gregorian).isDate($0.date, equalTo: displayDate, toGranularity: .year)
+            && Calendar(identifier: .gregorian).isDate($0.date, equalTo: displayDate, toGranularity: .month)
         }
 
         monthKakeiboData.forEach {
@@ -218,14 +230,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     var navigationTitle: Driver<String> {
-        calendarDate.firstDay
-            .map {
-                DateUtility.stringFromDate(
-                    date: $0,
-                    format: "yyyy年MM月"
-                )
-            }
-            .asDriver(onErrorDriveWith: .empty())
+        navigationTitleRelay.asDriver()
     }
 
     var incomeText: Driver<String> {
@@ -259,11 +264,19 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     func didActionNextMonth() {
-        calendarDate.nextMonth()
+        if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: 1, to: displayDate) {
+            self.displayDate = displayDate
+            changeMonthRelay.accept(())
+            navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+        }
     }
 
     func didActionLastMonth() {
-        calendarDate.lastMonth()
+        if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: -1, to: displayDate) {
+            self.displayDate = displayDate
+            changeMonthRelay.accept(())
+            navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+        }
     }
 
     func didSelectRowAt(index: IndexPath) {

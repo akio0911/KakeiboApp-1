@@ -86,9 +86,9 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .presentCategoryVC(let categoryData):
+                case .presentCategoryVC(let categoryData, let displayDate):
                     let categoryViewController = CategoryViewController(
-                        viewModel: CategoryViewModel(categoryData: categoryData)
+                        viewModel: CategoryViewModel(categoryData: categoryData, displayDate: displayDate)
                     )
                     categoryViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(categoryViewController, animated: true)
