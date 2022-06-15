@@ -43,13 +43,17 @@ final class KakeiboModel: KakeiboModelProtocol {
         var kakeiboData = dataRelay.value
         kakeiboData.append(data)
         dataRelay.accept(kakeiboData)
-        repository.addData(userId: userId, data: data)
+        repository.setData(userId: userId, data: data) { error in
+            // TODO: 後でエラー処理を実装
+        }
     }
 
     func deleateData(userId: String, index: Int) {
         var kakeiboData = dataRelay.value
         let data = kakeiboData[index]
-        repository.deleteData(userId: userId, data: data)
+        repository.deleteData(userId: userId, data: data) { error in
+            // TODO: 後でエラー処理を実装
+        }
         kakeiboData.remove(at: index)
         dataRelay.accept(kakeiboData)
     }
@@ -59,7 +63,11 @@ final class KakeiboModel: KakeiboModelProtocol {
         let beforeData = kakeiboData[index]
         kakeiboData[index] = data
         dataRelay.accept(kakeiboData)
-        repository.deleteData(userId: userId, data: beforeData)
-        repository.addData(userId: userId, data: data)
+        repository.deleteData(userId: userId, data: beforeData) { error in
+            // TODO: 後でエラー処理を実装
+        }
+        repository.setData(userId: userId, data: data) { error in
+            // TODO: 後でエラー処理を実装
+        }
     }
 }

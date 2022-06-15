@@ -9,9 +9,9 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 protocol DataRepositoryProtocol {
-    func loadData(userId: String, data: @escaping ([KakeiboData]) -> Void)
-    func addData(userId: String, data: KakeiboData)
-    func deleteData(userId: String, data: KakeiboData)
+    func loadData(userId: String, completion: @escaping (Result<[KakeiboData], Error>) -> Void)
+    func setData(userId: String, data: KakeiboData, completion: @escaping (Error?) -> Void)
+    func deleteData(userId: String, data: KakeiboData, completion: @escaping (Error?) -> Void)
 }
 
 final class KakeiboDataRepository: DataRepositoryProtocol {
@@ -25,13 +25,13 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
         db = Firestore.firestore()
     }
 
-    func loadData(userId: String, data: @escaping ([KakeiboData]) -> Void) {
+    func loadData(userId: String, completion: @escaping (Result<[KakeiboData], Error>) -> Void) {
         db.collection(firstCollectionName).document(userId)
             .collection(secondCollectionName).getDocuments { querySnapshot, error in
                 if let error = error {
-                    print("----Error getting documents: \(error.localizedDescription)----")
+                    completion(.failure(error))
                 } else if let documents = querySnapshot?.documents {
-                    var kakeiboData: [KakeiboData] = []
+                    var kakeiboDataArray: [KakeiboData] = []
                     for document in documents {
                         let result = Result {
                             try document.data(as: KakeiboData.self)
@@ -39,35 +39,35 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
                         switch result {
                         case .success(let data):
                             if let data = data {
-                                kakeiboData.append(data)
+                                kakeiboDataArray.append(data)
                             }
                         case .failure(let error):
                             print("----Error decoding item: \(error.localizedDescription)----")
                         }
                     }
-                    data(kakeiboData)
+                    completion(.success(kakeiboDataArray))
                 }
             }
     }
 
-    func addData(userId: String, data: KakeiboData) {
+    func setData(userId: String, data: KakeiboData, completion: @escaping (Error?) -> Void) {
         do {
             let ref = db.collection(firstCollectionName).document(userId)
                 .collection(secondCollectionName).document(data.instantiateTime)
             try ref.setData(from: data)
-            print("----dataが追加されました----")
+            completion(nil)
         } catch let error {
-            print("----Error writing kakeiboData to Firestore: \(error.localizedDescription)----")
+            completion(error)
         }
     }
 
-    func deleteData(userId: String, data: KakeiboData) {
+    func deleteData(userId: String, data: KakeiboData, completion: @escaping (Error?) -> Void) {
         db.collection(firstCollectionName).document(userId)
             .collection(secondCollectionName).document(data.instantiateTime).delete { error in
                 if let error = error {
-                    print("Error removing document: \(error.localizedDescription)")
+                    completion(error)
                 } else {
-                    print("Document successfully removed!")
+                    completion(nil)
                 }
             }
     }
