@@ -8,6 +8,7 @@
 import Foundation
 
 struct KakeiboData: Codable, Equatable {
+    // TODO: 後で削除（instantiateTimeも含むことができるようになったら）
     static func == (lhs: KakeiboData, rhs: KakeiboData) -> Bool {
         lhs.date == rhs.date
             && lhs.categoryId == rhs.categoryId
@@ -15,12 +16,20 @@ struct KakeiboData: Codable, Equatable {
             && lhs.memo == rhs.memo
     }
 
-    var instantiateTime =
-        DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月dd日 HH:mm:ss")
-    let date: Date //　日付
-    let categoryId: CategoryId // カテゴリー
-    let balance: Balance // 収支
-    let memo: String //　メモ
+    let instantiateTime: String
+    var date: Date //　日付
+    var categoryId: CategoryId // カテゴリー
+    var balance: Balance // 収支
+    var memo: String //　メモ
+
+    init(instantiateTime: String = DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月dd日 HH:mm:ss"),
+         date: Date, categoryId: CategoryId, balance: Balance, memo: String) {
+        self.instantiateTime = instantiateTime
+        self.date = date
+        self.categoryId = categoryId
+        self.balance = balance
+        self.memo = memo
+    }
 }
 
 enum Balance: Equatable {
