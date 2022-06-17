@@ -12,15 +12,15 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var balanceLabel: UILabel!
 
     // ラベルのテキストを設定
-    func configure(data: DayItemData, index: Int) {
-        dayLabel.text = DateUtility.stringFromDate(date: data.date, format: "d")
+    func configure(calendarItem: CalendarItem, index: Int) {
+        dayLabel.text = DateUtility.stringFromDate(date: calendarItem.date, format: "d")
 
-        if data.totalBalance != 0 {
-            if data.totalBalance > 0 {
-                balanceLabel.text = String(data.totalBalance)
+        if calendarItem.totalBalance != 0 {
+            if calendarItem.totalBalance > 0 {
+                balanceLabel.text = String(calendarItem.totalBalance)
                 balanceLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
             } else {
-                balanceLabel.text = String(-data.totalBalance)
+                balanceLabel.text = String(-calendarItem.totalBalance)
                 balanceLabel.textColor = UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
             }
         } else {

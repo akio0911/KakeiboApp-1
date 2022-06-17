@@ -37,7 +37,8 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private var balanceSegmentIndex: Int = 0
     private let disposeBag = DisposeBag()
     private let graphDataArrayRelay = BehaviorRelay<[GraphData]>(value: [])
-    private let navigationTitleRelay = BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
+    private let navigationTitleRelay =
+    BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
     private let eventRelay = PublishRelay<Event>()
     private var displayDate = Date()
     private let changeMonthRelay = BehaviorRelay<Void>(value: ())
@@ -50,19 +51,17 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         self.categoryModel = categoryModel
         setupBinding()
     }
-    private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private var incomeCategoryDataArray: [CategoryData] = []
     private var expenseCategoryDataArray: [CategoryData] = []
 
     private func setupBinding() {
         Observable
             .combineLatest(changeMonthRelay,
-                           kakeiboModel.dataObservable,
                            categoryModel.incomeCategoryData,
                            categoryModel.expenseCategoryData)
-            .subscribe(onNext: { [weak self] _, kakeiboData, incomeCategoryData, expenseCategoryData in
+            .subscribe(onNext: { [weak self] _, incomeCategoryData, expenseCategoryData in
                 guard let strongSelf = self else { return }
-                strongSelf.kakeiboDataArray = kakeiboData
+                print("💣")
                 strongSelf.incomeCategoryDataArray = incomeCategoryData
                 strongSelf.expenseCategoryDataArray = expenseCategoryData
                 strongSelf.acceptGraphData()
@@ -72,18 +71,13 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
 
     private func acceptGraphData() {
         var graphDataArray: [GraphData] = []
-        let monthData = kakeiboDataArray.filter {
-            Calendar(identifier: .gregorian)
-                .isDate(displayDate, equalTo: $0.date, toGranularity: .year)
-                && Calendar(identifier: .gregorian)
-                .isDate(displayDate, equalTo: $0.date, toGranularity: .month)
-        }
 
+        let kakeiboData = kakeiboModel.loadMonthData(date: displayDate)
         switch balanceSegmentIndex {
         case 0:
             expenseCategoryDataArray.forEach {
                 let expenseCategoryId = $0.id
-                let categoryFilterData = monthData.filter {
+                let categoryFilterData = kakeiboData.filter {
                     switch $0.categoryId {
                     case .income(_):
                         return false
@@ -101,7 +95,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         case 1:
             incomeCategoryDataArray.forEach {
                 let incomeCategoryId = $0.id
-                let categoryFilterData = monthData.filter {
+                let categoryFilterData = kakeiboData.filter {
                     switch $0.categoryId {
                     case .income(let categoryId):
                         return categoryId == incomeCategoryId

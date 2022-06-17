@@ -11,7 +11,7 @@ class CalendarTableViewHeaderFooterView: UITableViewHeaderFooterView {
     @IBOutlet private weak var titleHeaderLabel: UILabel!
     @IBOutlet private weak var balanceHeaderLabel: UILabel!
 
-    func configure(data: HeaderDateKakeiboData) {
+    func configure(data: CalendarItem) {
         titleHeaderLabel.text =
             DateUtility.stringFromDate(date: data.date, format: "yyyy年MM月d日")
         balanceHeaderLabel.text =

@@ -97,8 +97,7 @@
 		47DC3EED26E45C3B00693980 /* KakeiboData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEC26E45C3B00693980 /* KakeiboData.swift */; };
 		47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEE26E4700B00693980 /* ModelLocator.swift */; };
 		47DC3EF126E4723E00693980 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF026E4723E00693980 /* CalendarViewModel.swift */; };
-		47DC3EF326E4773B00693980 /* CalendarCollectionViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF226E4773B00693980 /* CalendarCollectionViewData.swift */; };
-		47DC3EF626E4780100693980 /* CalendarTableViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF526E4780100693980 /* CalendarTableViewData.swift */; };
+		47DC3EF626E4780100693980 /* CalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EF526E4780100693980 /* CalendarItem.swift */; };
 		47DC3EFE26E4C30900693980 /* CalendarTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EFD26E4C30900693980 /* CalendarTableViewDataSource.swift */; };
 		47DC3F0326E4E8C900693980 /* CalendarCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3F0226E4E8C900693980 /* CalendarCollectionViewDataSource.swift */; };
 		47EB81F2268EFD96008FA088 /* GraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F1268EFD96008FA088 /* GraphViewController.swift */; };
@@ -203,8 +202,7 @@
 		47DC3EEC26E45C3B00693980 /* KakeiboData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboData.swift; sourceTree = "<group>"; };
 		47DC3EEE26E4700B00693980 /* ModelLocator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelLocator.swift; sourceTree = "<group>"; };
 		47DC3EF026E4723E00693980 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
-		47DC3EF226E4773B00693980 /* CalendarCollectionViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewData.swift; sourceTree = "<group>"; };
-		47DC3EF526E4780100693980 /* CalendarTableViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewData.swift; sourceTree = "<group>"; };
+		47DC3EF526E4780100693980 /* CalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItem.swift; sourceTree = "<group>"; };
 		47DC3EFD26E4C30900693980 /* CalendarTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewDataSource.swift; sourceTree = "<group>"; };
 		47DC3F0226E4E8C900693980 /* CalendarCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		47EB81F1268EFD96008FA088 /* GraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewController.swift; sourceTree = "<group>"; };
@@ -628,6 +626,7 @@
 				4773CBF4270BD30600C52DE0 /* CategoryData.swift */,
 				478F93E7273150E400D58719 /* AuthError.swift */,
 				478F93E92731766500D58719 /* UserInfo.swift */,
+				47DC3EF526E4780100693980 /* CalendarItem.swift */,
 				47218A1526EEC64F006C10EF /* DataRepository */,
 			);
 			path = Model;
@@ -654,15 +653,6 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
-		47DC3EF426E477E300693980 /* CalendarData */ = {
-			isa = PBXGroup;
-			children = (
-				47DC3EF226E4773B00693980 /* CalendarCollectionViewData.swift */,
-				47DC3EF526E4780100693980 /* CalendarTableViewData.swift */,
-			);
-			path = CalendarData;
-			sourceTree = "<group>";
-		};
 		47DC3EF726E4AEBF00693980 /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
@@ -671,7 +661,6 @@
 				4786EDC82662878500FF6ADF /* CalendarViewController.swift */,
 				4748006F268D5C1D0077EC08 /* TableView */,
 				47480070268D5C5F0077EC08 /* CollectionView */,
-				47DC3EF426E477E300693980 /* CalendarData */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -966,12 +955,11 @@
 				477C3F2926E5E60600FFCB64 /* CalendarColorName.swift in Sources */,
 				47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */,
 				47D5065A26F1863800CDA849 /* BalanceSegmentedControlView.swift in Sources */,
-				47DC3EF626E4780100693980 /* CalendarTableViewData.swift in Sources */,
+				47DC3EF626E4780100693980 /* CalendarItem.swift in Sources */,
 				472EFDD4270456F400A80640 /* PasscodeViewController.swift in Sources */,
 				474D6B76273F7B1600563B1C /* EmailLinkAuthSuccessViewController.swift in Sources */,
 				47DC3EEF26E4700B00693980 /* ModelLocator.swift in Sources */,
 				47436A3926F885D10056F60D /* NumberFormatterUtility.swift in Sources */,
-				47DC3EF326E4773B00693980 /* CalendarCollectionViewData.swift in Sources */,
 				4785FD3526620E8700BAAD00 /* InputViewController.swift in Sources */,
 				47218A1A26EF4AD4006C10EF /* CalendarImageName.swift in Sources */,
 				4773CBFA270BDE2400C52DE0 /* CategoryDataRepository.swift in Sources */,

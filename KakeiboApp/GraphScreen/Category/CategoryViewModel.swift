@@ -24,7 +24,6 @@ protocol CategoryViewModelType {
 
 final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let categoryData: CategoryData
-    private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private let calendarDate: CalendarDateProtocol
     private let kakeiboModel: KakeiboModelProtocol
     private let displayDate: Date
@@ -42,21 +41,10 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
         self.kakeiboModel = kakeiboModel
         self.displayDate = displayDate
         acceptNavigationTitle()
-        setupBinding()
     }
 
     private func acceptNavigationTitle() {
         navigationTitleRelay.accept(categoryData.name)
-    }
-
-    private func setupBinding() {
-        kakeiboModel.dataObservable
-            .subscribe(onNext: { [weak self] kakeiboData in
-                guard let strongSelf = self else { return }
-                strongSelf.kakeiboDataArray = kakeiboData
-                strongSelf.acceptTableViewData()
-            })
-            .disposed(by: disposeBag)
     }
 
     private func acceptTableViewData() {
@@ -66,14 +54,9 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
         }
         var cellDataArray: [[CellDateCategoryData]] = []
         var headerDataArray: [HeaderDateCategoryData] = []
-        let monthFilterData = kakeiboDataArray.filter {
-            Calendar(identifier: .gregorian)
-                .isDate(displayDate, equalTo: $0.date, toGranularity: .year)
-            && Calendar(identifier: .gregorian)
-                .isDate(displayDate, equalTo: $0.date, toGranularity: .month)
-        }
 
-        let categoryFilterData = monthFilterData.filter {
+        let kakeiboDataArray = kakeiboModel.loadMonthData(date: displayDate)
+        let categoryFilterData = kakeiboDataArray.filter {
             switch $0.categoryId {
             case .income(let categoryId):
                 return categoryId == categoryData.id

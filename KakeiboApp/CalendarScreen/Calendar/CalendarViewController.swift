@@ -28,7 +28,7 @@ final class CalendarViewController: UIViewController,
     private let disposeBag = DisposeBag()
     private let calendarCollectionViewDataSource = CalendarCollectionViewDataSource()
     private let calendarTableViewDataSource = CalendarTableViewDataSource()
-    private var headerDataArray: [HeaderDateKakeiboData] = []
+    private var headerDataArray: [CalendarItem] = []
     private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
     private var didHighlightItemIndexPath: IndexPath = []
     private var activityIndicatorView: UIActivityIndicatorView!
@@ -53,6 +53,7 @@ final class CalendarViewController: UIViewController,
         setupTableView() // tableViewの設定をするメソッド
         navigationItem.title = "カレンダー"
         calendarTableViewDataSource.delegate = self
+        viewModel.inputs.onViewDidLoad()
     }
 
     // ActivityIndicatorViewを反映
@@ -108,7 +109,7 @@ final class CalendarViewController: UIViewController,
             })
             .disposed(by: disposeBag)
 
-        let collectionViewDataObservable = viewModel.outputs.dayItemDataObservable
+        let collectionViewDataObservable = viewModel.outputs.collectionViewItemObservable
             .share()
 
         collectionViewDataObservable
@@ -119,11 +120,11 @@ final class CalendarViewController: UIViewController,
             .subscribe(onNext: setupCollectionViewNSLayoutConstraint(secondSectionItemData:))
             .disposed(by: disposeBag)
 
-        viewModel.outputs.cellDateDataObservable
+        viewModel.outputs.tableViewItemObservable
             .bind(to: calendarTableView.rx.items(dataSource: calendarTableViewDataSource))
             .disposed(by: disposeBag)
 
-        viewModel.outputs.headerDateDataObservable
+        viewModel.outputs.tableViewItemObservable
             .subscribe(onNext: { [weak self] data in
                 guard let strongSelf = self else { return }
                 strongSelf.headerDataArray = data
@@ -155,7 +156,7 @@ final class CalendarViewController: UIViewController,
             .disposed(by: disposeBag)
     }
 
-    private func setupCollectionViewNSLayoutConstraint(secondSectionItemData: [DayItemData]) {
+    private func setupCollectionViewNSLayoutConstraint(secondSectionItemData: [CalendarItem]) {
         let numberOfWeeksInMonth: CGFloat = ceil(CGFloat(secondSectionItemData.count / 7))
         collectionViewNSLayoutConstraint?.isActive = false
         collectionViewNSLayoutConstraint =
@@ -186,6 +187,8 @@ final class CalendarViewController: UIViewController,
             viewModel = InputViewModel(mode: .add(date))
         case .presentEdit(let kakeiboData):
             viewModel = InputViewModel(mode: .edit(kakeiboData))
+        default:
+            return
         }
         let inputViewController = InputViewController(viewModel: viewModel)
         let navigationController =
@@ -316,12 +319,12 @@ final class CalendarViewController: UIViewController,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.inputs.didSelectRowAt(index: indexPath)
+        viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
 
     // MARK: - CalendarTableViewDataSourceDelegate
     // 自作delegate
     func didDeleteCell(index: IndexPath) {
-        viewModel.inputs.didDeleateCell(index: index)
+        viewModel.inputs.didDeleateCell(indexPath: index)
     }
 }

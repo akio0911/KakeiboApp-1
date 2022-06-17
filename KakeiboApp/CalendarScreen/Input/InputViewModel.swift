@@ -51,7 +51,6 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
-    private var kakeiboDataArray: [KakeiboData] = []
     private let dateRelay = BehaviorRelay<String>(value: "")
     private let categoryRelay = PublishRelay<String>()
     private let segmentIndexRelay = PublishRelay<Int>()
@@ -77,13 +76,6 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             .subscribe(onNext: { [weak self] userInfo in
                 guard let strongSelf = self else { return }
                 strongSelf.userInfo = userInfo
-            })
-            .disposed(by: disposeBag)
-
-        kakeiboModel.dataObservable
-            .subscribe(onNext: { [weak self] kakeiboDataArray in
-                guard let strongSelf = self else { return }
-                strongSelf.kakeiboDataArray = kakeiboDataArray
             })
             .disposed(by: disposeBag)
 
@@ -137,10 +129,25 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         }
         switch mode {
         case .add:
-            kakeiboModel.addData(userId: userInfo.id, data: data)
-        case .edit(let beforeData):
-            guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == beforeData }) else { return }
-            kakeiboModel.updateData(userId: userInfo.id, index: firstIndex, data: data)
+            // TODO: インジケータ表示
+            kakeiboModel.setData(userId: userInfo.id, data: data) { [weak self] error in
+                if let error = error {
+                    // TODO: エラー処理の追加とインジケータ非表示
+                    return
+                }
+            }
+        case .edit(var beforeData):
+            beforeData.date = data.date
+            beforeData.categoryId = data.categoryId
+            beforeData.balance = data.balance
+            beforeData.memo = data.memo
+            // TODO: インジケータ表示
+            kakeiboModel.setData(userId: userInfo.id, data: beforeData) { [weak self] error in
+                if let error = error {
+                    // TODO: エラー処理の追加とインジケータ非表示
+                    return
+                }
+            }
         }
         eventRelay.accept(.dismiss)
     }

@@ -30,7 +30,7 @@ final class CalendarDate: CalendarDateProtocol {
             let numberOfItems = numberOfWeek.count * 7
             // 他の月を含めたDate配列
             let calendarDateArray: [Date] = (1...numberOfItems).map { num in
-                let dateComponents = DateComponents(year: year, month: month, day: num - firstWeekday)
+                let dateComponents = DateComponents(year: year, month: month, day: num - (firstWeekday - 1))
                 return calendar.date(from: dateComponents)!
             }
             return calendarDateArray
