@@ -68,6 +68,14 @@
 		</dict>
 		<dict>
 			<key>File</key>
+			<string>com.mono0926.LicensePlist/FirebaseCoreInternal</string>
+			<key>Title</key>
+			<string>FirebaseCoreInternal</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
 			<string>com.mono0926.LicensePlist/FirebaseCrashlytics</string>
 			<key>Title</key>
 			<string>FirebaseCrashlytics</string>
@@ -95,14 +103,6 @@
 			<string>com.mono0926.LicensePlist/FirebaseInstallations</string>
 			<key>Title</key>
 			<string>FirebaseInstallations</string>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-		</dict>
-		<dict>
-			<key>File</key>
-			<string>com.mono0926.LicensePlist/FirebaseInstanceID</string>
-			<key>Title</key>
-			<string>FirebaseInstanceID</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -172,9 +172,25 @@
 		</dict>
 		<dict>
 			<key>File</key>
+			<string>com.mono0926.LicensePlist/Libuv-gRPC</string>
+			<key>Title</key>
+			<string>Libuv-gRPC</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
 			<string>com.mono0926.LicensePlist/LicensePlist</string>
 			<key>Title</key>
 			<string>LicensePlist</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>com.mono0926.LicensePlist/MBProgressHUD</string>
+			<key>Title</key>
+			<string>MBProgressHUD</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -191,14 +207,6 @@
 			<string>com.mono0926.LicensePlist/PromisesObjC</string>
 			<key>Title</key>
 			<string>PromisesObjC</string>
-			<key>Type</key>
-			<string>PSChildPaneSpecifier</string>
-		</dict>
-		<dict>
-			<key>File</key>
-			<string>com.mono0926.LicensePlist/Protobuf</string>
-			<key>Title</key>
-			<string>Protobuf</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>

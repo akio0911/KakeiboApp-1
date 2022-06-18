@@ -46,12 +46,14 @@ final class MainTabBarController: UITabBarController {
         guard let userId = authType.userInfo?.id else {
             return
         }
-        // TODO: インジケータの表示ロジックを追加
+        showProgress()
         kakeiboModel.setupData(userId: userId) { [weak self] error in
             if error != nil {
+                self?.hideProgress()
                 self?.showErrorAlert()
             } else {
                 self?.categoryModel.setupData(userId: userId) { [weak self] error in
+                    self?.hideProgress()
                     if error != nil {
                         self?.showErrorAlert()
                     } else {

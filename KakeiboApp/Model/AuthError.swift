@@ -22,7 +22,7 @@ enum AuthError: Error {
 
     // swiftlint:disable:next cyclomatic_complexity
     init?(error: Error) {
-        guard let errorCode = AuthErrorCode(rawValue: error._code) else { return nil }
+        guard let errorCode = AuthErrorCode.Code(rawValue: error._code) else { return nil }
         switch errorCode {
         case .invalidEmail:
             // メールアドレスの形式が正しくないことを示します。

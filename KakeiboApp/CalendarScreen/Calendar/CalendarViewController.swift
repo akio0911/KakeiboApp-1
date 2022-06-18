@@ -31,7 +31,6 @@ final class CalendarViewController: UIViewController,
     private var headerDataArray: [CalendarItem] = []
     private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
     private var didHighlightItemIndexPath: IndexPath = []
-    private var activityIndicatorView: UIActivityIndicatorView!
 
     init(viewModel: CalendarViewModelType = CalendarViewModel()) {
         self.viewModel = viewModel
@@ -45,7 +44,6 @@ final class CalendarViewController: UIViewController,
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        addActivityIndicatorView()
         setupBinding()
         setupBarButtonItem()
         setupSwipeGestureRecognizer()
@@ -54,18 +52,6 @@ final class CalendarViewController: UIViewController,
         navigationItem.title = "カレンダー"
         calendarTableViewDataSource.delegate = self
         viewModel.inputs.onViewDidLoad()
-    }
-
-    // ActivityIndicatorViewを反映
-    private func addActivityIndicatorView() {
-        activityIndicatorView = UIActivityIndicatorView()
-        activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicatorView.style = .large
-        activityIndicatorView.color = .darkGray
-        activityIndicatorView.backgroundColor = .systemGray5.withAlphaComponent(0.6)
-        activityIndicatorView.layer.cornerRadius = 10
-        activityIndicatorView.layer.masksToBounds = true
-        view.addSubview(activityIndicatorView)
     }
 
     private func setupBarButtonItem() {
@@ -180,9 +166,9 @@ final class CalendarViewController: UIViewController,
 
     private func animateActivityIndicatorView(isAnimated: Bool) {
         if isAnimated {
-            activityIndicatorView.startAnimating()
+            showProgress()
         } else {
-            activityIndicatorView.stopAnimating()
+            hideProgress()
         }
     }
 
@@ -232,12 +218,6 @@ final class CalendarViewController: UIViewController,
             calendarTableView.sectionHeaderTopPadding = 0
         }
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
-    }
-
-    // MARK: - viewDidLayoutSubviews()
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        activityIndicatorView.center = view.center
     }
 
     // MARK: - @objc(BarButtonItem)

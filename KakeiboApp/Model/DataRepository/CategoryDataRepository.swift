@@ -82,9 +82,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                             switch result {
                             case .success(let data):
                                 // CategoryData型に変換成功
-                                if let data = data {
-                                    categoryArray.append(data)
-                                }
+                                categoryArray.append(data)
                             case .failure(let error):
                                 // CategoryData型に変換失敗
                                 print("----Error decoding item: \(error.localizedDescription)----")
@@ -130,9 +128,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                             switch result {
                             case .success(let data):
                                 // CategoryData型に変換成功
-                                if let data = data {
-                                    categoryArray.append(data)
-                                }
+                                categoryArray.append(data)
                             case .failure(let error):
                                 // CategoryData型に変換失敗
                                 print("----Error decoding item: \(error.localizedDescription)----")

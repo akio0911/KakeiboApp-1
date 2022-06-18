@@ -38,9 +38,7 @@ final class KakeiboDataRepository: DataRepositoryProtocol {
                         }
                         switch result {
                         case .success(let data):
-                            if let data = data {
-                                kakeiboDataArray.append(data)
-                            }
+                            kakeiboDataArray.append(data)
                         case .failure(let error):
                             print("----Error decoding item: \(error.localizedDescription)----")
                         }
