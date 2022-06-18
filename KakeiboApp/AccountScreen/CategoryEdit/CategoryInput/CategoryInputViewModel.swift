@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol CategoryInputViewModelInput {
+    func onViewDidLoad()
     func didTapSaveBarButton(name: String)
     func didTapCancelBarButton()
     func hueSliderValueChanged(value: Float)
@@ -95,20 +96,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     }
 
     private func setupBinding() {
-        categoryModel.incomeCategoryData
-            .subscribe(onNext: { [weak self] incomeCategoryData in
-                guard let strongSelf = self else { return }
-                strongSelf.incomeCategoryDataArray = incomeCategoryData
-            })
-            .disposed(by: disposeBag)
-
-        categoryModel.expenseCategoryData
-            .subscribe(onNext: { [weak self] expenseCategoryData in
-                guard let strongSelf = self else { return }
-                strongSelf.expenseCategoryDataArray = expenseCategoryData
-            })
-            .disposed(by: disposeBag)
-
         authType.userInfo
             .subscribe(onNext: { [weak self] userInfo in
                 guard let strongSelf = self else { return }
@@ -231,6 +218,12 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         brightnessColorsRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    // TODO: ViewControllerからの呼び出し部を実装
+    func onViewDidLoad() {
+        incomeCategoryDataArray = categoryModel.incomeCategoryDataArray
+        expenseCategoryDataArray = categoryModel.expenseCategoryDataArray
+    }
+
     func didTapSaveBarButton(name: String) {
         guard let userInfo = userInfo else {
             let alertTitle = "アカウントが見つかりません。"
@@ -249,7 +242,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         switch mode {
         case .add:
             addCategory(name: name, userInfo: userInfo)
-        case .edit(let categoryData):
+        case .edit(var categoryData):
             editCategory(name: name, userInfo: userInfo, categoryData: categoryData)
         }
 
@@ -267,7 +260,14 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 color: categoryColorRelay.value
             )
             incomeCategoryDataArray.append(categoryData)
-            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if let error = error {
+                    // TODO: エラー処理を実装
+                } else {
+                    strongSelf.incomeCategoryDataArray = strongSelf.categoryModel.incomeCategoryDataArray
+                }
+            }
         case .expense:
             let categoryData =
             CategoryData(
@@ -277,7 +277,14 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 color: categoryColorRelay.value
             )
             expenseCategoryDataArray.append(categoryData)
-            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if let error = error {
+                    // TODO: エラー処理を実装
+                } else {
+                    strongSelf.expenseCategoryDataArray = strongSelf.categoryModel.expenseCategoryDataArray
+                }
+            }
         }
     }
 
@@ -290,9 +297,23 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         )
         switch categoryBalance {
         case .income:
-            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if let error = error {
+                    // TODO: エラー処理を追加
+                } else {
+                    strongSelf.incomeCategoryDataArray = strongSelf.categoryModel.incomeCategoryDataArray
+                }
+            }
         case .expense:
-            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if let error = error {
+                    // TODO: エラー処理を追加
+                } else {
+                    strongSelf.expenseCategoryDataArray = strongSelf.categoryModel.expenseCategoryDataArray
+                }
+            }
         }
     }
 

@@ -135,7 +135,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.inputs.didSelectRowAt(index: indexPath)
+        viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
 
     // MARK: - BalanceSegmentedControlViewDelegate

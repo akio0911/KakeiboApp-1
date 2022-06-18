@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol InputViewModelInput {
+    func onViewDidLoad()
     func didTapSaveButton(data: KakeiboData)
     func didTapCancelButton()
     func addDate(date: Date)
@@ -78,14 +79,6 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 strongSelf.userInfo = userInfo
             })
             .disposed(by: disposeBag)
-
-        categoryModel.incomeCategoryData
-            .bind(to: incomeCategoryRelay)
-            .disposed(by: disposeBag)
-
-        categoryModel.expenseCategoryData
-            .bind(to: expenseCategoryRelay)
-            .disposed(by: disposeBag)
     }
 
     var event: Driver<Event> {
@@ -118,6 +111,12 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     var expenseCategory: Driver<[CategoryData]> {
         expenseCategoryRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    // TODO: ViewControllerからの呼び出し部を実装
+    func onViewDidLoad() {
+        incomeCategoryRelay.accept(categoryModel.incomeCategoryDataArray)
+        expenseCategoryRelay.accept(categoryModel.expenseCategoryDataArray)
     }
 
     func didTapSaveButton(data: KakeiboData) {

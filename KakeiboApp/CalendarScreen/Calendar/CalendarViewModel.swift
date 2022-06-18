@@ -82,17 +82,9 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 strongSelf.setupKakeiboData { error in
                     // TODO: エラー処理を追加する
                 }
-                strongSelf.categoryModel.loadCategoryData(userId: userInfo?.id)
-            })
-            .disposed(by: disposeBag)
-
-        Observable
-            .combineLatest(categoryModel.incomeCategoryData, categoryModel.expenseCategoryData)
-            .subscribe(onNext: { [weak self] incomeCategoryArray, expenseCategoryArray in
-                guard let strongSelf = self else { return }
-                strongSelf.incomeCategoryArray = incomeCategoryArray
-                strongSelf.expenseCategoryArray = expenseCategoryArray
-                strongSelf.acceptTableViewItem()
+                strongSelf.setupCategoryData { error in
+                    // TODO: エラー処理を追加する
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -227,6 +219,15 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
                 self?.acceptTotalText()
             }
         }
+        setupCategoryData { [weak self] error in // TODO: TabBarControllerからセットすようにする
+            if let error = error {
+                self?.eventRelay.accept(.showErrorAlert(error))
+            } else {
+                self?.acceptCollectionViewItem()
+                self?.acceptTableViewItem()
+                self?.acceptTotalText()
+            }
+        }
     }
 
     func didTapInputBarButton(didHighlightItem indexPath: IndexPath) {
@@ -283,6 +284,17 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         }
         isAnimatedIndicatorRelay.accept(true)
         kakeiboModel.setupData(userId: userId) { [weak self] error in
+            self?.isAnimatedIndicatorRelay.accept(false)
+            completion(error)
+        }
+    }
+
+    private func setupCategoryData(completion: @escaping (Error?) -> Void) {
+        guard let userId = userInfo?.id else {
+            return
+        }
+        isAnimatedIndicatorRelay.accept(true)
+        categoryModel.setupData(userId: userId) { [weak self] error in
             self?.isAnimatedIndicatorRelay.accept(false)
             completion(error)
         }

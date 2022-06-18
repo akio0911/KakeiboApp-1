@@ -110,18 +110,18 @@ class CategoryEditViewController: UIViewController,
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.inputs.didSelectRowAt(index: indexPath)
+        viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
 
     // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
-        viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
+        viewModel.inputs.didChangeSegmentIndex(selectedSegmentIndex: selectedSegmentIndex)
     }
 
     // MARK: - CategoryEditTableViewDataSourceDelegate
     // 自作delegate
     func didDeleteCell(index: IndexPath) {
-        viewModel.inputs.didDeleateCell(index: index)
+        viewModel.inputs.didDeleateCell(indexPath: index)
     }
 }
 
