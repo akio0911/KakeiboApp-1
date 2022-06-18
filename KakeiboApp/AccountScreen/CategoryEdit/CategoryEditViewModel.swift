@@ -114,24 +114,22 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         switch currentSegmentIndex {
         case 0:
             // 支出が選択されている場合
-            categoryModel.deleteExpenseCategoryData(
-                userId: userInfo.id, data: expenseCategoryDataArray[index.row]
-            )
-            expenseCategoryDataArray.remove(at: index.row)
-            expenseCategoryDataArray.indices.forEach {
+            var data = expenseCategoryDataArray
+            data.remove(at: index.row)
+            data.indices.forEach {
                 expenseCategoryDataArray[$0].displayOrder = $0
             }
-            categoryModel.setExpenseCategoryDataArray(userId: userInfo.id, data: expenseCategoryDataArray)
+            categoryModel.deleteExpenseCategoryData(userId: userInfo.id, deleteData: data[index.row], data: data)
+            expenseCategoryDataArray = data
         case 1:
             // 収入が選択されている場合
-            categoryModel.deleteIncomeCategoryData(
-                userId: userInfo.id, data: incomeCategoryDataArray[index.row]
-            )
-            incomeCategoryDataArray.remove(at: index.row)
-            incomeCategoryDataArray.indices.forEach {
-                incomeCategoryDataArray[$0].displayOrder = $0
+            var data = incomeCategoryDataArray
+            data.remove(at: index.row)
+            data.indices.forEach {
+                expenseCategoryDataArray[$0].displayOrder = $0
             }
-            categoryModel.setIncomeCategoryDataArray(userId: userInfo.id, data: incomeCategoryDataArray)
+            categoryModel.deleteIncomeCategoryData(userId: userInfo.id, deleteData: data[index.row], data: data)
+            incomeCategoryDataArray = data
         default:
             fatalError("想定していないSegmentIndexです。")
         }

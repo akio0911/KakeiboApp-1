@@ -10,14 +10,11 @@ import FirebaseFirestore
 import FirebaseFirestoreSwift
 
 protocol CategoryDataRepositoryProtocol {
-    func loadIncomeCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void)
-    func loadExpenseCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void)
-    func setIncomeCategoryDataArray(userId: String, data: [CategoryData])
-    func setExpenseCategoryDataArray(userId: String, data: [CategoryData])
-    func setIncomeCategoryData(userId: String, data: CategoryData)
-    func setExpenseCategoryData(userId: String, data: CategoryData)
-    func deleteIncomeCategoryData(userId: String, data: CategoryData)
-    func deleteExpenseCategoryData(userId: String, data: CategoryData)
+    func loadCategoryData(userId: String, completion: @escaping (Result<(incomeCategoryData:[CategoryData], expenseCategoryData: [CategoryData]), Error>) -> Void)
+    func setIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping (Error?) -> Void)
+    func setExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping (Error?) -> Void)
+    func deleteIncomeCategoryData(userId: String, deleteData: CategoryData, data: [CategoryData], completion: @escaping (Error?) -> Void)
+    func deleteExpenseCategoryData(userId: String, deleteData: CategoryData, data: [CategoryData], completion: @escaping (Error?) -> Void)
 }
 
 final class CategoryDataRepository: CategoryDataRepositoryProtocol {
@@ -33,8 +30,26 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         db = Firestore.firestore()
     }
 
+    func loadCategoryData(userId: String, completion: @escaping (Result<(incomeCategoryData: [CategoryData], expenseCategoryData: [CategoryData]), Error>) -> Void) {
+        loadIncomeCategoryData(userId: userId) { [weak self] result in
+            switch result {
+            case .success(let incomeCategoryData):
+                self?.loadExpenseCategoryData(userId: userId) { result in
+                    switch result {
+                    case .success(let expenseCategoryData):
+                        completion(.success((incomeCategoryData: incomeCategoryData, expenseCategoryData: expenseCategoryData)))
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     // 収入カテゴリーを読み込む
-    func loadIncomeCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void) {
+    func loadIncomeCategoryData(userId: String, completion: @escaping (Result<[CategoryData], Error>) -> Void) {
         db.collection(firstCollectionName)
             .document(userId)
             .collection(incomeCategoryName)
@@ -42,19 +57,23 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
             .getDocuments { [weak self] querySnapshot, error in
                 guard let strongSelf = self else { return }
                 if let error = error {
-                    // 読み込みに失敗
-                    print("----Error getting documents: \(error.localizedDescription)----")
+                    completion(.failure(error))
                 } else {
                     // 読み込みに成功
                     if let documents = querySnapshot?.documents {
-                        // 保存データがある
                         if documents.isEmpty {
                             // 保存データ配列が空の時
                             let initialIncomeCategory = strongSelf.createInitialIncomeCategory()
-                            strongSelf.setIncomeCategoryDataArray(userId: userId, data: initialIncomeCategory)
-                            data(initialIncomeCategory)
+                            strongSelf.setIncomeCategoryDataArray(userId: userId, data: initialIncomeCategory) { error in
+                                if let error = error {
+                                    completion(.failure(error))
+                                } else {
+                                    completion(.success(initialIncomeCategory))
+                                }
+                            }
                             return
                         }
+                        // 保存データがある
                         var categoryArray: [CategoryData] = []
                         documents.forEach { document in
                             let result = Result {
@@ -71,14 +90,14 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                                 print("----Error decoding item: \(error.localizedDescription)----")
                             }
                         }
-                        data(categoryArray)
+                        completion(.success(categoryArray))
                     }
                 }
             }
     }
 
     // 支出カテゴリーを読み込む
-    func loadExpenseCategoryData(userId: String, data: @escaping ([CategoryData]) -> Void) {
+    func loadExpenseCategoryData(userId: String, completion: @escaping (Result<[CategoryData], Error>) -> Void) {
         db.collection(firstCollectionName)
             .document(userId)
             .collection(expenseCategoryName)
@@ -86,19 +105,23 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
             .getDocuments { [weak self] querySnapshot, error in
                 guard let strongSelf = self else { return }
                 if let error = error {
-                    // 読み込みに失敗
-                    print("----Error getting documents: \(error.localizedDescription)----")
+                    completion(.failure(error))
                 } else {
                     // 読み込みに成功
                     if let documents = querySnapshot?.documents {
-                        // 保存データがある
                         if documents.isEmpty {
                             // 保存データ配列が空の時
                             let initialExpenseCategory = strongSelf.createInitialExpenseCategory()
-                            strongSelf.setExpenseCategoryDataArray(userId: userId, data: initialExpenseCategory)
-                            data(initialExpenseCategory)
+                            strongSelf.setExpenseCategoryDataArray(userId: userId, data: initialExpenseCategory) { error in
+                                if let error = error {
+                                    completion(.failure(error))
+                                } else {
+                                    completion(.success(initialExpenseCategory))
+                                }
+                            }
                             return
                         }
+                        // 保存データがある
                         var categoryArray: [CategoryData] = []
                         documents.forEach { document in
                             let result = Result {
@@ -115,43 +138,53 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                                 print("----Error decoding item: \(error.localizedDescription)----")
                             }
                         }
-                        data(categoryArray)
+                        completion(.success(categoryArray))
                     }
                 }
             }
     }
 
     // 収入カテゴリー配列を保存
-    func setIncomeCategoryDataArray(userId: String, data: [CategoryData]) {
-        data.forEach { categoryData in
+    private func setIncomeCategoryDataArray(userId: String, data: [CategoryData], completion: @escaping (Error?) -> Void) {
+        let batch = db.batch()
+        for categoryData in data {
             do {
-                let ref = db.collection(firstCollectionName)
+                let categoryDataIdRef = db.collection(firstCollectionName)
                     .document(userId)
                     .collection(incomeCategoryName)
                     .document(categoryData.id)
-                try ref.setData(from: categoryData)
+                try batch.setData(from: categoryData, forDocument: categoryDataIdRef)
             } catch let error {
-                print("----Error writing categoryData to Firestore: \(error.localizedDescription)----")
+                completion(error)
+                break
             }
+        }
+        batch.commit() { error in
+            completion(error)
         }
     }
 
     // 支出カテゴリー配列を保存
-    func setExpenseCategoryDataArray(userId: String, data: [CategoryData]) {
-        data.forEach { categoryData in
+    private func setExpenseCategoryDataArray(userId: String, data: [CategoryData], completion: @escaping (Error?) -> Void) {
+        let batch = db.batch()
+        for categoryData in data {
             do {
-                let ref = db.collection(firstCollectionName)
+                let categoryDataIdRef = db.collection(firstCollectionName)
                     .document(userId)
                     .collection(expenseCategoryName)
                     .document(categoryData.id)
-                try ref.setData(from: categoryData)
+                try batch.setData(from: categoryData, forDocument: categoryDataIdRef)
             } catch let error {
-                print("----Error writing categoryData to Firestore: \(error.localizedDescription)----")
+                completion(error)
+                break
             }
+        }
+        batch.commit() { error in
+            completion(error)
         }
     }
 
-    func setIncomeCategoryData(userId: String, data: CategoryData) {
+    func setIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping (Error?) -> Void) {
         do {
             // 作成または上書き
             let ref = db.collection(firstCollectionName)
@@ -159,12 +192,13 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                 .collection(incomeCategoryName)
                 .document(data.id)
             try ref.setData(from: data)
+            completion(nil)
         } catch let error {
-            print("Error writing categoryData to Firestore: \(error.localizedDescription)")
+            completion(error)
         }
     }
 
-    func setExpenseCategoryData(userId: String, data: CategoryData) {
+    func setExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping (Error?) -> Void) {
         do {
             // 作成または上書き
             let ref = db.collection(firstCollectionName)
@@ -172,33 +206,58 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
                 .collection(expenseCategoryName)
                 .document(data.id)
             try ref.setData(from: data)
+            completion(nil)
         } catch let error {
-            print("Error writing categoryData to Firestore: \(error.localizedDescription)")
+            completion(error)
         }
     }
 
-    func deleteIncomeCategoryData(userId: String, data: CategoryData) {
-        db.collection(firstCollectionName)
+    func deleteIncomeCategoryData(userId: String, deleteData: CategoryData, data: [CategoryData], completion: @escaping (Error?) -> Void) {
+        let batch = db.batch()
+        let deleteDataRef = db.collection(firstCollectionName)
             .document(userId)
             .collection(incomeCategoryName)
-            .document(data.id)
-            .delete { error in
-                if let error = error {
-                    print("Error delete categoryData to Firestore: \(error.localizedDescription)")
-                }
+            .document(deleteData.id)
+        batch.deleteDocument(deleteDataRef)
+        for categoryData in data {
+            do {
+                let categoryDataIdRef = db.collection(firstCollectionName)
+                    .document(userId)
+                    .collection(incomeCategoryName)
+                    .document(categoryData.id)
+                try batch.setData(from: categoryData, forDocument: categoryDataIdRef)
+            } catch let error {
+                completion(error)
+                break
             }
+        }
+        batch.commit() { error in
+            completion(error)
+        }
     }
 
-    func deleteExpenseCategoryData(userId: String, data: CategoryData) {
-        db.collection(firstCollectionName)
+    func deleteExpenseCategoryData(userId: String, deleteData: CategoryData, data: [CategoryData], completion: @escaping (Error?) -> Void) {
+        let batch = db.batch()
+        let deleteDataRef = db.collection(firstCollectionName)
             .document(userId)
             .collection(expenseCategoryName)
-            .document(data.id)
-            .delete { error in
-                if let error = error {
-                    print("Error delete categoryData to Firestore: \(error.localizedDescription)")
-                }
+            .document(deleteData.id)
+        batch.deleteDocument(deleteDataRef)
+        for categoryData in data {
+            do {
+                let categoryDataIdRef = db.collection(firstCollectionName)
+                    .document(userId)
+                    .collection(incomeCategoryName)
+                    .document(categoryData.id)
+                try batch.setData(from: categoryData, forDocument: categoryDataIdRef)
+            } catch let error {
+                completion(error)
+                break
             }
+        }
+        batch.commit() { error in
+            completion(error)
+        }
     }
 
     private func createInitialIncomeCategory() -> [CategoryData] {
