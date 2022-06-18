@@ -225,11 +225,11 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private func executeEvent(event: AuthFormViewModel.Event) {
         switch event {
         case .presentErrorAlertView(let alertTitle, let message):
-            presentAlert(alertTitle: alertTitle, message: message,
-                         action: errorAction())
+            showAlert(title: alertTitle, messege: message)
         case .presentPopVCAlertView(let alertTitle, let message):
-            presentAlert(alertTitle: alertTitle, message: message,
-                         action: popVCAction())
+            showAlert(title: alertTitle, messege: message) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
         case .pushEmailLinkAuthSuccess(email: let email):
             let emailLinkAuthSuccessViewController = EmailLinkAuthSuccessViewController(
                 viewModel: EmailLinkAuthSuccessViewModel(email: email)
@@ -249,23 +249,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
             activityIndicatorView.startAnimating()
         case .stopAnimating:
             activityIndicatorView.stopAnimating()
-        }
-    }
-
-    private func presentAlert(alertTitle: String, message: String, action: UIAlertAction) {
-        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-
-    private func errorAction(title: String = "OK") -> UIAlertAction {
-        UIAlertAction(title: title, style: .default, handler: nil)
-    }
-
-    private func popVCAction() -> UIAlertAction {
-        UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.navigationController?.popViewController(animated: true)
         }
     }
 

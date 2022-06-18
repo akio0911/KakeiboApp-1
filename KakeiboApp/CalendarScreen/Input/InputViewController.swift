@@ -132,13 +132,9 @@ final class InputViewController: UIViewController,
     }
 
     private func presentDismissAlert(alertTitle: String, message: String) {
-        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.dismiss(animated: true, completion: nil)
+        showAlert(title: alertTitle, messege: message) { [weak self] in
+            self?.dismiss(animated: true)
         }
-        alert.addAction(alertAction)
-        present(alert, animated: true, completion: nil)
     }
 
     private func setupMode() {
@@ -273,19 +269,9 @@ final class InputViewController: UIViewController,
 
     // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
     private func showBalanceAlert() {
-        let alert = UIAlertController(
-            title: "収支が未入力です。",
-            message: "支出または収入を入力して下さい",
-            preferredStyle: .alert)
-        alert.addAction(
-            UIAlertAction(
-                title: "OK",
-                style: .default,
-                handler: { [weak self] _ in
-                    self?.balanceTextField.becomeFirstResponder() }
-            )
-        )
-        present(alert, animated: true, completion: nil)
+        showAlert(title: "収支が未入力です", messege: "支出または収支を入力して下さい") { [weak self] in
+            self?.balanceTextField.becomeFirstResponder()
+        }
     }
 
     // セーブボタンをフィレット
