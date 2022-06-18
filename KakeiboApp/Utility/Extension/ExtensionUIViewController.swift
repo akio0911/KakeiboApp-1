@@ -18,4 +18,14 @@ extension UIViewController {
         )
         present(alert, animated: true)
     }
+
+    func showErrorAlert(onError: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: "データ取得に失敗しました", message: "電波の良い環境でやり直して下さい", preferredStyle: .alert)
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default) { _ in
+                onError?()
+            }
+        )
+        present(alert, animated: true)
+    }
 }

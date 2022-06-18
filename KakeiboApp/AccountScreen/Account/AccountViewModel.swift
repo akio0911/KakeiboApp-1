@@ -52,7 +52,6 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     private let isHiddenAccountEnterButtonRelay = BehaviorRelay<Bool>(value: false)
     private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
     private let eventRelay = PublishRelay<Event>()
-    private var userInfo: UserInfo?
     private let appId = "1571086397"
 
     init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository(),
@@ -65,17 +64,15 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     private func setupBinding() {
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-                strongSelf.setupUserInfo()
-            })
+        EventBus.updatedUserInfo.asObservable()
+            .subscribe { [weak self] _ in
+                self?.setupUserInfo()
+            }
             .disposed(by: disposeBag)
     }
 
     private func setupUserInfo() {
-        guard let userInfo = userInfo else { return }
+        guard let userInfo = authType.userInfo else { return }
         if userInfo.isAnonymous {
             //　匿名認証によるログイン中
             userNameLabelRelay.accept("未登録")

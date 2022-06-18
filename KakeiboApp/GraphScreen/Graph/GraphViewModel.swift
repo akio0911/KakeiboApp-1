@@ -42,7 +42,6 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
     private let eventRelay = PublishRelay<Event>()
     private var displayDate = Date()
-    private let changeMonthRelay = BehaviorRelay<Void>(value: ())
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
@@ -50,6 +49,15 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         self.calendarDate = calendarDate
         self.kakeiboModel = kakeiboModel
         self.categoryModel = categoryModel
+        setupBinding()
+    }
+
+    private func setupBinding() {
+        EventBus.updatedUserInfo.asObservable()
+            .subscribe { [weak self] _ in
+                self?.acceptGraphData()
+            }
+            .disposed(by: disposeBag)
     }
 
     private func acceptGraphData() {
@@ -111,7 +119,6 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    // TODO: ViewControllerから呼び出し部を実装
     func onViewDidload() {
         acceptGraphData()
     }
@@ -119,7 +126,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     func didActionNextMonth() {
         if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: 1, to: displayDate) {
             self.displayDate = displayDate
-            changeMonthRelay.accept(())
+            acceptGraphData()
             navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
         }
     }
@@ -127,14 +134,16 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     func didActionLastMonth() {
         if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: -1, to: displayDate) {
             self.displayDate = displayDate
-            changeMonthRelay.accept(())
+            acceptGraphData()
             navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
         }
     }
 
     func didSelectRowAt(indexPath: IndexPath) {
         let graphDataArray = graphDataArrayRelay.value
-        eventRelay.accept(.presentCategoryVC(categoryData: graphDataArray[indexPath.row].categoryData, displayDate: displayDate))
+        eventRelay.accept(
+            .presentCategoryVC(categoryData: graphDataArray[indexPath.row].categoryData, displayDate: displayDate)
+        )
     }
 
     func didChangeSegmentIndex(index: Int) {

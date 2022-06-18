@@ -41,6 +41,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
         setupGraphTableView()
         setupSegmentedControlView()
         navigationItem.title = "グラフ"
+        viewModel.inputs.onViewDidload()
     }
 
     private func setupSwipeGestureRecognizer() {

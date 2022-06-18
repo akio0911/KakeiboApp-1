@@ -11,6 +11,7 @@
 		47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */; };
 		47218A1A26EF4AD4006C10EF /* CalendarImageName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47218A1926EF4AD4006C10EF /* CalendarImageName.swift */; };
 		4723D7FA285DF61600E8440A /* ExtensionUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723D7F9285DF61600E8440A /* ExtensionUIViewController.swift */; };
+		4723D7FC285E057A00E8440A /* EventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723D7FB285E057A00E8440A /* EventBus.swift */; };
 		472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC42704324C00A80640 /* AccountViewController.swift */; };
 		472EFDC72704324C00A80640 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDC52704324C00A80640 /* AccountViewController.xib */; };
 		472EFDCA270443F300A80640 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC9270443F300A80640 /* AccountViewModel.swift */; };
@@ -114,6 +115,7 @@
 		47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboDataRepository.swift; sourceTree = "<group>"; };
 		47218A1926EF4AD4006C10EF /* CalendarImageName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarImageName.swift; sourceTree = "<group>"; };
 		4723D7F9285DF61600E8440A /* ExtensionUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIViewController.swift; sourceTree = "<group>"; };
+		4723D7FB285E057A00E8440A /* EventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBus.swift; sourceTree = "<group>"; };
 		472EFDC42704324C00A80640 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		472EFDC52704324C00A80640 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		472EFDC9270443F300A80640 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
@@ -476,6 +478,7 @@
 				47DC3EDA26E34DB300693980 /* PartsView */,
 				47DC3EE926E44D8600693980 /* Utility */,
 				47DC3EE626E3928F00693980 /* MainTabBarController.swift */,
+				4723D7FB285E057A00E8440A /* EventBus.swift */,
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
 				4781570C266128C8005E1020 /* LaunchScreen.storyboard */,
@@ -943,6 +946,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */,
+				4723D7FC285E057A00E8440A /* EventBus.swift in Sources */,
 				472EFDD7270488A500A80640 /* PasscodeInputButtonView.swift in Sources */,
 				4773CBF5270BD30600C52DE0 /* CategoryData.swift in Sources */,
 				4773CC2A270DF3E900C52DE0 /* GradientLayerView.swift in Sources */,

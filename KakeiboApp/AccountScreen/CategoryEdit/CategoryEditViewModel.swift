@@ -38,23 +38,12 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     private let disposeBag = DisposeBag()
     private let categoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let eventRelay = PublishRelay<Event>()
-    private var userInfo: UserInfo?
     private var selectedSegmentIndex = 0
 
     init(categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.categoryModel = categoryModel
         self.authType = authType
-        setupBinding()
-    }
-
-    private func setupBinding() {
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-            })
-            .disposed(by: disposeBag)
     }
 
     var categoryData: Observable<[CategoryData]> {
@@ -92,7 +81,7 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     }
 
     func didDeleateCell(indexPath: IndexPath) {
-        guard let userInfo = userInfo else { return }
+        guard let userInfo = authType.userInfo else { return }
         switch selectedSegmentIndex {
         case 0:
             // 支出が選択されている場合

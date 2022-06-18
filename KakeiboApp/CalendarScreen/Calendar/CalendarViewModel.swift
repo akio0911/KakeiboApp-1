@@ -48,15 +48,12 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     private let disposeBag = DisposeBag()
     private let collectionViewItemRelay = BehaviorRelay<[CalendarItem]>(value: [])
     private let tableViewItemRelay = BehaviorRelay<[CalendarItem]>(value: [])
-    private let incomeTextRelay = BehaviorRelay<String>(value: "")
-    private let expenseTextRelay = BehaviorRelay<String>(value: "")
-    private let balanceTextRelay = BehaviorRelay<String>(value: "")
-    private let isAnimatedIndicatorRelay = BehaviorRelay<Bool>(value: true)
-    private let navigationTitleRelay = BehaviorRelay<String>(
-        value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月")
-    )
+    private let incomeTextRelay = PublishRelay<String>()
+    private let expenseTextRelay = PublishRelay<String>()
+    private let balanceTextRelay = PublishRelay<String>()
+    private let isAnimatedIndicatorRelay = PublishRelay<Bool>()
+    private let navigationTitleRelay = PublishRelay<String>()
     private let eventRelay = PublishRelay<Event>()
-    private var userInfo: UserInfo?
     private var displayDate = Date()
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
@@ -70,22 +67,13 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         setupBinding()
     }
 
-    private var incomeCategoryArray: [CategoryData] = []
-    private var expenseCategoryArray: [CategoryData] = []
-
     private func setupBinding() {
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-                strongSelf.isAnimatedIndicatorRelay.accept(true)
-                strongSelf.setupKakeiboData { error in
-                    // TODO: エラー処理を追加する
-                }
-                strongSelf.setupCategoryData { error in
-                    // TODO: エラー処理を追加する
-                }
-            })
+        EventBus.setupData.asObservable()
+            .subscribe { [weak self] _ in
+                self?.acceptCollectionViewItem()
+                self?.acceptTableViewItem()
+                self?.acceptTotalText()
+            }
             .disposed(by: disposeBag)
     }
 
@@ -100,21 +88,24 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         calendarDateArray.forEach { date in
             let kakeiboDataArray = kakeiboModel.loadDayData(date: date)
             let totalBalance = kakeiboDataArray.reduce(0) { $0 + $1.balance.fetchValueSigned }
-            let isCalendarMonth = Calendar(identifier: .gregorian).isDate(date, equalTo: displayDate, toGranularity: .month)
+            let isCalendarMonth = Calendar(identifier: .gregorian)
+                .isDate(date, equalTo: displayDate, toGranularity: .month)
             let dataArray = kakeiboDataArray.map { kakeiboData -> (CategoryData, KakeiboData) in
                 switch kakeiboData.categoryId {
-                case .income(let id):
-                    let categoryData = incomeCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: id, displayOrder: 999, name: "", color: .red)
+                case .income(let categoryId):
+                    let categoryData = categoryModel.incomeCategoryDataArray.first { $0.id == categoryId } ??
+                    CategoryData(id: categoryId, displayOrder: 999, name: "", color: .red)
                     return (categoryData, kakeiboData)
-                case .expense(let id):
-                    let categoryData = expenseCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: id, displayOrder: 999, name: "", color: .red)
+                case .expense(let categoryId):
+                    let categoryData = categoryModel.expenseCategoryDataArray.first { $0.id == categoryId } ??
+                    CategoryData(id: categoryId, displayOrder: 999, name: "", color: .red)
                     return (categoryData, kakeiboData)
                 }
             }
             collectionViewItem.append(
-                CalendarItem(date: date, totalBalance: totalBalance, isCalendarMonth: isCalendarMonth, dataArray: dataArray)
+                CalendarItem(
+                    date: date, totalBalance: totalBalance, isCalendarMonth: isCalendarMonth, dataArray: dataArray
+                )
             )
         }
         collectionViewItemRelay.accept(collectionViewItem)
@@ -132,21 +123,24 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             let kakeiboDataArray = kakeiboModel.loadDayData(date: date)
             guard !kakeiboDataArray.isEmpty else { return }
             let totalBalance = kakeiboDataArray.reduce(0) { $0 + $1.balance.fetchValueSigned }
-            let isCalendarMonth = Calendar(identifier: .gregorian).isDate(date, equalTo: displayDate, toGranularity: .month)
+            let isCalendarMonth = Calendar(identifier: .gregorian)
+                .isDate(date, equalTo: displayDate, toGranularity: .month)
             let dataArray = kakeiboDataArray.map { kakeiboData -> (CategoryData, KakeiboData) in
                 switch kakeiboData.categoryId {
-                case .income(let id):
-                    let categoryData = incomeCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: id, displayOrder: 999, name: "", color: .red)
+                case .income(let categoryId):
+                    let categoryData = categoryModel.incomeCategoryDataArray.first { $0.id == categoryId } ??
+                    CategoryData(id: categoryId, displayOrder: 999, name: "", color: .red)
                     return (categoryData, kakeiboData)
-                case .expense(let id):
-                    let categoryData = expenseCategoryArray.first { $0.id == id } ??
-                    CategoryData(id: id, displayOrder: 999, name: "", color: .red)
+                case .expense(let categoryId):
+                    let categoryData = categoryModel.expenseCategoryDataArray.first { $0.id == categoryId } ??
+                    CategoryData(id: categoryId, displayOrder: 999, name: "", color: .red)
                     return (categoryData, kakeiboData)
                 }
             }
             tableViewItem.append(
-                CalendarItem(date: date, totalBalance: totalBalance, isCalendarMonth: isCalendarMonth, dataArray: dataArray)
+                CalendarItem(
+                    date: date, totalBalance: totalBalance, isCalendarMonth: isCalendarMonth, dataArray: dataArray
+                )
             )
         }
         tableViewItemRelay.accept(tableViewItem)
@@ -185,49 +179,34 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     var navigationTitle: Driver<String> {
-        navigationTitleRelay.asDriver()
+        navigationTitleRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var incomeText: Driver<String> {
-        incomeTextRelay.asDriver()
+        incomeTextRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var expenseText: Driver<String> {
-        expenseTextRelay.asDriver()
+        expenseTextRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var balanceTxet: Driver<String> {
-        balanceTextRelay.asDriver()
+        balanceTextRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var isAnimatedIndicator: Driver<Bool> {
-        isAnimatedIndicatorRelay.asDriver()
+        isAnimatedIndicatorRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    // TODO: viewControllerから呼び出すよう修正
     func onViewDidLoad() {
-        setupKakeiboData { [weak self] error in // TODO: TabBarControllerからセットすようにする
-            if let error = error {
-                self?.eventRelay.accept(.showErrorAlert(error))
-            } else {
-                self?.acceptCollectionViewItem()
-                self?.acceptTableViewItem()
-                self?.acceptTotalText()
-            }
-        }
-        setupCategoryData { [weak self] error in // TODO: TabBarControllerからセットすようにする
-            if let error = error {
-                self?.eventRelay.accept(.showErrorAlert(error))
-            } else {
-                self?.acceptCollectionViewItem()
-                self?.acceptTableViewItem()
-                self?.acceptTotalText()
-            }
-        }
+        acceptCollectionViewItem()
+        acceptTableViewItem()
+        acceptTotalText()
+        navigationTitleRelay.accept(DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
     }
 
     func didTapInputBarButton(didHighlightItem indexPath: IndexPath) {
@@ -266,7 +245,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     func didDeleateCell(indexPath: IndexPath) {
-        guard let userInfo = userInfo else { return }
+        guard let userInfo = authType.userInfo else { return }
         let kakeiboData = tableViewItemRelay.value[indexPath.section].dataArray[indexPath.row].1
         isAnimatedIndicatorRelay.accept(true)
         kakeiboModel.deleateData(userId: userInfo.id, data: kakeiboData) { [weak self] error in
@@ -274,29 +253,6 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
             if let error = error {
                 self?.eventRelay.accept(.showErrorAlert(error))
             }
-        }
-    }
-
-    // MARK: - misc
-    private func setupKakeiboData(completion: @escaping (Error?) -> Void) {
-        guard let userId = userInfo?.id else {
-            return
-        }
-        isAnimatedIndicatorRelay.accept(true)
-        kakeiboModel.setupData(userId: userId) { [weak self] error in
-            self?.isAnimatedIndicatorRelay.accept(false)
-            completion(error)
-        }
-    }
-
-    private func setupCategoryData(completion: @escaping (Error?) -> Void) {
-        guard let userId = userInfo?.id else {
-            return
-        }
-        isAnimatedIndicatorRelay.accept(true)
-        categoryModel.setupData(userId: userId) { [weak self] error in
-            self?.isAnimatedIndicatorRelay.accept(false)
-            completion(error)
         }
     }
 }

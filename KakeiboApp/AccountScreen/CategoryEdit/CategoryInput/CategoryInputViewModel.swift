@@ -80,7 +80,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
 
     private var incomeCategoryDataArray: [CategoryData] = []
     private var expenseCategoryDataArray: [CategoryData] = []
-    private var userInfo: UserInfo?
 
     init(mode: Mode, categoryBalance: CategoryBalance,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
@@ -89,19 +88,9 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         self.categoryBalance = categoryBalance
         self.categoryModel = categoryModel
         self.authType = authType
-        setupBinding()
         setupMode(mode: mode)
         setupCategoryBalance(categoryBalance: categoryBalance)
         hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
-    }
-
-    private func setupBinding() {
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-            })
-            .disposed(by: disposeBag)
     }
 
     private func setupMode(mode: Mode) {
@@ -225,7 +214,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     }
 
     func didTapSaveBarButton(name: String) {
-        guard let userInfo = userInfo else {
+        guard let userInfo = authType.userInfo else {
             let alertTitle = "アカウントが見つかりません。"
             let message = "カテゴリーの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
             eventRelay.accept(.presentDismissAlert(alertTitle, message))

@@ -59,7 +59,6 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let memoRelay = PublishRelay<String>()
     private let incomeCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let expenseCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
-    private var userInfo: UserInfo?
 
     init(kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
@@ -69,16 +68,6 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         self.categoryModel = categoryModel
         self.mode = mode
         self.authType = authType
-        setupBinding()
-    }
-
-    private func setupBinding() {
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-            })
-            .disposed(by: disposeBag)
     }
 
     var event: Driver<Event> {
@@ -120,7 +109,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     func didTapSaveButton(data: KakeiboData) {
-        guard let userInfo = userInfo else {
+        guard let userInfo = authType.userInfo else {
             let alertTitle = "アカウントが見つかりません。"
             let message = "データの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
             eventRelay.accept(.presetDismissAlert(alertTitle, message))

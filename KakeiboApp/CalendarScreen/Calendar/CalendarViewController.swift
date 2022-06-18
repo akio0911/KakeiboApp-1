@@ -152,7 +152,14 @@ final class CalendarViewController: UIViewController,
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
-            .drive(onNext: presentInputVC(event:))
+            .drive { [weak self] event in
+                switch event {
+                case .presentAdd, .presentEdit:
+                    self?.presentInputVC(event: event)
+                case .showErrorAlert:
+                    self?.showErrorAlert()
+                }
+            }
             .disposed(by: disposeBag)
     }
 
