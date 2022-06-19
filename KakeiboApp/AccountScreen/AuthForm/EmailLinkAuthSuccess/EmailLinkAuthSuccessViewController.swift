@@ -71,6 +71,12 @@ final class EmailLinkAuthSuccessViewController: UIViewController {
                 switch event {
                 case .popVC:
                     strongSelf.navigationController?.popViewController(animated: true)
+                case .presentAlertView(alertTitle: let alertTitle, message: let message):
+                    strongSelf.showAlert(title: alertTitle, messege: message)
+                case .startAnimating:
+                    strongSelf.showProgress()
+                case .stopAnimating:
+                    strongSelf.hideProgress()
                 }
             })
             .disposed(by: disposeBag)

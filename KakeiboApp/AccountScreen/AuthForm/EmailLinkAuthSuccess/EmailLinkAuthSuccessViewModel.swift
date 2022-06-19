@@ -27,6 +27,9 @@ protocol EmailLinkAuthSuccessViewModelType {
 final class EmailLinkAuthSuccessViewModel: EmailLinkAuthSuccessViewModelInput, EmailLinkAuthSuccessViewModelOutput {
     enum Event {
         case popVC
+        case presentAlertView(alertTitle: String, message: String)
+        case startAnimating
+        case stopAnimating
     }
 
     private let authType: AuthTypeProtocol
@@ -48,7 +51,21 @@ final class EmailLinkAuthSuccessViewModel: EmailLinkAuthSuccessViewModelInput, E
     }
 
     func didTapEmailResendButton() {
-        authType.sendSignInLink(email: emailRelay.value) { _ in }
+        eventRelay.accept(.stopAnimating)
+        authType.sendSignInLink(email: emailRelay.value) { [weak self] error in
+            self?.eventRelay.accept(.stopAnimating)
+            if let error = error {
+                // 再送信に失敗
+                let alertTitle = error.reason ?? "再送信に失敗しました。"
+                let message = error.message
+                self?.eventRelay.accept(.presentAlertView(alertTitle: alertTitle, message: message))
+            } else {
+                // 再送信に成功
+                let alertTitle = "メールを送信しました"
+                let message = "メールを確認してパスワードを設定して下さい"
+                self?.eventRelay.accept(.presentAlertView(alertTitle: alertTitle, message: message))
+            }
+        }
     }
 
     func didTapEmailChangeButton() {

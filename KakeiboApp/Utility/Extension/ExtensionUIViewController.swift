@@ -20,6 +20,7 @@ extension UIViewController {
         present(alert, animated: true)
     }
 
+    // TODO: エラーから文言を設定するよう修正
     func showErrorAlert(onError: (() -> Void)? = nil) {
         let alert = UIAlertController(title: "データ取得に失敗しました", message: "電波の良い環境でやり直して下さい", preferredStyle: .alert)
         alert.addAction(
