@@ -11,7 +11,7 @@ class CategoryTableViewHeaderView: UITableViewHeaderFooterView {
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var totalBalanceLabel: UILabel!
 
-    func configure(data: HeaderDateCategoryData) {
+    func configure(data: CategoryItem) {
         dateLabel.text = DateUtility.stringFromDate(
             date: data.date,
             format: "yyyy年MM月d日"

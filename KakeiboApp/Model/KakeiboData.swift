@@ -59,6 +59,15 @@ enum CategoryId: Equatable {
             return 1
         }
     }
+
+    var fetchId: String {
+        switch self {
+        case .expense(let expenseId):
+            return expenseId
+        case .income(let incomeId):
+            return incomeId
+        }
+    }
 }
 
 extension Balance: Codable {

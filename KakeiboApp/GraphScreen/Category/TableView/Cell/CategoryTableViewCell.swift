@@ -11,7 +11,7 @@ class CategoryTableViewCell: UITableViewCell {
     @IBOutlet private weak var memoLabel: UILabel!
     @IBOutlet private weak var balanceLabel: UILabel!
 
-    func configure(data: CellDateCategoryData) {
+    func configure(data: KakeiboData) {
         memoLabel.text = data.memo
         switch data.balance {
         case .income(let income):

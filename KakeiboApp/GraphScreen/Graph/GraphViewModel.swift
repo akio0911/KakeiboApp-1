@@ -9,7 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol GraphViewModelInput {
-    func onViewDidload()
+    func onViewWillAppear()
     func didActionNextMonth()
     func didActionLastMonth()
     func didSelectRowAt(indexPath: IndexPath)
@@ -53,7 +53,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     private func setupBinding() {
-        EventBus.updatedUserInfo.asObservable()
+        EventBus.setupData.asObservable()
             .subscribe { [weak self] _ in
                 self?.acceptGraphData()
             }
@@ -66,6 +66,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         let kakeiboData = kakeiboModel.loadMonthData(date: displayDate)
         switch balanceSegmentIndex {
         case 0:
+            // 支出
             categoryModel.expenseCategoryDataArray.forEach {
                 let expenseCategoryId = $0.id
                 let categoryFilterData = kakeiboData.filter {
@@ -84,6 +85,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
                 }
             }
         case 1:
+            // 収入
             categoryModel.incomeCategoryDataArray.forEach {
                 let incomeCategoryId = $0.id
                 let categoryFilterData = kakeiboData.filter {
@@ -119,7 +121,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func onViewDidload() {
+    func onViewWillAppear() {
         acceptGraphData()
     }
 

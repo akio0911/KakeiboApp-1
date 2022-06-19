@@ -15,7 +15,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
     private let viewModel: CategoryViewModelType
     private let disposeBag = DisposeBag()
     private let categoryTableViewDataSource = CategoryTableViewDataSource()
-    private var headerDataArray: [HeaderDateCategoryData] = []
+    private var headerDataArray: [CategoryItem] = []
 
     init(viewModel: CategoryViewModelType) {
         self.viewModel = viewModel
@@ -30,14 +30,15 @@ class CategoryViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         setupBinding()
         setupTableView()
+        viewModel.inputs.onViewDidLoad()
     }
 
     private func setupBinding() {
-        viewModel.outputs.cellDateDataObservable
+        viewModel.outputs.categoryItemObservable
             .bind(to: categoryTableView.rx.items(dataSource: categoryTableViewDataSource))
             .disposed(by: disposeBag)
 
-        viewModel.outputs.headerDateDataObservable
+        viewModel.outputs.categoryItemObservable
             .subscribe(onNext: { [weak self] data in
                 guard let self = self else { return }
                 self.headerDataArray = data
