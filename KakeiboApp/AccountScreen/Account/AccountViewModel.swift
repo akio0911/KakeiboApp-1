@@ -47,11 +47,11 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     private var settingsRepository: SettingsRepositoryProtocol
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
-    private let userNameLabelRelay = BehaviorRelay<String>(value: "")
-    private let accountEnterButtonTitleRelay = BehaviorRelay<String>(value: "")
-    private let isHiddenSignupButtonRelay = BehaviorRelay<Bool>(value: false)
-    private let isHiddenAccountEnterButtonRelay = BehaviorRelay<Bool>(value: false)
-    private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
+    private let userNameLabelRelay = PublishRelay<String>()
+    private let accountEnterButtonTitleRelay = PublishRelay<String>()
+    private let isHiddenSignupButtonRelay = PublishRelay<Bool>()
+    private let isHiddenAccountEnterButtonRelay = PublishRelay<Bool>()
+    private let isOnPasscodeRelay = PublishRelay<Bool>()
     private let eventRelay = PublishRelay<Event>()
     private let appId = "1571086397"
 
@@ -112,6 +112,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
 
     func onViewWillAppear() {
         isOnPasscodeRelay.accept(settingsRepository.isOnPasscode)
+        setupUserInfo()
     }
 
     func didTapAccountEnterButton() {
