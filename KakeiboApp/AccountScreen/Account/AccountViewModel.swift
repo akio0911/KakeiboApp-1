@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol AccountViewModelInput {
+    func onViewWillAppear()
     func didTapAccountEnterButton()
     func didTapSignupButton()
     func didValueChangedPasscodeSwitch(value: Bool)
@@ -43,7 +44,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         case applicationSharedOpen(URL)
     }
 
-    private let passcodeRepository: IsOnPasscodeRepositoryProtocol
+    private var settingsRepository: SettingsRepositoryProtocol
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let userNameLabelRelay = BehaviorRelay<String>(value: "")
@@ -54,13 +55,11 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     private let eventRelay = PublishRelay<Event>()
     private let appId = "1571086397"
 
-    init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository(),
+    init(settingsRepository: SettingsRepositoryProtocol = SettingsRepository(),
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
-        self.passcodeRepository = passcodeRepository
+        self.settingsRepository = settingsRepository
         self.authType = authType
         setupBinding()
-        isOnPasscodeRelay.accept(passcodeRepository.loadIsOnPasscode())
-        setupPasscodeObserver()
     }
 
     private func setupBinding() {
@@ -87,23 +86,6 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         }
     }
 
-    private func setupPasscodeObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(passcodeViewDidTapCancelButton(_:)),
-            name: PasscodePoster.passcodeViewDidTapCancelButton,
-            object: nil)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func passcodeViewDidTapCancelButton(_ notification: Notification) {
-        passcodeRepository.saveIsOnPasscode(isOnPasscode: false)
-        isOnPasscodeRelay.accept(false)
-    }
-
     var userNameLabel: Driver<String> {
         userNameLabelRelay.asDriver(onErrorDriveWith: .empty())
     }
@@ -128,6 +110,10 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    func onViewWillAppear() {
+        isOnPasscodeRelay.accept(settingsRepository.isOnPasscode)
+    }
+
     func didTapAccountEnterButton() {
         eventRelay.accept(.pushLogin)
     }
@@ -137,7 +123,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     func didValueChangedPasscodeSwitch(value: Bool) {
-        passcodeRepository.saveIsOnPasscode(isOnPasscode: value)
+        settingsRepository.isOnPasscode = value
         if value {
             eventRelay.accept(.presentPasscodeVC)
         }

@@ -19,8 +19,7 @@
 		472EFDD5270456F400A80640 /* PasscodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDD3270456F400A80640 /* PasscodeViewController.xib */; };
 		472EFDD7270488A500A80640 /* PasscodeInputButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */; };
 		472EFDDA270564DD00A80640 /* PasscodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDD9270564DD00A80640 /* PasscodeViewModel.swift */; };
-		472EFDDC2705A6DB00A80640 /* PasscodeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */; };
-		472EFDDF2705EECB00A80640 /* PasscodeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDDE2705EECB00A80640 /* PasscodeObserver.swift */; };
+		472EFDDC2705A6DB00A80640 /* SettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDDB2705A6DB00A80640 /* SettingsRepository.swift */; };
 		472F6F542725996A00DB44E9 /* AuthType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472F6F532725996A00DB44E9 /* AuthType.swift */; };
 		4739958426927E6A00BD1286 /* ExtensionUITableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */; };
 		4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */; };
@@ -123,8 +122,7 @@
 		472EFDD3270456F400A80640 /* PasscodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PasscodeViewController.xib; sourceTree = "<group>"; };
 		472EFDD6270488A500A80640 /* PasscodeInputButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInputButtonView.swift; sourceTree = "<group>"; };
 		472EFDD9270564DD00A80640 /* PasscodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModel.swift; sourceTree = "<group>"; };
-		472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeRepository.swift; sourceTree = "<group>"; };
-		472EFDDE2705EECB00A80640 /* PasscodeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeObserver.swift; sourceTree = "<group>"; };
+		472EFDDB2705A6DB00A80640 /* SettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRepository.swift; sourceTree = "<group>"; };
 		472F6F532725996A00DB44E9 /* AuthType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthType.swift; sourceTree = "<group>"; };
 		4739958326927E6A00BD1286 /* ExtensionUITableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITableViewCell.swift; sourceTree = "<group>"; };
 		4739958526927F0400BD1286 /* ExtensionUICollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUICollectionViewCell.swift; sourceTree = "<group>"; };
@@ -240,14 +238,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		47218A1526EEC64F006C10EF /* DataRepository */ = {
+		47218A1526EEC64F006C10EF /* Repository */ = {
 			isa = PBXGroup;
 			children = (
 				47218A1626EEC679006C10EF /* KakeiboDataRepository.swift */,
-				472EFDDB2705A6DB00A80640 /* PasscodeRepository.swift */,
+				472EFDDB2705A6DB00A80640 /* SettingsRepository.swift */,
 				4773CBF9270BDE2400C52DE0 /* CategoryDataRepository.swift */,
 			);
-			path = DataRepository;
+			path = Repository;
 			sourceTree = "<group>";
 		};
 		47218A1826EF4AB0006C10EF /* ImageName */ = {
@@ -295,7 +293,6 @@
 				472EFDD82705648A00A80640 /* Passcode */,
 				4773CBFB270C650000C52DE0 /* CategoryEdit */,
 				47A6BFDB270FDE8400698113 /* HowToUseViewModel */,
-				472EFDDD2705EE8F00A80640 /* Observer */,
 			);
 			path = AccountScreen;
 			sourceTree = "<group>";
@@ -310,14 +307,6 @@
 				4773CBE327085F9900C52DE0 /* KeyImageStackView.swift */,
 			);
 			path = Passcode;
-			sourceTree = "<group>";
-		};
-		472EFDDD2705EE8F00A80640 /* Observer */ = {
-			isa = PBXGroup;
-			children = (
-				472EFDDE2705EECB00A80640 /* PasscodeObserver.swift */,
-			);
-			path = Observer;
 			sourceTree = "<group>";
 		};
 		4748006F268D5C1D0077EC08 /* TableView */ = {
@@ -617,7 +606,7 @@
 				47DC3EF526E4780100693980 /* CalendarItem.swift */,
 				47793F0D26E8A3210004E5F6 /* GraphData.swift */,
 				4799911926F5A0BB00BD5B38 /* CategoryItem.swift */,
-				47218A1526EEC64F006C10EF /* DataRepository */,
+				47218A1526EEC64F006C10EF /* Repository */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -978,7 +967,7 @@
 				47A6BFDD270FDEBC00698113 /* HowToUseViewModel.swift in Sources */,
 				47AF02B42717BF6A00085804 /* PieChartView.swift in Sources */,
 				4773CC28270D56E400C52DE0 /* CategoryInputViewModel.swift in Sources */,
-				472EFDDC2705A6DB00A80640 /* PasscodeRepository.swift in Sources */,
+				472EFDDC2705A6DB00A80640 /* SettingsRepository.swift in Sources */,
 				47DC3F0326E4E8C900693980 /* CalendarCollectionViewDataSource.swift in Sources */,
 				47A6BFE3270FE22E00698113 /* HowToUseTableViewDataSource.swift in Sources */,
 				47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */,
@@ -994,7 +983,6 @@
 				478734A927335CA70028A0AD /* ExtensionArray.swift in Sources */,
 				47480077268D5CFE0077EC08 /* CalendarDayCollectionViewCell.swift in Sources */,
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
-				472EFDDF2705EECB00A80640 /* PasscodeObserver.swift in Sources */,
 				4773CBF7270BD77200C52DE0 /* ExtensionUIColor.swift in Sources */,
 				4773CC00270C6CF000C52DE0 /* CategoryEditTableViewDataSource.swift in Sources */,
 				47DC3EF126E4723E00693980 /* CalendarViewModel.swift in Sources */,

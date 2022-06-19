@@ -44,6 +44,11 @@ final class AccountViewController: UIViewController {
         setupCornerRadius()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputs.onViewWillAppear()
+    }
+
     // swiftlint:disable:next function_body_length
     private func setupBinding() {
         accountEnterButton.rx.tap
