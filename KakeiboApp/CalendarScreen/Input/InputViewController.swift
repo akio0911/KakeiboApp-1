@@ -32,7 +32,6 @@ final class InputViewController: UIViewController,
     private var segmentedControlView: BalanceSegmentedControlView!
     private let viewModel: InputViewModelType
     private let disposeBag = DisposeBag()
-    private var selectedSegmentIndex: Int = 0
     private var editingTextField: UITextField?
     private var keyboardOverlap: CGFloat = 0
     private var incomeCategoryArray: [CategoryData] = []
@@ -53,13 +52,15 @@ final class InputViewController: UIViewController,
         setupSegmentedControlView() // segmentedControlViewを設定
         settingPickerKeybord() // pickerViewをキーボードに設定
         setupBinding()
-        setupMode()
         setupBarButtonItem()
         setupTapGesture()
         setupScrollToShowKeyboard()
         configureSaveBtnLayer() // セーブボタンをフィレット
         configureMosaicViewLayer() // モザイク用のviewをフィレット
         navigationItem.title = "収支入力"
+        incomeCategoryArray = viewModel.outputs.incomeCategoryDataArray
+        expenseCategoryArray = viewModel.outputs.expenseCategoryDataArray
+        viewModel.inputs.onViewDidLoad()
     }
 
     // swiftlint:disable:next function_body_length
@@ -82,8 +83,14 @@ final class InputViewController: UIViewController,
                 switch event {
                 case .dismiss:
                     strongSelf.dismiss(animated: true, completion: nil)
-                case .presetDismissAlert(let alertTitle, let message):
-                    strongSelf.presentDismissAlert(alertTitle: alertTitle, message: message)
+                case .showDismissAlert(let alertTitle, let message):
+                    strongSelf.showAlert(title: alertTitle, messege: message) { [weak self] in
+                        self?.dismiss(animated: true)
+                    }
+                case .showErrorAlert:
+                    strongSelf.showErrorAlert()
+                case .showAlert(let alertTitle, let message):
+                    strongSelf.showAlert(title: alertTitle, messege: message)
                 }
             })
             .disposed(by: disposeBag)
@@ -97,15 +104,7 @@ final class InputViewController: UIViewController,
             .disposed(by: disposeBag)
 
         viewModel.outputs.segmentIndex
-            .drive(onNext: { [weak self] index in
-                guard let self = self else { return }
-                self.segmentedControlView.configureSelectedSegmentIndex(index: index)
-                if index == 1 {
-                    self.selectedSegmentIndex = index
-                    self.balanceLabel.text = Balance.incomeName
-                    self.categoryTextField.inputView = self.incomeCategoryPickerView
-                }
-            })
+            .drive(onNext: segmentedControlView.configureSelectedSegmentIndex(index:))
             .disposed(by: disposeBag)
 
         viewModel.outputs.balance
@@ -116,34 +115,11 @@ final class InputViewController: UIViewController,
             .drive(memoTextField.rx.text)
             .disposed(by: disposeBag)
 
-        viewModel.outputs.incomeCategory
-            .drive(onNext: { [weak self] incomeCategory in
-                guard let strongSelf = self else { return }
-                strongSelf.incomeCategoryArray = incomeCategory
-            })
+        viewModel.outputs.isAnimatedIndicator
+            .drive { [weak self] isAnimated in
+                isAnimated ? self?.showProgress() : self?.hideProgress()
+            }
             .disposed(by: disposeBag)
-
-        viewModel.outputs.expenseCategory
-            .drive(onNext: { [weak self] expenseCategory in
-                guard let strongSelf = self else { return }
-                strongSelf.expenseCategoryArray = expenseCategory
-            })
-            .disposed(by: disposeBag)
-    }
-
-    private func presentDismissAlert(alertTitle: String, message: String) {
-        showAlert(title: alertTitle, messege: message) { [weak self] in
-            self?.dismiss(animated: true)
-        }
-    }
-
-    private func setupMode() {
-        switch viewModel.outputs.mode {
-        case .add(let date):
-            viewModel.inputs.addDate(date: date)
-        case .edit(let kakeiboData):
-            viewModel.inputs.editData(data: kakeiboData)
-        }
     }
 
     private func setupBarButtonItem() {
@@ -242,36 +218,12 @@ final class InputViewController: UIViewController,
 
     private func didTapSaveButton() {
         guard !balanceTextField.text!.isEmpty else {
-            showBalanceAlert()
+            showAlert(title: "収支が未入力です", messege: "支出または収支を入力して下さい") { [weak self] in
+                self?.balanceTextField.becomeFirstResponder()
+            }
             return
         }
-        let date = DateUtility.dateFromString(stringDate: dateTextField.text!, format: "yyyy年MM月dd日")
-        var balance: Balance
-        var categoryId: CategoryId
-        switch selectedSegmentIndex {
-        case 0:
-            balance = Balance.expense(Int(balanceTextField.text!) ?? 0)
-            categoryId = CategoryId.expense(
-                expenseCategoryArray.first(where: { $0.name == categoryTextField.text! })?.id ?? ""
-            )
-        case 1:
-            balance = Balance.income(Int(balanceTextField.text!) ?? 0)
-            categoryId = CategoryId.income(
-                incomeCategoryArray.first(where: { $0.name == categoryTextField.text! })?.id ?? ""
-            )
-        default:
-            fatalError("想定していないsegmentIndex")
-        }
-        viewModel.inputs.didTapSaveButton(
-            data: KakeiboData(date: date, categoryId: categoryId, balance: balance, memo: memoTextField.text!)
-        )
-    }
-
-    // アラートを表示し、ボタンが押されたらexpensesTextFieldを起動する
-    private func showBalanceAlert() {
-        showAlert(title: "収支が未入力です", messege: "支出または収支を入力して下さい") { [weak self] in
-            self?.balanceTextField.becomeFirstResponder()
-        }
+        viewModel.inputs.didTapSaveButton(balanceText: balanceTextField.text!, memo: memoTextField.text!)
     }
 
     // セーブボタンをフィレット
@@ -309,7 +261,7 @@ final class InputViewController: UIViewController,
     }
 
     @objc func datePickerValueChange(_ sender: UIDatePicker) {
-        viewModel.inputs.addDate(date: sender.date)
+        viewModel.inputs.didChangeDatePicker(date: sender.date)
     }
 
     @objc func didTapView(_ sender: UITapGestureRecognizer) {
@@ -358,9 +310,9 @@ final class InputViewController: UIViewController,
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView {
         case incomeCategoryPickerView:
-            categoryTextField.text = incomeCategoryArray[safe: row]?.name
+            viewModel.inputs.didSelectCategory(name: incomeCategoryArray[safe: row]?.name)
         case expenseCategoryPickerView:
-            categoryTextField.text = expenseCategoryArray[safe: row]?.name
+            viewModel.inputs.didSelectCategory(name: expenseCategoryArray[safe: row]?.name)
         default:
             fatalError("想定していないpickerView")
         }
@@ -388,16 +340,14 @@ final class InputViewController: UIViewController,
 
     // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
-        self.selectedSegmentIndex = selectedSegmentIndex
+        viewModel.inputs.didChangeSegmentControl(index: selectedSegmentIndex)
         if selectedSegmentIndex == 0 {
             balanceLabel.text = Balance.expenseName
             categoryTextField.inputView = expenseCategoryPickerView
-            categoryTextField.text = expenseCategoryArray.first?.name ?? ""
             categoryTextField.endEditing(true)
         } else if selectedSegmentIndex == 1 {
             balanceLabel.text = Balance.incomeName
             categoryTextField.inputView = incomeCategoryPickerView
-            categoryTextField.text = incomeCategoryArray.first?.name ?? ""
             categoryTextField.endEditing(true)
         }
     }

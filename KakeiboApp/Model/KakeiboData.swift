@@ -48,8 +48,17 @@ enum Balance: Equatable {
 }
 
 enum CategoryId: Equatable {
-    case income(String)
     case expense(String)
+    case income(String)
+
+    var rawValue: Int {
+        switch self {
+        case .expense(_):
+            return 0
+        case .income(_):
+            return 1
+        }
+    }
 }
 
 extension Balance: Codable {

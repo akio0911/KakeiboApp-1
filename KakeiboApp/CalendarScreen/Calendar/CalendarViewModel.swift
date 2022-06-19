@@ -11,6 +11,7 @@ import Foundation
 
 protocol CalendarViewModelInput {
     func onViewDidLoad()
+    func onViewWillApper()
     func didTapInputBarButton(didHighlightItem indexPath: IndexPath)
     func didActionNextMonth()
     func didActionLastMonth()
@@ -37,8 +38,8 @@ protocol CalendarViewModelType {
 final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     enum Event {
         case presentAdd(Date)
-        case presentEdit(KakeiboData)
-        case showErrorAlert(Error) // TODO: viewControllerに処理部を追加
+        case presentEdit(KakeiboData, CategoryData)
+        case showErrorAlert(Error) 
     }
 
     private let kakeiboModel: KakeiboModelProtocol
@@ -203,10 +204,13 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     func onViewDidLoad() {
+        navigationTitleRelay.accept(DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
+    }
+
+    func onViewWillApper() {
         acceptCollectionViewItem()
         acceptTableViewItem()
         acceptTotalText()
-        navigationTitleRelay.accept(DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
     }
 
     func didTapInputBarButton(didHighlightItem indexPath: IndexPath) {
@@ -240,8 +244,8 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     }
 
     func didSelectRowAt(indexPath: IndexPath) {
-        let kakeiboData = tableViewItemRelay.value[indexPath.section].dataArray[indexPath.row].1
-        eventRelay.accept(.presentEdit(kakeiboData))
+        let data = tableViewItemRelay.value[indexPath.section].dataArray[indexPath.row]
+        eventRelay.accept(.presentEdit(data.1, data.0))
     }
 
     func didDeleateCell(indexPath: IndexPath) {

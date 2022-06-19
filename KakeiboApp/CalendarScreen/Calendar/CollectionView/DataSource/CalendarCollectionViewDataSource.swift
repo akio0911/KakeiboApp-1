@@ -16,7 +16,6 @@ final class CalendarCollectionViewDataSource: NSObject,
     private var items: Element = []
     private let weekdays = ["日", "月", "火", "水", "木", "金", "土"]
 
-
     // MARK: - UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard !items.isEmpty else { return 0 }

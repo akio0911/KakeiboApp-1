@@ -54,6 +54,11 @@ final class CalendarViewController: UIViewController,
         viewModel.inputs.onViewDidLoad()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputs.onViewWillApper()
+    }
+
     private func setupBarButtonItem() {
         let nextBarButton =
         UIBarButtonItem(
@@ -178,8 +183,8 @@ final class CalendarViewController: UIViewController,
         switch event {
         case .presentAdd(let date):
             viewModel = InputViewModel(mode: .add(date))
-        case .presentEdit(let kakeiboData):
-            viewModel = InputViewModel(mode: .edit(kakeiboData))
+        case .presentEdit(let kakeiboData, let categoryData):
+            viewModel = InputViewModel(mode: .edit(kakeiboData, categoryData))
         default:
             return
         }
