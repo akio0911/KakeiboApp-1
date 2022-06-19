@@ -59,7 +59,6 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     }
 
     func didTapEnterButton(userName: String, email: String, password: String) {
-        eventRelay.accept(.startAnimating)
         switch mode {
         case .login:
             login(email: email, password: password)
@@ -70,7 +69,6 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
                 let alertTitle = "ユーザー名が未入力です。"
                 let message = "ユーザー名を入力してください。"
                 eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
-                eventRelay.accept(.stopAnimating)
                 return
             }
             register(userName: userName, email: email)
@@ -80,6 +78,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     }
 
     private func login(email: String, password: String) {
+        eventRelay.accept(.startAnimating)
         authType.signIn(email: email, password: password) { [weak self] error in
             guard let strongSelf = self else { return }
             strongSelf.eventRelay.accept(.stopAnimating)
@@ -97,6 +96,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
 
     private func forgotPassword(email: String) {
         // 再設定メールを送信
+        eventRelay.accept(.startAnimating)
         authType.sendPasswordReset(email: email) { [weak self] error in
             guard let strongSelf = self else { return }
             strongSelf.eventRelay.accept(.stopAnimating)
@@ -115,6 +115,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     }
 
     private func register(userName: String, email: String) {
+        eventRelay.accept(.startAnimating)
         authType.registerUser(userName: userName, email: email) { [weak self] error in
             guard let strongSelf = self else { return }
             strongSelf.eventRelay.accept(.stopAnimating)
@@ -131,6 +132,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
     }
 
     private func setPassword(password: String) {
+        eventRelay.accept(.startAnimating)
         authType.currentUserLink(password: password) { [weak self] error in
             guard let strongSelf = self else { return }
             strongSelf.eventRelay.accept(.stopAnimating)
