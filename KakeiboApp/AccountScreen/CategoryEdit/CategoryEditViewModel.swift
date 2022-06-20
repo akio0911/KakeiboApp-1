@@ -8,6 +8,7 @@
 import RxSwift
 import RxCocoa
 
+// TODO: カテゴリー入力画面で保存した後に、データが反映されないバグを修正
 protocol CategoryEditViewModelInput {
     func onViewDidLoad()
     func didTapAddBarButton()

@@ -41,6 +41,7 @@ final class CategoryInputViewController: UIViewController {
         setupBarButtonItem()
         setupTapGesture()
         setupBinding()
+        viewModel.inputs.onViewDidLoad()
     }
 
     private lazy var toolBar: UIToolbar = {
@@ -95,17 +96,14 @@ final class CategoryInputViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupBinding() {
         hueSlider.rx.value
-            .skip(1) // 初期値をスキップ
             .subscribe(onNext: viewModel.inputs.hueSliderValueChanged)
             .disposed(by: disposeBag)
 
         saturationSlider.rx.value
-            .skip(1) // 初期値をスキップ
             .subscribe(onNext: viewModel.inputs.saturationSliderValueChanged)
             .disposed(by: disposeBag)
 
         brightnessSlider.rx.value
-            .skip(1) // 初期値をスキップ
             .subscribe(onNext: viewModel.inputs.brightnessSliderValueChanged)
             .disposed(by: disposeBag)
 
@@ -162,6 +160,8 @@ final class CategoryInputViewController: UIViewController {
                     self?.showAlert(title: alertTitle, messege: message) { [weak self] in
                         self?.categoryTextField.becomeFirstResponder()
                     }
+                case .showErrorAlert:
+                    self?.showErrorAlert()
                 }
             })
             .disposed(by: disposeBag)

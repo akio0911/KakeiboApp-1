@@ -13,8 +13,10 @@ typealias CategoryModelCompletion = (Error?) -> Void
 
 protocol CategoryModelProtocol {
     func setupData(userId: String, completion: @escaping CategoryModelCompletion)
-    func setIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
-    func setExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
+    func addIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
+    func addExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
+    func editIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
+    func editExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
     func deleteIncomeCategoryData(userId: String, indexPath: IndexPath, completion: @escaping CategoryModelCompletion)
     func deleteExpenseCategoryData(userId: String, indexPath: IndexPath, completion: @escaping CategoryModelCompletion)
     var incomeCategoryDataArray: [CategoryData] { get }
@@ -44,7 +46,7 @@ final class CategoryModel: CategoryModelProtocol {
         }
     }
 
-    func setIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion) {
+    func addIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion) {
         repository.setIncomeCategoryData(userId: userId, data: data) { [weak self] error in
             guard let strongSelf = self else { return }
             if let error = error {
@@ -56,13 +58,41 @@ final class CategoryModel: CategoryModelProtocol {
         }
     }
 
-    func setExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion) {
+    func addExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion) {
         repository.setExpenseCategoryData(userId: userId, data: data) { [weak self] error in
             guard let strongSelf = self else { return }
             if let error = error {
                 completion(error)
             } else {
                 strongSelf.expenseCategoryDataArray.append(data)
+                completion(nil)
+            }
+        }
+    }
+
+    func editIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion) {
+        repository.setIncomeCategoryData(userId: userId, data: data) { [weak self] error in
+            guard let strongSelf = self else { return }
+            if let error = error {
+                completion(error)
+            } else {
+                for (index, value) in strongSelf.incomeCategoryDataArray.enumerated() where value.id == data.id {
+                    strongSelf.incomeCategoryDataArray[index] = data
+                }
+                completion(nil)
+            }
+        }
+    }
+
+    func editExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion) {
+        repository.setExpenseCategoryData(userId: userId, data: data) { [weak self] error in
+            guard let strongSelf = self else { return }
+            if let error = error {
+                completion(error)
+            } else {
+                for (index, value) in strongSelf.expenseCategoryDataArray.enumerated() where value.id == data.id {
+                    strongSelf.expenseCategoryDataArray[index] = data
+                }
                 completion(nil)
             }
         }

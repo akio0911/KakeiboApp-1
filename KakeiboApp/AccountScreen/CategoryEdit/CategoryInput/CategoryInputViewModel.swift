@@ -42,6 +42,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         case dismiss
         case presentDismissAlert(String, String)
         case presentBecomeFirstResponderAlert(String, String)
+        case showErrorAlert
     }
 
     enum Mode {
@@ -60,19 +61,19 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     private let authType: AuthTypeProtocol
     private let eventRelay = PublishRelay<Event>()
     private let disposeBag = DisposeBag()
-    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
-    private let categoryNameRelay = BehaviorRelay<String>(value: "")
+    private let navigationTitleRelay = PublishRelay<String>()
+    private let categoryNameRelay = PublishRelay<String>()
     private let categoryColorRelay = BehaviorRelay<UIColor>(value: UIColor())
-    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 1)
-    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 1)
-    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 1)
+    private let hueSliderValueRelay = PublishRelay<Float>()
+    private let saturationSliderValueRelay = PublishRelay<Float>()
+    private let brightnessSliderValueRelay = PublishRelay<Float>()
 
     // hueSliderのbackViewのグラデーション用
-    private let hueColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let hueColorsRelay = PublishRelay<[CGColor]>()
     // saturationSliderのbackViewのグラデーション用
-    private let saturationColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let saturationColorsRelay = PublishRelay<[CGColor]>()
     // brightnessSliderのbackViewのグラデーション用
-    private let brightnessColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let brightnessColorsRelay = PublishRelay<[CGColor]>()
 
     private var currentHue: CGFloat = 1
     private var currentSaturation: CGFloat = 1
@@ -88,9 +89,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         self.categoryBalance = categoryBalance
         self.categoryModel = categoryModel
         self.authType = authType
-        setupMode(mode: mode)
-        setupCategoryBalance(categoryBalance: categoryBalance)
-        hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
     }
 
     private func setupMode(mode: Mode) {
@@ -207,10 +205,12 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         brightnessColorsRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    // TODO: ViewControllerからの呼び出し部を実装
     func onViewDidLoad() {
         incomeCategoryDataArray = categoryModel.incomeCategoryDataArray
         expenseCategoryDataArray = categoryModel.expenseCategoryDataArray
+        setupMode(mode: mode)
+        setupCategoryBalance(categoryBalance: categoryBalance)
+        hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
     }
 
     func didTapSaveBarButton(name: String) {
@@ -232,6 +232,8 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         case .add:
             addCategory(name: name, userInfo: userInfo)
         case .edit(var categoryData):
+            categoryData.name = name
+            categoryData.color = categoryColorRelay.value
             editCategory(name: name, userInfo: userInfo, categoryData: categoryData)
         }
 
@@ -248,11 +250,10 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 name: name,
                 color: categoryColorRelay.value
             )
-            incomeCategoryDataArray.append(categoryData)
-            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+            categoryModel.addIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
                 guard let strongSelf = self else { return }
-                if let error = error {
-                    // TODO: エラー処理を実装
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
                     strongSelf.incomeCategoryDataArray = strongSelf.categoryModel.incomeCategoryDataArray
                 }
@@ -265,11 +266,10 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 name: name,
                 color: categoryColorRelay.value
             )
-            expenseCategoryDataArray.append(categoryData)
-            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+            categoryModel.addExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
                 guard let strongSelf = self else { return }
-                if let error = error {
-                    // TODO: エラー処理を実装
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
                     strongSelf.expenseCategoryDataArray = strongSelf.categoryModel.expenseCategoryDataArray
                 }
@@ -278,27 +278,21 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     }
 
     private func editCategory(name: String, userInfo: UserInfo, categoryData: CategoryData) {
-        let categoryData = CategoryData(
-            id: categoryData.id,
-            displayOrder: categoryData.displayOrder,
-            name: name,
-            color: categoryColorRelay.value
-        )
         switch categoryBalance {
         case .income:
-            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+            categoryModel.editIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
                 guard let strongSelf = self else { return }
-                if let error = error {
-                    // TODO: エラー処理を追加
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
                     strongSelf.incomeCategoryDataArray = strongSelf.categoryModel.incomeCategoryDataArray
                 }
             }
         case .expense:
-            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+            categoryModel.editExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
                 guard let strongSelf = self else { return }
-                if let error = error {
-                    // TODO: エラー処理を追加
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
                     strongSelf.expenseCategoryDataArray = strongSelf.categoryModel.expenseCategoryDataArray
                 }
