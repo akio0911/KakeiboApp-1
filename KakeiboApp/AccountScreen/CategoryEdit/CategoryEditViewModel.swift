@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol CategoryEditViewModelInput {
+    func onViewDidLoad()
     func didTapAddBarButton()
     func didSelectRowAt(indexPath: IndexPath)
     func didDeleateCell(indexPath: IndexPath)
@@ -31,11 +32,11 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         case presentExpenseCategoryAdd
         case presentIncomeCategoryEdit(CategoryData)
         case presentExpenseCategoryEdit(CategoryData)
+        case showErrorAlert
     }
 
     private let categoryModel: CategoryModelProtocol
     private let authType: AuthTypeProtocol
-    private let disposeBag = DisposeBag()
     private let categoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let eventRelay = PublishRelay<Event>()
     private var selectedSegmentIndex = 0
@@ -52,6 +53,10 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    func onViewDidLoad() {
+        categoryDataRelay.accept(categoryModel.expenseCategoryDataArray)
     }
 
     func didTapAddBarButton() {
@@ -87,8 +92,8 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
             // 支出が選択されている場合
             categoryModel.deleteExpenseCategoryData(userId: userInfo.id, indexPath: indexPath) { [weak self] error in
                 guard let strongSelf = self else { return }
-                if let error = error {
-                    // TODO: エラー処理を追加
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
                     strongSelf.categoryDataRelay.accept(strongSelf.categoryModel.expenseCategoryDataArray)
                 }
@@ -97,8 +102,8 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
             // 収入が選択されている場合
             categoryModel.deleteIncomeCategoryData(userId: userInfo.id, indexPath: indexPath) { [weak self] error in
                 guard let strongSelf = self else { return }
-                if let error = error {
-                    // TODO: エラー処理を追加
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
                     strongSelf.categoryDataRelay.accept(strongSelf.categoryModel.incomeCategoryDataArray)
                 }
