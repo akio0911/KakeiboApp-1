@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol PasscodeViewModelInput {
+    func onViewDidLoad()
     func didTapNumberButton(tapNumber: String)
     func didTapDeleteButton()
     func didTapCancelButton()
@@ -91,9 +92,9 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
     private var settingsRepository: SettingsRepositoryProtocol
     private var passcodeArray: [String] = [] // パスコード
     private var keyState: KeyState = .off
-    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
-    private let isSetupCancelBarButtonRelay = BehaviorRelay<Bool>(value: false)
-    private let messageLabelTextRelay = BehaviorRelay<String>(value: "")
+    private let navigationTitleRelay = PublishRelay<String>()
+    private let isSetupCancelBarButtonRelay = PublishRelay<Bool>()
+    private let messageLabelTextRelay = PublishRelay<String>()
     private let firstKeyAlphaRelay = PublishRelay<CGFloat>()
     private let secondKeyAlphaRelay = PublishRelay<CGFloat>()
     private let thirdKeyAlphaRelay = PublishRelay<CGFloat>()
@@ -104,9 +105,6 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
          settingsRepository: SettingsRepositoryProtocol = SettingsRepository()) {
         self.mode = mode
         self.settingsRepository = settingsRepository
-        messageLabelTextRelay.accept(mode.message)
-        navigationTitleRelay.accept(mode.navigationTitle)
-        isSetupCancelBarButtonRelay.accept(mode.isSetupCancelBarButton)
     }
 
     var navigationTitle: Driver<String> {
@@ -139,6 +137,12 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
+    func onViewDidLoad() {
+        messageLabelTextRelay.accept(mode.message)
+        navigationTitleRelay.accept(mode.navigationTitle)
+        isSetupCancelBarButtonRelay.accept(mode.isSetupCancelBarButton)
     }
 
     func didTapNumberButton(tapNumber: String) {

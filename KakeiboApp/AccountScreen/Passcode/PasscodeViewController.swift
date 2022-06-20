@@ -39,6 +39,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
         setupKeyImageStackView()
         setupPasscodeInputButtonView()
         setupBinding()
+        viewModel.inputs.onViewDidLoad()
     }
 
     private func setupKeyImageStackView() {
