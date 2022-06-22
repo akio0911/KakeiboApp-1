@@ -21,10 +21,10 @@ class CalendarTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
 
-    func configure(data: CellDateKakeiboData) {
-        categoryLabel.text = data.categoryData.name
-        memoLabel.text = data.memo
-        switch data.balance {
+    func configure(data: (CategoryData, KakeiboData)) {
+        categoryLabel.text = data.0.name
+        memoLabel.text = data.1.memo
+        switch data.1.balance {
         case .income(let income):
             balanceImageView.image = UIImage(named: CalendarImageName.income.rawValue)
             balanceLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: income) ?? "0円"

@@ -17,7 +17,6 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     private var keyImageStackView: KeyImageStackView!
     private let viewModel: PasscodeViewModelType
     private let disposeBag = DisposeBag()
-    private let passcodePoster = PasscodePoster()
 
     private var validateMessage: (String) -> Void = { _ in }
 
@@ -40,6 +39,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
         setupKeyImageStackView()
         setupPasscodeInputButtonView()
         setupBinding()
+        viewModel.inputs.onViewDidLoad()
     }
 
     private func setupKeyImageStackView() {
@@ -179,7 +179,6 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
     // MARK: - @objc(BarButtonItem)
     @objc private func didTapCancelBarButton() {
         viewModel.inputs.didTapCancelButton()
-        passcodePoster.didTapCancelButtonPost()
     }
 
     // MARK: - PasscodeInputButtonViewDelegate

@@ -11,8 +11,8 @@ import LocalAuthentication
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    private let passcodeRepository: IsOnPasscodeRepositoryProtocol =
-    PasscodeRepository()
+    private let settingRepository: SettingsRepositoryProtocol =
+    SettingsRepository()
 
     // アプリ起動時、sceneが呼ばれた時
     func scene(_ scene: UIScene,
@@ -40,7 +40,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 strongSelf.window?.makeKeyAndVisible()
 
                 // パスコードが設定されていたら、パスコード画面表示する
-                if strongSelf.passcodeRepository.loadIsOnPasscode() {
+                if strongSelf.settingRepository.isOnPasscode {
                     let passcodeViewController =
                     PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
                     passcodeViewController.modalPresentationStyle = .fullScreen
@@ -59,7 +59,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.makeKeyAndVisible()
 
             // パスコードが設定されていたら、パスコード画面表示する
-            if self.passcodeRepository.loadIsOnPasscode() {
+            if settingRepository.isOnPasscode {
                 let passcodeViewController =
                 PasscodeViewController(viewModel: PasscodeViewModel(mode: .unlock))
                 passcodeViewController.modalPresentationStyle = .fullScreen
@@ -82,7 +82,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // アプリがフォアグラウンドに来た時
     func sceneWillEnterForeground(_ scene: UIScene) {
         // パスコードが設定されていたら、生体認証を行う
-        if passcodeRepository.loadIsOnPasscode() {
+        if settingRepository.isOnPasscode {
             let localAuthenticationContext = LAContext()
             var error: NSError?
             let reason: String // 生体認証を使用する理由
@@ -142,7 +142,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // アプリがバックグランドに移動した時
     func sceneDidEnterBackground(_ scene: UIScene) {
         // パスコードが設定されていたら、パスコード画面を表示する
-        if passcodeRepository.loadIsOnPasscode() {
+        if settingRepository.isOnPasscode {
             var topViewController = window?.rootViewController
             while topViewController?.presentedViewController != nil {
                 topViewController = topViewController?.presentedViewController

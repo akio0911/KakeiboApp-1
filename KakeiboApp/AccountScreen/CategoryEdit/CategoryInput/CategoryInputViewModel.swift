@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol CategoryInputViewModelInput {
+    func onViewDidLoad()
     func didTapSaveBarButton(name: String)
     func didTapCancelBarButton()
     func hueSliderValueChanged(value: Float)
@@ -41,6 +42,7 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         case dismiss
         case presentDismissAlert(String, String)
         case presentBecomeFirstResponderAlert(String, String)
+        case showErrorAlert
     }
 
     enum Mode {
@@ -59,19 +61,19 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     private let authType: AuthTypeProtocol
     private let eventRelay = PublishRelay<Event>()
     private let disposeBag = DisposeBag()
-    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
-    private let categoryNameRelay = BehaviorRelay<String>(value: "")
+    private let navigationTitleRelay = PublishRelay<String>()
+    private let categoryNameRelay = PublishRelay<String>()
     private let categoryColorRelay = BehaviorRelay<UIColor>(value: UIColor())
-    private let hueSliderValueRelay = BehaviorRelay<Float>(value: 1)
-    private let saturationSliderValueRelay = BehaviorRelay<Float>(value: 1)
-    private let brightnessSliderValueRelay = BehaviorRelay<Float>(value: 1)
+    private let hueSliderValueRelay = PublishRelay<Float>()
+    private let saturationSliderValueRelay = PublishRelay<Float>()
+    private let brightnessSliderValueRelay = PublishRelay<Float>()
 
     // hueSliderのbackViewのグラデーション用
-    private let hueColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let hueColorsRelay = PublishRelay<[CGColor]>()
     // saturationSliderのbackViewのグラデーション用
-    private let saturationColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let saturationColorsRelay = PublishRelay<[CGColor]>()
     // brightnessSliderのbackViewのグラデーション用
-    private let brightnessColorsRelay = BehaviorRelay<[CGColor]>(value: [])
+    private let brightnessColorsRelay = PublishRelay<[CGColor]>()
 
     private var currentHue: CGFloat = 1
     private var currentSaturation: CGFloat = 1
@@ -79,7 +81,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
 
     private var incomeCategoryDataArray: [CategoryData] = []
     private var expenseCategoryDataArray: [CategoryData] = []
-    private var userInfo: UserInfo?
 
     init(mode: Mode, categoryBalance: CategoryBalance,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
@@ -88,33 +89,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         self.categoryBalance = categoryBalance
         self.categoryModel = categoryModel
         self.authType = authType
-        setupBinding()
-        setupMode(mode: mode)
-        setupCategoryBalance(categoryBalance: categoryBalance)
-        hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
-    }
-
-    private func setupBinding() {
-        categoryModel.incomeCategoryData
-            .subscribe(onNext: { [weak self] incomeCategoryData in
-                guard let strongSelf = self else { return }
-                strongSelf.incomeCategoryDataArray = incomeCategoryData
-            })
-            .disposed(by: disposeBag)
-
-        categoryModel.expenseCategoryData
-            .subscribe(onNext: { [weak self] expenseCategoryData in
-                guard let strongSelf = self else { return }
-                strongSelf.expenseCategoryDataArray = expenseCategoryData
-            })
-            .disposed(by: disposeBag)
-
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-            })
-            .disposed(by: disposeBag)
     }
 
     private func setupMode(mode: Mode) {
@@ -231,8 +205,16 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         brightnessColorsRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    func onViewDidLoad() {
+        incomeCategoryDataArray = categoryModel.incomeCategoryDataArray
+        expenseCategoryDataArray = categoryModel.expenseCategoryDataArray
+        setupMode(mode: mode)
+        setupCategoryBalance(categoryBalance: categoryBalance)
+        hueColorsRelay.accept(createColors(saturation: 1, brightness: 1))
+    }
+
     func didTapSaveBarButton(name: String) {
-        guard let userInfo = userInfo else {
+        guard let userInfo = authType.userInfo else {
             let alertTitle = "アカウントが見つかりません。"
             let message = "カテゴリーの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
             eventRelay.accept(.presentDismissAlert(alertTitle, message))
@@ -249,11 +231,11 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
         switch mode {
         case .add:
             addCategory(name: name, userInfo: userInfo)
-        case .edit(let categoryData):
+        case .edit(var categoryData):
+            categoryData.name = name
+            categoryData.color = categoryColorRelay.value
             editCategory(name: name, userInfo: userInfo, categoryData: categoryData)
         }
-
-        eventRelay.accept(.dismiss)
     }
 
     private func addCategory(name: String, userInfo: UserInfo) {
@@ -266,8 +248,15 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 name: name,
                 color: categoryColorRelay.value
             )
-            incomeCategoryDataArray.append(categoryData)
-            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.addIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
+                } else {
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
+                }
+            }
         case .expense:
             let categoryData =
             CategoryData(
@@ -276,23 +265,40 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 name: name,
                 color: categoryColorRelay.value
             )
-            expenseCategoryDataArray.append(categoryData)
-            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.addExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
+                } else {
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
+                }
+            }
         }
     }
 
     private func editCategory(name: String, userInfo: UserInfo, categoryData: CategoryData) {
-        let categoryData = CategoryData(
-            id: categoryData.id,
-            displayOrder: categoryData.displayOrder,
-            name: name,
-            color: categoryColorRelay.value
-        )
         switch categoryBalance {
         case .income:
-            categoryModel.setIncomeCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.editIncomeCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
+                } else {
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
+                }
+            }
         case .expense:
-            categoryModel.setExpenseCategoryData(userId: userInfo.id, data: categoryData)
+            categoryModel.editExpenseCategoryData(userId: userInfo.id, data: categoryData) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
+                } else {
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
+                }
+            }
         }
     }
 

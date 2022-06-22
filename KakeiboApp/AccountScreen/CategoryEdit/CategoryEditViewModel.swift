@@ -9,10 +9,11 @@ import RxSwift
 import RxCocoa
 
 protocol CategoryEditViewModelInput {
+    func onViewDidLoad()
     func didTapAddBarButton()
-    func didSelectRowAt(index: IndexPath)
-    func didDeleateCell(index: IndexPath)
-    func didChangeSegmentIndex(index: Int)
+    func didSelectRowAt(indexPath: IndexPath)
+    func didDeleateCell(indexPath: IndexPath)
+    func didChangeSegmentIndex(selectedSegmentIndex: Int)
 }
 
 protocol CategoryEditViewModelOutput {
@@ -31,48 +32,20 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         case presentExpenseCategoryAdd
         case presentIncomeCategoryEdit(CategoryData)
         case presentExpenseCategoryEdit(CategoryData)
+        case showErrorAlert
     }
 
     private let categoryModel: CategoryModelProtocol
     private let authType: AuthTypeProtocol
-    private let disposeBag = DisposeBag()
     private let categoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let eventRelay = PublishRelay<Event>()
-    private var incomeCategoryDataArray: [CategoryData] = []
-    private var expenseCategoryDataArray: [CategoryData] = []
-    private var userInfo: UserInfo?
-    private var currentSegmentIndex = 0
+    private var selectedSegmentIndex = 0
+    private let disposeBag = DisposeBag()
 
     init(categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.categoryModel = categoryModel
         self.authType = authType
-        setupBinding()
-    }
-
-    private func setupBinding() {
-        categoryModel.incomeCategoryData
-            .subscribe(onNext: { [weak self] incomeCategoryDataArray in
-                guard let self = self else { return }
-                self.categoryDataRelay.accept(incomeCategoryDataArray)
-                self.incomeCategoryDataArray = incomeCategoryDataArray
-            })
-            .disposed(by: disposeBag)
-
-        categoryModel.expenseCategoryData
-            .subscribe(onNext: { [weak self] expenseCategoryDataArray in
-                guard let self = self else { return }
-                self.categoryDataRelay.accept(expenseCategoryDataArray)
-                self.expenseCategoryDataArray = expenseCategoryDataArray
-            })
-            .disposed(by: disposeBag)
-
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-            })
-            .disposed(by: disposeBag)
     }
 
     var categoryData: Observable<[CategoryData]> {
@@ -83,8 +56,27 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    func onViewDidLoad() {
+        categoryDataRelay.accept(categoryModel.expenseCategoryDataArray)
+        EventBus.setCategoryData.asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                switch self.selectedSegmentIndex {
+                case 0:
+                    // 支出が選択されている場合
+                    self.categoryDataRelay.accept(self.categoryModel.expenseCategoryDataArray)
+                case 1:
+                    // 収入が選択されている場合
+                    self.categoryDataRelay.accept(self.categoryModel.incomeCategoryDataArray)
+                default:
+                    fatalError()
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+
     func didTapAddBarButton() {
-        switch currentSegmentIndex {
+        switch selectedSegmentIndex {
         case 0:
             // 支出が選択されている場合
             eventRelay.accept(.presentExpenseCategoryAdd)
@@ -96,57 +88,57 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
         }
     }
 
-    func didSelectRowAt(index: IndexPath) {
-        switch currentSegmentIndex {
+    func didSelectRowAt(indexPath: IndexPath) {
+        switch selectedSegmentIndex {
         case 0:
             // 支出が選択されている場合
-            eventRelay.accept(.presentExpenseCategoryEdit(expenseCategoryDataArray[index.row]))
+            eventRelay.accept(.presentExpenseCategoryEdit(categoryDataRelay.value[indexPath.row]))
         case 1:
             // 収入が選択されている場合
-            eventRelay.accept(.presentIncomeCategoryEdit(incomeCategoryDataArray[index.row]))
+            eventRelay.accept(.presentIncomeCategoryEdit(categoryDataRelay.value[indexPath.row]))
         default:
             fatalError("想定していないSegmentIndexです。")
         }
     }
 
-    func didDeleateCell(index: IndexPath) {
-        guard let userInfo = userInfo else { return }
-        switch currentSegmentIndex {
+    func didDeleateCell(indexPath: IndexPath) {
+        guard let userInfo = authType.userInfo else { return }
+        switch selectedSegmentIndex {
         case 0:
             // 支出が選択されている場合
-            categoryModel.deleteExpenseCategoryData(
-                userId: userInfo.id, data: expenseCategoryDataArray[index.row]
-            )
-            expenseCategoryDataArray.remove(at: index.row)
-            expenseCategoryDataArray.indices.forEach {
-                expenseCategoryDataArray[$0].displayOrder = $0
+            categoryModel.deleteExpenseCategoryData(userId: userInfo.id, indexPath: indexPath) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
+                } else {
+                    strongSelf.categoryDataRelay.accept(strongSelf.categoryModel.expenseCategoryDataArray)
+                }
             }
-            categoryModel.setExpenseCategoryDataArray(userId: userInfo.id, data: expenseCategoryDataArray)
         case 1:
             // 収入が選択されている場合
-            categoryModel.deleteIncomeCategoryData(
-                userId: userInfo.id, data: incomeCategoryDataArray[index.row]
-            )
-            incomeCategoryDataArray.remove(at: index.row)
-            incomeCategoryDataArray.indices.forEach {
-                incomeCategoryDataArray[$0].displayOrder = $0
+            categoryModel.deleteIncomeCategoryData(userId: userInfo.id, indexPath: indexPath) { [weak self] error in
+                guard let strongSelf = self else { return }
+                if error != nil {
+                    strongSelf.eventRelay.accept(.showErrorAlert)
+                } else {
+                    strongSelf.categoryDataRelay.accept(strongSelf.categoryModel.incomeCategoryDataArray)
+                }
             }
-            categoryModel.setIncomeCategoryDataArray(userId: userInfo.id, data: incomeCategoryDataArray)
         default:
             fatalError("想定していないSegmentIndexです。")
         }
     }
 
-    func didChangeSegmentIndex(index: Int) {
-        switch index {
+    func didChangeSegmentIndex(selectedSegmentIndex: Int) {
+        switch selectedSegmentIndex {
         case 0:
             // 支出が選択されている場合
-            categoryDataRelay.accept(expenseCategoryDataArray)
-            currentSegmentIndex = 0
+            categoryDataRelay.accept(categoryModel.expenseCategoryDataArray)
+            self.selectedSegmentIndex = selectedSegmentIndex
         case 1:
             // 収入が選択されている場合
-            categoryDataRelay.accept(incomeCategoryDataArray)
-            currentSegmentIndex = 1
+            categoryDataRelay.accept(categoryModel.incomeCategoryDataArray)
+            self.selectedSegmentIndex = selectedSegmentIndex
         default:
             fatalError("想定していないSegmentIndexです。")
         }

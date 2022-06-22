@@ -16,4 +16,5 @@ pod 'Firebase/Crashlytics'
 pod 'Firebase/Analytics'
 pod 'Firebase/Messaging'
 pod 'LicensePlist'
+pod 'MBProgressHUD', '~> 1.2.0'
 end

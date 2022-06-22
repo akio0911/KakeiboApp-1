@@ -9,6 +9,7 @@ import RxSwift
 import RxCocoa
 
 protocol AccountViewModelInput {
+    func onViewWillAppear()
     func didTapAccountEnterButton()
     func didTapSignupButton()
     func didValueChangedPasscodeSwitch(value: Bool)
@@ -43,39 +44,34 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         case applicationSharedOpen(URL)
     }
 
-    private let passcodeRepository: IsOnPasscodeRepositoryProtocol
+    private var settingsRepository: SettingsRepositoryProtocol
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
-    private let userNameLabelRelay = BehaviorRelay<String>(value: "")
-    private let accountEnterButtonTitleRelay = BehaviorRelay<String>(value: "")
-    private let isHiddenSignupButtonRelay = BehaviorRelay<Bool>(value: false)
-    private let isHiddenAccountEnterButtonRelay = BehaviorRelay<Bool>(value: false)
-    private let isOnPasscodeRelay = BehaviorRelay<Bool>(value: false)
+    private let userNameLabelRelay = PublishRelay<String>()
+    private let accountEnterButtonTitleRelay = PublishRelay<String>()
+    private let isHiddenSignupButtonRelay = PublishRelay<Bool>()
+    private let isHiddenAccountEnterButtonRelay = PublishRelay<Bool>()
+    private let isOnPasscodeRelay = PublishRelay<Bool>()
     private let eventRelay = PublishRelay<Event>()
-    private var userInfo: UserInfo?
     private let appId = "1571086397"
 
-    init(passcodeRepository: IsOnPasscodeRepositoryProtocol = PasscodeRepository(),
+    init(settingsRepository: SettingsRepositoryProtocol = SettingsRepository(),
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
-        self.passcodeRepository = passcodeRepository
+        self.settingsRepository = settingsRepository
         self.authType = authType
         setupBinding()
-        isOnPasscodeRelay.accept(passcodeRepository.loadIsOnPasscode())
-        setupPasscodeObserver()
     }
 
     private func setupBinding() {
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-                strongSelf.setupUserInfo()
-            })
+        EventBus.updatedUserInfo.asObservable()
+            .subscribe { [weak self] _ in
+                self?.setupUserInfo()
+            }
             .disposed(by: disposeBag)
     }
 
     private func setupUserInfo() {
-        guard let userInfo = userInfo else { return }
+        guard let userInfo = authType.userInfo else { return }
         if userInfo.isAnonymous {
             //　匿名認証によるログイン中
             userNameLabelRelay.accept("未登録")
@@ -88,23 +84,6 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
             isHiddenSignupButtonRelay.accept(true)
             isHiddenAccountEnterButtonRelay.accept(true)
         }
-    }
-
-    private func setupPasscodeObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(passcodeViewDidTapCancelButton(_:)),
-            name: PasscodePoster.passcodeViewDidTapCancelButton,
-            object: nil)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-
-    @objc func passcodeViewDidTapCancelButton(_ notification: Notification) {
-        passcodeRepository.saveIsOnPasscode(isOnPasscode: false)
-        isOnPasscodeRelay.accept(false)
     }
 
     var userNameLabel: Driver<String> {
@@ -131,6 +110,11 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    func onViewWillAppear() {
+        isOnPasscodeRelay.accept(settingsRepository.isOnPasscode)
+        setupUserInfo()
+    }
+
     func didTapAccountEnterButton() {
         eventRelay.accept(.pushLogin)
     }
@@ -140,7 +124,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     func didValueChangedPasscodeSwitch(value: Bool) {
-        passcodeRepository.saveIsOnPasscode(isOnPasscode: value)
+        settingsRepository.isOnPasscode = value
         if value {
             eventRelay.accept(.presentPasscodeVC)
         }

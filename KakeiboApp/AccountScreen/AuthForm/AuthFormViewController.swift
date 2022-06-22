@@ -26,7 +26,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
 
     private let viewModel: AuthFormViewModelType
     private let disposeBag = DisposeBag()
-    private var activityIndicatorView: UIActivityIndicatorView!
     // 編集中のTextField
     private var editingTextField: UITextField?
     private let eyeImage = UIImage(systemName: "eye")
@@ -50,7 +49,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         setupCornerRadius()
         setupTapGesture()
         setupMode()
-        addActivityIndicatorView()
         setupBinding()
     }
 
@@ -169,18 +167,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         navigationItem.leftBarButtonItem = cancelBarButton
     }
 
-    // ActivityIndicatorViewを反映
-    private func addActivityIndicatorView() {
-        activityIndicatorView = UIActivityIndicatorView()
-        activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicatorView.style = .large
-        activityIndicatorView.color = .darkGray
-        activityIndicatorView.backgroundColor = .systemGray5.withAlphaComponent(0.6)
-        activityIndicatorView.layer.cornerRadius = 10
-        activityIndicatorView.layer.masksToBounds = true
-        view.addSubview(activityIndicatorView)
-    }
-
     private func setupBinding() {
         enterButton.rx.tap
             .subscribe(onNext: didTapEnterButton)
@@ -225,11 +211,11 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private func executeEvent(event: AuthFormViewModel.Event) {
         switch event {
         case .presentErrorAlertView(let alertTitle, let message):
-            presentAlert(alertTitle: alertTitle, message: message,
-                         action: errorAction())
+            showAlert(title: alertTitle, messege: message)
         case .presentPopVCAlertView(let alertTitle, let message):
-            presentAlert(alertTitle: alertTitle, message: message,
-                         action: popVCAction())
+            showAlert(title: alertTitle, messege: message) { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
         case .pushEmailLinkAuthSuccess(email: let email):
             let emailLinkAuthSuccessViewController = EmailLinkAuthSuccessViewController(
                 viewModel: EmailLinkAuthSuccessViewModel(email: email)
@@ -246,26 +232,9 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         case .popToRootVC:
             navigationController?.popToRootViewController(animated: true)
         case .startAnimating:
-            activityIndicatorView.startAnimating()
+            showProgress()
         case .stopAnimating:
-            activityIndicatorView.stopAnimating()
-        }
-    }
-
-    private func presentAlert(alertTitle: String, message: String, action: UIAlertAction) {
-        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-    }
-
-    private func errorAction(title: String = "OK") -> UIAlertAction {
-        UIAlertAction(title: title, style: .default, handler: nil)
-    }
-
-    private func popVCAction() -> UIAlertAction {
-        UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.navigationController?.popViewController(animated: true)
+            hideProgress()
         }
     }
 
@@ -273,7 +242,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setupUserFormImageViewCornerRadius()
-        setupActivityIndicatorCenter()
     }
 
     private func setupUserFormImageViewCornerRadius() {
@@ -281,10 +249,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
         let cornerRadiusRate: CGFloat = 0.15
         authFormImageView.layer.cornerRadius = authFormImageView.bounds.height * cornerRadiusRate
         authFormImageView.layer.masksToBounds = true
-    }
-
-    private func setupActivityIndicatorCenter() {
-        activityIndicatorView.center = view.center
     }
 
     // MARK: - @objc

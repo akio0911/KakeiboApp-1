@@ -13,7 +13,7 @@ import RxRelay
 typealias AuthCompletion = (AuthError?) -> Void
 
 protocol AuthTypeProtocol {
-    var userInfo: Observable<UserInfo?> { get }
+    var userInfo: UserInfo? { get }
     func registerUser(userName: String, email: String, completion: @escaping AuthCompletion)
     func signIn(email: String, password: String, completion: @escaping AuthCompletion)
     func sendPasswordReset(email: String, completion: @escaping AuthCompletion)
@@ -22,19 +22,15 @@ protocol AuthTypeProtocol {
 }
 
 final class AuthType: AuthTypeProtocol {
-    private let userInfoRelay = BehaviorRelay<UserInfo?>(value: nil)
     private var actionCodeSettings: ActionCodeSettings!
     private let emailKey = "email"
+    private(set) var userInfo: UserInfo?
 
     init() {
         let currentUser = Auth.auth().currentUser
-        let userInfo = UserInfo(user: currentUser)
-        userInfoRelay.accept(userInfo)
+        userInfo = UserInfo(user: currentUser)
         setupActionCode()
-    }
-
-    var userInfo: Observable<UserInfo?> {
-        userInfoRelay.asObservable()
+        EventBus.updatedUserInfo.post()
     }
 
     private func setupActionCode() {
@@ -94,8 +90,8 @@ final class AuthType: AuthTypeProtocol {
             } else {
                 // アカウント変換に成功
                 guard let authResult = authResult else { return }
-                let userInfo = UserInfo(user: authResult.user)
-                strongSelf.userInfoRelay.accept(userInfo)
+                strongSelf.userInfo = UserInfo(user: authResult.user)
+                EventBus.updatedUserInfo.post()
                 completion(nil)
             }
         }
@@ -111,8 +107,8 @@ final class AuthType: AuthTypeProtocol {
                 completion(AuthError(error: error))
             } else {
                 // ログインに成功
-                let userInfo = UserInfo(user: authResult?.user)
-                strongSelf.userInfoRelay.accept(userInfo)
+                strongSelf.userInfo = UserInfo(user: authResult?.user)
+                EventBus.updatedUserInfo.post()
                 completion(nil)
             }
         }

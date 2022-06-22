@@ -14,8 +14,8 @@ protocol CalendarTableViewDataSourceDelegate: AnyObject {
 }
 
 final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
-    typealias Element = [[CellDateKakeiboData]]
-    private var items: Element = [[]]
+    typealias Element = [CalendarItem]
+    private var items: Element = []
 
     weak var delegate: CalendarTableViewDataSourceDelegate?
 
@@ -24,14 +24,14 @@ final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        items[section].count
+        items[section].dataArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CalendarTableViewCell.identifier
         ) as! CalendarTableViewCell // swiftlint:disable:this force_cast
-        cell.configure(data: items[indexPath.section][indexPath.row])
+        cell.configure(data: items[indexPath.section].dataArray[indexPath.row])
         return cell
     }
 
@@ -48,7 +48,7 @@ final class CalendarTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     }
 
     // MARK: - RxTableViewDataSourceType
-    func tableView(_ tableView: UITableView, observedEvent: Event<[[CellDateKakeiboData]]>) {
+    func tableView(_ tableView: UITableView, observedEvent: Event<[CalendarItem]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
             tableView.reloadData()

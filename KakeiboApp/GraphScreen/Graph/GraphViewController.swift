@@ -43,6 +43,11 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
         navigationItem.title = "グラフ"
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputs.onViewWillAppear()
+    }
+
     private func setupSwipeGestureRecognizer() {
         // 左スワイプの実装
         let leftSwipeRecognizer = UISwipeGestureRecognizer(
@@ -86,9 +91,9 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
             .drive(onNext: { [weak self] event in
                 guard let self = self else { return }
                 switch event {
-                case .presentCategoryVC(let categoryData):
+                case .presentCategoryVC(let categoryData, let displayDate):
                     let categoryViewController = CategoryViewController(
-                        viewModel: CategoryViewModel(categoryData: categoryData)
+                        viewModel: CategoryViewModel(categoryData: categoryData, displayDate: displayDate)
                     )
                     categoryViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(categoryViewController, animated: true)
@@ -135,7 +140,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.inputs.didSelectRowAt(index: indexPath)
+        viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
 
     // MARK: - BalanceSegmentedControlViewDelegate

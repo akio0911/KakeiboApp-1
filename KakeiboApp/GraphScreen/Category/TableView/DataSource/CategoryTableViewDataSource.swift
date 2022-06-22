@@ -10,8 +10,8 @@ import RxSwift
 import RxCocoa
 
 final class CategoryTableViewDataSource: NSObject, UITableViewDataSource, RxTableViewDataSourceType {
-    typealias Element = [[CellDateCategoryData]]
-    private var items: Element = [[]]
+    typealias Element = [CategoryItem]
+    private var items: Element = []
 
     // MARK: - UITableViewDataSource
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -19,19 +19,19 @@ final class CategoryTableViewDataSource: NSObject, UITableViewDataSource, RxTabl
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        items[section].count
+        items[section].dataArray.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: CategoryTableViewCell.identifier
         ) as! CategoryTableViewCell // swiftlint:disable:this force_cast
-        cell.configure(data: items[indexPath.section][indexPath.row])
+        cell.configure(data: items[indexPath.section].dataArray[indexPath.row])
         return cell
     }
 
     // MARK: - RxTableViewDataSourceType
-    func tableView(_ tableView: UITableView, observedEvent: Event<[[CellDateCategoryData]]>) {
+    func tableView(_ tableView: UITableView, observedEvent: Event<[CategoryItem]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
             tableView.reloadData()

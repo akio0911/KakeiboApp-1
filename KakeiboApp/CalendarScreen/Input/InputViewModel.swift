@@ -9,24 +9,26 @@ import RxSwift
 import RxCocoa
 
 protocol InputViewModelInput {
-    func didTapSaveButton(data: KakeiboData)
+    func onViewDidLoad()
+    func didTapSaveButton(balanceText: String, memo: String)
     func didTapCancelButton()
-    func addDate(date: Date)
-    func editData(data: KakeiboData)
     func didTapNextDayButton()
     func didTapLastDayButton()
+    func didChangeDatePicker(date: Date)
+    func didChangeSegmentControl(index: Int)
+    func didSelectCategory(name: String?)
 }
 
 protocol InputViewModelOutput {
     var event: Driver<InputViewModel.Event> { get }
-    var mode: InputViewModel.Mode { get }
     var date: Driver<String> { get }
-    var category: Driver<String> { get }
+    var category: Driver<String?> { get }
     var segmentIndex: Driver<Int> { get }
     var balance: Driver<String> { get }
     var memo: Driver<String> { get }
-    var incomeCategory: Driver<[CategoryData]> { get }
-    var expenseCategory: Driver<[CategoryData]> { get }
+    var isAnimatedIndicator: Driver<Bool> { get }
+    var incomeCategoryDataArray: [CategoryData] { get }
+    var expenseCategoryDataArray: [CategoryData] { get }
 }
 
 protocol InputViewModelType {
@@ -37,29 +39,31 @@ protocol InputViewModelType {
 final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     enum Event {
         case dismiss
-        case presetDismissAlert(String, String)
+        case showDismissAlert(String, String)
+        case showErrorAlert
+        case showAlert(String, String)
     }
 
     enum Mode {
         case add(Date)
-        case edit(KakeiboData)
+        case edit(KakeiboData, CategoryData)
     }
 
-    let mode: Mode
+    private let mode: Mode
     private let kakeiboModel: KakeiboModelProtocol
     private let categoryModel: CategoryModelProtocol
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
-    private var kakeiboDataArray: [KakeiboData] = []
     private let dateRelay = BehaviorRelay<String>(value: "")
-    private let categoryRelay = PublishRelay<String>()
-    private let segmentIndexRelay = PublishRelay<Int>()
-    private let balanceRelay = PublishRelay<String>()
-    private let memoRelay = PublishRelay<String>()
-    private let incomeCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
-    private let expenseCategoryRelay = BehaviorRelay<[CategoryData]>(value: [])
-    private var userInfo: UserInfo?
+    private let categoryRelay = BehaviorRelay<String?>(value: "飲食費")
+    private let segmentIndexRelay = BehaviorRelay<Int>(value: 0)
+    private let balanceRelay = BehaviorRelay<String>(value: "")
+    private let memoRelay = BehaviorRelay<String>(value: "")
+    private let isAnimatedIndicatorRelay = PublishRelay<Bool>()
+
+    private(set) var incomeCategoryDataArray: [CategoryData]
+    private(set) var expenseCategoryDataArray: [CategoryData]
 
     init(kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
@@ -69,31 +73,8 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         self.categoryModel = categoryModel
         self.mode = mode
         self.authType = authType
-        setupBinding()
-    }
-
-    private func setupBinding() {
-        authType.userInfo
-            .subscribe(onNext: { [weak self] userInfo in
-                guard let strongSelf = self else { return }
-                strongSelf.userInfo = userInfo
-            })
-            .disposed(by: disposeBag)
-
-        kakeiboModel.dataObservable
-            .subscribe(onNext: { [weak self] kakeiboDataArray in
-                guard let strongSelf = self else { return }
-                strongSelf.kakeiboDataArray = kakeiboDataArray
-            })
-            .disposed(by: disposeBag)
-
-        categoryModel.incomeCategoryData
-            .bind(to: incomeCategoryRelay)
-            .disposed(by: disposeBag)
-
-        categoryModel.expenseCategoryData
-            .bind(to: expenseCategoryRelay)
-            .disposed(by: disposeBag)
+        incomeCategoryDataArray = categoryModel.incomeCategoryDataArray
+        expenseCategoryDataArray = categoryModel.expenseCategoryDataArray
     }
 
     var event: Driver<Event> {
@@ -101,90 +82,102 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     var date: Driver<String> {
-        dateRelay.asDriver(onErrorDriveWith: .empty())
+        dateRelay.asDriver()
     }
 
-    var category: Driver<String> {
-        categoryRelay.asDriver(onErrorDriveWith: .empty())
+    var category: Driver<String?> {
+        categoryRelay.asDriver()
     }
 
     var segmentIndex: Driver<Int> {
-        segmentIndexRelay.asDriver(onErrorDriveWith: .empty())
+        segmentIndexRelay.asDriver()
     }
 
     var balance: Driver<String> {
-        balanceRelay.asDriver(onErrorDriveWith: .empty())
+        balanceRelay.asDriver()
     }
 
     var memo: Driver<String> {
-        memoRelay.asDriver(onErrorDriveWith: .empty())
+        memoRelay.asDriver()
     }
 
-    var incomeCategory: Driver<[CategoryData]> {
-        incomeCategoryRelay.asDriver(onErrorDriveWith: .empty())
+    var isAnimatedIndicator: Driver<Bool> {
+        isAnimatedIndicatorRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    var expenseCategory: Driver<[CategoryData]> {
-        expenseCategoryRelay.asDriver(onErrorDriveWith: .empty())
+    func onViewDidLoad() {
+        switch mode {
+        case .add(let date):
+            setupAddMode(date: date)
+        case .edit(let kakeiboData, let categoryData):
+            setupEditMode(kakeiboData: kakeiboData, categoryData: categoryData)
+        }
     }
 
-    func didTapSaveButton(data: KakeiboData) {
-        guard let userInfo = userInfo else {
+    func didTapSaveButton(balanceText: String, memo: String) {
+        guard let userInfo = authType.userInfo else {
             let alertTitle = "アカウントが見つかりません。"
             let message = "データの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
-            eventRelay.accept(.presetDismissAlert(alertTitle, message))
+            eventRelay.accept(.showDismissAlert(alertTitle, message))
             return
         }
+
+        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
+        let categoryId: CategoryId
+        let balance: Balance
+        switch segmentIndexRelay.value {
+        case 0:
+            // 支出
+            guard let categoryDataId = expenseCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
+                  let balanceInt = Int(balanceText) else {
+                eventRelay.accept(.showAlert("カテゴリー入力または、収支入力に問題があります", "入力内容をご確認ください"))
+                return
+            }
+            categoryId = CategoryId.expense(categoryDataId)
+            balance = Balance.expense(balanceInt)
+        case 1:
+            // 収入
+            guard let categoryDataId = incomeCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
+                  let balanceInt = Int(balanceText) else {
+                eventRelay.accept(.showAlert("カテゴリー入力または、収支入力に問題があります", "入力内容をご確認ください"))
+                return
+            }
+            categoryId = CategoryId.income(categoryDataId)
+            balance = Balance.income(balanceInt)
+        default:
+            fatalError("想定していないIndex")
+        }
+
         switch mode {
         case .add:
-            kakeiboModel.addData(userId: userInfo.id, data: data)
-        case .edit(let beforeData):
-            guard let firstIndex = kakeiboDataArray.firstIndex(where: { $0 == beforeData }) else { return }
-            kakeiboModel.updateData(userId: userInfo.id, index: firstIndex, data: data)
+            let data = KakeiboData(date: date, categoryId: categoryId, balance: balance, memo: memo)
+            isAnimatedIndicatorRelay.accept(true)
+            kakeiboModel.setData(userId: userInfo.id, data: data) { [weak self] error in
+                self?.isAnimatedIndicatorRelay.accept(false)
+                if error != nil {
+                    self?.eventRelay.accept(.showErrorAlert)
+                    return
+                }
+            }
+        case .edit(var beforeData, _):
+            beforeData.date = date
+            beforeData.categoryId = categoryId
+            beforeData.balance = balance
+            beforeData.memo = memoRelay.value
+            isAnimatedIndicatorRelay.accept(true)
+            kakeiboModel.setData(userId: userInfo.id, data: beforeData) { [weak self] error in
+                self?.isAnimatedIndicatorRelay.accept(false)
+                if error != nil {
+                    self?.eventRelay.accept(.showErrorAlert)
+                    return
+                }
+            }
         }
         eventRelay.accept(.dismiss)
     }
 
     func didTapCancelButton() {
         eventRelay.accept(.dismiss)
-    }
-
-    func addDate(date: Date) {
-        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
-        categoryRelay.accept(expenseCategoryRelay.value.first?.name ?? "")
-    }
-
-    func editData(data: KakeiboData) {
-        dateRelay.accept(DateUtility.stringFromDate(date: data.date, format: "yyyy年MM月dd日"))
-        switch data.categoryId {
-        case .income(let id): // swiftlint:disable:this identifier_name
-            var categoryData: CategoryData?
-            let incomeCategoryArray = incomeCategoryRelay.value
-            incomeCategoryArray.forEach { if $0.id == id { categoryData = $0 } }
-            if let categoryData = categoryData {
-                categoryRelay.accept(categoryData.name)
-            } else {
-                categoryRelay.accept("") // idが一致しないエラー
-            }
-        case .expense(let id): // swiftlint:disable:this identifier_name
-            var categoryData: CategoryData?
-            let expenseCategoryArray = expenseCategoryRelay.value
-            expenseCategoryArray.forEach { if $0.id == id { categoryData = $0 } }
-            if let categoryData = categoryData {
-                categoryRelay.accept(categoryData.name)
-            } else {
-                categoryRelay.accept("") // idが一致しないエラー
-            }
-        }
-        switch data.balance {
-        case .income(let income):
-            segmentIndexRelay.accept(1)
-            balanceRelay.accept(String(income))
-        case .expense(let expense):
-            segmentIndexRelay.accept(0)
-            balanceRelay.accept(String(expense))
-        }
-        memoRelay.accept(data.memo)
     }
 
     func didTapNextDayButton() {
@@ -203,6 +196,41 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             byAdding: .day, value: -1, to: date
         ) else { return }
         dateRelay.accept(DateUtility.stringFromDate(date: lastDay, format: "yyyy年MM月dd日"))
+    }
+
+    func didChangeDatePicker(date: Date) {
+        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
+    }
+
+    func didChangeSegmentControl(index: Int) {
+        segmentIndexRelay.accept(index)
+        switch index {
+        case 0:
+            // 支出
+            categoryRelay.accept(expenseCategoryDataArray.first?.name ?? "")
+        case 1:
+            // 収入
+            categoryRelay.accept(incomeCategoryDataArray.first?.name ?? "")
+        default:
+            break
+        }
+    }
+
+    func didSelectCategory(name: String?) {
+        categoryRelay.accept(name)
+    }
+
+    // MARK: - misc
+    private func setupAddMode(date: Date) {
+        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
+    }
+
+    private func setupEditMode(kakeiboData: KakeiboData, categoryData: CategoryData) {
+        dateRelay.accept(DateUtility.stringFromDate(date: kakeiboData.date, format: "yyyy年MM月dd日"))
+        categoryRelay.accept(categoryData.name)
+        segmentIndexRelay.accept(kakeiboData.categoryId.rawValue)
+        balanceRelay.accept(String(kakeiboData.balance.fetchValue))
+        memoRelay.accept(kakeiboData.memo)
     }
 }
 

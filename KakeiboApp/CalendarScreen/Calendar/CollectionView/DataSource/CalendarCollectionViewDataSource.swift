@@ -12,9 +12,9 @@ import RxCocoa
 final class CalendarCollectionViewDataSource: NSObject,
                                               UICollectionViewDataSource,
                                               RxCollectionViewDataSourceType {
-    typealias Element = [DayItemData]
+    typealias Element = [CalendarItem]
     private var items: Element = []
-    private let weekdayItemData = WeekdayItemData()
+    private let weekdays = ["日", "月", "火", "水", "木", "金", "土"]
 
     // MARK: - UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -25,7 +25,7 @@ final class CalendarCollectionViewDataSource: NSObject,
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return weekdayItemData.weekdays.count
+            return weekdays.count
         case 1:
             return items.count
         default:
@@ -42,7 +42,7 @@ final class CalendarCollectionViewDataSource: NSObject,
                 for: indexPath
             ) as! CalendarWeekdayCollectionViewCell // swiftlint:disable:this force_cast
             cell.configure(
-                weekday: weekdayItemData.weekdays[indexPath.row],
+                weekday: weekdays[indexPath.row],
                 at: indexPath.row
             )
             cell.backgroundColor = UIColor.systemGray4
@@ -52,12 +52,12 @@ final class CalendarCollectionViewDataSource: NSObject,
                 withReuseIdentifier: CalendarDayCollectionViewCell.identifier,
                 for: indexPath
             ) as! CalendarDayCollectionViewCell // swiftlint:disable:this force_cast
-            let data = items[indexPath.row]
+            let calendarItem = items[indexPath.row]
             cell.configure(
-                data: data,
+                calendarItem: calendarItem,
                 index: indexPath.row
             )
-            if data.isCalendarMonth {
+            if calendarItem.isCalendarMonth {
                 cell.backgroundColor = .white
             } else {
                 cell.backgroundColor = .systemGray6
@@ -66,7 +66,7 @@ final class CalendarCollectionViewDataSource: NSObject,
             highlightView.backgroundColor = UIColor(named: CalendarColorName.seashell.rawValue)
             cell.selectedBackgroundView = highlightView
             // 日付が今日の場合、cellをハイライト表示する
-            if Calendar(identifier: .gregorian).isDate(data.date, equalTo: Date(), toGranularity: .day) {
+            if Calendar(identifier: .gregorian).isDate(calendarItem.date, equalTo: Date(), toGranularity: .day) {
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
             }
             return cell
@@ -76,7 +76,7 @@ final class CalendarCollectionViewDataSource: NSObject,
     }
 
     // MARK: - RxCollectionViewDataSourceType
-    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[DayItemData]>) {
+    func collectionView(_ collectionView: UICollectionView, observedEvent: Event<[CalendarItem]>) {
         Binder(self) { dataSource, element in
             dataSource.items = element
             collectionView.reloadData()

@@ -39,6 +39,7 @@ class CategoryEditViewController: UIViewController,
         setupBinding()
         categoryEditTableViewDataSource.delegate = self
         navigationItem.title  = "カテゴリー編集"
+        viewModel.inputs.onViewDidLoad()
     }
 
     private func setupSegmentedControlView() {
@@ -74,17 +75,26 @@ class CategoryEditViewController: UIViewController,
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
-                guard let self = self else { return }
-                let categoryInputViewController = CategoryInputViewController(
-                    viewModel: CategoryInputViewModel(
-                        mode: CategoryInputViewModel.Mode(event: event),
-                        categoryBalance: CategoryInputViewModel.CategoryBalance(event: event)
-                    )
-                )
-                let navigationController = UINavigationController(rootViewController: categoryInputViewController)
-                self.present(navigationController, animated: true, completion: nil)
+                switch event {
+                case .showErrorAlert:
+                    self?.showErrorAlert()
+                default:
+                    self?.goCategoryInputViewController(event: event)
+                }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func goCategoryInputViewController(event: CategoryEditViewModel.Event) {
+        guard let mode = CategoryInputViewModel.Mode(event: event),
+              let categoryBalance = CategoryInputViewModel.CategoryBalance(event: event) else {
+            return
+        }
+        let categoryInputViewController = CategoryInputViewController(
+            viewModel: CategoryInputViewModel(mode: mode, categoryBalance: categoryBalance)
+        )
+        let navigationController = UINavigationController(rootViewController: categoryInputViewController)
+        present(navigationController, animated: true, completion: nil)
     }
 
     // MARK: - viewDidLayoutSubviews
@@ -110,41 +120,45 @@ class CategoryEditViewController: UIViewController,
 
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.inputs.didSelectRowAt(index: indexPath)
+        viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
 
     // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
-        viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
+        viewModel.inputs.didChangeSegmentIndex(selectedSegmentIndex: selectedSegmentIndex)
     }
 
     // MARK: - CategoryEditTableViewDataSourceDelegate
     // 自作delegate
     func didDeleteCell(index: IndexPath) {
-        viewModel.inputs.didDeleateCell(index: index)
+        viewModel.inputs.didDeleateCell(indexPath: index)
     }
 }
 
 // MARK: - extension CategoryInputViewModel.Mode
 extension CategoryInputViewModel.Mode {
-    init(event: CategoryEditViewModel.Event) {
+    init?(event: CategoryEditViewModel.Event) {
         switch event {
         case .presentIncomeCategoryAdd, .presentExpenseCategoryAdd:
             self = .add
         case .presentIncomeCategoryEdit(let data), .presentExpenseCategoryEdit(let data):
             self = .edit(data)
+        default:
+            return nil
         }
     }
 }
 
 // MARK: - extension CategoryInputViewModel.CategoryBalance
 extension CategoryInputViewModel.CategoryBalance {
-    init(event: CategoryEditViewModel.Event) {
+    init?(event: CategoryEditViewModel.Event) {
         switch event {
         case .presentIncomeCategoryAdd, .presentIncomeCategoryEdit(_):
             self = .income
         case .presentExpenseCategoryAdd, .presentExpenseCategoryEdit(_):
             self = .expense
+        default:
+            return nil
         }
     }
 }

@@ -9,11 +9,11 @@ import RxSwift
 import RxCocoa
 
 protocol CategoryViewModelInput {
+    func onViewDidLoad()
 }
 
 protocol CategoryViewModelOutput {
-    var cellDateDataObservable: Observable<[[CellDateCategoryData]]> { get }
-    var headerDateDataObservable: Observable<[HeaderDateCategoryData]> { get }
+    var categoryItemObservable: Observable<[CategoryItem]> { get }
     var navigationTitle: Driver<String> { get }
 }
 
@@ -24,93 +24,56 @@ protocol CategoryViewModelType {
 
 final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let categoryData: CategoryData
-    private var monthDataArray: [Date] = [] // 月の日付
-    private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
     private let calendarDate: CalendarDateProtocol
     private let kakeiboModel: KakeiboModelProtocol
+    private let displayDate: Date
     private let disposeBag = DisposeBag()
-    private let cellDateDataRelay =  BehaviorRelay<[[CellDateCategoryData]]>(value: [])
-    private let headerDateDataRelay =
-    BehaviorRelay<[HeaderDateCategoryData]>(value: [])
-    private let navigationTitleRelay = BehaviorRelay<String>(value: "")
+    private let categoryItemRelay =  BehaviorRelay<[CategoryItem]>(value: [])
+    private let navigationTitleRelay = BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
 
     init(categoryData: CategoryData,
          calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
-         kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel) {
+         kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
+         displayDate: Date) {
         self.categoryData = categoryData
         self.calendarDate = calendarDate
         self.kakeiboModel = kakeiboModel
-        acceptNavigationTitle()
-        setupBinding()
-    }
-
-    private func acceptNavigationTitle() {
-        navigationTitleRelay.accept(categoryData.name)
-    }
-
-    private func setupBinding() {
-        Observable
-            .combineLatest(calendarDate.monthDate, kakeiboModel.dataObservable)
-            .subscribe(onNext: { [weak self] monthDate, kakeiboData in
-                guard let strongSelf = self else { return }
-                strongSelf.monthDataArray = monthDate
-                strongSelf.kakeiboDataArray = kakeiboData
-                strongSelf.acceptTableViewData()
-            })
-            .disposed(by: disposeBag)
+        self.displayDate = displayDate
     }
 
     private func acceptTableViewData() {
-        guard !monthDataArray.isEmpty else { return }
-        var cellDataArray: [[CellDateCategoryData]] = []
-        var headerDataArray: [HeaderDateCategoryData] = []
-        let firstDay = monthDataArray.first! // 月の初日(ついたち)
-        let monthFilterData = kakeiboDataArray.filter {
-            Calendar(identifier: .gregorian)
-                .isDate(firstDay, equalTo: $0.date, toGranularity: .year)
-            && Calendar(identifier: .gregorian)
-                .isDate(firstDay, equalTo: $0.date, toGranularity: .month)
+        guard let year = Int(DateUtility.stringFromDate(date: displayDate, format: "yyyy")),
+              let month = Int(DateUtility.stringFromDate(date: displayDate, format: "MM")) else {
+            return
         }
+        var categoryItemArray: [CategoryItem] = []
 
-        let categoryFilterData = monthFilterData.filter {
-            switch $0.categoryId {
-            case .income(let categoryId):
-                return categoryId == categoryData.id
-            case .expense(let categoryId):
-                return categoryId == categoryData.id
+        let kakeiboDataArray = kakeiboModel.loadMonthData(date: displayDate)
+        let monthDateArray = calendarDate.loadCalendarDate(year: year, month: month, isContainOtherMonth: false)
+        monthDateArray.forEach { date in
+            let filterData = kakeiboDataArray.filter { kakeiboData in
+                kakeiboData.categoryId.fetchId == categoryData.id && kakeiboData.date == date
             }
+            guard !filterData.isEmpty else { return }
+            let totalBalance = filterData.reduce(0) { $0 + $1.balance.fetchValue }
+            categoryItemArray.append(
+                CategoryItem(date: date, totalBalance: totalBalance, dataArray: filterData)
+            )
         }
-        monthDataArray.forEach {
-            var cellData: [CellDateCategoryData] = []
-            let date = $0
-            let dateFilterData = categoryFilterData.filter { date == $0.date }
-            if !dateFilterData.isEmpty {
-                dateFilterData.forEach {
-                    cellData.append(
-                        CellDateCategoryData(balance: $0.balance, memo: $0.memo)
-                    )
-                }
-                let totalBalance = dateFilterData.reduce(0) { $0 + $1.balance.fetchValue }
-                cellDataArray.append(cellData)
-                headerDataArray.append(
-                    HeaderDateCategoryData(date: date, totalBalance: totalBalance)
-                )
-            }
-        }
-        cellDateDataRelay.accept(cellDataArray)
-        headerDateDataRelay.accept(headerDataArray)
+        categoryItemRelay.accept(categoryItemArray)
     }
 
-    var cellDateDataObservable: Observable<[[CellDateCategoryData]]> {
-        cellDateDataRelay.asObservable()
-    }
-
-    var headerDateDataObservable: Observable<[HeaderDateCategoryData]> {
-        headerDateDataRelay.asObservable()
+    var categoryItemObservable: Observable<[CategoryItem]> {
+        categoryItemRelay.asObservable()
     }
 
     var navigationTitle: Driver<String> {
-        navigationTitleRelay.asDriver(onErrorDriveWith: .empty())
+        navigationTitleRelay.asDriver()
+    }
+
+    func onViewDidLoad() {
+        navigationTitleRelay.accept(categoryData.name)
+        acceptTableViewData()
     }
 }
 

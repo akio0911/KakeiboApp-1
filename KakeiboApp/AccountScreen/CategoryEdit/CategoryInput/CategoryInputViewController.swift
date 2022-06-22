@@ -41,6 +41,7 @@ final class CategoryInputViewController: UIViewController {
         setupBarButtonItem()
         setupTapGesture()
         setupBinding()
+        viewModel.inputs.onViewDidLoad()
     }
 
     private lazy var toolBar: UIToolbar = {
@@ -95,17 +96,14 @@ final class CategoryInputViewController: UIViewController {
     // swiftlint:disable:next function_body_length
     private func setupBinding() {
         hueSlider.rx.value
-            .skip(1) // 初期値をスキップ
             .subscribe(onNext: viewModel.inputs.hueSliderValueChanged)
             .disposed(by: disposeBag)
 
         saturationSlider.rx.value
-            .skip(1) // 初期値をスキップ
             .subscribe(onNext: viewModel.inputs.saturationSliderValueChanged)
             .disposed(by: disposeBag)
 
         brightnessSlider.rx.value
-            .skip(1) // 初期値をスキップ
             .subscribe(onNext: viewModel.inputs.brightnessSliderValueChanged)
             .disposed(by: disposeBag)
 
@@ -151,44 +149,22 @@ final class CategoryInputViewController: UIViewController {
 
         viewModel.outputs.event
             .drive(onNext: { [weak self] event in
-                guard let strongSelf = self else { return }
                 switch event {
                 case .dismiss:
-                    strongSelf.dismiss(animated: true, completion: nil)
+                    self?.dismiss(animated: true, completion: nil)
                 case .presentDismissAlert(let alertTitle, let message):
-                    strongSelf.presentAlert(
-                        alertTitle: alertTitle,
-                        message: message,
-                        alertAction: strongSelf.dismissAction()
-                    )
+                    self?.showAlert(title: alertTitle, messege: message) { [weak self] in
+                        self?.dismiss(animated: true)
+                    }
                 case .presentBecomeFirstResponderAlert(let alertTitle, let message):
-                    strongSelf.presentAlert(
-                        alertTitle: alertTitle,
-                        message: message,
-                        alertAction: strongSelf.becomeFirstResponderAction())
+                    self?.showAlert(title: alertTitle, messege: message) { [weak self] in
+                        self?.categoryTextField.becomeFirstResponder()
+                    }
+                case .showErrorAlert:
+                    self?.showErrorAlert()
                 }
             })
             .disposed(by: disposeBag)
-    }
-
-    private func presentAlert(alertTitle: String, message: String, alertAction: UIAlertAction) {
-        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
-        alert.addAction(alertAction)
-        present(alert, animated: true, completion: nil)
-    }
-
-    private func dismissAction() -> UIAlertAction {
-        UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.dismiss(animated: true, completion: nil)
-        }
-    }
-
-    private func becomeFirstResponderAction() -> UIAlertAction {
-        UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.categoryTextField.becomeFirstResponder()
-        }
     }
 
     // MARK: - @objc

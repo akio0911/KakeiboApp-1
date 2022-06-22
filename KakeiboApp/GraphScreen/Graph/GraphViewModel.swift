@@ -9,9 +9,10 @@ import RxSwift
 import RxCocoa
 
 protocol GraphViewModelInput {
+    func onViewWillAppear()
     func didActionNextMonth()
     func didActionLastMonth()
-    func didSelectRowAt(index: IndexPath)
+    func didSelectRowAt(indexPath: IndexPath)
     func didChangeSegmentIndex(index: Int)
 }
 
@@ -28,7 +29,7 @@ protocol GraphViewModelType {
 
 final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     enum Event {
-        case presentCategoryVC(CategoryData)
+        case presentCategoryVC(categoryData: CategoryData, displayDate: Date)
     }
 
     private let calendarDate: CalendarDateProtocol
@@ -37,7 +38,10 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private var balanceSegmentIndex: Int = 0
     private let disposeBag = DisposeBag()
     private let graphDataArrayRelay = BehaviorRelay<[GraphData]>(value: [])
+    private let navigationTitleRelay =
+    BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
     private let eventRelay = PublishRelay<Event>()
+    private var displayDate = Date()
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
@@ -47,43 +51,25 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         self.categoryModel = categoryModel
         setupBinding()
     }
-    private var monthDateArray: [Date] = [] // 月の日付
-    private var kakeiboDataArray: [KakeiboData] = [] // 保存データ
-    private var incomeCategoryDataArray: [CategoryData] = []
-    private var expenseCategoryDataArray: [CategoryData] = []
 
     private func setupBinding() {
-        Observable
-            .combineLatest(calendarDate.monthDate,
-                           kakeiboModel.dataObservable,
-                           categoryModel.incomeCategoryData,
-                           categoryModel.expenseCategoryData)
-            .subscribe(onNext: { [weak self] monthDate, kakeiboData, incomeCategoryData, expenseCategoryData in
-                guard let strongSelf = self else { return }
-                strongSelf.monthDateArray = monthDate
-                strongSelf.kakeiboDataArray = kakeiboData
-                strongSelf.incomeCategoryDataArray = incomeCategoryData
-                strongSelf.expenseCategoryDataArray = expenseCategoryData
-                strongSelf.acceptGraphData()
-            })
+        EventBus.setupData.asObservable()
+            .subscribe { [weak self] _ in
+                self?.acceptGraphData()
+            }
             .disposed(by: disposeBag)
     }
 
     private func acceptGraphData() {
         var graphDataArray: [GraphData] = []
-        let firstDay = monthDateArray.first! // 月の初日(ついたち)
-        let monthData = kakeiboDataArray.filter {
-            Calendar(identifier: .gregorian)
-                .isDate(firstDay, equalTo: $0.date, toGranularity: .year)
-                && Calendar(identifier: .gregorian)
-                .isDate(firstDay, equalTo: $0.date, toGranularity: .month)
-        }
 
+        let kakeiboData = kakeiboModel.loadMonthData(date: displayDate)
         switch balanceSegmentIndex {
         case 0:
-            expenseCategoryDataArray.forEach {
+            // 支出
+            categoryModel.expenseCategoryDataArray.forEach {
                 let expenseCategoryId = $0.id
-                let categoryFilterData = monthData.filter {
+                let categoryFilterData = kakeiboData.filter {
                     switch $0.categoryId {
                     case .income(_):
                         return false
@@ -99,9 +85,10 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
                 }
             }
         case 1:
-            incomeCategoryDataArray.forEach {
+            // 収入
+            categoryModel.incomeCategoryDataArray.forEach {
                 let incomeCategoryId = $0.id
-                let categoryFilterData = monthData.filter {
+                let categoryFilterData = kakeiboData.filter {
                     switch $0.categoryId {
                     case .income(let categoryId):
                         return categoryId == incomeCategoryId
@@ -127,31 +114,38 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     }
 
     var navigationTitle: Driver<String> {
-        calendarDate.firstDay
-            .map {
-                DateUtility.stringFromDate(
-                    date: $0,
-                    format: "yyyy年MM月"
-                )
-            }
-            .asDriver(onErrorDriveWith: .empty())
+        navigationTitleRelay.asDriver()
     }
 
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
+    func onViewWillAppear() {
+        acceptGraphData()
+    }
+
     func didActionNextMonth() {
-        calendarDate.nextMonth()
+        if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: 1, to: displayDate) {
+            self.displayDate = displayDate
+            acceptGraphData()
+            navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+        }
     }
 
     func didActionLastMonth() {
-        calendarDate.lastMonth()
+        if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: -1, to: displayDate) {
+            self.displayDate = displayDate
+            acceptGraphData()
+            navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+        }
     }
 
-    func didSelectRowAt(index: IndexPath) {
+    func didSelectRowAt(indexPath: IndexPath) {
         let graphDataArray = graphDataArrayRelay.value
-        eventRelay.accept(.presentCategoryVC(graphDataArray[index.row].categoryData))
+        eventRelay.accept(
+            .presentCategoryVC(categoryData: graphDataArray[indexPath.row].categoryData, displayDate: displayDate)
+        )
     }
 
     func didChangeSegmentIndex(index: Int) {

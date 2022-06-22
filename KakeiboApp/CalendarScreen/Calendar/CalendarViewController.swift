@@ -28,10 +28,9 @@ final class CalendarViewController: UIViewController,
     private let disposeBag = DisposeBag()
     private let calendarCollectionViewDataSource = CalendarCollectionViewDataSource()
     private let calendarTableViewDataSource = CalendarTableViewDataSource()
-    private var headerDataArray: [HeaderDateKakeiboData] = []
+    private var headerDataArray: [CalendarItem] = []
     private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
     private var didHighlightItemIndexPath: IndexPath = []
-    private var activityIndicatorView: UIActivityIndicatorView!
 
     init(viewModel: CalendarViewModelType = CalendarViewModel()) {
         self.viewModel = viewModel
@@ -45,7 +44,6 @@ final class CalendarViewController: UIViewController,
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
-        addActivityIndicatorView()
         setupBinding()
         setupBarButtonItem()
         setupSwipeGestureRecognizer()
@@ -53,18 +51,12 @@ final class CalendarViewController: UIViewController,
         setupTableView() // tableViewの設定をするメソッド
         navigationItem.title = "カレンダー"
         calendarTableViewDataSource.delegate = self
+        viewModel.inputs.onViewDidLoad()
     }
 
-    // ActivityIndicatorViewを反映
-    private func addActivityIndicatorView() {
-        activityIndicatorView = UIActivityIndicatorView()
-        activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicatorView.style = .large
-        activityIndicatorView.color = .darkGray
-        activityIndicatorView.backgroundColor = .systemGray5.withAlphaComponent(0.6)
-        activityIndicatorView.layer.cornerRadius = 10
-        activityIndicatorView.layer.masksToBounds = true
-        view.addSubview(activityIndicatorView)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.inputs.onViewWillApper()
     }
 
     private func setupBarButtonItem() {
@@ -108,7 +100,7 @@ final class CalendarViewController: UIViewController,
             })
             .disposed(by: disposeBag)
 
-        let collectionViewDataObservable = viewModel.outputs.dayItemDataObservable
+        let collectionViewDataObservable = viewModel.outputs.collectionViewItemObservable
             .share()
 
         collectionViewDataObservable
@@ -119,11 +111,11 @@ final class CalendarViewController: UIViewController,
             .subscribe(onNext: setupCollectionViewNSLayoutConstraint(secondSectionItemData:))
             .disposed(by: disposeBag)
 
-        viewModel.outputs.cellDateDataObservable
+        viewModel.outputs.tableViewItemObservable
             .bind(to: calendarTableView.rx.items(dataSource: calendarTableViewDataSource))
             .disposed(by: disposeBag)
 
-        viewModel.outputs.headerDateDataObservable
+        viewModel.outputs.tableViewItemObservable
             .subscribe(onNext: { [weak self] data in
                 guard let strongSelf = self else { return }
                 strongSelf.headerDataArray = data
@@ -151,11 +143,18 @@ final class CalendarViewController: UIViewController,
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
-            .drive(onNext: presentInputVC(event:))
+            .drive { [weak self] event in
+                switch event {
+                case .presentAdd, .presentEdit:
+                    self?.presentInputVC(event: event)
+                case .showErrorAlert:
+                    self?.showErrorAlert()
+                }
+            }
             .disposed(by: disposeBag)
     }
 
-    private func setupCollectionViewNSLayoutConstraint(secondSectionItemData: [DayItemData]) {
+    private func setupCollectionViewNSLayoutConstraint(secondSectionItemData: [CalendarItem]) {
         let numberOfWeeksInMonth: CGFloat = ceil(CGFloat(secondSectionItemData.count / 7))
         collectionViewNSLayoutConstraint?.isActive = false
         collectionViewNSLayoutConstraint =
@@ -172,9 +171,9 @@ final class CalendarViewController: UIViewController,
 
     private func animateActivityIndicatorView(isAnimated: Bool) {
         if isAnimated {
-            activityIndicatorView.startAnimating()
+            showProgress()
         } else {
-            activityIndicatorView.stopAnimating()
+            hideProgress()
         }
     }
 
@@ -184,8 +183,10 @@ final class CalendarViewController: UIViewController,
         switch event {
         case .presentAdd(let date):
             viewModel = InputViewModel(mode: .add(date))
-        case .presentEdit(let kakeiboData):
-            viewModel = InputViewModel(mode: .edit(kakeiboData))
+        case .presentEdit(let kakeiboData, let categoryData):
+            viewModel = InputViewModel(mode: .edit(kakeiboData, categoryData))
+        default:
+            return
         }
         let inputViewController = InputViewController(viewModel: viewModel)
         let navigationController =
@@ -222,12 +223,6 @@ final class CalendarViewController: UIViewController,
             calendarTableView.sectionHeaderTopPadding = 0
         }
         calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
-    }
-
-    // MARK: - viewDidLayoutSubviews()
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        activityIndicatorView.center = view.center
     }
 
     // MARK: - @objc(BarButtonItem)
@@ -316,12 +311,12 @@ final class CalendarViewController: UIViewController,
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        viewModel.inputs.didSelectRowAt(index: indexPath)
+        viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
 
     // MARK: - CalendarTableViewDataSourceDelegate
     // 自作delegate
     func didDeleteCell(index: IndexPath) {
-        viewModel.inputs.didDeleateCell(index: index)
+        viewModel.inputs.didDeleateCell(indexPath: index)
     }
 }

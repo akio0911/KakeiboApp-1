@@ -8,19 +8,20 @@
 import Foundation
 
 struct KakeiboData: Codable, Equatable {
-    static func == (lhs: KakeiboData, rhs: KakeiboData) -> Bool {
-        lhs.date == rhs.date
-            && lhs.categoryId == rhs.categoryId
-            && lhs.balance == rhs.balance
-            && lhs.memo == rhs.memo
-    }
+    let instantiateTime: String
+    var date: Date //　日付
+    var categoryId: CategoryId // カテゴリー
+    var balance: Balance // 収支
+    var memo: String //　メモ
 
-    var instantiateTime =
-        DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月dd日 HH:mm:ss")
-    let date: Date //　日付
-    let categoryId: CategoryId // カテゴリー
-    let balance: Balance // 収支
-    let memo: String //　メモ
+    init(instantiateTime: String = DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月dd日 HH:mm:ss"),
+         date: Date, categoryId: CategoryId, balance: Balance, memo: String) {
+        self.instantiateTime = instantiateTime
+        self.date = date
+        self.categoryId = categoryId
+        self.balance = balance
+        self.memo = memo
+    }
 }
 
 enum Balance: Equatable {
@@ -47,8 +48,26 @@ enum Balance: Equatable {
 }
 
 enum CategoryId: Equatable {
-    case income(String)
     case expense(String)
+    case income(String)
+
+    var rawValue: Int {
+        switch self {
+        case .expense(_):
+            return 0
+        case .income(_):
+            return 1
+        }
+    }
+
+    var fetchId: String {
+        switch self {
+        case .expense(let expenseId):
+            return expenseId
+        case .income(let incomeId):
+            return incomeId
+        }
+    }
 }
 
 extension Balance: Codable {

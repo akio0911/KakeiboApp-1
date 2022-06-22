@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 
 struct CategoryData: Equatable {
-    static func == (lhs: CategoryData, rhs: CategoryData) -> Bool {
-        lhs.id == rhs.id
-    }
-
     let id: String // swiftlint:disable:this identifier_name
     var displayOrder: Int
     var name: String
