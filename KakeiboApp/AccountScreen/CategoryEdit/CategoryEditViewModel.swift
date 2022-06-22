@@ -8,7 +8,6 @@
 import RxSwift
 import RxCocoa
 
-// TODO: カテゴリー入力画面で保存した後に、データが反映されないバグを修正
 protocol CategoryEditViewModelInput {
     func onViewDidLoad()
     func didTapAddBarButton()
@@ -41,6 +40,7 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
     private let categoryDataRelay = BehaviorRelay<[CategoryData]>(value: [])
     private let eventRelay = PublishRelay<Event>()
     private var selectedSegmentIndex = 0
+    private let disposeBag = DisposeBag()
 
     init(categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
@@ -58,6 +58,21 @@ final class CategoryEditViewModel: CategoryEditViewModelInput, CategoryEditViewM
 
     func onViewDidLoad() {
         categoryDataRelay.accept(categoryModel.expenseCategoryDataArray)
+        EventBus.setCategoryData.asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                switch self.selectedSegmentIndex {
+                case 0:
+                    // 支出が選択されている場合
+                    self.categoryDataRelay.accept(self.categoryModel.expenseCategoryDataArray)
+                case 1:
+                    // 収入が選択されている場合
+                    self.categoryDataRelay.accept(self.categoryModel.incomeCategoryDataArray)
+                default:
+                    fatalError()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     func didTapAddBarButton() {

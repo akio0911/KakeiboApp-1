@@ -236,8 +236,6 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
             categoryData.color = categoryColorRelay.value
             editCategory(name: name, userInfo: userInfo, categoryData: categoryData)
         }
-
-        eventRelay.accept(.dismiss)
     }
 
     private func addCategory(name: String, userInfo: UserInfo) {
@@ -255,7 +253,8 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 if error != nil {
                     strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
-                    strongSelf.incomeCategoryDataArray = strongSelf.categoryModel.incomeCategoryDataArray
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
                 }
             }
         case .expense:
@@ -271,7 +270,8 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 if error != nil {
                     strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
-                    strongSelf.expenseCategoryDataArray = strongSelf.categoryModel.expenseCategoryDataArray
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
                 }
             }
         }
@@ -285,7 +285,8 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 if error != nil {
                     strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
-                    strongSelf.incomeCategoryDataArray = strongSelf.categoryModel.incomeCategoryDataArray
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
                 }
             }
         case .expense:
@@ -294,7 +295,8 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
                 if error != nil {
                     strongSelf.eventRelay.accept(.showErrorAlert)
                 } else {
-                    strongSelf.expenseCategoryDataArray = strongSelf.categoryModel.expenseCategoryDataArray
+                    strongSelf.eventRelay.accept(.dismiss)
+                    EventBus.setCategoryData.post()
                 }
             }
         }

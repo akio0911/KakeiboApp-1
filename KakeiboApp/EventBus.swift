@@ -11,6 +11,7 @@ import RxSwift
 enum EventBus {
     case updatedUserInfo
     case setupData
+    case setCategoryData
 }
 
 extension EventBus {
