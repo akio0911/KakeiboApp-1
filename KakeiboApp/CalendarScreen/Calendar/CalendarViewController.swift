@@ -9,48 +9,28 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class CalendarViewController: UIViewController,
-                                    UICollectionViewDelegate,
-                                    UICollectionViewDelegateFlowLayout,
-                                    UITableViewDelegate,
-                                    CalendarTableViewDataSourceDelegate {
+final class CalendarViewController: UIViewController {
     @IBOutlet private weak var calendarNavigationItem: UINavigationItem!
     @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
     @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
-    @IBOutlet private weak var calendarCollectionView: UICollectionView!
+    @IBOutlet private weak var cardCollectionView: UICollectionView!
     @IBOutlet private weak var calendarTableView: UITableView!
     @IBOutlet private weak var incomeLabel: UILabel! // 収入ラベル
     @IBOutlet private weak var expenseLabel: UILabel! // 支出ラベル
     @IBOutlet private weak var balanceLabel: UILabel! // 収支ラベル
-    @IBOutlet private var costView: [UIView]!
 
-    private let viewModel: CalendarViewModelType
+    private let viewModel: CalendarViewModelType = CalendarViewModel()
     private let disposeBag = DisposeBag()
-    private let calendarCollectionViewDataSource = CalendarCollectionViewDataSource()
-    private let calendarTableViewDataSource = CalendarTableViewDataSource()
-    private var headerDataArray: [CalendarItem] = []
-    private var collectionViewNSLayoutConstraint: NSLayoutConstraint?
-    private var didHighlightItemIndexPath: IndexPath = []
-
-    init(viewModel: CalendarViewModelType = CalendarViewModel()) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var cardCollectionViewItems: [Date] = []
+    private var selectedItem: CalendarItem?
+    private var selectedCardIndexPath: IndexPath = []
 
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        setupBarButtonItem()
-        setupSwipeGestureRecognizer()
         setupCollectionView() // collectionViewの設定をするメソッド
         setupTableView() // tableViewの設定をするメソッド
-        navigationItem.title = "カレンダー"
-        calendarTableViewDataSource.delegate = self
         viewModel.inputs.onViewDidLoad()
     }
 
@@ -59,66 +39,39 @@ final class CalendarViewController: UIViewController,
         viewModel.inputs.onViewWillApper()
     }
 
-    private func setupBarButtonItem() {
-        let nextBarButton =
-        UIBarButtonItem(
-            image: UIImage(systemName: "square.and.pencil"),
-            style: .plain,
-            target: self,
-            action: #selector(didTapInputBarButton)
-        )
-        navigationItem.rightBarButtonItem = nextBarButton
-    }
-
-    private func setupSwipeGestureRecognizer() {
-        let directionArray: [UISwipeGestureRecognizer.Direction] = [.right, .left]
-        directionArray.forEach {
-            let swipeRecognizer = UISwipeGestureRecognizer(
-                target: self,
-                action: #selector(collectionViewSwipeGesture(sender:))
-            )
-            swipeRecognizer.direction = $0
-            calendarCollectionView.addGestureRecognizer(swipeRecognizer)
-        }
-    }
-
     // swiftlint:disable:next function_body_length
     private func setupBinding() {
         nextBarButtonItem.rx.tap
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.didHighlightItemIndexPath = []
-                self.viewModel.inputs.didActionNextMonth()
+                // 次のカードがない場合、何もしない
+                guard let self = self,
+                      self.selectedCardIndexPath.row != self.cardCollectionViewItems.count - 1 else {
+                    return
+                }
+                self.showNextMonth()
             })
             .disposed(by: disposeBag)
 
         lastBarButtonItem.rx.tap
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.didHighlightItemIndexPath = []
-                self.viewModel.inputs.didActionLastMonth()
+                // 前のカードがない場合、何もしない
+                guard let self = self, self.selectedCardIndexPath.row != 0 else { return }
+                self.showLastMonth()
             })
             .disposed(by: disposeBag)
 
-        let collectionViewDataObservable = viewModel.outputs.collectionViewItemObservable
-            .share()
-
-        collectionViewDataObservable
-            .bind(to: calendarCollectionView.rx.items(dataSource: calendarCollectionViewDataSource))
-            .disposed(by: disposeBag)
-
-        collectionViewDataObservable
-            .subscribe(onNext: setupCollectionViewNSLayoutConstraint(secondSectionItemData:))
-            .disposed(by: disposeBag)
-
-        viewModel.outputs.tableViewItemObservable
-            .bind(to: calendarTableView.rx.items(dataSource: calendarTableViewDataSource))
-            .disposed(by: disposeBag)
-
-        viewModel.outputs.tableViewItemObservable
-            .subscribe(onNext: { [weak self] data in
+        viewModel.outputs.collectionViewItemsObservable
+            .subscribe(onNext: { [weak self] cardCollectionViewItems in
                 guard let strongSelf = self else { return }
-                strongSelf.headerDataArray = data
+                strongSelf.cardCollectionViewItems = cardCollectionViewItems
+                strongSelf.cardCollectionView.reloadData()
+                if !cardCollectionViewItems.isEmpty {
+                    strongSelf.selectedCardIndexPath = IndexPath(row: cardCollectionViewItems.count / 2, section: 0)
+                    strongSelf.cardCollectionView.scrollToItem(
+                        at: strongSelf.selectedCardIndexPath,
+                        at: .centeredHorizontally,
+                        animated: false)
+                }
             })
             .disposed(by: disposeBag)
 
@@ -154,21 +107,6 @@ final class CalendarViewController: UIViewController,
             .disposed(by: disposeBag)
     }
 
-    private func setupCollectionViewNSLayoutConstraint(secondSectionItemData: [CalendarItem]) {
-        let numberOfWeeksInMonth: CGFloat = ceil(CGFloat(secondSectionItemData.count / 7))
-        collectionViewNSLayoutConstraint?.isActive = false
-        collectionViewNSLayoutConstraint =
-        calendarCollectionView.heightAnchor.constraint(
-            equalToConstant:
-                weekdayCellHeight
-            + dayCellHeight * numberOfWeeksInMonth
-            + spaceOfCell * (numberOfWeeksInMonth - 1)
-            + insetForSection.bottom * 2
-            + insetForSection.top * 2
-        )
-        collectionViewNSLayoutConstraint?.isActive = true
-    }
-
     private func animateActivityIndicatorView(isAnimated: Bool) {
         if isAnimated {
             showProgress()
@@ -197,16 +135,16 @@ final class CalendarViewController: UIViewController,
 
     // collectionViewの設定
     private func setupCollectionView() {
-        calendarCollectionView.register(
-            CalendarWeekdayCollectionViewCell.nib,
-            forCellWithReuseIdentifier: CalendarWeekdayCollectionViewCell.identifier
+        cardCollectionView.register(
+            CardCollectionViewCell.nib,
+            forCellWithReuseIdentifier: CardCollectionViewCell.identifier
         )
-        calendarCollectionView.register(
-            CalendarDayCollectionViewCell.nib,
-            forCellWithReuseIdentifier: CalendarDayCollectionViewCell.identifier
-        )
-        calendarCollectionView.rx.setDelegate(self).disposed(by: disposeBag)
-        calendarCollectionView.backgroundColor = UIColor.separator
+        cardCollectionView.dataSource = self
+        cardCollectionView.delegate = self
+        let layout = CardCollectionViewFlowLayout()
+        layout.delegate = self
+        cardCollectionView.collectionViewLayout = layout
+        cardCollectionView.decelerationRate = .fast
     }
 
     // tableViewの設定
@@ -216,107 +154,167 @@ final class CalendarViewController: UIViewController,
             forCellReuseIdentifier: CalendarTableViewCell.identifier
         )
         calendarTableView.register(
-            CalendarTableViewHeaderFooterView.nib,
-            forHeaderFooterViewReuseIdentifier: CalendarTableViewHeaderFooterView.identifier
+            CalendarTableViewHeaderCell.nib,
+            forCellReuseIdentifier: CalendarTableViewHeaderCell.identifier
         )
-        if #available(iOS 15.0, *) {
-            calendarTableView.sectionHeaderTopPadding = 0
+        calendarTableView.delegate = self
+        calendarTableView.dataSource = self
+    }
+
+    private func showNextMonth() {
+        viewModel.inputs.didActionNextMonth()
+        selectedCardIndexPath.formIndex(&selectedCardIndexPath.row, offsetBy: 1)
+        cardCollectionView.scrollToItem(
+            at: selectedCardIndexPath,
+            at: .centeredHorizontally,
+            animated: true
+        )
+        setBarButtonItem()
+    }
+
+    private func showLastMonth() {
+        viewModel.inputs.didActionLastMonth()
+        selectedCardIndexPath.formIndex(&selectedCardIndexPath.row, offsetBy: -1)
+        cardCollectionView.scrollToItem(
+            at: selectedCardIndexPath,
+            at: .centeredHorizontally,
+            animated: true
+        )
+        setBarButtonItem()
+    }
+
+    private func setBarButtonItem() {
+        if selectedCardIndexPath.row == cardCollectionViewItems.count - 1 {
+            nextBarButtonItem.isEnabled = false
+            nextBarButtonItem.tintColor = .clear
+        } else {
+            nextBarButtonItem.isEnabled = true
+            nextBarButtonItem.tintColor = UIColor(named: "s333333")
         }
-        calendarTableView.rx.setDelegate(self).disposed(by: disposeBag)
-    }
 
-    // MARK: - @objc(BarButtonItem)
-    @objc private func didTapInputBarButton() {
-        viewModel.inputs.didTapInputBarButton(didHighlightItem: didHighlightItemIndexPath)
-    }
-
-    // MARK: - @objc(SwipeGestureRecognizer)
-    @objc private func collectionViewSwipeGesture(sender: UISwipeGestureRecognizer) {
-        switch sender.direction {
-        case UISwipeGestureRecognizer.Direction.right:
-            viewModel.inputs.didActionLastMonth()
-        case UISwipeGestureRecognizer.Direction.left:
-            viewModel.inputs.didActionNextMonth()
-        default:
-            break
+        if selectedCardIndexPath.row == 0 {
+            lastBarButtonItem.isEnabled = false
+            lastBarButtonItem.tintColor = .clear
+        } else {
+            lastBarButtonItem.isEnabled = true
+            lastBarButtonItem.tintColor = UIColor(named: "s333333")
         }
     }
+}
 
-    // MARK: - UICollectionViewDelegate
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        didHighlightItemIndexPath = indexPath
-    }
-
-    // MARK: - UICollectionViewDelegateFlowLayout
-    private let spaceOfCell: CGFloat = 1 // セルの間隔
-    private let weekdayCellHeight: CGFloat = 20 // 週のセルの高さ
-    private let dayCellHeight: CGFloat = 40 // 日付のセルの高さ
-    private let numberOfDaysInWeek: CGFloat = 7 // 1週間の日数
-    private let insetForSection = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+// MARK: - UICollectionViewDelegateFlowLayout
+extension CalendarViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var height: CGFloat
-        switch indexPath.section {
-        case 0:
-            height = weekdayCellHeight
-        case 1:
-            height = dayCellHeight
-        default:
-            fatalError("collectionViewで想定していないsection")
+        return CGSize(width: collectionView.frame.width - 52, height: 315)
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        guard let collectionView = scrollView as? UICollectionView,
+        let layout = collectionView.collectionViewLayout as? CardCollectionViewFlowLayout else {
+            return
         }
+        layout.prepareForPaging()
+    }
+}
 
-        let totalItemWidth: CGFloat =
-        collectionView.bounds.width
-        - spaceOfCell * (numberOfDaysInWeek - 1)
-        let width: CGFloat = floor(totalItemWidth / numberOfDaysInWeek * 1000) / 1000
+// MARK: - UICollectionViewDataSource
+extension CalendarViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        cardCollectionViewItems.count
+    }
 
-        return CGSize(
-            width: width,
-            height: height
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CardCollectionViewCell.identifier, for: indexPath
+        ) as? CardCollectionViewCell else { return UICollectionViewCell() }
+        cell.configure(
+            displayDate: cardCollectionViewItems[indexPath.row],
+            selectedItem: selectedItem,
+            items: viewModel.outputs.loadCalendarItems(date: cardCollectionViewItems[indexPath.row])
         )
+        cell.delegate = self
+        return cell
     }
+}
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        return insetForSection
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return spaceOfCell
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return spaceOfCell
-    }
-
-    // MARK: - UITableViewDelegate
-    // ヘッダーのタイトルを設定
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let headerView = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: CalendarTableViewHeaderFooterView.identifier)
-                as? CalendarTableViewHeaderFooterView else { return nil }
-        headerView.configure(data: headerDataArray[section])
-        headerView.tintColor = .systemGray.withAlphaComponent(0.1)
-        return headerView
-    }
-
+// MARK: - UITableViewDelegate
+extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: cellが選択された時の処理を実装
         viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
+}
 
-    // MARK: - CalendarTableViewDataSourceDelegate
-    // 自作delegate
-    func didDeleteCell(index: IndexPath) {
-        viewModel.inputs.didDeleateCell(indexPath: index)
+// MARK: - UITableViewDataSource
+extension CalendarViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let dataArray = selectedItem?.dataArray, !dataArray.isEmpty else {
+            return 0
+        }
+        return (dataArray.count) + 1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CalendarTableViewHeaderCell.identifier
+            ) as? CalendarTableViewHeaderCell,
+                  let selectedItem = selectedItem else {
+                return UITableViewCell()
+            }
+            cell.configure(calendarItem: selectedItem)
+            return cell
+        } else {
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CalendarTableViewCell.identifier
+            ) as? CalendarTableViewCell,
+                  let selectedItem = selectedItem else {
+                return UITableViewCell()
+            }
+            cell.configure(data: selectedItem.dataArray[indexPath.row - 1])
+            return cell
+        }
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true // cellの変更を許可
+    }
+
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // TODO: 削除処理を実装
+            viewModel.inputs.didDeleateCell(indexPath: indexPath)
+        }
+    }
+}
+
+// MARK: - CardCollectionViewFlowLayoutDelegate
+extension CalendarViewController: CardCollectionViewFlowLayoutDelegate {
+    func didSwipeCard(displayCardIndexPath: IndexPath) {
+        let distance = selectedCardIndexPath.distance(from: selectedCardIndexPath.row, to: displayCardIndexPath.row)
+        if distance > 0 {
+            showNextMonth()
+        } else if distance < 0 {
+            showLastMonth()
+        }
+    }
+}
+
+// MARK: - CardCollectionViewCellDelegate
+extension CalendarViewController: CardCollectionViewCellDelegate {
+    func didSelectItemAt(calendarItem: CalendarItem) {
+        selectedItem = calendarItem
+        cardCollectionView.visibleCells.forEach { cell in
+            if let cardCollectionViewCell = cell as? CardCollectionViewCell {
+                cardCollectionViewCell.reloadSelectedItem(selectedItem: calendarItem)
+            }
+        }
+        calendarTableView.reloadData()
     }
 }

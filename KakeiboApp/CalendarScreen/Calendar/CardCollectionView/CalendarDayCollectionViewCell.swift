@@ -11,6 +11,13 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var dayLabel: UILabel!
     @IBOutlet private weak var balanceLabel: UILabel!
 
+    override var isSelected: Bool {
+        didSet {
+            dayLabel.backgroundColor = isSelected ? UIColor(named: CalendarColorName.seashell.rawValue) : .clear
+            dayLabel.font = isSelected ? .boldSystemFont(ofSize: 12) : .systemFont(ofSize: 12)
+        }
+    }
+
     // ラベルのテキストを設定
     func configure(calendarItem: CalendarItem, index: Int) {
         dayLabel.text = DateUtility.stringFromDate(date: calendarItem.date, format: "d")
@@ -35,6 +42,10 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
             dayLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
         default:
             dayLabel.textColor = UIColor(named: CalendarColorName.spaceCadet.rawValue)
+        }
+
+        if !calendarItem.isCalendarMonth {
+            dayLabel.textColor = UIColor(named: "sD1D1D6")
         }
     }
 }

@@ -13,14 +13,6 @@ class CalendarTableViewCell: UITableViewCell {
     @IBOutlet private weak var balanceLabel: UILabel!
     @IBOutlet private weak var memoLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-
     func configure(data: (CategoryData, KakeiboData)) {
         categoryLabel.text = data.0.name
         memoLabel.text = data.1.memo
