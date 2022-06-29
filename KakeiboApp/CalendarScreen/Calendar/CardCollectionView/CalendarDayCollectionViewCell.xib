@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,41 +12,55 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CalendarDayCollectionViewCell" customModule="KakeiboApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+            <rect key="frame" x="0.0" y="0.0" width="50" height="52"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                <rect key="frame" x="0.0" y="0.0" width="50" height="52"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="NA9-xK-nSR">
-                        <rect key="frame" x="9.5" y="23" width="31" height="15"/>
+                        <rect key="frame" x="9.5" y="32.5" width="31" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" name="s333333"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4W-cZ-x4O">
-                        <rect key="frame" x="5" y="5" width="31" height="14.5"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="25" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h4W-cZ-x4O">
+                        <rect key="frame" x="12.5" y="6.5" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="GNv-er-jlv"/>
+                            <constraint firstAttribute="width" constant="25" id="KXR-k6-7aO"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <nil key="textColor"/>
+                        <color key="textColor" name="s333333"/>
                         <nil key="highlightedColor"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <real key="value" value="12.5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </label>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstItem="h4W-cZ-x4O" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" constant="-7" id="1nc-qi-jkS"/>
+                <constraint firstItem="NA9-xK-nSR" firstAttribute="top" secondItem="h4W-cZ-x4O" secondAttribute="bottom" constant="1" id="ASA-z1-H0B"/>
                 <constraint firstItem="NA9-xK-nSR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="0.5" id="FHh-SG-msa"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NA9-xK-nSR" secondAttribute="trailing" constant="0.5" id="V63-g9-N47"/>
                 <constraint firstItem="NA9-xK-nSR" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="Zxw-5g-AX7"/>
-                <constraint firstItem="h4W-cZ-x4O" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="bv6-eJ-hEh"/>
-                <constraint firstItem="h4W-cZ-x4O" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="jeO-Ld-d2p"/>
-                <constraint firstAttribute="bottom" secondItem="NA9-xK-nSR" secondAttribute="bottom" constant="2" id="pnX-Ve-vX2"/>
+                <constraint firstItem="h4W-cZ-x4O" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="ckK-ld-jeY"/>
             </constraints>
-            <size key="customSize" width="50" height="42"/>
+            <size key="customSize" width="50" height="54"/>
             <connections>
                 <outlet property="balanceLabel" destination="NA9-xK-nSR" id="SHQ-EY-6uG"/>
                 <outlet property="dayLabel" destination="h4W-cZ-x4O" id="2SG-YZ-7Gp"/>
             </connections>
-            <point key="canvasLocation" x="-226.08695652173915" y="81.361607142857139"/>
+            <point key="canvasLocation" x="-226.08695652173915" y="84.375"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <namedColor name="s333333">
+            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

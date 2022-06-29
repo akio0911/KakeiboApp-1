@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" rowHeight="45" id="KGk-i7-Jjw" customClass="CalendarTableViewCell" customModule="KakeiboApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="295.5" height="45"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vvJ-5C-lhI">
+                        <rect key="frame" x="0.0" y="0.0" width="295.5" height="44"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Expense" translatesAutoresizingMaskIntoConstraints="NO" id="wb4-dc-tRK">
+                                <rect key="frame" x="16" y="12" width="40" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="DcW-Iz-4Kh"/>
+                                    <constraint firstAttribute="width" constant="40" id="g8b-a3-8t7"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="飲食費" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0DD-UZ-Vwj">
+                                <rect key="frame" x="64" y="13.5" width="43" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" name="s333333"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="4,444,444円" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxZ-d6-ztN">
+                                <rect key="frame" x="212.5" y="13.5" width="83" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" name="s333333"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="コンビニ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4U-Wv-3w2">
+                                <rect key="frame" x="115" y="15" width="89.5" height="14.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" name="s333333"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" name="sFFFFFF"/>
+                        <constraints>
+                            <constraint firstItem="wb4-dc-tRK" firstAttribute="leading" secondItem="vvJ-5C-lhI" secondAttribute="leading" constant="16" id="06B-Pa-GSA"/>
+                            <constraint firstItem="wb4-dc-tRK" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="0Ci-7Q-D8F"/>
+                            <constraint firstAttribute="trailing" secondItem="cxZ-d6-ztN" secondAttribute="trailing" id="1A5-OR-V88"/>
+                            <constraint firstItem="p4U-Wv-3w2" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="32m-kP-Gsh"/>
+                            <constraint firstAttribute="height" constant="44" id="4XT-1o-BfY"/>
+                            <constraint firstItem="p4U-Wv-3w2" firstAttribute="leading" secondItem="0DD-UZ-Vwj" secondAttribute="trailing" constant="8" id="EKu-V6-htc"/>
+                            <constraint firstItem="0DD-UZ-Vwj" firstAttribute="leading" secondItem="wb4-dc-tRK" secondAttribute="trailing" constant="8" id="Zch-cv-sVx"/>
+                            <constraint firstItem="cxZ-d6-ztN" firstAttribute="leading" secondItem="p4U-Wv-3w2" secondAttribute="trailing" constant="8" id="goX-PS-8JR"/>
+                            <constraint firstItem="cxZ-d6-ztN" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="hE3-tH-iSE"/>
+                            <constraint firstItem="0DD-UZ-Vwj" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="vyK-N2-mcU"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="vvJ-5C-lhI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="GWv-34-NzC"/>
+                    <constraint firstAttribute="trailing" secondItem="vvJ-5C-lhI" secondAttribute="trailing" id="P9C-4j-Dm6"/>
+                    <constraint firstItem="vvJ-5C-lhI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="oUX-R8-eeV"/>
+                    <constraint firstAttribute="bottom" secondItem="vvJ-5C-lhI" secondAttribute="bottom" id="qIB-Jj-jJ8"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" name="sFFFFFF"/>
+            <connections>
+                <outlet property="balanceImageView" destination="wb4-dc-tRK" id="eTh-7M-kzq"/>
+                <outlet property="balanceLabel" destination="cxZ-d6-ztN" id="Xra-ED-qmG"/>
+                <outlet property="categoryLabel" destination="0DD-UZ-Vwj" id="4v4-5b-seI"/>
+                <outlet property="memoLabel" destination="p4U-Wv-3w2" id="aDL-sV-OLx"/>
+            </connections>
+            <point key="canvasLocation" x="-23.188405797101453" y="120.20089285714285"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Expense" width="500" height="250"/>
+        <namedColor name="s333333">
+            <color red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="sFFFFFF">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

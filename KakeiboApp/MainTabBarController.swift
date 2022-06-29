@@ -67,28 +67,42 @@ final class MainTabBarController: UITabBarController {
     private func setupTabBarController() {
         var viewControllers: [UIViewController] = []
 
-        let calendarViewController = CalendarViewController()
-        calendarViewController.tabBarItem = UITabBarItem(
-            title: "カレンダー",
-            image: UIImage(systemName: "calendar"),
-            tag: 0
-        )
+        guard let calendarViewController = UIStoryboard(name: "Calendar", bundle: nil).instantiateInitialViewController() else {
+            return
+        }
+        var calendarTabBarItem: UITabBarItem {
+            let calendarTabBarItem = UITabBarItem(
+                title: "カレンダー",
+                image: UIImage(systemName: "calendar"),
+                selectedImage: UIImage(systemName: "calendar")
+            )
+            return calendarTabBarItem
+        }
+        calendarViewController.tabBarItem = calendarTabBarItem
         viewControllers.append(calendarViewController)
 
         let graphViewController = GraphViewController()
-        graphViewController.tabBarItem = UITabBarItem(
-            title: "グラフ",
-            image: UIImage(systemName: "chart.pie"),
-            tag: 1
-        )
+        var graphTabBarItem: UITabBarItem {
+            let graphTabBarItem = UITabBarItem(
+                title: "グラフ",
+                image: UIImage(systemName: "chart.pie"),
+                selectedImage: UIImage(systemName: "chart.pie.fill")
+            )
+            return graphTabBarItem
+        }
+        graphViewController.tabBarItem = graphTabBarItem
         viewControllers.append(graphViewController)
 
         let accountViewController = AccountViewController()
-        accountViewController.tabBarItem = UITabBarItem(
-            title: "アカウント",
-            image: UIImage(systemName: "person"),
-            tag: 2
-        )
+        var accountTabBarItem: UITabBarItem {
+            let accountTabBarItem = UITabBarItem(
+                title: "アカウント",
+                image: UIImage(systemName: "person"),
+                selectedImage: UIImage(systemName: "person.fill")
+            )
+            return accountTabBarItem
+        }
+        accountViewController.tabBarItem = accountTabBarItem
         viewControllers.append(accountViewController)
 
         let navigationControllers =
