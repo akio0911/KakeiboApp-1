@@ -281,6 +281,9 @@ extension CalendarViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard indexPath.row != 0 else {
+            return false
+        }
         return true // cellの変更を許可
     }
 
