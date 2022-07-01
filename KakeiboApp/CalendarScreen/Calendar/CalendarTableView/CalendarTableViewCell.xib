@@ -40,13 +40,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="4,444,444円" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxZ-d6-ztN">
-                                <rect key="frame" x="212.5" y="13.5" width="83" height="17"/>
+                                <rect key="frame" x="204.5" y="13.5" width="83" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" name="s333333"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="コンビニ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p4U-Wv-3w2">
-                                <rect key="frame" x="115" y="15" width="89.5" height="14.5"/>
+                                <rect key="frame" x="115" y="15" width="79.5" height="14.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" name="s333333"/>
                                 <nil key="highlightedColor"/>
@@ -56,12 +56,12 @@
                         <constraints>
                             <constraint firstItem="wb4-dc-tRK" firstAttribute="leading" secondItem="vvJ-5C-lhI" secondAttribute="leading" constant="16" id="06B-Pa-GSA"/>
                             <constraint firstItem="wb4-dc-tRK" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="0Ci-7Q-D8F"/>
-                            <constraint firstAttribute="trailing" secondItem="cxZ-d6-ztN" secondAttribute="trailing" id="1A5-OR-V88"/>
+                            <constraint firstAttribute="trailing" secondItem="cxZ-d6-ztN" secondAttribute="trailing" constant="8" id="1A5-OR-V88"/>
                             <constraint firstItem="p4U-Wv-3w2" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="32m-kP-Gsh"/>
                             <constraint firstAttribute="height" constant="44" id="4XT-1o-BfY"/>
                             <constraint firstItem="p4U-Wv-3w2" firstAttribute="leading" secondItem="0DD-UZ-Vwj" secondAttribute="trailing" constant="8" id="EKu-V6-htc"/>
                             <constraint firstItem="0DD-UZ-Vwj" firstAttribute="leading" secondItem="wb4-dc-tRK" secondAttribute="trailing" constant="8" id="Zch-cv-sVx"/>
-                            <constraint firstItem="cxZ-d6-ztN" firstAttribute="leading" secondItem="p4U-Wv-3w2" secondAttribute="trailing" constant="8" id="goX-PS-8JR"/>
+                            <constraint firstItem="cxZ-d6-ztN" firstAttribute="leading" secondItem="p4U-Wv-3w2" secondAttribute="trailing" constant="10" id="goX-PS-8JR"/>
                             <constraint firstItem="cxZ-d6-ztN" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="hE3-tH-iSE"/>
                             <constraint firstItem="0DD-UZ-Vwj" firstAttribute="centerY" secondItem="vvJ-5C-lhI" secondAttribute="centerY" id="vyK-N2-mcU"/>
                         </constraints>

@@ -18,6 +18,8 @@ final class CalendarViewController: UIViewController {
     @IBOutlet private weak var incomeLabel: UILabel! // 収入ラベル
     @IBOutlet private weak var expenseLabel: UILabel! // 支出ラベル
     @IBOutlet private weak var balanceLabel: UILabel! // 収支ラベル
+    @IBOutlet private weak var footerView: UIView!
+    @IBOutlet private weak var noDataLabel: UILabel!
 
     private let viewModel: CalendarViewModelType = CalendarViewModel()
     private let disposeBag = DisposeBag()
@@ -253,8 +255,12 @@ extension CalendarViewController: UITableViewDelegate {
 extension CalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let dataArray = selectedItem?.dataArray, !dataArray.isEmpty else {
+            noDataLabel.isHidden = false
+            footerView.frame.size.height = 76
             return 0
         }
+        noDataLabel.isHidden = true
+        footerView.frame.size.height = 42
         return (dataArray.count) + 1
     }
 
