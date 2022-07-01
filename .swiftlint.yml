@@ -12,3 +12,4 @@ opt_in_rules:
 
 excluded:
   - Pods
+  - KakeiboApp/R.generated.swift

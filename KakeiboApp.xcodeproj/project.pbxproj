@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -71,6 +71,7 @@
 		478F50572866E70A00983DA1 /* CalendarDayCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F50562866E70A00983DA1 /* CalendarDayCollectionViewCell.swift */; };
 		478F505A286C959000983DA1 /* CalendarTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F5058286C959000983DA1 /* CalendarTableViewHeaderCell.swift */; };
 		478F505B286C959000983DA1 /* CalendarTableViewHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 478F5059286C959000983DA1 /* CalendarTableViewHeaderCell.xib */; };
+		478F5060286F4FCE00983DA1 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F505F286F4FCE00983DA1 /* R.generated.swift */; };
 		478F93E8273150E400D58719 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E7273150E400D58719 /* AuthError.swift */; };
 		478F93EA2731766500D58719 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E92731766500D58719 /* UserInfo.swift */; };
 		4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911126F59E4500BD5B38 /* CategoryViewController.swift */; };
@@ -179,6 +180,7 @@
 		478F50562866E70A00983DA1 /* CalendarDayCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDayCollectionViewCell.swift; sourceTree = "<group>"; };
 		478F5058286C959000983DA1 /* CalendarTableViewHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		478F5059286C959000983DA1 /* CalendarTableViewHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewHeaderCell.xib; sourceTree = "<group>"; };
+		478F505F286F4FCE00983DA1 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		478F93E7273150E400D58719 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		478F93E92731766500D58719 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		4799911126F59E4500BD5B38 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				4723D7FB285E057A00E8440A /* EventBus.swift */,
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
+				478F505F286F4FCE00983DA1 /* R.generated.swift */,
 				4781570C266128C8005E1020 /* LaunchScreen.storyboard */,
 				4781570F266128C8005E1020 /* Info.plist */,
 			);
@@ -682,11 +685,12 @@
 			buildConfigurationList = 47815712266128C8005E1020 /* Build configuration list for PBXNativeTarget "KakeiboApp" */;
 			buildPhases = (
 				D777A9B962C71507BE0EAD5E /* [CP] Check Pods Manifest.lock */,
+				478F505C286F4AD600983DA1 /* R.swift */,
 				478156FA266128C8005E1020 /* Sources */,
 				478156FB266128C8005E1020 /* Frameworks */,
 				478156FC266128C8005E1020 /* Resources */,
 				88D6DF58DD4D02A3FD4570AD /* [CP] Embed Pods Frameworks */,
-				47A1E1F127393EC000A8BCCC /* ShellScript */,
+				47A1E1F127393EC000A8BCCC /* swiftLint */,
 				47CCFDA12746138F00B887B2 /* ShellScript */,
 				47DD66342746317F00A96F9B /* ShellScript */,
 				478734AA273392D10028A0AD /* ShellScript */,
@@ -788,7 +792,27 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
-		47A1E1F127393EC000A8BCCC /* ShellScript */ = {
+		478F505C286F4AD600983DA1 /* R.swift */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = R.swift;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				$SRCROOT/$PROJECT_NAME/R.generated.swift,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/$PROJECT_NAME/R.generated.swift\"\n";
+		};
+		47A1E1F127393EC000A8BCCC /* swiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -797,9 +821,11 @@
 			);
 			inputPaths = (
 			);
+			name = swiftLint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/newOutputFile",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -948,6 +974,7 @@
 				474D6B7A273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift in Sources */,
 				472F6F542725996A00DB44E9 /* AuthType.swift in Sources */,
 				4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */,
+				478F5060286F4FCE00983DA1 /* R.generated.swift in Sources */,
 				478734A927335CA70028A0AD /* ExtensionArray.swift in Sources */,
 				478F504F286635DE00983DA1 /* ExtensionCALayer.swift in Sources */,
 				473995882692BE2500BD1286 /* ExtensionUITableViewHeaderFooterView.swift in Sources */,
