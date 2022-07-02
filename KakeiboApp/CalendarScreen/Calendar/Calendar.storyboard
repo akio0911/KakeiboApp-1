@@ -125,7 +125,7 @@
                                                                             </constraints>
                                                                         </imageView>
                                                                     </subviews>
-                                                                    <color key="backgroundColor" name="safetyOrangeBlazeOrange"/>
+                                                                    <color key="backgroundColor" name="sFF6800"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="30" id="9hI-nw-AGt"/>
                                                                         <constraint firstAttribute="height" constant="30" id="Izz-xJ-o7C"/>
@@ -257,7 +257,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" title="データを入力する">
-                                                        <color key="titleColor" name="safetyOrangeBlazeOrange"/>
+                                                        <color key="titleColor" name="sFF6800"/>
                                                     </state>
                                                 </button>
                                             </subviews>
@@ -325,11 +325,11 @@
         <namedColor name="sF2F2F7">
             <color red="0.94900000095367432" green="0.94900000095367432" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="sFF6800">
+            <color red="1" green="0.40784313725490196" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="sFFFFFF">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="safetyOrangeBlazeOrange">
-            <color red="1" green="0.40799999237060547" blue="0.039000000804662704" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

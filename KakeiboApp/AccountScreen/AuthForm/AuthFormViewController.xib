@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -48,7 +49,7 @@
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1v-ym-drK">
                                     <rect key="frame" x="108" y="442.5" width="180" height="40"/>
-                                    <color key="backgroundColor" red="1" green="0.7330663248" blue="0.36988612580000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="backgroundColor" name="sFF9B00"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="180" id="Y3q-ML-Qi4"/>
                                         <constraint firstAttribute="height" constant="40" id="lOv-NZ-dn7"/>
@@ -81,7 +82,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                            <color key="backgroundColor" name="sFF9B00"/>
                                                             <constraints>
                                                                 <constraint firstItem="MOF-ug-Wd9" firstAttribute="centerX" secondItem="P9g-5e-hym" secondAttribute="centerX" id="XX7-dL-Oa9"/>
                                                                 <constraint firstItem="MOF-ug-Wd9" firstAttribute="centerY" secondItem="P9g-5e-hym" secondAttribute="centerY" id="k3k-PU-FWH"/>
@@ -114,7 +115,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                            <color key="backgroundColor" name="sFF9B00"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="cdg-b5-PRw"/>
                                                                 <constraint firstAttribute="height" constant="40" id="hMk-9O-gH8"/>
@@ -147,7 +148,7 @@
                                                                     </constraints>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                            <color key="backgroundColor" name="sFF9B00"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="40" id="B1g-PH-Pu0"/>
                                                                 <constraint firstItem="vTn-EB-GFp" firstAttribute="centerY" secondItem="yIz-eB-FUd" secondAttribute="centerY" id="Bdv-VL-NKL"/>
@@ -234,7 +235,7 @@
                 <constraint firstItem="xL1-Cr-Uzi" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="c75-FP-hSk"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <point key="canvasLocation" x="746" y="-71"/>
+            <point key="canvasLocation" x="744.92753623188412" y="-71.651785714285708"/>
         </view>
     </objects>
     <resources>
@@ -243,11 +244,11 @@
         <image name="eye" catalog="system" width="128" height="81"/>
         <image name="lock" catalog="system" width="128" height="128"/>
         <image name="person" catalog="system" width="128" height="117"/>
+        <namedColor name="sFF9B00">
+            <color red="1" green="0.60784313725490191" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

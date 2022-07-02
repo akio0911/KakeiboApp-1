@@ -40,11 +40,11 @@ final class BalanceSegmentedControlView: UIView {
                                          barMetrics: .default)
         segmentedControl.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedString.Key.foregroundColor: UIColor.lightGray
+            NSAttributedString.Key.foregroundColor: R.color.s999999()!
         ], for: .normal)
         segmentedControl.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedString.Key.foregroundColor: UIColor.orange
+            NSAttributedString.Key.foregroundColor: R.color.sFF9B00()!
         ], for: .selected)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         addSubview(segmentedControl)

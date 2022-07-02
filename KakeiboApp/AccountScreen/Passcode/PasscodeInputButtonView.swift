@@ -64,13 +64,13 @@ final class PasscodeInputButtonView: UIView {
     private func createNumberButton(title: String) -> UIButton {
         let button = UIButton()
         let attributedTitleNormal: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.foregroundColor: UIColor.label,
+            NSAttributedString.Key.foregroundColor: R.color.s333333()!,
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 27)
         ]
         let stringNormal = NSAttributedString(string: title, attributes: attributedTitleNormal)
         button.setAttributedTitle(stringNormal, for: .normal)
         let attributedTitleHighlighted: [NSAttributedString.Key: Any] = [
-            NSAttributedString.Key.foregroundColor: UIColor.label.withAlphaComponent(0.5),
+            NSAttributedString.Key.foregroundColor: R.color.s333333()!.withAlphaComponent(0.5),
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 27)
         ]
         let stringHighlighted = NSAttributedString(string: title, attributes: attributedTitleHighlighted)

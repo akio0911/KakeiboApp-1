@@ -191,7 +191,7 @@ final class CalendarViewController: UIViewController {
             nextBarButtonItem.tintColor = .clear
         } else {
             nextBarButtonItem.isEnabled = true
-            nextBarButtonItem.tintColor = UIColor(named: "s333333")
+            nextBarButtonItem.tintColor = R.color.s333333()
         }
 
         if selectedCardIndexPath.row == 0 {
@@ -199,7 +199,7 @@ final class CalendarViewController: UIViewController {
             lastBarButtonItem.tintColor = .clear
         } else {
             lastBarButtonItem.isEnabled = true
-            lastBarButtonItem.tintColor = UIColor(named: "s333333")
+            lastBarButtonItem.tintColor = R.color.s333333()
         }
     }
 }

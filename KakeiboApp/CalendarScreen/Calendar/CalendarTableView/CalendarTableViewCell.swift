@@ -20,11 +20,11 @@ class CalendarTableViewCell: UITableViewCell {
         case .income(let income):
             balanceImageView.image = UIImage(named: CalendarImageName.income.rawValue)
             balanceLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: income) ?? "0円"
-            balanceLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
+            balanceLabel.textColor = R.color.s00A1E4()
         case .expense(let expense):
             balanceImageView.image = UIImage(named: CalendarImageName.expense.rawValue)
             balanceLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: expense) ?? "0円"
-            balanceLabel.textColor = UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
+            balanceLabel.textColor = R.color.sFF6800()
         }
     }
 }

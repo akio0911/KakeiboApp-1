@@ -21,20 +21,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // NavigationBarの設定
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.backgroundColor = UIColor(named: "sFFFFFF")
+        navigationBarAppearance.backgroundColor = R.color.sFFFFFF()
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-        UINavigationBar.appearance().barTintColor = UIColor(named: "s333333")
+        UINavigationBar.appearance().barTintColor = R.color.s333333()
 
         // TabBarの設定
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
-        tabBarAppearance.backgroundColor = UIColor(named: "sFFFFFF")
+        tabBarAppearance.backgroundColor = R.color.sFFFFFF()
         UITabBar.appearance().standardAppearance = tabBarAppearance
         if #available(iOS 15.0, *) {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
-        UITabBar.appearance().tintColor = UIColor(named: "s333333")
+        UITabBar.appearance().tintColor = R.color.s333333()
 
         let firebaseAuth = Auth.auth()
         if firebaseAuth.currentUser == nil {
