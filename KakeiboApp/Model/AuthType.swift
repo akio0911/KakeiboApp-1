@@ -77,7 +77,7 @@ final class AuthType: AuthTypeProtocol {
 
     func currentUserLink(password: String, completion: @escaping AuthCompletion) {
         guard let email = UserDefaults.standard.value(forKey: emailKey) as? String else {
-            completion(AuthError.other("お手数おかけしますが、新規登録からやり直してください。"))
+            completion(AuthError.other(R.string.localizable.otherAuthError()))
             return
         }
         // 匿名アカウントを永久アカウントに変換
