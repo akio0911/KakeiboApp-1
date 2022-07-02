@@ -18,11 +18,11 @@ class CalendarTableViewCell: UITableViewCell {
         memoLabel.text = data.1.memo
         switch data.1.balance {
         case .income(let income):
-            balanceImageView.image = UIImage(named: CalendarImageName.income.rawValue)
+            balanceImageView.image = R.image.income()
             balanceLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: income) ?? "0円"
             balanceLabel.textColor = R.color.s00A1E4()
         case .expense(let expense):
-            balanceImageView.image = UIImage(named: CalendarImageName.expense.rawValue)
+            balanceImageView.image = R.image.expense()
             balanceLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: expense) ?? "0円"
             balanceLabel.textColor = R.color.sFF6800()
         }
