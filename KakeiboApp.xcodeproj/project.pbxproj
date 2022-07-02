@@ -71,6 +71,7 @@
 		478F505A286C959000983DA1 /* CalendarTableViewHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F5058286C959000983DA1 /* CalendarTableViewHeaderCell.swift */; };
 		478F505B286C959000983DA1 /* CalendarTableViewHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 478F5059286C959000983DA1 /* CalendarTableViewHeaderCell.xib */; };
 		478F5060286F4FCE00983DA1 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F505F286F4FCE00983DA1 /* R.generated.swift */; };
+		478F50642870659900983DA1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 478F50662870659900983DA1 /* Localizable.strings */; };
 		478F93E8273150E400D58719 /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E7273150E400D58719 /* AuthError.swift */; };
 		478F93EA2731766500D58719 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478F93E92731766500D58719 /* UserInfo.swift */; };
 		4799911326F59E4500BD5B38 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4799911126F59E4500BD5B38 /* CategoryViewController.swift */; };
@@ -179,6 +180,8 @@
 		478F5058286C959000983DA1 /* CalendarTableViewHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewHeaderCell.swift; sourceTree = "<group>"; };
 		478F5059286C959000983DA1 /* CalendarTableViewHeaderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewHeaderCell.xib; sourceTree = "<group>"; };
 		478F505F286F4FCE00983DA1 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		478F50612870652600983DA1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		478F50652870659900983DA1 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		478F93E7273150E400D58719 /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		478F93E92731766500D58719 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		4799911126F59E4500BD5B38 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -458,6 +461,7 @@
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
 				478F505F286F4FCE00983DA1 /* R.generated.swift */,
+				478F50662870659900983DA1 /* Localizable.strings */,
 				4781570C266128C8005E1020 /* LaunchScreen.storyboard */,
 				4781570F266128C8005E1020 /* Info.plist */,
 			);
@@ -714,6 +718,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 478156F5266128C8005E1020;
 			productRefGroup = 478156FF266128C8005E1020 /* Products */;
@@ -734,6 +739,7 @@
 				472EFDD5270456F400A80640 /* PasscodeViewController.xib in Resources */,
 				4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */,
 				472EFDC72704324C00A80640 /* AccountViewController.xib in Resources */,
+				478F50642870659900983DA1 /* Localizable.strings in Resources */,
 				478F50512866E6E000983DA1 /* CalendarWeekdayCollectionViewCell.xib in Resources */,
 				47A6BFF02710531900698113 /* HowToUseTableViewCell.xib in Resources */,
 				47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */,
@@ -985,8 +991,17 @@
 			isa = PBXVariantGroup;
 			children = (
 				4781570D266128C8005E1020 /* Base */,
+				478F50612870652600983DA1 /* ja */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		478F50662870659900983DA1 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				478F50652870659900983DA1 /* ja */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

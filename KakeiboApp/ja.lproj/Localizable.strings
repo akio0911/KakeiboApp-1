@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  KakeiboApp
+
+  Created by 今村京平 on 2022/07/02.
+  
+*/
+
+"invalidEmailReason" = "メールアドレスの形式が正しくありません。";
+"userDisabledReason" = "無効なアカウントです。";
+"wrongPasswordReason" = "パスワードが一致しません。";
+"userNotFoundReason" = "アカウントが見つかりません。";
+"emailAlreadyInUseReason" = "登録済みのメールアドレスです。";
+"weakPasswordReason" = "パスワードが脆弱です。";
+"networkErrorReason" = "ネットワークエラーが発生しました。";
+"missingEmailReason" = "メールアドレスを認識できませんでした。";
+"invalidEmailMessage" = "メールアドレスを正しく入力してください。";
+"userDisabledMessage" = "他のアカウントでログインしてください。";
+"wrongPasswordMessage" = "パスワードを正しく入力してください。";
+"userNotFoundMessage" = "メールアドレスを正しく入力してください。";
+"tooManyRequestsMessage" = "しばらくしてからもう一度お試しください。";
+"emailAlreadyInUseMessage" = "ログイン画面からログインしてください。";
+"weakPasswordMessage" = "第三者から判定されづらいパスワードにしてください。";
+"networkErrorMessage" = "電波の良いところでやり直してください。";
+"missingEmailMessage" = "メールアドレスを正しく入力してください。";
