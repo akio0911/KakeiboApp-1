@@ -36,26 +36,12 @@ final class CategoryInputViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        categoryTextField.inputAccessoryView = toolBar
         setupCornerRadius()
         setupBarButtonItem()
         setupTapGesture()
         setupBinding()
         viewModel.inputs.onViewDidLoad()
     }
-
-    private lazy var toolBar: UIToolbar = {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let doneButton = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(didTapKeyboardDoneButton)
-        )
-        toolbar.setItems([spacer, doneButton], animated: true)
-        return toolbar
-    }()
 
     private func setupCornerRadius() {
         contentsView.forEach { cornerRadius(view: $0, cornerRadius: 10) }
@@ -177,10 +163,6 @@ final class CategoryInputViewController: UIViewController {
     }
 
     @objc func didTapView(_ sender: UITapGestureRecognizer) {
-        view.endEditing(true)
-    }
-
-    @objc func didTapKeyboardDoneButton() {
         view.endEditing(true)
     }
 }
