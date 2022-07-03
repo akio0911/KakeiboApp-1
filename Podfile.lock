@@ -787,6 +787,7 @@ PODS:
     - Libuv-gRPC (= 0.0.10)
   - gRPC-Core/Interface (1.44.0)
   - GTMSessionFetcher/Core (2.0.0)
+  - IQKeyboardManagerSwift (6.5.10)
   - leveldb-library (1.22.1)
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
@@ -820,6 +821,7 @@ DEPENDENCIES:
   - Firebase/Firestore
   - Firebase/Messaging
   - FirebaseFirestoreSwift
+  - IQKeyboardManagerSwift
   - LicensePlist
   - MBProgressHUD (~> 1.2.0)
   - R.swift
@@ -848,6 +850,7 @@ SPEC REPOS:
     - "gRPC-C++"
     - gRPC-Core
     - GTMSessionFetcher
+    - IQKeyboardManagerSwift
     - leveldb-library
     - Libuv-gRPC
     - LicensePlist
@@ -881,6 +884,7 @@ SPEC CHECKSUMS:
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMSessionFetcher: 681175626052e03fdde7952f7e9c7a9785719506
+  IQKeyboardManagerSwift: 52962c76ab33532f15ad9f3ff4e5715eda5335bb
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   LicensePlist: be4f67fadceeba970ed2f13e198592a4f420d2be
@@ -894,6 +898,6 @@ SPEC CHECKSUMS:
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   SwiftLint: f80f1be7fa96d30e0aa68e58d45d4ea1ccaac519
 
-PODFILE CHECKSUM: aaabe8047a9d3d4499c21bffb64726ed6927c62a
+PODFILE CHECKSUM: 834f9af546db1feb52e6067a82fe16986d6f73ac
 
 COCOAPODS: 1.11.2

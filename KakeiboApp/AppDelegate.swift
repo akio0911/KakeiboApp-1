@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseMessaging
 import UserNotifications
+import IQKeyboardManagerSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -27,6 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             completionHandler: { _, _ in }
         )
         application.registerForRemoteNotifications()
+
+        // IQKeyboardManagerを有効にする
+        IQKeyboardManager.shared.enable = true
 
         return true
     }
