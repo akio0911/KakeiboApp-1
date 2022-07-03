@@ -57,7 +57,7 @@ final class InputViewController: UIViewController,
         setupScrollToShowKeyboard()
         configureSaveBtnLayer() // セーブボタンをフィレット
         configureMosaicViewLayer() // モザイク用のviewをフィレット
-        navigationItem.title = "収支入力"
+        navigationItem.title = R.string.localizable.balanceInput()
         incomeCategoryArray = viewModel.outputs.incomeCategoryDataArray
         expenseCategoryArray = viewModel.outputs.expenseCategoryDataArray
         viewModel.inputs.onViewDidLoad()
@@ -218,7 +218,10 @@ final class InputViewController: UIViewController,
 
     private func didTapSaveButton() {
         guard !balanceTextField.text!.isEmpty else {
-            showAlert(title: "収支が未入力です", messege: "支出または収支を入力して下さい") { [weak self] in
+            showAlert(
+                title: R.string.localizable.balanceNotInputErrorTitle(),
+                messege: R.string.localizable.balanceNotInputErrorMessage()
+            ) { [weak self] in
                 self?.balanceTextField.becomeFirstResponder()
             }
             return
@@ -355,6 +358,6 @@ final class InputViewController: UIViewController,
 
 // MARK: - extension Balance
 extension Balance {
-    static let incomeName = "収入"
-    static let expenseName = "支出"
+    static let incomeName = R.string.localizable.income()
+    static let expenseName = R.string.localizable.expense()
 }

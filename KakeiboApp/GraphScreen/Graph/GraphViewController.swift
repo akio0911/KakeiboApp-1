@@ -40,7 +40,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
         setupSwipeGestureRecognizer()
         setupGraphTableView()
         setupSegmentedControlView()
-        navigationItem.title = "グラフ"
+        navigationItem.title = R.string.localizable.graph()
     }
 
     override func viewWillAppear(_ animated: Bool) {

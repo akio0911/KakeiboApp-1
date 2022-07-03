@@ -30,7 +30,6 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private var editingTextField: UITextField?
     private let eyeImage = UIImage(systemName: "eye")
     private let eyeSlashImage = UIImage(systemName: "eye.slash")
-    private let alertTextField = "alertTextField"
 
     init(viewModel: AuthFormViewModelType) {
         self.viewModel = viewModel
@@ -125,7 +124,7 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
     private func setupMode() {
         switch viewModel.outputs.mode {
         case .login:
-            let login = "ログイン"
+            let login = R.string.localizable.login()
             userNameStackView.isHidden = true
             enterButton.setTitle(login, for: .normal)
             setupBarButtonItem(enterButtonTitle: login)
@@ -133,10 +132,10 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
             userNameStackView.isHidden = true
             passwordStackView.isHidden = true
             forgotPasswordButton.isHidden = true
-            enterButton.setTitle("再設定メールを送信", for: .normal)
-            setupBarButtonItem(enterButtonTitle: "送信")
+            enterButton.setTitle(R.string.localizable.resetEmailSend(), for: .normal)
+            setupBarButtonItem(enterButtonTitle: R.string.localizable.sending())
         case .register:
-            let next = "次へ"
+            let next = R.string.localizable.next()
             passwordStackView.isHidden = true
             forgotPasswordButton.isHidden = true
             enterButton.setTitle(next, for: .normal)
@@ -145,8 +144,8 @@ class AuthFormViewController: UIViewController, UITextFieldDelegate {
             userNameStackView.isHidden = true
             mailStackView.isHidden = true
             forgotPasswordButton.isHidden = true
-            enterButton.setTitle("パスワードを設定", for: .normal)
-            setupBarButtonItem(enterButtonTitle: "設定")
+            enterButton.setTitle(R.string.localizable.passwordSetting(), for: .normal)
+            setupBarButtonItem(enterButtonTitle: R.string.localizable.setting())
         }
     }
 

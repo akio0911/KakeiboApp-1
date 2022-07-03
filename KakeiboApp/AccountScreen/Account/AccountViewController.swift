@@ -39,7 +39,7 @@ final class AccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        navigationItem.title = "アカウント"
+        navigationItem.title = R.string.localizable.account()
         setupAccountStackViewSpace()
         setupCornerRadius()
     }

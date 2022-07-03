@@ -56,7 +56,9 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
     private let dateRelay = BehaviorRelay<String>(value: "")
-    private let categoryRelay = BehaviorRelay<String?>(value: "飲食費")
+    private let categoryRelay = BehaviorRelay<String?>(
+        value: R.string.localizable.consumptionExpenses()
+    )
     private let segmentIndexRelay = BehaviorRelay<Int>(value: 0)
     private let balanceRelay = BehaviorRelay<String>(value: "")
     private let memoRelay = BehaviorRelay<String>(value: "")
@@ -116,8 +118,8 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
 
     func didTapSaveButton(balanceText: String, memo: String) {
         guard let userInfo = authType.userInfo else {
-            let alertTitle = "アカウントが見つかりません。"
-            let message = "データの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
+            let alertTitle = R.string.localizable.userNotFoundErrorTitle()
+            let message = R.string.localizable.dataSaveErrorOnNonLogin()
             eventRelay.accept(.showDismissAlert(alertTitle, message))
             return
         }
@@ -130,7 +132,10 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             // 支出
             guard let categoryDataId = expenseCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
                   let balanceInt = Int(balanceText) else {
-                eventRelay.accept(.showAlert("カテゴリー入力または、収支入力に問題があります", "入力内容をご確認ください"))
+                eventRelay.accept(.showAlert(
+                        R.string.localizable.categoryOrBalanceValidationErrorTitle(),
+                        R.string.localizable.categoryOrBalanceValidationErrorMessage()
+                ))
                 return
             }
             categoryId = CategoryId.expense(categoryDataId)
@@ -139,7 +144,10 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             // 収入
             guard let categoryDataId = incomeCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
                   let balanceInt = Int(balanceText) else {
-                eventRelay.accept(.showAlert("カテゴリー入力または、収支入力に問題があります", "入力内容をご確認ください"))
+                eventRelay.accept(.showAlert(
+                        R.string.localizable.categoryOrBalanceValidationErrorTitle(),
+                        R.string.localizable.categoryOrBalanceValidationErrorMessage()
+                ))
                 return
             }
             categoryId = CategoryId.income(categoryDataId)

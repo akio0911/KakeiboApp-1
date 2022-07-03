@@ -38,7 +38,7 @@ class CategoryEditViewController: UIViewController,
         setupBarButtonItem()
         setupBinding()
         categoryEditTableViewDataSource.delegate = self
-        navigationItem.title  = "カテゴリー編集"
+        navigationItem.title  = R.string.localizable.categoryEdit()
         viewModel.inputs.onViewDidLoad()
     }
 

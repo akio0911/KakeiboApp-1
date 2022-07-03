@@ -109,20 +109,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 // 生体認証の種類を判定し、reasonを設定
                 switch localAuthenticationContext.biometryType {
                 case .none:
-                    reason = "生体認証は使用しません"
+                    reason = R.string.localizable.biometryTypeNoneMessage()
                 case .touchID:
-                    reason = "ロック解除のためTouchIDを使用します。"
+                    reason = R.string.localizable.biometryTypeTouchIdMessage()
                 case .faceID:
-                    reason = "ロック解除のためFaceIDを使用します。"
+                    reason = R.string.localizable.biometryTypeFaceIdMessage()
                 @unknown default:
-                    reason = "新しい生体認証を使用します"
+                    reason = R.string.localizable.biometryTypeDefaultMessage()
                 }
             } else {
                 // デバイスで生体認証ができない
                 if let error = error {
                     print("context.canEvaluatePolicy - Error, reason: \(error) ")
                 }
-                reason = "生体認証は使用しません"
+                reason = R.string.localizable.biometryTypeNoneMessage()
             }
 
             // 生体認証を実行

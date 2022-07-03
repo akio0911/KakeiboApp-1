@@ -26,8 +26,8 @@ final class BalanceSegmentedControlView: UIView {
 
     private func setupSegmentedControl() {
         segmentedControl = UISegmentedControl()
-        segmentedControl.insertSegment(withTitle: "支出", at: 0, animated: true)
-        segmentedControl.insertSegment(withTitle: "収入", at: 1, animated: true)
+        segmentedControl.insertSegment(withTitle: R.string.localizable.expense(), at: 0, animated: true)
+        segmentedControl.insertSegment(withTitle: R.string.localizable.income(), at: 1, animated: true)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.backgroundColor = .clear
