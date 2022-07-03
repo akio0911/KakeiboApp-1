@@ -41,19 +41,19 @@ final class PasscodeViewModel: PasscodeViewModelInput, PasscodeViewModelOutput {
             case .create(let times):
                 switch times {
                 case .first:
-                    return "パスコードを入力"
+                    return R.string.localizable.passcodeEntry()
                 case .second(_):
-                    return "新しいパスコードを確認"
+                    return R.string.localizable.newPasscodeValidation()
                 }
             case .unlock:
-                return "パスコードを入力"
+                return R.string.localizable.passcodeEntry()
             }
         }
 
         var navigationTitle: String {
             switch self {
             case .create(_):
-                return "パスコードを設定"
+                return R.string.localizable.passcodeSetting()
             case .unlock:
                 return ""
             }

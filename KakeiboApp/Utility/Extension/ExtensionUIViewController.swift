@@ -13,7 +13,7 @@ extension UIViewController {
     func showAlert(title: String, messege: String, onAccept: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: messege, preferredStyle: .alert)
         alert.addAction(
-            UIAlertAction(title: "OK", style: .default) { _ in
+            UIAlertAction(title: R.string.localizable.ok(), style: .default) { _ in
                 onAccept?()
             }
         )
@@ -22,9 +22,12 @@ extension UIViewController {
 
     // TODO: エラーから文言を設定するよう修正
     func showErrorAlert(onError: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: "データ取得に失敗しました", message: "電波の良い環境でやり直して下さい", preferredStyle: .alert)
+        let alert = UIAlertController(
+            title: R.string.localizable.communicationErrorTitle(),
+            message: R.string.localizable.communicationErrorMessage(),
+            preferredStyle: .alert)
         alert.addAction(
-            UIAlertAction(title: "OK", style: .default) { _ in
+            UIAlertAction(title: R.string.localizable.ok(), style: .default) { _ in
                 onError?()
             }
         )

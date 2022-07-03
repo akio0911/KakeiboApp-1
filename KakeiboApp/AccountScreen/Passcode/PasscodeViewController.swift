@@ -103,7 +103,7 @@ final class PasscodeViewController: UIViewController, PasscodeInputButtonViewDel
                     strongSelf.pushPasscodeVC(passcode: passcode)
                 case .popViewController:
                     strongSelf.navigationController?.popViewController(animated: true)
-                    strongSelf.validateMessage("パスコードが一致しません。もう一度入力してください。")
+                    strongSelf.validateMessage(R.string.localizable.newPasscodeValidateMessage())
                 case .keyImageStackViewAnimation:
                     strongSelf.keyImageStackViewAnimation()
                     UINotificationFeedbackGenerator().notificationOccurred(.error)

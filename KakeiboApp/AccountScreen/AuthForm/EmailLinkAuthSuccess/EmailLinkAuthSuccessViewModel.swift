@@ -56,13 +56,13 @@ final class EmailLinkAuthSuccessViewModel: EmailLinkAuthSuccessViewModelInput, E
             self?.eventRelay.accept(.stopAnimating)
             if let error = error {
                 // 再送信に失敗
-                let alertTitle = error.reason ?? "再送信に失敗しました。"
+                let alertTitle = error.reason ?? R.string.localizable.failureToEmailResending()
                 let message = error.message
                 self?.eventRelay.accept(.presentAlertView(alertTitle: alertTitle, message: message))
             } else {
                 // 再送信に成功
-                let alertTitle = "メールを送信しました"
-                let message = "メールを確認してパスワードを設定して下さい"
+                let alertTitle = R.string.localizable.successfulToEmailResendingTitle()
+                let message = R.string.localizable.successfulToEmailResendingMessage()
                 self?.eventRelay.accept(.presentAlertView(alertTitle: alertTitle, message: message))
             }
         }

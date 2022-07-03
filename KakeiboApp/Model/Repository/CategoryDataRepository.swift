@@ -258,12 +258,12 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
 
     private func createInitialIncomeCategory() -> [CategoryData] {
         let incomeCategory: [(String, UIColor)] = [
-            ("給料", UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)),
-            ("お小遣い", UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)),
-            ("賞与", UIColor(red: 229 / 255, green: 75 / 255, blue: 75 / 255, alpha: 1)),
-            ("副業", UIColor(red: 236 / 255, green: 145 / 255, blue: 146 / 255, alpha: 1)),
-            ("投資", UIColor(red: 230 / 255, green: 192 / 255, blue: 233 / 255, alpha: 1)),
-            ("臨時収入", UIColor(red: 95 / 255, green: 80 / 255, blue: 170 / 255, alpha: 1))
+            (R.string.localizable.salary(), UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)),
+            (R.string.localizable.allowance(), UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)),
+            (R.string.localizable.bonus(), UIColor(red: 229 / 255, green: 75 / 255, blue: 75 / 255, alpha: 1)),
+            (R.string.localizable.sideJob(), UIColor(red: 236 / 255, green: 145 / 255, blue: 146 / 255, alpha: 1)),
+            (R.string.localizable.investment(), UIColor(red: 230 / 255, green: 192 / 255, blue: 233 / 255, alpha: 1)),
+            (R.string.localizable.extraordinaryIncome(), UIColor(red: 95 / 255, green: 80 / 255, blue: 170 / 255, alpha: 1))
         ]
         return incomeCategory.enumerated().map {
             CategoryData(
@@ -277,15 +277,15 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
 
     private func createInitialExpenseCategory() -> [CategoryData] {
         let expenseCategory: [(String, UIColor)] = [
-            ("飲食費", UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)),
-            ("生活費", UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)),
-            ("雑費", UIColor(red: 229 / 255, green: 75 / 255, blue: 75 / 255, alpha: 1)),
-            ("交通費", UIColor(red: 236 / 255, green: 145 / 255, blue: 146 / 255, alpha: 1)),
-            ("医療費", UIColor(red: 230 / 255, green: 192 / 255, blue: 233 / 255, alpha: 1)),
-            ("通信費", UIColor(red: 95 / 255, green: 80 / 255, blue: 170 / 255, alpha: 1)),
-            ("車両費", UIColor(red: 180 / 255, green: 101 / 255, blue: 111 / 255, alpha: 1)),
-            ("交際費", UIColor(red: 181 / 255, green: 189 / 255, blue: 137 / 255, alpha: 1)),
-            ("その他", UIColor(red: 223 / 255, green: 190 / 255, blue: 153 / 255, alpha: 1))
+            (R.string.localizable.consumptionExpenses(), UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)),
+            (R.string.localizable.lifeExpenses(), UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)),
+            (R.string.localizable.miscellaneousExpenses(), UIColor(red: 229 / 255, green: 75 / 255, blue: 75 / 255, alpha: 1)),
+            (R.string.localizable.transportationExpenses(), UIColor(red: 236 / 255, green: 145 / 255, blue: 146 / 255, alpha: 1)),
+            (R.string.localizable.medicalExpense(), UIColor(red: 230 / 255, green: 192 / 255, blue: 233 / 255, alpha: 1)),
+            (R.string.localizable.communicationExpense(), UIColor(red: 95 / 255, green: 80 / 255, blue: 170 / 255, alpha: 1)),
+            (R.string.localizable.vehicleFee(), UIColor(red: 180 / 255, green: 101 / 255, blue: 111 / 255, alpha: 1)),
+            (R.string.localizable.entertainmentExpense(), UIColor(red: 181 / 255, green: 189 / 255, blue: 137 / 255, alpha: 1)),
+            (R.string.localizable.otherExpense(), UIColor(red: 223 / 255, green: 190 / 255, blue: 153 / 255, alpha: 1))
         ]
         return expenseCategory.enumerated().map {
             CategoryData(

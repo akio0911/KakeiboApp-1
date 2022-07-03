@@ -60,23 +60,23 @@ enum AuthError: Error {
     var reason: String? {
         switch self {
         case .invalidEmail:
-            return "メールアドレスの形式が正しくありません。"
+            return R.string.localizable.invalidEmailReason()
         case .userDisabled:
-            return "無効なアカウントです。"
+            return R.string.localizable.userDisabledReason()
         case .wrongPassword:
-            return "パスワードが一致しません。"
+            return R.string.localizable.wrongPasswordReason()
         case .userNotFound:
-            return "アカウントが見つかりません。"
+            return R.string.localizable.userNotFoundReason()
         case .tooManyRequests:
             return nil
         case .emailAlreadyInUse:
-            return "登録済みのメールアドレスです。"
+            return R.string.localizable.emailAlreadyInUseReason()
         case .weakPassword:
-            return "パスワードが脆弱です。"
+            return R.string.localizable.weakPasswordReason()
         case .networkError:
-            return "ネットワークエラーが発生しました。"
+            return R.string.localizable.networkErrorReason()
         case .missingEmail:
-            return "メールアドレスを認識できませんでした。"
+            return R.string.localizable.missingEmailReason()
         case .other(_):
             return nil
         }
@@ -85,23 +85,23 @@ enum AuthError: Error {
     var message: String {
         switch self {
         case .invalidEmail:
-            return "メールアドレスを正しく入力してください。"
+            return R.string.localizable.invalidEmailMessage()
         case .userDisabled:
-            return "他のアカウントでログインしてください。"
+            return R.string.localizable.userDisabledMessage()
         case .wrongPassword:
-            return "パスワードを正しく入力してください。"
+            return R.string.localizable.wrongPasswordMessage()
         case .userNotFound:
-            return "メールアドレスを正しく入力してください。"
+            return R.string.localizable.userNotFoundMessage()
         case .tooManyRequests:
-            return "しばらくしてからもう一度お試しください。"
+            return R.string.localizable.tooManyRequestsMessage()
         case .emailAlreadyInUse:
-            return "ログイン画面からログインしてください。"
+            return R.string.localizable.emailAlreadyInUseMessage()
         case .weakPassword:
-            return "第三者から判定されづらいパスワードにしてください"
+            return R.string.localizable.weakPasswordMessage()
         case .networkError:
-            return "電波の良いところでやり直してください。"
+            return R.string.localizable.networkErrorMessage()
         case .missingEmail:
-            return "メールアドレスを正しく入力してください。"
+            return R.string.localizable.missingEmailMessage()
         case .other(let message):
             return message
         }

@@ -67,12 +67,12 @@ final class MainTabBarController: UITabBarController {
     private func setupTabBarController() {
         var viewControllers: [UIViewController] = []
 
-        guard let calendarViewController = UIStoryboard(name: "Calendar", bundle: nil).instantiateInitialViewController() else {
+        guard let calendarViewController = R.storyboard.calendar.instantiateInitialViewController() else {
             return
         }
         var calendarTabBarItem: UITabBarItem {
             let calendarTabBarItem = UITabBarItem(
-                title: "カレンダー",
+                title: R.string.localizable.calendar(),
                 image: UIImage(systemName: "calendar"),
                 selectedImage: UIImage(systemName: "calendar")
             )
@@ -84,7 +84,7 @@ final class MainTabBarController: UITabBarController {
         let graphViewController = GraphViewController()
         var graphTabBarItem: UITabBarItem {
             let graphTabBarItem = UITabBarItem(
-                title: "グラフ",
+                title: R.string.localizable.graph(),
                 image: UIImage(systemName: "chart.pie"),
                 selectedImage: UIImage(systemName: "chart.pie.fill")
             )
@@ -96,7 +96,7 @@ final class MainTabBarController: UITabBarController {
         let accountViewController = AccountViewController()
         var accountTabBarItem: UITabBarItem {
             let accountTabBarItem = UITabBarItem(
-                title: "アカウント",
+                title: R.string.localizable.account(),
                 image: UIImage(systemName: "person"),
                 selectedImage: UIImage(systemName: "person.fill")
             )

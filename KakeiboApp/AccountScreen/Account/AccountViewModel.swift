@@ -74,13 +74,13 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
         guard let userInfo = authType.userInfo else { return }
         if userInfo.isAnonymous {
             //　匿名認証によるログイン中
-            userNameLabelRelay.accept("未登録")
-            accountEnterButtonTitleRelay.accept("ログイン")
+            userNameLabelRelay.accept(R.string.localizable.userNameUnregistered())
+            accountEnterButtonTitleRelay.accept(R.string.localizable.login())
             isHiddenSignupButtonRelay.accept(false)
             isHiddenAccountEnterButtonRelay.accept(false)
         } else {
             // メールとパスワードによるログイン中
-            userNameLabelRelay.accept(userInfo.name ?? "未設定")
+            userNameLabelRelay.accept(userInfo.name ?? R.string.localizable.userNameUnset())
             isHiddenSignupButtonRelay.accept(true)
             isHiddenAccountEnterButtonRelay.accept(true)
         }
@@ -139,7 +139,7 @@ final class AccountViewModel: AccountViewModelInput, AccountViewModelOutput {
     }
 
     func didTapShareButton() {
-        let shareText = "私の家計簿！"
+        let shareText = R.string.localizable.myKakeibo()
         guard let shareUrl = NSURL(string: "https://apps.apple.com/jp/app/apple-store/id\(appId)") else { return }
         let activityItems = [shareText, shareUrl] as [Any]
         eventRelay.accept(.presentActivityVC(activityItems))

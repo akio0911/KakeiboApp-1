@@ -76,7 +76,7 @@ final class CardCollectionViewCell: UICollectionViewCell {
 
     private func setupCardLayer() {
         layer.cornerRadius = 8
-        layer.shadowColor = UIColor(named: "sD1D1D6")?.cgColor
+        layer.shadowColor = R.color.sD1D1D6()?.cgColor
         layer.shadowOpacity = 0.3
         layer.shadowRadius = 3
         layer.shadowOffset = CGSize(width: 2, height: 2)

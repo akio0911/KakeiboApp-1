@@ -13,7 +13,7 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            dayLabel.backgroundColor = isSelected ? UIColor(named: CalendarColorName.seashell.rawValue) : .clear
+            dayLabel.backgroundColor = isSelected ? R.color.sFFF2EB() : .clear
             dayLabel.font = isSelected ? .boldSystemFont(ofSize: 12) : .systemFont(ofSize: 12)
         }
     }
@@ -25,10 +25,10 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         if calendarItem.totalBalance != 0 {
             if calendarItem.totalBalance > 0 {
                 balanceLabel.text = String(calendarItem.totalBalance)
-                balanceLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
+                balanceLabel.textColor = R.color.s00A1E4()
             } else {
                 balanceLabel.text = String(-calendarItem.totalBalance)
-                balanceLabel.textColor = UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
+                balanceLabel.textColor = R.color.sFF6800()
             }
         } else {
             balanceLabel.text = ""
@@ -37,15 +37,15 @@ class CalendarDayCollectionViewCell: UICollectionViewCell {
         // 日付のテキストカラーを曜日毎に色分けしている
         switch index % 7 {
         case 0:
-            dayLabel.textColor = UIColor(named: CalendarColorName.safetyOrangeBlazeOrange.rawValue)
+            dayLabel.textColor = R.color.sFF6800()
         case 6:
-            dayLabel.textColor = UIColor(named: CalendarColorName.carolinaBlue.rawValue)
+            dayLabel.textColor = R.color.s00A1E4()
         default:
-            dayLabel.textColor = UIColor(named: CalendarColorName.spaceCadet.rawValue)
+            dayLabel.textColor = R.color.s333333()
         }
 
         if !calendarItem.isCalendarMonth {
-            dayLabel.textColor = UIColor(named: "sD1D1D6")
+            dayLabel.textColor = R.color.sD1D1D6()
         }
     }
 }

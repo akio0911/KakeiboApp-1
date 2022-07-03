@@ -21,20 +21,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // NavigationBarの設定
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
-        navigationBarAppearance.backgroundColor = UIColor(named: "sFFFFFF")
+        navigationBarAppearance.backgroundColor = R.color.sFFFFFF()
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-        UINavigationBar.appearance().barTintColor = UIColor(named: "s333333")
+        UINavigationBar.appearance().barTintColor = R.color.s333333()
 
         // TabBarの設定
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
-        tabBarAppearance.backgroundColor = UIColor(named: "sFFFFFF")
+        tabBarAppearance.backgroundColor = R.color.sFFFFFF()
         UITabBar.appearance().standardAppearance = tabBarAppearance
         if #available(iOS 15.0, *) {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
-        UITabBar.appearance().tintColor = UIColor(named: "s333333")
+        UITabBar.appearance().tintColor = R.color.s333333()
 
         let firebaseAuth = Auth.auth()
         if firebaseAuth.currentUser == nil {
@@ -109,20 +109,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 // 生体認証の種類を判定し、reasonを設定
                 switch localAuthenticationContext.biometryType {
                 case .none:
-                    reason = "生体認証は使用しません"
+                    reason = R.string.localizable.biometryTypeNoneMessage()
                 case .touchID:
-                    reason = "ロック解除のためTouchIDを使用します。"
+                    reason = R.string.localizable.biometryTypeTouchIdMessage()
                 case .faceID:
-                    reason = "ロック解除のためFaceIDを使用します。"
+                    reason = R.string.localizable.biometryTypeFaceIdMessage()
                 @unknown default:
-                    reason = "新しい生体認証を使用します"
+                    reason = R.string.localizable.biometryTypeDefaultMessage()
                 }
             } else {
                 // デバイスで生体認証ができない
                 if let error = error {
                     print("context.canEvaluatePolicy - Error, reason: \(error) ")
                 }
-                reason = "生体認証は使用しません"
+                reason = R.string.localizable.biometryTypeNoneMessage()
             }
 
             // 生体認証を実行

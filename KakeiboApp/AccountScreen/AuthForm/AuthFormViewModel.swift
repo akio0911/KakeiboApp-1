@@ -66,8 +66,8 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             forgotPassword(email: email)
         case .register:
             guard !userName.isEmpty else {
-                let alertTitle = "ユーザー名が未入力です。"
-                let message = "ユーザー名を入力してください。"
+                let alertTitle = R.string.localizable.userNameNotInputErrorTitle()
+                let message = R.string.localizable.userNameNotInputErrorMessage()
                 eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
                 return
             }
@@ -84,7 +84,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             strongSelf.eventRelay.accept(.stopAnimating)
             if let error = error {
                 // ログインに失敗
-                let alertTitle = error.reason ?? "ログインに失敗しました。"
+                let alertTitle = error.reason ?? R.string.localizable.loginFailure()
                 let message = error.message
                 strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
             } else {
@@ -102,13 +102,13 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             strongSelf.eventRelay.accept(.stopAnimating)
             if let error = error {
                 // 送信に失敗
-                let alertTitle = error.reason ?? "再設定メールの送信に失敗しました。"
+                let alertTitle = error.reason ?? R.string.localizable.resetEmailSendFailure()
                 let message = error.message
                 strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
             } else {
                 // 送信に成功
-                let alertTitle = "再設定メールを送信しました。"
-                let message = "メールを確認し、パスワードの再設定を行ってください。"
+                let alertTitle = R.string.localizable.resetEmailSendSuccessfulTitle()
+                let message = R.string.localizable.resetEmailSendSuccessfulMessage()
                 strongSelf.eventRelay.accept(.presentPopVCAlertView(alertTitle: alertTitle, message: message))
             }
         }
@@ -121,7 +121,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             strongSelf.eventRelay.accept(.stopAnimating)
             if let error = error {
                 // 登録に失敗
-                let alertTitle = error.reason ?? "登録に失敗しました。"
+                let alertTitle = error.reason ?? R.string.localizable.accountRegistrationFailure()
                 let message = error.message
                 strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
             } else {
@@ -138,7 +138,7 @@ final class AuthFormViewModel: AuthFormViewModelInput, AuthFormViewModelOutput {
             strongSelf.eventRelay.accept(.stopAnimating)
             if let error = error {
                 // 登録に失敗
-                let alertTitle = error.reason ?? "登録に失敗しました。"
+                let alertTitle = error.reason ?? R.string.localizable.accountRegistrationFailure()
                 let message = error.message
                 strongSelf.eventRelay.accept(.presentErrorAlertView(alertTitle: alertTitle, message: message))
             } else {

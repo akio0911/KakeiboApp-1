@@ -26,8 +26,8 @@ final class BalanceSegmentedControlView: UIView {
 
     private func setupSegmentedControl() {
         segmentedControl = UISegmentedControl()
-        segmentedControl.insertSegment(withTitle: "支出", at: 0, animated: true)
-        segmentedControl.insertSegment(withTitle: "収入", at: 1, animated: true)
+        segmentedControl.insertSegment(withTitle: R.string.localizable.expense(), at: 0, animated: true)
+        segmentedControl.insertSegment(withTitle: R.string.localizable.income(), at: 1, animated: true)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.backgroundColor = .clear
@@ -40,11 +40,11 @@ final class BalanceSegmentedControlView: UIView {
                                          barMetrics: .default)
         segmentedControl.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedString.Key.foregroundColor: UIColor.lightGray
+            NSAttributedString.Key.foregroundColor: R.color.s999999()!
         ], for: .normal)
         segmentedControl.setTitleTextAttributes([
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-            NSAttributedString.Key.foregroundColor: UIColor.orange
+            NSAttributedString.Key.foregroundColor: R.color.sFF9B00()!
         ], for: .selected)
         segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         addSubview(segmentedControl)

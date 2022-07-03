@@ -103,9 +103,9 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
     private func setupCategoryBalance(categoryBalance: CategoryBalance) {
         switch categoryBalance {
         case .income:
-            navigationTitleRelay.accept("収入カテゴリー")
+            navigationTitleRelay.accept(R.string.localizable.incomeCategory())
         case .expense:
-            navigationTitleRelay.accept("支出カテゴリー")
+            navigationTitleRelay.accept(R.string.localizable.expenseCategory())
         }
     }
 
@@ -215,15 +215,15 @@ final class CategoryInputViewModel: CategoryInputViewModelInput,
 
     func didTapSaveBarButton(name: String) {
         guard let userInfo = authType.userInfo else {
-            let alertTitle = "アカウントが見つかりません。"
-            let message = "カテゴリーの保存はログイン状態で行う必要があります。 \n アカウント画面からログインしてください。"
+            let alertTitle = R.string.localizable.userNotFoundErrorTitle()
+            let message = R.string.localizable.dataSaveErrorOnNonLogin()
             eventRelay.accept(.presentDismissAlert(alertTitle, message))
             return
         }
 
         guard !name.isEmpty else {
-            let alertTitle = "カテゴリー名が未入力です。"
-            let message = "カテゴリー名を入力してください。"
+            let alertTitle = R.string.localizable.categoryNotInputErrorTitle()
+            let message = R.string.localizable.categoryNotInputErrorMessage()
             eventRelay.accept(.presentBecomeFirstResponderAlert(alertTitle, message))
             return
         }
