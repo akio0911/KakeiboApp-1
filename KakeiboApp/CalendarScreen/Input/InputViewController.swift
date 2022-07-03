@@ -12,9 +12,7 @@ import RxCocoa
 final class InputViewController: UIViewController,
                                  UIPickerViewDelegate,
                                  UIPickerViewDataSource,
-                                 UITextFieldDelegate,
                                  BalanceSegmentedControlViewDelegate {
-    @IBOutlet private weak var baseScrollView: UIScrollView!
     @IBOutlet private weak var dateView: UIView!
     @IBOutlet private var mosaicView: [UIView]!
     @IBOutlet private weak var nextDayButton: UIButton!
@@ -32,8 +30,6 @@ final class InputViewController: UIViewController,
     private var segmentedControlView: BalanceSegmentedControlView!
     private let viewModel: InputViewModelType
     private let disposeBag = DisposeBag()
-    private var editingTextField: UITextField?
-    private var keyboardOverlap: CGFloat = 0
     private var incomeCategoryArray: [CategoryData] = []
     private var expenseCategoryArray: [CategoryData] = []
 
@@ -54,7 +50,6 @@ final class InputViewController: UIViewController,
         setupBinding()
         setupBarButtonItem()
         setupTapGesture()
-        setupScrollToShowKeyboard()
         configureSaveBtnLayer() // セーブボタンをフィレット
         configureMosaicViewLayer() // モザイク用のviewをフィレット
         navigationItem.title = R.string.localizable.balanceInput()
@@ -163,26 +158,7 @@ final class InputViewController: UIViewController,
         incomeCategoryPickerView = UIPickerView()
         incomeCategoryPickerView.delegate = self
         incomeCategoryPickerView.dataSource = self
-
-        // キーボードにツールバーを設定
-        dateTextField.inputAccessoryView = toolBar
-        categoryTextField.inputAccessoryView = toolBar
-        balanceTextField.inputAccessoryView = toolBar
-        memoTextField.inputAccessoryView = toolBar
     }
-
-    private lazy var toolBar: UIToolbar = {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let doneButton = UIBarButtonItem(
-            barButtonSystemItem: .done,
-            target: self,
-            action: #selector(didTapKeyboardDoneButton)
-        )
-        toolbar.setItems([spacer, doneButton], animated: true)
-        return toolbar
-    }()
 
     private func setupSegmentedControlView() {
         segmentedControlView = BalanceSegmentedControlView()
@@ -194,26 +170,6 @@ final class InputViewController: UIViewController,
     private func setupTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapView(_:)))
         view.addGestureRecognizer(tapGesture)
-    }
-
-    // キーボードが隠れないようにスクロールする設定
-    private func setupScrollToShowKeyboard() {
-        let textFields = [
-            dateTextField,
-            categoryTextField,
-            balanceTextField,
-            memoTextField
-        ]
-        textFields.forEach {
-            $0?.delegate = self
-        }
-        let notification = NotificationCenter.default
-        notification.addObserver(self,
-                                 selector: #selector(keyboardDidShow(_:)),
-                                 name: UIResponder.keyboardDidShowNotification, object: nil)
-        notification.addObserver(self,
-                                 selector: #selector(keyboardWillHide(_:)),
-                                 name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     private func didTapSaveButton() {
@@ -271,28 +227,6 @@ final class InputViewController: UIViewController,
         view.endEditing(true)
     }
 
-    @objc func keyboardDidShow(_ notification: Notification) {
-        guard let editingTextField = editingTextField else { return }
-        let userInfo = (notification as Notification).userInfo!
-        // swiftlint:disable:next force_cast
-        let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-        let keyboardFrameMinY = view.frame.size.height - keyboardFrame.height
-        let textFieldFrame = view.convert(editingTextField.frame, from: editingTextField.superview)
-        keyboardOverlap = textFieldFrame.maxY - keyboardFrameMinY + 8
-        if keyboardOverlap > 0 {
-            keyboardOverlap += baseScrollView.contentOffset.y
-            baseScrollView.setContentOffset(CGPoint(x: 0, y: keyboardOverlap), animated: true)
-        }
-    }
-
-    @objc func keyboardWillHide(_ notification: Notification) {
-        baseScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-    }
-
-    @objc func didTapKeyboardDoneButton() {
-        view.endEditing(true)
-    }
-
     // MARK: - UIPickerViewDataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -330,15 +264,6 @@ final class InputViewController: UIViewController,
         default:
             fatalError("想定していないpickerView")
         }
-    }
-
-    // MARK: - UITextFieldDelegate
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        editingTextField = textField
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        editingTextField = nil
     }
 
     // MARK: - BalanceSegmentedControlViewDelegate

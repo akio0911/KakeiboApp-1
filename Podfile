@@ -18,4 +18,5 @@ pod 'Firebase/Messaging'
 pod 'LicensePlist'
 pod 'MBProgressHUD', '~> 1.2.0'
 pod 'R.swift'
+pod 'IQKeyboardManagerSwift'
 end
