@@ -12,6 +12,7 @@
 		47218A1A26EF4AD4006C10EF /* CalendarImageName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47218A1926EF4AD4006C10EF /* CalendarImageName.swift */; };
 		4723D7FA285DF61600E8440A /* ExtensionUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723D7F9285DF61600E8440A /* ExtensionUIViewController.swift */; };
 		4723D7FC285E057A00E8440A /* EventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723D7FB285E057A00E8440A /* EventBus.swift */; };
+		472E590C287A8D380068FB5E /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472E590B287A8D380068FB5E /* BorderTextField.swift */; };
 		472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC42704324C00A80640 /* AccountViewController.swift */; };
 		472EFDC72704324C00A80640 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDC52704324C00A80640 /* AccountViewController.xib */; };
 		472EFDCA270443F300A80640 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC9270443F300A80640 /* AccountViewModel.swift */; };
@@ -118,6 +119,7 @@
 		47218A1926EF4AD4006C10EF /* CalendarImageName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarImageName.swift; sourceTree = "<group>"; };
 		4723D7F9285DF61600E8440A /* ExtensionUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIViewController.swift; sourceTree = "<group>"; };
 		4723D7FB285E057A00E8440A /* EventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBus.swift; sourceTree = "<group>"; };
+		472E590B287A8D380068FB5E /* BorderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderTextField.swift; sourceTree = "<group>"; };
 		472EFDC42704324C00A80640 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		472EFDC52704324C00A80640 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		472EFDC9270443F300A80640 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
@@ -595,6 +597,7 @@
 			children = (
 				47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */,
 				478F504C2865927800983DA1 /* CardCollectionViewFlowLayout.swift */,
+				472E590B287A8D380068FB5E /* BorderTextField.swift */,
 			);
 			path = Parts;
 			sourceTree = "<group>";
@@ -961,6 +964,7 @@
 				47A6BFE3270FE22E00698113 /* HowToUseTableViewDataSource.swift in Sources */,
 				47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */,
 				4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */,
+				472E590C287A8D380068FB5E /* BorderTextField.swift in Sources */,
 				47793F0E26E8A3210004E5F6 /* GraphData.swift in Sources */,
 				47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */,
 				47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */,
