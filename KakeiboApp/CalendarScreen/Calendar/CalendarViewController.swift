@@ -119,20 +119,20 @@ final class CalendarViewController: UIViewController {
 
     // InputViewControllerへ画面遷移
     private func presentInputVC(event: CalendarViewModel.Event) {
-        let viewModel: InputViewModel
-        switch event {
-        case .presentAdd(let date):
-            viewModel = InputViewModel(mode: .add(date))
-        case .presentEdit(let kakeiboData, let categoryData):
-            viewModel = InputViewModel(mode: .edit(kakeiboData, categoryData))
-        default:
-            return
-        }
-        let inputViewController = InputViewController(viewModel: viewModel)
-        let navigationController =
-        UINavigationController(rootViewController: inputViewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true, completion: nil)
+//        let viewModel: InputViewModel
+//        switch event {
+//        case .presentAdd(let date):
+//            viewModel = InputViewModel(mode: .add(date))
+//        case .presentEdit(let kakeiboData, let categoryData):
+//            viewModel = InputViewModel(mode: .edit(kakeiboData, categoryData))
+//        default:
+//            return
+//        }
+//        let inputViewController = InputViewController(viewModel: viewModel)
+//        let navigationController =
+//        UINavigationController(rootViewController: inputViewController)
+//        navigationController.modalPresentationStyle = .fullScreen
+//        present(navigationController, animated: true, completion: nil)
     }
 
     // collectionViewの設定

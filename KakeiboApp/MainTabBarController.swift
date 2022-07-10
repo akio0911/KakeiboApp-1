@@ -67,7 +67,8 @@ final class MainTabBarController: UITabBarController {
     private func setupTabBarController() {
         var viewControllers: [UIViewController] = []
 
-        guard let calendarViewController = R.storyboard.calendar.instantiateInitialViewController() else {
+        guard let calendarViewController = R.storyboard.calendar.instantiateInitialViewController(),
+              let inputViewController = R.storyboard.input.instantiateInitialViewController() else {
             return
         }
         var calendarTabBarItem: UITabBarItem {
@@ -80,6 +81,17 @@ final class MainTabBarController: UITabBarController {
         }
         calendarViewController.tabBarItem = calendarTabBarItem
         viewControllers.append(calendarViewController)
+
+        var inputTabBarItem: UITabBarItem {
+            let inputTabBarItem = UITabBarItem(
+                title: R.string.localizable.balanceInput(),
+                image: UIImage(systemName: "pencil"),
+                selectedImage: UIImage(systemName: "pencil")
+            )
+            return inputTabBarItem
+        }
+        inputViewController.tabBarItem = inputTabBarItem
+        viewControllers.append(inputViewController)
 
         let graphViewController = GraphViewController()
         var graphTabBarItem: UITabBarItem {

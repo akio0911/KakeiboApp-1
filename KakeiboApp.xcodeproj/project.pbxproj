@@ -13,6 +13,7 @@
 		4723D7FA285DF61600E8440A /* ExtensionUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723D7F9285DF61600E8440A /* ExtensionUIViewController.swift */; };
 		4723D7FC285E057A00E8440A /* EventBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4723D7FB285E057A00E8440A /* EventBus.swift */; };
 		472E590C287A8D380068FB5E /* BorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472E590B287A8D380068FB5E /* BorderTextField.swift */; };
+		472E590E287AA1510068FB5E /* Input.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 472E590D287AA1510068FB5E /* Input.storyboard */; };
 		472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC42704324C00A80640 /* AccountViewController.swift */; };
 		472EFDC72704324C00A80640 /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 472EFDC52704324C00A80640 /* AccountViewController.xib */; };
 		472EFDCA270443F300A80640 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472EFDC9270443F300A80640 /* AccountViewModel.swift */; };
@@ -97,7 +98,6 @@
 		47CCFDA3274613EC00B887B2 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 47CCFDA2274613EC00B887B2 /* Settings.bundle */; };
 		47D5065726F185C900CDA849 /* ExtensionUIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065626F185C900CDA849 /* ExtensionUIImage.swift */; };
 		47D5065A26F1863800CDA849 /* BalanceSegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */; };
-		47DC3EE026E34E6A00693980 /* InputViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EDF26E34E6A00693980 /* InputViewController.xib */; };
 		47DC3EE226E34E8C00693980 /* GraphViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47DC3EE126E34E8C00693980 /* GraphViewController.xib */; };
 		47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EE626E3928F00693980 /* MainTabBarController.swift */; };
 		47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DC3EEA26E45AC400693980 /* KakeiboModel.swift */; };
@@ -120,6 +120,7 @@
 		4723D7F9285DF61600E8440A /* ExtensionUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIViewController.swift; sourceTree = "<group>"; };
 		4723D7FB285E057A00E8440A /* EventBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBus.swift; sourceTree = "<group>"; };
 		472E590B287A8D380068FB5E /* BorderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderTextField.swift; sourceTree = "<group>"; };
+		472E590D287AA1510068FB5E /* Input.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Input.storyboard; sourceTree = "<group>"; };
 		472EFDC42704324C00A80640 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		472EFDC52704324C00A80640 /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
 		472EFDC9270443F300A80640 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
@@ -208,7 +209,6 @@
 		47CCFDA2274613EC00B887B2 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		47D5065626F185C900CDA849 /* ExtensionUIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUIImage.swift; sourceTree = "<group>"; };
 		47D5065926F1863800CDA849 /* BalanceSegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceSegmentedControlView.swift; sourceTree = "<group>"; };
-		47DC3EDF26E34E6A00693980 /* InputViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InputViewController.xib; sourceTree = "<group>"; };
 		47DC3EE126E34E8C00693980 /* GraphViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphViewController.xib; sourceTree = "<group>"; };
 		47DC3EE626E3928F00693980 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		47DC3EEA26E45AC400693980 /* KakeiboModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KakeiboModel.swift; sourceTree = "<group>"; };
@@ -392,8 +392,8 @@
 			isa = PBXGroup;
 			children = (
 				47793EF726E76ABE0004E5F6 /* InputViewModel.swift */,
-				47DC3EDF26E34E6A00693980 /* InputViewController.xib */,
 				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
+				472E590D287AA1510068FB5E /* Input.storyboard */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -749,6 +749,7 @@
 				47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */,
 				4773CBED270AF7DF00C52DE0 /* CategoryEditViewController.xib in Resources */,
 				474D6B77273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib in Resources */,
+				472E590E287AA1510068FB5E /* Input.storyboard in Resources */,
 				478C23172725315300BABDC1 /* AuthFormViewController.xib in Resources */,
 				4773CC25270D24BC00C52DE0 /* CategoryInputViewController.xib in Resources */,
 				47A6BFDA270FDCC700698113 /* HowToUseViewController.xib in Resources */,
@@ -759,7 +760,6 @@
 				47EB81FA26900D3E008FA088 /* GraphTableViewCell.xib in Resources */,
 				4773CBF3270B013500C52DE0 /* CategoryEditTableViewCell.xib in Resources */,
 				47CCFDA3274613EC00B887B2 /* Settings.bundle in Resources */,
-				47DC3EE026E34E6A00693980 /* InputViewController.xib in Resources */,
 				478F50492864B0B600983DA1 /* CardCollectionViewCell.xib in Resources */,
 				478F50552866E70100983DA1 /* CalendarDayCollectionViewCell.xib in Resources */,
 				478F504B2865701300983DA1 /* Calendar.storyboard in Resources */,
