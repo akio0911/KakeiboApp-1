@@ -29,18 +29,38 @@ final class DateTextField: BorderTextField {
         super.init(frame: frame)
         inputView = datePicker
         setupBinding()
+        setupTextFieldView()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         inputView = datePicker
         setupBinding()
+        setupTextFieldView()
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
         inputView = datePicker
         setupBinding()
+        setupTextFieldView()
+    }
+
+    private func setupTextFieldView() {
+        leftView = UIView(frame: CGRect(x: 0, y: 0, width: 9, height: frame.height))
+        leftViewMode = .always
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: frame.height))
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(systemName: "calendar")
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: frame.height))
+        view.isUserInteractionEnabled = false
+        view.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            view.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 7)
+        ])
+        rightView = view
+        rightViewMode = .always
     }
 
     private func setupBinding() {
