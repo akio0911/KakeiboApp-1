@@ -6,18 +6,19 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class BorderTextField: UITextField {
     enum BorderState {
         case notEditing
         case editing
-        case error
 
-        var borderWidth: Double {
+        var borderWidth: CGFloat {
             switch self {
             case .notEditing:
                 return 1
-            case .editing, .error:
+            case .editing:
                 return 2
             }
         }
@@ -27,12 +28,12 @@ final class BorderTextField: UITextField {
             case .notEditing:
                 return R.color.s999999()?.cgColor
             case .editing:
-                return R.color.s34C759()?.cgColor
-            case .error:
-                return R.color.sFF3B30()?.cgColor
+                return R.color.sFF9B00()?.cgColor
             }
         }
     }
+
+    private let disposeBag = DisposeBag()
 
     var borderState: BorderState {
         didSet {
@@ -45,16 +46,39 @@ final class BorderTextField: UITextField {
         borderState = .notEditing
         super.init(frame: frame)
         setupCornerRadius()
+        setupBinding()
     }
 
     required init?(coder: NSCoder) {
         borderState = .notEditing
         super.init(coder: coder)
         setupCornerRadius()
+        setupBinding()
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        borderState = .notEditing
+        setupCornerRadius()
+        setupBinding()
     }
 
     private func setupCornerRadius() {
         self.layer.cornerRadius = 8
         self.clipsToBounds = true
+    }
+
+    private func setupBinding() {
+        rx.controlEvent(.editingDidBegin)
+            .subscribe { [weak self] _ in
+                self?.borderState = .editing
+            }
+            .disposed(by: disposeBag)
+
+        rx.controlEvent(.editingDidEnd)
+            .subscribe { [weak self] _ in
+                self?.borderState = .notEditing
+            }
+            .disposed(by: disposeBag)
     }
 }
