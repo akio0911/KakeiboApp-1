@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class BorderTextField: UITextField {
+class BorderTextField: UITextField {
     enum BorderState {
         case notEditing
         case editing

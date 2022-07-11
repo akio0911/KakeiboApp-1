@@ -36,7 +36,7 @@
                                                         <color key="textColor" name="s666666"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OJ9-eN-9Df">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OJ9-eN-9Df" customClass="DateTextField" customModule="KakeiboApp" customModuleProvider="target">
                                                         <rect key="frame" x="24" y="39.5" width="272" height="50"/>
                                                         <color key="backgroundColor" name="sFFFFFF"/>
                                                         <constraints>
