@@ -100,3 +100,4 @@
 "biometryTypeTouchIdMessage" = "ロック解除のためTouchIDを使用します。";
 "biometryTypeFaceIdMessage" = "ロック解除のためFaceIDを使用します。";
 "biometryTypeDefaultMessage" = "生体認証を使用します。";
+"yen" = "円";

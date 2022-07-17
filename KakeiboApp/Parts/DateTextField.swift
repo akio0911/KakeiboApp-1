@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 final class DateTextField: BorderTextField {
-    var datePicker: UIDatePicker = {
+    private var datePicker: UIDatePicker = {
         var datePicker = UIDatePicker()
         if #available(iOS 14.0, *) {
             datePicker.preferredDatePickerStyle = .inline

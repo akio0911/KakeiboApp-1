@@ -76,7 +76,7 @@
                                                         <color key="textColor" name="s666666"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wJX-e3-9ps" customClass="BorderTextField" customModule="KakeiboApp" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wJX-e3-9ps" customClass="CurrencyTextField" customModule="KakeiboApp" customModuleProvider="target">
                                                         <rect key="frame" x="24" y="79.5" width="272" height="50"/>
                                                         <color key="backgroundColor" name="sFFFFFF"/>
                                                         <constraints>
@@ -84,7 +84,7 @@
                                                         </constraints>
                                                         <color key="textColor" name="s333333"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2wf-Xu-hcu" customClass="BalanceSegmentedControlView" customModule="KakeiboApp" customModuleProvider="target">
                                                         <rect key="frame" x="40" y="0.0" width="240" height="44"/>
