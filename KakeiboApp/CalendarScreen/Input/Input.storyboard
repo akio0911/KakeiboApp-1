@@ -152,7 +152,7 @@
                                                         <color key="textColor" name="s666666"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MwI-pI-6nh">
+                                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MwI-pI-6nh" customClass="BorderTextView" customModule="KakeiboApp" customModuleProvider="target">
                                                         <rect key="frame" x="24" y="35.5" width="272" height="100"/>
                                                         <color key="backgroundColor" name="sFFFFFF"/>
                                                         <constraints>

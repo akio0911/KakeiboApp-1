@@ -111,6 +111,7 @@
 		47EBC576271BE8A500BA64F6 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EBC575271BE8A500BA64F6 /* CategoryModel.swift */; };
 		47EE95B4287C66B100A645EC /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B3287C66B100A645EC /* DateTextField.swift */; };
 		47EE95B6287DBD8E00A645EC /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */; };
+		47EE95B82885121D00A645EC /* BorderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B72885121D00A645EC /* BorderTextView.swift */; };
 		47FCF32227258B3200E3043F /* AuthFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FCF32127258B3200E3043F /* AuthFormViewModel.swift */; };
 		A0FE98566C571733636113B5 /* Pods_KakeiboApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */; };
 /* End PBXBuildFile section */
@@ -224,6 +225,7 @@
 		47EBC575271BE8A500BA64F6 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		47EE95B3287C66B100A645EC /* DateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
 		47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
+		47EE95B72885121D00A645EC /* BorderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderTextView.swift; sourceTree = "<group>"; };
 		47FCF32127258B3200E3043F /* AuthFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFormViewModel.swift; sourceTree = "<group>"; };
 		4CA78BE969024FB289D67417 /* Pods-KakeiboApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KakeiboApp.release.xcconfig"; path = "Target Support Files/Pods-KakeiboApp/Pods-KakeiboApp.release.xcconfig"; sourceTree = "<group>"; };
 		7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KakeiboApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -604,6 +606,7 @@
 				472E590B287A8D380068FB5E /* BorderTextField.swift */,
 				47EE95B3287C66B100A645EC /* DateTextField.swift */,
 				47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */,
+				47EE95B72885121D00A645EC /* BorderTextView.swift */,
 			);
 			path = Parts;
 			sourceTree = "<group>";
@@ -974,6 +977,7 @@
 				4799911726F59F6400BD5B38 /* CategoryViewModel.swift in Sources */,
 				472E590C287A8D380068FB5E /* BorderTextField.swift in Sources */,
 				47793F0E26E8A3210004E5F6 /* GraphData.swift in Sources */,
+				47EE95B82885121D00A645EC /* BorderTextView.swift in Sources */,
 				47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */,
 				47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */,
 				478C23162725315300BABDC1 /* AuthFormViewController.swift in Sources */,
