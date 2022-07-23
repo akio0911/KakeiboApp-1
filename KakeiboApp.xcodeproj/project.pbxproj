@@ -112,6 +112,8 @@
 		47EE95B4287C66B100A645EC /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B3287C66B100A645EC /* DateTextField.swift */; };
 		47EE95B6287DBD8E00A645EC /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */; };
 		47EE95B82885121D00A645EC /* BorderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B72885121D00A645EC /* BorderTextView.swift */; };
+		47EE95BC288525EE00A645EC /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95BA288525EE00A645EC /* CategoryCollectionViewCell.swift */; };
+		47EE95BD288525EE00A645EC /* CategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EE95BB288525EE00A645EC /* CategoryCollectionViewCell.xib */; };
 		47FCF32227258B3200E3043F /* AuthFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FCF32127258B3200E3043F /* AuthFormViewModel.swift */; };
 		A0FE98566C571733636113B5 /* Pods_KakeiboApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */; };
 /* End PBXBuildFile section */
@@ -226,6 +228,8 @@
 		47EE95B3287C66B100A645EC /* DateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
 		47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		47EE95B72885121D00A645EC /* BorderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderTextView.swift; sourceTree = "<group>"; };
+		47EE95BA288525EE00A645EC /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		47EE95BB288525EE00A645EC /* CategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		47FCF32127258B3200E3043F /* AuthFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFormViewModel.swift; sourceTree = "<group>"; };
 		4CA78BE969024FB289D67417 /* Pods-KakeiboApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KakeiboApp.release.xcconfig"; path = "Target Support Files/Pods-KakeiboApp/Pods-KakeiboApp.release.xcconfig"; sourceTree = "<group>"; };
 		7724D716AF9168272E123341 /* Pods_KakeiboApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KakeiboApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -400,6 +404,7 @@
 				47793EF726E76ABE0004E5F6 /* InputViewModel.swift */,
 				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
 				472E590D287AA1510068FB5E /* Input.storyboard */,
+				47EE95B92885256800A645EC /* CategoryCollectionView */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -663,6 +668,15 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
+		47EE95B92885256800A645EC /* CategoryCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				47EE95BA288525EE00A645EC /* CategoryCollectionViewCell.swift */,
+				47EE95BB288525EE00A645EC /* CategoryCollectionViewCell.xib */,
+			);
+			path = CategoryCollectionView;
+			sourceTree = "<group>";
+		};
 		47FCF32027258AC200E3043F /* AuthForm */ = {
 			isa = PBXGroup;
 			children = (
@@ -755,6 +769,7 @@
 				478F50512866E6E000983DA1 /* CalendarWeekdayCollectionViewCell.xib in Resources */,
 				47A6BFF02710531900698113 /* HowToUseTableViewCell.xib in Resources */,
 				47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */,
+				47EE95BD288525EE00A645EC /* CategoryCollectionViewCell.xib in Resources */,
 				47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */,
 				4773CBED270AF7DF00C52DE0 /* CategoryEditViewController.xib in Resources */,
 				474D6B77273F7B1600563B1C /* EmailLinkAuthSuccessViewController.xib in Resources */,
@@ -934,6 +949,7 @@
 				47793F0826E8770E0004E5F6 /* GraphTableViewDataSource.swift in Sources */,
 				472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */,
 				478F50482864B0B600983DA1 /* CardCollectionViewCell.swift in Sources */,
+				47EE95BC288525EE00A645EC /* CategoryCollectionViewCell.swift in Sources */,
 				47A6BFEF2710531900698113 /* HowToUseTableViewCell.swift in Sources */,
 				47CC9A6D26F759E600126467 /* CategoryTableViewDataSource.swift in Sources */,
 				47218A1726EEC679006C10EF /* KakeiboDataRepository.swift in Sources */,
