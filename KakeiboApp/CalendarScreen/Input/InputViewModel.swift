@@ -10,25 +10,19 @@ import RxCocoa
 
 protocol InputViewModelInput {
     func onViewDidLoad()
-    func didTapSaveButton(balanceText: String, memo: String)
+    func didTapSaveButton(dateText: String, balanceText: String, categoryData: CategoryData, memo: String)
     func didTapCancelButton()
-    func didTapNextDayButton()
-    func didTapLastDayButton()
-    func didChangeDatePicker(date: Date)
     func didChangeSegmentControl(index: Int)
-    func didSelectCategory(name: String?)
 }
 
 protocol InputViewModelOutput {
     var event: Driver<InputViewModel.Event> { get }
     var date: Driver<String> { get }
-    var category: Driver<String?> { get }
+    var category: Driver<([CategoryData], selectedIndex: Int)> { get }
     var segmentIndex: Driver<Int> { get }
     var balance: Driver<String> { get }
     var memo: Driver<String> { get }
     var isAnimatedIndicator: Driver<Bool> { get }
-    var incomeCategoryDataArray: [CategoryData] { get }
-    var expenseCategoryDataArray: [CategoryData] { get }
 }
 
 protocol InputViewModelType {
@@ -55,10 +49,8 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
-    private let dateRelay = BehaviorRelay<String>(value: "")
-    private let categoryRelay = BehaviorRelay<String?>(
-        value: R.string.localizable.consumptionExpenses()
-    )
+    private let dateRelay = PublishRelay<String>()
+    private let categoryRelay = PublishRelay<([CategoryData], selectedIndex: Int)>()
     private let segmentIndexRelay = BehaviorRelay<Int>(value: 0)
     private let balanceRelay = BehaviorRelay<String>(value: "")
     private let memoRelay = BehaviorRelay<String>(value: "")
@@ -84,11 +76,11 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     var date: Driver<String> {
-        dateRelay.asDriver()
+        dateRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    var category: Driver<String?> {
-        categoryRelay.asDriver()
+    var category: Driver<([CategoryData], selectedIndex: Int)> {
+        categoryRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var segmentIndex: Driver<Int> {
@@ -116,7 +108,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         }
     }
 
-    func didTapSaveButton(balanceText: String, memo: String) {
+    func didTapSaveButton(dateText: String, balanceText: String, categoryData: CategoryData, memo: String) {
         guard let userInfo = authType.userInfo else {
             let alertTitle = R.string.localizable.userNotFoundErrorTitle()
             let message = R.string.localizable.dataSaveErrorOnNonLogin()
@@ -124,33 +116,31 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             return
         }
 
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
+        let date = DateUtility.dateFromString(stringDate: dateText, format: "yyyy年MM月dd日")
         let categoryId: CategoryId
         let balance: Balance
         switch segmentIndexRelay.value {
         case 0:
             // 支出
-            guard let categoryDataId = expenseCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
-                  let balanceInt = Int(balanceText) else {
+            guard let balanceInt = Int(balanceText) else {
                 eventRelay.accept(.showAlert(
                         R.string.localizable.categoryOrBalanceValidationErrorTitle(),
                         R.string.localizable.categoryOrBalanceValidationErrorMessage()
                 ))
                 return
             }
-            categoryId = CategoryId.expense(categoryDataId)
+            categoryId = CategoryId.expense(categoryData.id)
             balance = Balance.expense(balanceInt)
         case 1:
             // 収入
-            guard let categoryDataId = incomeCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
-                  let balanceInt = Int(balanceText) else {
+            guard let balanceInt = Int(balanceText) else {
                 eventRelay.accept(.showAlert(
                         R.string.localizable.categoryOrBalanceValidationErrorTitle(),
                         R.string.localizable.categoryOrBalanceValidationErrorMessage()
                 ))
                 return
             }
-            categoryId = CategoryId.income(categoryDataId)
+            categoryId = CategoryId.income(categoryData.id)
             balance = Balance.income(balanceInt)
         default:
             fatalError("想定していないIndex")
@@ -188,54 +178,34 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         eventRelay.accept(.dismiss)
     }
 
-    func didTapNextDayButton() {
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
-        let carendar = Calendar(identifier: .gregorian)
-        guard let nextDay = carendar.date(
-            byAdding: .day, value: 1, to: date
-        ) else { return }
-        dateRelay.accept(DateUtility.stringFromDate(date: nextDay, format: "yyyy年MM月dd日"))
-    }
-
-    func didTapLastDayButton() {
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
-        let carendar = Calendar(identifier: .gregorian)
-        guard let lastDay = carendar.date(
-            byAdding: .day, value: -1, to: date
-        ) else { return }
-        dateRelay.accept(DateUtility.stringFromDate(date: lastDay, format: "yyyy年MM月dd日"))
-    }
-
-    func didChangeDatePicker(date: Date) {
-        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
-    }
-
     func didChangeSegmentControl(index: Int) {
         segmentIndexRelay.accept(index)
         switch index {
         case 0:
             // 支出
-            categoryRelay.accept(expenseCategoryDataArray.first?.name ?? "")
+            categoryRelay.accept((categoryModel.expenseCategoryDataArray, selectedIndex: 0))
         case 1:
             // 収入
-            categoryRelay.accept(incomeCategoryDataArray.first?.name ?? "")
+            categoryRelay.accept((categoryModel.incomeCategoryDataArray, selectedIndex: 0))
         default:
             break
         }
     }
 
-    func didSelectCategory(name: String?) {
-        categoryRelay.accept(name)
-    }
-
     // MARK: - misc
     private func setupAddMode(date: Date) {
         dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
+        categoryRelay.accept((categoryModel.expenseCategoryDataArray, selectedIndex: 0))
     }
 
     private func setupEditMode(kakeiboData: KakeiboData, categoryData: CategoryData) {
         dateRelay.accept(DateUtility.stringFromDate(date: kakeiboData.date, format: "yyyy年MM月dd日"))
-        categoryRelay.accept(categoryData.name)
+        switch kakeiboData.categoryId {
+        case .expense:
+            categoryRelay.accept((categoryModel.expenseCategoryDataArray, selectedIndex: categoryData.displayOrder))
+        case .income:
+            categoryRelay.accept((categoryModel.incomeCategoryDataArray, selectedIndex: categoryData.displayOrder))
+        }
         segmentIndexRelay.accept(kakeiboData.categoryId.rawValue)
         balanceRelay.accept(String(kakeiboData.balance.fetchValue))
         memoRelay.accept(kakeiboData.memo)
