@@ -97,6 +97,7 @@ final class InputViewController: UIViewController {
             .disposed(by: disposeBag)
 
         let viewTapGesture = UITapGestureRecognizer()
+        viewTapGesture.cancelsTouchesInView = false
         viewTapGesture.rx.event
             .subscribe { [weak self] _ in
                 self?.view.endEditing(true)
@@ -148,11 +149,9 @@ extension InputViewController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 75, height: 75)
     }
-}
 
-extension InputViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("💣💣💣")
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
     }
 }
 

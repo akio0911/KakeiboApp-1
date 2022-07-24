@@ -7,10 +7,15 @@
 
 import UIKit
 
-// TODO: cell選択時に枠線を太くする
 final class CategoryCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var iconImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
+
+    override var isSelected: Bool {
+        didSet {
+            layer.borderWidth = isSelected ? 3 : 1
+        }
+    }
 
     func configure(categoryData: CategoryData) {
         nameLabel.text = categoryData.name
