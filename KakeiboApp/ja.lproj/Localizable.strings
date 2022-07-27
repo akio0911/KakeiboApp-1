@@ -102,3 +102,4 @@
 "biometryTypeDefaultMessage" = "生体認証を使用します。";
 "yen" = "円";
 "deletedTitle" = "データを削除しました。";
+"saveComplete" = "データを保存しました。";

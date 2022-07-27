@@ -32,7 +32,6 @@ protocol InputViewModelType {
 
 final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     enum Event {
-        case dismiss
         case showDismissAlert(String, String)
         case showErrorAlert
         case showAlert(String, String?)
@@ -155,6 +154,8 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 if error != nil {
                     self?.eventRelay.accept(.showErrorAlert)
                     return
+                } else {
+                    self?.eventRelay.accept(.showAlert(R.string.localizable.saveComplete(), nil))
                 }
             }
         case .edit(var beforeData, _):
@@ -168,10 +169,11 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 if error != nil {
                     self?.eventRelay.accept(.showErrorAlert)
                     return
+                } else {
+                    self?.eventRelay.accept(.showAlert(R.string.localizable.saveComplete(), nil))
                 }
             }
         }
-        eventRelay.accept(.dismiss)
     }
 
     func didTapDeleteButton() {

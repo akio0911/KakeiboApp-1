@@ -53,8 +53,6 @@ final class InputViewController: UIViewController {
             .drive(onNext: { [weak self] event in
                 guard let strongSelf = self else { return }
                 switch event {
-                case .dismiss:
-                    strongSelf.dismiss(animated: true, completion: nil)
                 case .showDismissAlert(let alertTitle, let message):
                     strongSelf.showAlert(title: alertTitle, messege: message) { [weak self] in
                         self?.dismiss(animated: true)
