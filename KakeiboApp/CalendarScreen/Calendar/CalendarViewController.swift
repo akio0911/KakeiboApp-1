@@ -104,6 +104,9 @@ final class CalendarViewController: UIViewController {
                     self?.presentInputVC(event: event)
                 case .showErrorAlert:
                     self?.showErrorAlert()
+                case .reloadData:
+                    self?.cardCollectionView.reloadData()
+                    self?.calendarTableView.reloadData()
                 }
             }
             .disposed(by: disposeBag)
@@ -254,14 +257,15 @@ extension CalendarViewController: UITableViewDelegate {
 // MARK: - UITableViewDataSource
 extension CalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let dataArray = selectedItem?.dataArray, !dataArray.isEmpty else {
+        guard let selectedItem = selectedItem,
+              !viewModel.outputs.loadCalendarItem(date: selectedItem.date).dataArray.isEmpty else {
             noDataLabel.isHidden = false
             footerView.frame.size.height = 76
             return 0
         }
         noDataLabel.isHidden = true
         footerView.frame.size.height = 42
-        return (dataArray.count) + 1
+        return (viewModel.outputs.loadCalendarItem(date: selectedItem.date).dataArray.count) + 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -272,7 +276,7 @@ extension CalendarViewController: UITableViewDataSource {
                   let selectedItem = selectedItem else {
                 return UITableViewCell()
             }
-            cell.configure(calendarItem: selectedItem)
+            cell.configure(calendarItem: viewModel.outputs.loadCalendarItem(date: selectedItem.date))
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(
@@ -281,7 +285,7 @@ extension CalendarViewController: UITableViewDataSource {
                   let selectedItem = selectedItem else {
                 return UITableViewCell()
             }
-            cell.configure(data: selectedItem.dataArray[indexPath.row - 1])
+            cell.configure(data: viewModel.outputs.loadCalendarItem(date: selectedItem.date).dataArray[indexPath.row - 1])
             return cell
         }
     }
@@ -296,9 +300,8 @@ extension CalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // TODO: 削除処理を実装
-            viewModel.inputs.didDeleateCell(indexPath: indexPath)
+        if editingStyle == .delete, let selectedItem = selectedItem {
+            viewModel.inputs.didDeleateCell(kakeiboData: selectedItem.dataArray[indexPath.row - 1].1)
         }
     }
 }

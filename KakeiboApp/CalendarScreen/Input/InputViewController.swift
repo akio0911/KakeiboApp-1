@@ -9,9 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: deleteBarButtonの表示・非表示の実装
 final class InputViewController: UIViewController {
     @IBOutlet private weak var saveBarButton: UIBarButtonItem!
-    @IBOutlet private weak var cancelBarButton: UIBarButtonItem!
+    @IBOutlet private weak var deleteBarButton: UIBarButtonItem!
     @IBOutlet private weak var dateTextField: DateTextField!
     @IBOutlet private weak var segmentedControlView: BalanceSegmentedControlView!
     @IBOutlet private weak var balanceLabel: UILabel!
@@ -40,8 +41,8 @@ final class InputViewController: UIViewController {
             .subscribe(onNext: didTapSaveButton)
             .disposed(by: disposeBag)
 
-        cancelBarButton.rx.tap
-            .subscribe(onNext: viewModel.inputs.didTapCancelButton)
+        deleteBarButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapDeleteButton)
             .disposed(by: disposeBag)
 
         saveButton.rx.tap

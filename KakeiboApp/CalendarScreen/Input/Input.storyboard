@@ -260,9 +260,9 @@
                     <connections>
                         <outlet property="balanceLabel" destination="lmj-3k-d5d" id="f9B-hu-yQ2"/>
                         <outlet property="balanceTextField" destination="wJX-e3-9ps" id="Clc-rf-mTV"/>
-                        <outlet property="cancelBarButton" destination="Vzr-Ex-L2Y" id="7zf-Uj-ry7"/>
                         <outlet property="categoryCollectionView" destination="Xdj-XP-cDQ" id="EDm-mC-ZNP"/>
                         <outlet property="dateTextField" destination="OJ9-eN-9Df" id="evR-F1-5jd"/>
+                        <outlet property="deleteBarButton" destination="Vzr-Ex-L2Y" id="PmK-tP-oRd"/>
                         <outlet property="memoTextView" destination="MwI-pI-6nh" id="E8U-DG-tsV"/>
                         <outlet property="saveBarButton" destination="nql-2x-NIx" id="lHs-XH-xiA"/>
                         <outlet property="saveButton" destination="bwu-Nz-yTp" id="zgf-rU-LOw"/>

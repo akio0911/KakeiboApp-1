@@ -16,7 +16,7 @@ protocol CalendarViewModelInput {
     func didActionNextMonth()
     func didActionLastMonth()
     func didSelectRowAt(indexPath: IndexPath)
-    func didDeleateCell(indexPath: IndexPath)
+    func didDeleateCell(kakeiboData: KakeiboData)
 }
 
 protocol CalendarViewModelOutput {
@@ -28,7 +28,7 @@ protocol CalendarViewModelOutput {
     var isAnimatedIndicator: Driver<Bool> { get }
     var event: Driver<CalendarViewModel.Event> { get }
     func loadCalendarItems(date: Date) -> [CalendarItem]
-    func loadCalendarItem(date: Date) -> CalendarItem?
+    func loadCalendarItem(date: Date) -> CalendarItem
 }
 
 protocol CalendarViewModelType {
@@ -41,6 +41,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         case presentAdd(Date)
         case presentEdit(KakeiboData, CategoryData)
         case showErrorAlert(Error)
+        case reloadData
     }
 
     private let kakeiboModel: KakeiboModelProtocol
@@ -174,7 +175,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         return calendarItems
     }
 
-    func loadCalendarItem(date: Date) -> CalendarItem? {
+    func loadCalendarItem(date: Date) -> CalendarItem {
         let kakeiboDataArray = kakeiboModel.loadDayData(date: date)
         let totalBalance = kakeiboDataArray.reduce(0) { $0 + $1.balance.fetchValueSigned }
         let isCalendarMonth = Calendar(identifier: .gregorian)
@@ -238,16 +239,18 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         //        eventRelay.accept(.presentEdit(data.1, data.0))
     }
 
-    func didDeleateCell(indexPath: IndexPath) {
-        //        guard let userInfo = authType.userInfo else { return }
-        //        let kakeiboData = tableViewItemRelay.value[indexPath.section].dataArray[indexPath.row].1
-        //        isAnimatedIndicatorRelay.accept(true)
-        //        kakeiboModel.deleateData(userId: userInfo.id, data: kakeiboData) { [weak self] error in
-        //            self?.isAnimatedIndicatorRelay.accept(false)
-        //            if let error = error {
-        //                self?.eventRelay.accept(.showErrorAlert(error))
-        //            }
-        //        }
+    func didDeleateCell(kakeiboData: KakeiboData) {
+        guard let userInfo = authType.userInfo else { return }
+        isAnimatedIndicatorRelay.accept(true)
+        kakeiboModel.deleateData(userId: userInfo.id, data: kakeiboData) { [weak self] error in
+            self?.isAnimatedIndicatorRelay.accept(false)
+            if let error = error {
+                self?.eventRelay.accept(.showErrorAlert(error))
+            } else {
+                self?.acceptTotalText()
+                self?.eventRelay.accept(.reloadData)
+            }
+        }
     }
 }
 

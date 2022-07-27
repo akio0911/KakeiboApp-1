@@ -11,7 +11,7 @@ import RxCocoa
 protocol InputViewModelInput {
     func onViewDidLoad()
     func didTapSaveButton(dateText: String, balanceText: String, categoryData: CategoryData, memo: String)
-    func didTapCancelButton()
+    func didTapDeleteButton()
     func didChangeSegmentControl(index: Int)
 }
 
@@ -35,7 +35,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         case dismiss
         case showDismissAlert(String, String)
         case showErrorAlert
-        case showAlert(String, String)
+        case showAlert(String, String?)
     }
 
     enum Mode {
@@ -174,8 +174,22 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         eventRelay.accept(.dismiss)
     }
 
-    func didTapCancelButton() {
-        eventRelay.accept(.dismiss)
+    func didTapDeleteButton() {
+        guard let userInfo = authType.userInfo else { return }
+        switch mode {
+        case .add:
+            break
+        case .edit(let kakeiboData, _):
+            isAnimatedIndicatorRelay.accept(true)
+            kakeiboModel.deleateData(userId: userInfo.id, data: kakeiboData) { [weak self] error in
+                self?.isAnimatedIndicatorRelay.accept(false)
+                if error != nil {
+                    self?.eventRelay.accept(.showErrorAlert)
+                } else {
+                    self?.eventRelay.accept(.showAlert(R.string.localizable.deletedTitle(), nil))
+                }
+            }
+        }
     }
 
     func didChangeSegmentControl(index: Int) {

@@ -10,7 +10,7 @@ import UIKit
 import MBProgressHUD
 
 extension UIViewController {
-    func showAlert(title: String, messege: String, onAccept: (() -> Void)? = nil) {
+    func showAlert(title: String?, messege: String?, onAccept: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: messege, preferredStyle: .alert)
         alert.addAction(
             UIAlertAction(title: R.string.localizable.ok(), style: .default) { _ in
