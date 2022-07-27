@@ -140,6 +140,9 @@ extension InputViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         cell.configure(categoryData: categoryDataArray[indexPath.row])
+        if indexPath.row == selectedIndex {
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        }
         return cell
     }
 }
@@ -153,6 +156,12 @@ extension InputViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+}
+
+extension InputViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
     }
 }
 
