@@ -1,0 +1,8 @@
+app_identifier("com.kyohei.KakeiboApp") # The bundle identifier of your app
+apple_id("kyoheishogun.1997@i.softbank.jp") # Your Apple email address
+
+itc_team_id("123130340") # App Store Connect Team ID
+team_id("HAMLUR4PQA") # Developer Portal Team ID
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile

@@ -20,3 +20,9 @@ DerivedData/
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 *.generated.swift
+
+# fastlane
+vendor/
+fastlane/metadata/
+fastlane/report.xml
+fastlane/screenshots/
