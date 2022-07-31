@@ -25,12 +25,17 @@ final class InputViewController: UIViewController {
     private var categoryDataArray: [CategoryData] = []
     private var selectedIndex: Int = 0
 
+    func inject(mode: InputViewModel.Mode) {
+        viewModel.inputs.setMode(mode: mode)
+    }
+
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         segmentedControlView.delegate = self
         setupCategoryCollectionView()
         setupBinding()
+        viewModel.inputs.setMode(mode: .add(Date()))
     }
 
     override func viewDidDisappear(_ animated: Bool) {

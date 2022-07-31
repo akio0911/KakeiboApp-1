@@ -109,6 +109,7 @@
 		47EB81F926900D3E008FA088 /* GraphTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */; };
 		47EB81FA26900D3E008FA088 /* GraphTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */; };
 		47EBC576271BE8A500BA64F6 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EBC575271BE8A500BA64F6 /* CategoryModel.swift */; };
+		47EBFCDE2896557B00D2D4D3 /* TabBarViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EBFCDD2896557B00D2D4D3 /* TabBarViews.swift */; };
 		47EE95B4287C66B100A645EC /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B3287C66B100A645EC /* DateTextField.swift */; };
 		47EE95B6287DBD8E00A645EC /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */; };
 		47EE95B82885121D00A645EC /* BorderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B72885121D00A645EC /* BorderTextView.swift */; };
@@ -225,6 +226,7 @@
 		47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewCell.swift; sourceTree = "<group>"; };
 		47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphTableViewCell.xib; sourceTree = "<group>"; };
 		47EBC575271BE8A500BA64F6 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		47EBFCDD2896557B00D2D4D3 /* TabBarViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViews.swift; sourceTree = "<group>"; };
 		47EE95B3287C66B100A645EC /* DateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
 		47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		47EE95B72885121D00A645EC /* BorderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderTextView.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 				47DC3EDA26E34DB300693980 /* Parts */,
 				47DC3EE926E44D8600693980 /* Utility */,
 				47DC3EE626E3928F00693980 /* MainTabBarController.swift */,
+				47EBFCDD2896557B00D2D4D3 /* TabBarViews.swift */,
 				4723D7FB285E057A00E8440A /* EventBus.swift */,
 				47815701266128C8005E1020 /* AppDelegate.swift */,
 				47815703266128C8005E1020 /* SceneDelegate.swift */,
@@ -1010,6 +1013,7 @@
 				47A6BFDF270FDFE900698113 /* HowToUseItem.swift in Sources */,
 				47CC9A7326F76BC700126467 /* CategoryTableViewHeaderView.swift in Sources */,
 				4773CC24270D24BC00C52DE0 /* CategoryInputViewController.swift in Sources */,
+				47EBFCDE2896557B00D2D4D3 /* TabBarViews.swift in Sources */,
 				47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */,
 				4799911A26F5A0BB00BD5B38 /* CategoryItem.swift in Sources */,
 				4773CBFD270C653000C52DE0 /* CategoryEditViewModel.swift in Sources */,

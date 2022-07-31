@@ -12,10 +12,10 @@ import Foundation
 protocol CalendarViewModelInput {
     func onViewDidLoad()
     func onViewWillApper()
-    func didTapInputBarButton(didHighlightItem indexPath: IndexPath)
+    func didTapInputButton(date: Date?)
     func didActionNextMonth()
     func didActionLastMonth()
-    func didSelectRowAt(indexPath: IndexPath)
+    func didSelectRowAt(kakeiboData: KakeiboData, categoryData: CategoryData)
     func didDeleateCell(kakeiboData: KakeiboData)
 }
 
@@ -38,8 +38,8 @@ protocol CalendarViewModelType {
 
 final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
     enum Event {
-        case presentAdd(Date)
-        case presentEdit(KakeiboData, CategoryData)
+        case selectedAdd(Date)
+        case selectedEdit(KakeiboData, CategoryData)
         case showErrorAlert(Error)
         case reloadData
     }
@@ -208,14 +208,12 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         acceptTotalText()
     }
 
-    func didTapInputBarButton(didHighlightItem indexPath: IndexPath) {
-        //        if indexPath.isEmpty {
-        //            eventRelay.accept(.presentAdd(Date()))
-        //        } else {
-        //            let calendarItemArray = collectionViewItemRelay.value
-        //            let date = calendarItemArray[indexPath.row].date
-        //            eventRelay.accept(.presentAdd(date))
-        //        }
+    func didTapInputButton(date: Date?) {
+        if let date = date {
+            eventRelay.accept(.selectedAdd(date))
+        } else {
+            eventRelay.accept(.selectedAdd(Date()))
+        }
     }
 
     func didActionNextMonth() {
@@ -234,9 +232,8 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
         }
     }
 
-    func didSelectRowAt(indexPath: IndexPath) {
-        //        let data = tableViewItemRelay.value[indexPath.section].dataArray[indexPath.row]
-        //        eventRelay.accept(.presentEdit(data.1, data.0))
+    func didSelectRowAt(kakeiboData: KakeiboData, categoryData: CategoryData) {
+        eventRelay.accept(.selectedEdit(kakeiboData, categoryData))
     }
 
     func didDeleateCell(kakeiboData: KakeiboData) {

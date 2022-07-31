@@ -228,11 +228,11 @@
                                     </constraints>
                                 </view>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="rRb-Rp-gSu">
-                                    <rect key="frame" x="0.0" y="491" width="375" height="76"/>
+                                    <rect key="frame" x="0.0" y="491" width="375" height="91"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="KQh-Pz-vVI">
-                                            <rect key="frame" x="97.666666666666671" y="0.0" width="179.66666666666663" height="60"/>
+                                            <rect key="frame" x="97.666666666666671" y="0.0" width="179.66666666666663" height="75"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="まだデータがありません" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cuE-NS-eO8">
                                                     <rect key="frame" x="0.0" y="0.0" width="179.66666666666666" height="26"/>
@@ -244,11 +244,8 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9q-Bf-TDZ">
-                                                    <rect key="frame" x="0.0" y="38" width="179.66666666666666" height="22"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="26" id="lcd-ch-zzj"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <rect key="frame" x="0.0" y="38" width="179.66666666666666" height="37"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" title="データを入力する">
                                                         <color key="titleColor" name="sFF6800"/>
@@ -292,6 +289,7 @@
                         <outlet property="expenseLabel" destination="oVj-RW-yld" id="xL5-IJ-tBK"/>
                         <outlet property="footerView" destination="rRb-Rp-gSu" id="6IR-j2-SYr"/>
                         <outlet property="incomeLabel" destination="ZlJ-Dr-1VA" id="lVL-IY-V0L"/>
+                        <outlet property="inputButton" destination="h9q-Bf-TDZ" id="Nkg-Sf-sVq"/>
                         <outlet property="lastBarButtonItem" destination="Qj9-w9-cPS" id="Nur-g7-z6j"/>
                         <outlet property="nextBarButtonItem" destination="gTJ-G8-u7d" id="NY5-Yp-1Vp"/>
                         <outlet property="noDataLabel" destination="cuE-NS-eO8" id="ZdL-9e-sYM"/>
@@ -299,7 +297,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="920.625" y="103.52112676056338"/>
+            <point key="canvasLocation" x="919.20000000000005" y="103.44827586206897"/>
         </scene>
     </scenes>
     <resources>
