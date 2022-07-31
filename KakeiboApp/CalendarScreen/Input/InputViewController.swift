@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-// TODO: deleteBarButtonの表示・非表示の実装
 final class InputViewController: UIViewController {
     @IBOutlet private weak var saveBarButton: UIBarButtonItem!
     @IBOutlet private weak var deleteBarButton: UIBarButtonItem!
@@ -21,7 +20,7 @@ final class InputViewController: UIViewController {
     @IBOutlet private weak var memoTextView: BorderTextView!
     @IBOutlet private weak var saveButton: UIButton!
 
-    private let viewModel: InputViewModelType = InputViewModel(mode: .add(Date()))
+    private let viewModel: InputViewModelType = InputViewModel()
     private let disposeBag = DisposeBag()
     private var categoryDataArray: [CategoryData] = []
     private var selectedIndex: Int = 0
@@ -32,7 +31,11 @@ final class InputViewController: UIViewController {
         segmentedControlView.delegate = self
         setupCategoryCollectionView()
         setupBinding()
-        viewModel.inputs.onViewDidLoad()
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        viewModel.inputs.setMode(mode: .add(Date()))
     }
 
     // swiftlint:disable:next function_body_length
@@ -92,6 +95,18 @@ final class InputViewController: UIViewController {
         viewModel.outputs.isAnimatedIndicator
             .drive { [weak self] isAnimated in
                 isAnimated ? self?.showProgress() : self?.hideProgress()
+            }
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.isHiddenDeleteButton
+            .drive { [weak self] isHidden in
+                if isHidden {
+                    self?.deleteBarButton.isEnabled = false
+                    self?.deleteBarButton.tintColor = .clear
+                } else {
+                    self?.deleteBarButton.isEnabled = true
+                    self?.deleteBarButton.tintColor = R.color.sFF9B00()
+                }
             }
             .disposed(by: disposeBag)
 
