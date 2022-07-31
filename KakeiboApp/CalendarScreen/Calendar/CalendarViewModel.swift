@@ -206,6 +206,7 @@ final class CalendarViewModel: CalendarViewModelInput, CalendarViewModelOutput {
 
     func onViewWillApper() {
         acceptTotalText()
+        eventRelay.accept(.reloadData)
     }
 
     func didTapInputButton(date: Date?) {

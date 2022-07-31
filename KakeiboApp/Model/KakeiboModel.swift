@@ -59,7 +59,13 @@ final class KakeiboModel: KakeiboModelProtocol {
             if let error = error {
                 completion(error)
             } else {
-                strongSelf.kakeiboDataArray.append(data)
+                if let index = strongSelf.kakeiboDataArray.firstIndex(where: { $0.instantiateTime == data.instantiateTime }) {
+                    // 同じデータ作成日時があった場合、配列のデータを置き換え
+                    strongSelf.kakeiboDataArray[index] = data
+                } else {
+                    // 同じデータ作成日時がなかった場合、配列にデータを追加
+                    strongSelf.kakeiboDataArray.append(data)
+                }
                 completion(nil)
             }
         }

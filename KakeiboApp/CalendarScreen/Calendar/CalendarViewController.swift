@@ -310,7 +310,8 @@ extension CalendarViewController: UITableViewDataSource {
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete, let selectedItem = selectedItem {
-            viewModel.inputs.didDeleateCell(kakeiboData: selectedItem.dataArray[indexPath.row - 1].1)
+            let calendarItem = viewModel.outputs.loadCalendarItem(date: selectedItem.date)
+            viewModel.inputs.didDeleateCell(kakeiboData: calendarItem.dataArray[indexPath.row - 1].1)
         }
     }
 }
