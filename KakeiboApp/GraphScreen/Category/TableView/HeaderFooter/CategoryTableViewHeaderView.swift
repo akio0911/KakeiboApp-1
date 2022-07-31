@@ -14,7 +14,7 @@ class CategoryTableViewHeaderView: UITableViewHeaderFooterView {
     func configure(data: CategoryItem) {
         dateLabel.text = DateUtility.stringFromDate(
             date: data.date,
-            format: "yyyy年MM月d日"
+            format: "yyyy年MM月dd日"
         )
         totalBalanceLabel.text =
             NumberFormatterUtility.changeToCurrencyNotation(from: data.totalBalance) ?? "0円"

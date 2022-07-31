@@ -66,7 +66,7 @@ final class DateTextField: BorderTextField {
     private func setupBinding() {
         datePicker.rx.value
             .subscribe { [weak self] date in
-                self?.text = DateUtility.stringFromDate(date: date, format: "yyyy年MM月d日")
+                self?.text = DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日")
             }
             .disposed(by: disposeBag)
     }
