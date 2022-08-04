@@ -199,6 +199,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                     self?.eventRelay.accept(.showErrorAlert)
                 } else {
                     self?.eventRelay.accept(.showAlert(R.string.localizable.deletedTitle(), nil))
+                    self?.mode = .add(Date())
                 }
             }
         }
