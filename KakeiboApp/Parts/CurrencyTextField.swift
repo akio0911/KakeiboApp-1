@@ -10,13 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class CurrencyTextField: BorderTextField {
-    private var numberFormatter: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter
-    }()
-
     private let disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
@@ -70,8 +63,8 @@ final class CurrencyTextField: BorderTextField {
             numberText = String(numberText.prefix(maxLength))
         }
         // カンマをつけてテキストフィールドに表示
-        self.text = numberFormatter.string(
-            from: NSNumber(value: Int(numberText) ?? 0)
+        self.text = NumberFormatterUtility.changeToDecimal(
+            from: Int(numberText) ?? 0
         )
     }
 }

@@ -237,7 +237,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             categoryRelay.accept((categoryModel.incomeCategoryDataArray, selectedIndex: categoryData.displayOrder))
         }
         segmentIndexRelay.accept(kakeiboData.categoryId.rawValue)
-        balanceRelay.accept(String(kakeiboData.balance.fetchValue))
+        balanceRelay.accept(NumberFormatterUtility.changeToDecimal(from: kakeiboData.balance.fetchValue) ?? "0")
         memoRelay.accept(kakeiboData.memo)
         isHiddenDeleteButtonRelay.accept(false)
     }

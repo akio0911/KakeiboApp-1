@@ -15,4 +15,12 @@ struct NumberFormatterUtility {
         let value = NSNumber(value: from)
         return numberFormatter.string(from: value)
     }
+
+    static func changeToDecimal(from: Int) -> String? {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.locale = Locale(identifier: "ja_JP")
+        let value = NSNumber(value: from)
+        return numberFormatter.string(from: value)
+    }
 }
