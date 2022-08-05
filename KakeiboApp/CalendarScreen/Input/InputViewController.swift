@@ -24,9 +24,10 @@ final class InputViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var categoryDataArray: [CategoryData] = []
     private var selectedIndex: Int = 0
+    private var mode: InputViewModel.Mode = .add(Date())
 
     func inject(mode: InputViewModel.Mode) {
-        viewModel.inputs.setMode(mode: mode)
+        self.mode = mode
     }
 
     // MARK: - viewDidLoad
@@ -35,12 +36,16 @@ final class InputViewController: UIViewController {
         segmentedControlView.delegate = self
         setupCategoryCollectionView()
         setupBinding()
-        viewModel.inputs.setMode(mode: .add(Date()))
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.inputs.setMode(mode: mode)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        viewModel.inputs.setMode(mode: .add(Date()))
+        mode = .add(Date())
     }
 
     // swiftlint:disable:next function_body_length
