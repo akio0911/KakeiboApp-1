@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // IQKeyboardManagerを有効にする
         IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.toolbarTintColor = R.color.sFF9B00()
 
         return true
     }

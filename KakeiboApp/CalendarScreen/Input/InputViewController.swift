@@ -41,6 +41,12 @@ final class InputViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.inputs.setMode(mode: mode)
+        switch mode {
+        case .add(let date):
+            dateTextField.setupDatePicker(date: date)
+        case .edit(let kakeiboData, _):
+            dateTextField.setupDatePicker(date: kakeiboData.date)
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {

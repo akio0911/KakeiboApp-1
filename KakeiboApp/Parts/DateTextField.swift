@@ -20,6 +20,7 @@ final class DateTextField: BorderTextField {
         datePicker.datePickerMode = .date
         datePicker.calendar = Calendar(identifier: .gregorian)
         datePicker.locale = .current
+        datePicker.tintColor = R.color.sFF9B00()
         return datePicker
     }()
 
@@ -46,12 +47,17 @@ final class DateTextField: BorderTextField {
         setupTextFieldView()
     }
 
+    func setupDatePicker(date: Date) {
+        datePicker.date = date
+    }
+
     private func setupTextFieldView() {
+        tintColor = R.color.sFF9B00()
         leftView = UIView(frame: CGRect(x: 0, y: 0, width: 9, height: frame.height))
         leftViewMode = .always
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: frame.height))
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "calendar")
+        imageView.image = UIImage(systemName: "calendar")?.withTintColor(R.color.sFF9B00()!, renderingMode: .alwaysOriginal)
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 30, height: frame.height))
         view.isUserInteractionEnabled = false
         view.addSubview(imageView)
