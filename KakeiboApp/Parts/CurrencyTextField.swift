@@ -31,6 +31,7 @@ final class CurrencyTextField: BorderTextField {
     }
 
     private func setupTextFieldView() {
+        tintColor = R.color.sFF9B00()
         leftView = UIView(frame: CGRect(x: 0, y: 0, width: 9, height: frame.height))
         leftViewMode = .always
         let yenLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 23, height: 30))

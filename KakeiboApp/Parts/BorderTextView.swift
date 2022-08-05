@@ -45,6 +45,7 @@ class BorderTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         borderState = .notEditing
         super.init(frame: frame, textContainer: textContainer)
+        tintColor = R.color.sFF9B00()
         setupCornerRadius()
         setupBinding()
     }
@@ -52,12 +53,14 @@ class BorderTextView: UITextView {
     required init?(coder: NSCoder) {
         borderState = .notEditing
         super.init(coder: coder)
+        tintColor = R.color.sFF9B00()
         setupCornerRadius()
         setupBinding()
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        tintColor = R.color.sFF9B00()
         borderState = .notEditing
         setupCornerRadius()
         setupBinding()

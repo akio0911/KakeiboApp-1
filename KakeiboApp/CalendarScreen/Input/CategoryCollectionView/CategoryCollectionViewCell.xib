@@ -13,22 +13,22 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="CategoryCollectionViewCell" customModule="KakeiboApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+            <rect key="frame" x="0.0" y="0.0" width="75" height="65"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                <rect key="frame" x="0.0" y="0.0" width="75" height="65"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AuthFormImage" translatesAutoresizingMaskIntoConstraints="NO" id="xJ7-ny-0J8">
-                        <rect key="frame" x="17.5" y="8" width="40" height="40"/>
+                        <rect key="frame" x="22.5" y="8" width="30" height="30"/>
                         <color key="tintColor" systemColor="systemRedColor"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="40" id="BWs-tD-rwe"/>
-                            <constraint firstAttribute="width" constant="40" id="dbg-BN-20e"/>
+                            <constraint firstAttribute="height" constant="30" id="BWs-tD-rwe"/>
+                            <constraint firstAttribute="width" constant="30" id="dbg-BN-20e"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="753" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eIr-by-lSy">
-                        <rect key="frame" x="0.0" y="52" width="75" height="17"/>
+                        <rect key="frame" x="0.0" y="42" width="75" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" name="s666666"/>
                         <nil key="highlightedColor"/>
@@ -44,7 +44,7 @@
                 <constraint firstItem="eIr-by-lSy" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Fau-yI-zqI"/>
                 <constraint firstItem="eIr-by-lSy" firstAttribute="top" relation="greaterThanOrEqual" secondItem="xJ7-ny-0J8" secondAttribute="bottom" id="KWd-li-1jw"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="eIr-by-lSy" secondAttribute="bottom" id="VdG-Rp-z82"/>
-                <constraint firstItem="xJ7-ny-0J8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="top" id="Ycu-V5-mig"/>
+                <constraint firstItem="xJ7-ny-0J8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="top" constant="1" id="Ycu-V5-mig"/>
                 <constraint firstItem="eIr-by-lSy" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="bPn-j1-fiO"/>
                 <constraint firstItem="eIr-by-lSy" firstAttribute="top" secondItem="xJ7-ny-0J8" secondAttribute="bottom" priority="752" constant="4" id="kGa-gq-Q7v"/>
                 <constraint firstItem="xJ7-ny-0J8" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="o0R-bB-IFa"/>
@@ -65,7 +65,7 @@
                 <outlet property="iconImageView" destination="xJ7-ny-0J8" id="8Cr-8f-buQ"/>
                 <outlet property="nameLabel" destination="eIr-by-lSy" id="TBs-UK-sit"/>
             </connections>
-            <point key="canvasLocation" x="136" y="30"/>
+            <point key="canvasLocation" x="134.05797101449275" y="29.799107142857142"/>
         </collectionViewCell>
     </objects>
     <resources>

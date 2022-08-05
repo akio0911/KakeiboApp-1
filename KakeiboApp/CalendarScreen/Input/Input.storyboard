@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rA5-21-fch">
-    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -14,17 +14,17 @@
             <objects>
                 <viewController id="rA5-21-fch" customClass="InputViewController" customModule="KakeiboApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Kiq-5a-hAv">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tvj-Bf-xF9">
-                                <rect key="frame" x="0.0" y="44" width="320" height="387"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="475"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4yU-cF-yZB">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="768.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="707.5"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yEg-2C-7ZP" userLabel="DateView">
-                                                <rect key="frame" x="0.0" y="0.0" width="320" height="101.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="320" height="95.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日付" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Nb-Ne-RSQ">
                                                         <rect key="frame" x="24" y="16" width="33" height="19.5"/>
@@ -36,10 +36,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OJ9-eN-9Df" customClass="DateTextField" customModule="KakeiboApp" customModuleProvider="target">
-                                                        <rect key="frame" x="24" y="39.5" width="272" height="50"/>
+                                                        <rect key="frame" x="24" y="39.5" width="272" height="44"/>
                                                         <color key="backgroundColor" name="sFFFFFF"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="dT8-mC-z6f"/>
+                                                            <constraint firstAttribute="height" constant="44" id="dT8-mC-z6f"/>
                                                         </constraints>
                                                         <color key="textColor" name="s333333"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
@@ -57,17 +57,17 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nxM-Ik-4Dk" userLabel="SeparaterView">
-                                                <rect key="frame" x="16" y="101.5" width="288" height="1"/>
-                                                <color key="backgroundColor" name="s999999"/>
+                                                <rect key="frame" x="16" y="95.5" width="288" height="1"/>
+                                                <color key="backgroundColor" name="sD9D9D9"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="FOm-Jy-v8U"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVr-ah-f8e" userLabel="BalanceView">
-                                                <rect key="frame" x="0.0" y="102.5" width="320" height="406.5"/>
+                                                <rect key="frame" x="0.0" y="96.5" width="320" height="361.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="支出" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lmj-3k-d5d">
-                                                        <rect key="frame" x="24" y="56" width="33" height="19.5"/>
+                                                        <rect key="frame" x="24" y="47" width="33" height="19.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="19.5" id="WuW-Hk-UhC"/>
                                                         </constraints>
@@ -76,28 +76,28 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wJX-e3-9ps" customClass="CurrencyTextField" customModule="KakeiboApp" customModuleProvider="target">
-                                                        <rect key="frame" x="24" y="79.5" width="272" height="50"/>
+                                                        <rect key="frame" x="24" y="70.5" width="272" height="44"/>
                                                         <color key="backgroundColor" name="sFFFFFF"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="50" id="KwQ-NB-ba0"/>
+                                                            <constraint firstAttribute="height" constant="44" id="KwQ-NB-ba0"/>
                                                         </constraints>
                                                         <color key="textColor" name="s333333"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2wf-Xu-hcu" customClass="BalanceSegmentedControlView" customModule="KakeiboApp" customModuleProvider="target">
-                                                        <rect key="frame" x="40" y="0.0" width="240" height="44"/>
+                                                        <rect key="frame" x="40" y="0.0" width="240" height="35"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="240" id="RvM-tt-TUP"/>
-                                                            <constraint firstAttribute="height" constant="44" id="jkI-a4-umQ"/>
+                                                            <constraint firstAttribute="height" constant="35" id="jkI-a4-umQ"/>
                                                         </constraints>
                                                     </view>
                                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xdj-XP-cDQ">
-                                                        <rect key="frame" x="24" y="145.5" width="272" height="245"/>
+                                                        <rect key="frame" x="24" y="130.5" width="272" height="215"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="245" id="LiZ-X6-TpS"/>
+                                                            <constraint firstAttribute="height" constant="215" id="LiZ-X6-TpS"/>
                                                         </constraints>
                                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="fOK-f7-6aZ">
                                                             <size key="itemSize" width="128" height="128"/>
@@ -124,14 +124,14 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3U0-yy-Ely" userLabel="SeparaterView">
-                                                <rect key="frame" x="16" y="509" width="288" height="1"/>
-                                                <color key="backgroundColor" name="s999999"/>
+                                                <rect key="frame" x="16" y="458" width="288" height="1"/>
+                                                <color key="backgroundColor" name="sD9D9D9"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="ru6-Pk-riV"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jb3-LY-fsA" userLabel="memoView">
-                                                <rect key="frame" x="0.0" y="510" width="320" height="151.5"/>
+                                                <rect key="frame" x="0.0" y="459" width="320" height="141.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="メモ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mU-9r-XqE">
                                                         <rect key="frame" x="24" y="12" width="33" height="19.5"/>
@@ -143,10 +143,10 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MwI-pI-6nh" customClass="BorderTextView" customModule="KakeiboApp" customModuleProvider="target">
-                                                        <rect key="frame" x="24" y="35.5" width="272" height="100"/>
+                                                        <rect key="frame" x="24" y="35.5" width="272" height="90"/>
                                                         <color key="backgroundColor" name="sFFFFFF"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="100" id="1gH-A7-HZp"/>
+                                                            <constraint firstAttribute="height" constant="90" id="1gH-A7-HZp"/>
                                                         </constraints>
                                                         <color key="textColor" name="s333333"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
@@ -164,14 +164,14 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2rg-uo-wJr" userLabel="SeparaterView">
-                                                <rect key="frame" x="16" y="661.5" width="288" height="1"/>
-                                                <color key="backgroundColor" name="s999999"/>
+                                                <rect key="frame" x="16" y="600.5" width="288" height="1"/>
+                                                <color key="backgroundColor" name="sD9D9D9"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="ftX-48-cpa"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Csm-qD-t9Q" userLabel="SaveView">
-                                                <rect key="frame" x="0.0" y="662.5" width="320" height="106"/>
+                                                <rect key="frame" x="0.0" y="601.5" width="320" height="106"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwu-Nz-yTp">
                                                         <rect key="frame" x="24" y="40" width="272" height="50"/>
@@ -281,8 +281,8 @@
         <namedColor name="s666666">
             <color red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="s999999">
-            <color red="0.60000002384185791" green="0.60000002384185791" blue="0.60000002384185791" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="sD9D9D9">
+            <color red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="sF2F2F7">
             <color red="0.94900000095367432" green="0.94900000095367432" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
