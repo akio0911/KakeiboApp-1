@@ -10,15 +10,14 @@ import RxCocoa
 
 protocol InputViewModelInput {
     func setMode(mode: InputViewModel.Mode)
-    func didTapSaveButton(dateText: String, balanceText: String, categoryData: CategoryData, memo: String)
+    func didTapSaveButton(dateText: String, segmentIndex: Int, balanceText: String, categoryData: CategoryData, memo: String)
     func didTapDeleteButton()
-    func didChangeSegmentControl(index: Int)
 }
 
 protocol InputViewModelOutput {
     var event: Driver<InputViewModel.Event> { get }
     var date: Driver<String> { get }
-    var category: Driver<([CategoryData], selectedIndex: Int)> { get }
+    var category: Driver<([[CategoryData]], selectedIndexPath: IndexPath)> { get }
     var segmentIndex: Driver<Int> { get }
     var balance: Driver<String> { get }
     var memo: Driver<String> { get }
@@ -59,15 +58,19 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
     private let dateRelay = PublishRelay<String>()
-    private let categoryRelay = PublishRelay<([CategoryData], selectedIndex: Int)>()
-    private let segmentIndexRelay = BehaviorRelay<Int>(value: 0)
+    private let categoryRelay = PublishRelay<([[CategoryData]], selectedIndexPath: IndexPath)>()
+    private let segmentIndexRelay = PublishRelay<Int>()
     private let balanceRelay = BehaviorRelay<String>(value: "")
     private let memoRelay = BehaviorRelay<String>(value: "")
     private let isAnimatedIndicatorRelay = PublishRelay<Bool>()
     private let isHiddenDeleteButtonRelay = PublishRelay<Bool>()
 
-    private(set) var incomeCategoryDataArray: [CategoryData]
-    private(set) var expenseCategoryDataArray: [CategoryData]
+    private var balanceCategoryDataArray: [[CategoryData]] {
+        return [
+            categoryModel.expenseCategoryDataArray,
+            categoryModel.incomeCategoryDataArray
+        ]
+    }
 
     init(kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
@@ -75,8 +78,6 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         self.kakeiboModel = kakeiboModel
         self.categoryModel = categoryModel
         self.authType = authType
-        incomeCategoryDataArray = categoryModel.incomeCategoryDataArray
-        expenseCategoryDataArray = categoryModel.expenseCategoryDataArray
     }
 
     var event: Driver<Event> {
@@ -87,12 +88,12 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         dateRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    var category: Driver<([CategoryData], selectedIndex: Int)> {
+    var category: Driver<([[CategoryData]], selectedIndexPath: IndexPath)> {
         categoryRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var segmentIndex: Driver<Int> {
-        segmentIndexRelay.asDriver()
+        segmentIndexRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var balance: Driver<String> {
@@ -115,7 +116,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         self.mode = mode
     }
 
-    func didTapSaveButton(dateText: String, balanceText: String, categoryData: CategoryData, memo: String) {
+    func didTapSaveButton(dateText: String, segmentIndex: Int, balanceText: String, categoryData: CategoryData, memo: String) {
         guard let userInfo = authType.userInfo else {
             let alertTitle = R.string.localizable.userNotFoundErrorTitle()
             let message = R.string.localizable.dataSaveErrorOnNonLogin()
@@ -126,7 +127,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         let date = DateUtility.dateFromString(stringDate: dateText, format: "yyyy年MM月dd日")
         let categoryId: CategoryId
         let balance: Balance
-        switch segmentIndexRelay.value {
+        switch segmentIndex {
         case 0:
             // 支出
             guard let balanceInt = Int(balanceText.filter { Int(String($0)) != nil }) else {
@@ -205,37 +206,32 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         }
     }
 
-    func didChangeSegmentControl(index: Int) {
-        segmentIndexRelay.accept(index)
-        switch index {
-        case 0:
-            // 支出
-            categoryRelay.accept((categoryModel.expenseCategoryDataArray, selectedIndex: 0))
-        case 1:
-            // 収入
-            categoryRelay.accept((categoryModel.incomeCategoryDataArray, selectedIndex: 0))
-        default:
-            break
-        }
-    }
-
     // MARK: - misc
     private func setupAddMode(date: Date) {
         dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
-        categoryRelay.accept((categoryModel.expenseCategoryDataArray, selectedIndex: 0))
+        categoryRelay.accept(
+            (balanceCategoryDataArray, selectedIndexPath: [0, 0])
+        )
         segmentIndexRelay.accept(0)
         balanceRelay.accept("0")
         memoRelay.accept("")
         isHiddenDeleteButtonRelay.accept(true)
+        segmentIndexRelay.accept(0)
     }
 
     private func setupEditMode(kakeiboData: KakeiboData, categoryData: CategoryData) {
         dateRelay.accept(DateUtility.stringFromDate(date: kakeiboData.date, format: "yyyy年MM月dd日"))
         switch kakeiboData.categoryId {
         case .expense:
-            categoryRelay.accept((categoryModel.expenseCategoryDataArray, selectedIndex: categoryData.displayOrder))
+            categoryRelay.accept(
+                (balanceCategoryDataArray, selectedIndexPath: [0, categoryData.displayOrder])
+            )
+            segmentIndexRelay.accept(0)
         case .income:
-            categoryRelay.accept((categoryModel.incomeCategoryDataArray, selectedIndex: categoryData.displayOrder))
+            categoryRelay.accept(
+                (balanceCategoryDataArray, selectedIndexPath: [1, categoryData.displayOrder])
+            )
+            segmentIndexRelay.accept(1)
         }
         segmentIndexRelay.accept(kakeiboData.categoryId.rawValue)
         balanceRelay.accept(NumberFormatterUtility.changeToDecimal(from: kakeiboData.balance.fetchValue) ?? "0")

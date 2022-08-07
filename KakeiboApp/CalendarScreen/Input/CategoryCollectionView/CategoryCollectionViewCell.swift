@@ -13,7 +13,7 @@ final class CategoryCollectionViewCell: UICollectionViewCell {
 
     override var isSelected: Bool {
         didSet {
-            layer.borderWidth = isSelected ? 3 : 1
+            layer.borderWidth = isSelected ? 2 : 1
         }
     }
 

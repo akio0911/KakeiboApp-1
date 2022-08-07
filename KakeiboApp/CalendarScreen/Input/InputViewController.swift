@@ -16,14 +16,14 @@ final class InputViewController: UIViewController {
     @IBOutlet private weak var segmentedControlView: BalanceSegmentedControlView!
     @IBOutlet private weak var balanceLabel: UILabel!
     @IBOutlet private weak var balanceTextField: CurrencyTextField!
-    @IBOutlet private weak var categoryCollectionView: UICollectionView!
+    @IBOutlet private weak var balanceCategoryCollectionView: UICollectionView!
     @IBOutlet private weak var memoTextView: BorderTextView!
     @IBOutlet private weak var saveButton: UIButton!
 
     private let viewModel: InputViewModelType = InputViewModel()
     private let disposeBag = DisposeBag()
-    private var categoryDataArray: [CategoryData] = []
-    private var selectedIndex: Int = 0
+    private var balanceCategoryDataArray: [[CategoryData]] = []
+    private var selectedIndexPath: IndexPath = [0, 0]
     private var mode: InputViewModel.Mode = .add(Date())
 
     func inject(mode: InputViewModel.Mode) {
@@ -85,10 +85,10 @@ final class InputViewController: UIViewController {
             .disposed(by: disposeBag)
 
         viewModel.outputs.category
-            .drive { [weak self] (categoryDataArray, selectedIndex) in
-                self?.categoryDataArray = categoryDataArray
-                self?.selectedIndex = selectedIndex
-                self?.categoryCollectionView.reloadData()
+            .drive { [weak self] (balanceCategoryDataArray, selectedIndexPath) in
+                self?.balanceCategoryDataArray = balanceCategoryDataArray
+                self?.selectedIndexPath = selectedIndexPath
+                self?.balanceCategoryCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
 
@@ -137,19 +137,20 @@ final class InputViewController: UIViewController {
     }
 
     private func setupCategoryCollectionView() {
-        categoryCollectionView.register(
-            CategoryCollectionViewCell.nib,
-            forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier
+        balanceCategoryCollectionView.register(
+            BalanceCategoryCollectionViewCell.nib,
+            forCellWithReuseIdentifier: BalanceCategoryCollectionViewCell.identifier
         )
-        categoryCollectionView.delegate = self
-        categoryCollectionView.dataSource = self
+        balanceCategoryCollectionView.delegate = self
+        balanceCategoryCollectionView.dataSource = self
     }
 
     private func didTapSaveButton() {
         viewModel.inputs.didTapSaveButton(
             dateText: dateTextField.text!,
+            segmentIndex: segmentedControlView.segmentedSegmentIndex,
             balanceText: balanceTextField.text!,
-            categoryData: categoryDataArray[selectedIndex],
+            categoryData: balanceCategoryDataArray[selectedIndexPath.section][selectedIndexPath.row],
             memo: memoTextView.text!
         )
     }
@@ -158,51 +159,84 @@ final class InputViewController: UIViewController {
 // MARK: - UICollectionViewDataSource
 extension InputViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        categoryDataArray.count
+        balanceCategoryDataArray.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: CategoryCollectionViewCell.identifier,
+            withReuseIdentifier: BalanceCategoryCollectionViewCell.identifier,
             for: indexPath
-        ) as? CategoryCollectionViewCell else {
+        ) as? BalanceCategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configure(categoryData: categoryDataArray[indexPath.row])
-        if indexPath.row == selectedIndex {
-            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        let selectedIndex: Int
+        if indexPath.row == selectedIndexPath.section {
+            selectedIndex = selectedIndexPath.row
+        } else {
+            selectedIndex = 0
         }
+        cell.configure(categoryDataArray: balanceCategoryDataArray[indexPath.row], selectedIndex: selectedIndex)
+        cell.delegate = self
         return cell
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
 extension InputViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 75, height: 65)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return CGSize(width: collectionView.frame.width, height: 215)
     }
 }
 
 extension InputViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedIndex = indexPath.row
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let balanceCategoryCell = cell as? BalanceCategoryCollectionViewCell else {
+            return
+        }
+        if selectedIndexPath.section == indexPath.row {
+            balanceCategoryCell.selectedIndex = selectedIndexPath.row
+        } else {
+            balanceCategoryCell.selectedIndex = 0
+        }
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+extension InputViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let indexPath = balanceCategoryCollectionView.indexPathsForVisibleItems
+        segmentedControlView.configureSelectedSegmentIndex(index: indexPath.first?.row ?? 0)
     }
 }
 
 // MARK: - BalanceSegmentedControlViewDelegate
 extension InputViewController: BalanceSegmentedControlViewDelegate {
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
-        viewModel.inputs.didChangeSegmentControl(index: selectedSegmentIndex)
+        balanceCategoryCollectionView.scrollToItem(
+            at: [0, selectedSegmentIndex],
+            at: .centeredHorizontally,
+            animated: true
+        )
+        // 収入・支出を切り替えた時に、カテゴリー選択を一番最初のcellにする
+        if selectedIndexPath.section != selectedSegmentIndex {
+            selectedIndexPath.row = 0
+        }
+        selectedIndexPath.section = selectedSegmentIndex
         if selectedSegmentIndex == 0 {
             balanceLabel.text = Balance.expenseName
         } else if selectedSegmentIndex == 1 {
             balanceLabel.text = Balance.incomeName
         }
+    }
+}
+
+// MARK: - BalanceCategoryCollectionViewCellDelegate
+extension InputViewController: BalanceCategoryCollectionViewCellDelegate {
+    func didSelectItemAt(indexPath: IndexPath) {
+        selectedIndexPath.row = indexPath.row
     }
 }
 

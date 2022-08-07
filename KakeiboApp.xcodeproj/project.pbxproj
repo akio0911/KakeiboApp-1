@@ -110,6 +110,8 @@
 		47EB81FA26900D3E008FA088 /* GraphTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */; };
 		47EBC576271BE8A500BA64F6 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EBC575271BE8A500BA64F6 /* CategoryModel.swift */; };
 		47EBFCDE2896557B00D2D4D3 /* TabBarViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EBFCDD2896557B00D2D4D3 /* TabBarViews.swift */; };
+		47EBFCE2289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EBFCE0289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.swift */; };
+		47EBFCE3289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47EBFCE1289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.xib */; };
 		47EE95B4287C66B100A645EC /* DateTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B3287C66B100A645EC /* DateTextField.swift */; };
 		47EE95B6287DBD8E00A645EC /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */; };
 		47EE95B82885121D00A645EC /* BorderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EE95B72885121D00A645EC /* BorderTextView.swift */; };
@@ -227,6 +229,8 @@
 		47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphTableViewCell.xib; sourceTree = "<group>"; };
 		47EBC575271BE8A500BA64F6 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
 		47EBFCDD2896557B00D2D4D3 /* TabBarViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViews.swift; sourceTree = "<group>"; };
+		47EBFCE0289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		47EBFCE1289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BalanceCategoryCollectionViewCell.xib; sourceTree = "<group>"; };
 		47EE95B3287C66B100A645EC /* DateTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTextField.swift; sourceTree = "<group>"; };
 		47EE95B5287DBD8E00A645EC /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		47EE95B72885121D00A645EC /* BorderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderTextView.swift; sourceTree = "<group>"; };
@@ -406,6 +410,7 @@
 				47793EF726E76ABE0004E5F6 /* InputViewModel.swift */,
 				4785FD3426620E8700BAAD00 /* InputViewController.swift */,
 				472E590D287AA1510068FB5E /* Input.storyboard */,
+				47EBFCDF289D699B00D2D4D3 /* BalanceCategoryCollectionView */,
 				47EE95B92885256800A645EC /* CategoryCollectionView */,
 			);
 			path = Input;
@@ -671,6 +676,15 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
+		47EBFCDF289D699B00D2D4D3 /* BalanceCategoryCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				47EBFCE0289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.swift */,
+				47EBFCE1289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.xib */,
+			);
+			path = BalanceCategoryCollectionView;
+			sourceTree = "<group>";
+		};
 		47EE95B92885256800A645EC /* CategoryCollectionView */ = {
 			isa = PBXGroup;
 			children = (
@@ -769,6 +783,7 @@
 				4781570E266128C8005E1020 /* LaunchScreen.storyboard in Resources */,
 				472EFDC72704324C00A80640 /* AccountViewController.xib in Resources */,
 				478F50642870659900983DA1 /* Localizable.strings in Resources */,
+				47EBFCE3289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.xib in Resources */,
 				478F50512866E6E000983DA1 /* CalendarWeekdayCollectionViewCell.xib in Resources */,
 				47A6BFF02710531900698113 /* HowToUseTableViewCell.xib in Resources */,
 				47CC9A7526F76BEF00126467 /* CategoryTableViewHeaderView.xib in Resources */,
@@ -939,6 +954,7 @@
 				47EE95B6287DBD8E00A645EC /* CurrencyTextField.swift in Sources */,
 				47DC3EEB26E45AC400693980 /* KakeiboModel.swift in Sources */,
 				4723D7FC285E057A00E8440A /* EventBus.swift in Sources */,
+				47EBFCE2289D6A6E00D2D4D3 /* BalanceCategoryCollectionViewCell.swift in Sources */,
 				472EFDD7270488A500A80640 /* PasscodeInputButtonView.swift in Sources */,
 				4773CBF5270BD30600C52DE0 /* CategoryData.swift in Sources */,
 				478F504D2865927800983DA1 /* CardCollectionViewFlowLayout.swift in Sources */,

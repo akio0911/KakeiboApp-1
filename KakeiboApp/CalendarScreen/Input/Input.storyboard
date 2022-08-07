@@ -93,13 +93,13 @@
                                                             <constraint firstAttribute="height" constant="35" id="jkI-a4-umQ"/>
                                                         </constraints>
                                                     </view>
-                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xdj-XP-cDQ">
+                                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Xdj-XP-cDQ">
                                                         <rect key="frame" x="24" y="130.5" width="272" height="215"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="215" id="LiZ-X6-TpS"/>
                                                         </constraints>
-                                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="fOK-f7-6aZ">
+                                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="fOK-f7-6aZ">
                                                             <size key="itemSize" width="128" height="128"/>
                                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -258,9 +258,9 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="balanceCategoryCollectionView" destination="Xdj-XP-cDQ" id="Sdh-Td-NmL"/>
                         <outlet property="balanceLabel" destination="lmj-3k-d5d" id="f9B-hu-yQ2"/>
                         <outlet property="balanceTextField" destination="wJX-e3-9ps" id="Clc-rf-mTV"/>
-                        <outlet property="categoryCollectionView" destination="Xdj-XP-cDQ" id="EDm-mC-ZNP"/>
                         <outlet property="dateTextField" destination="OJ9-eN-9Df" id="evR-F1-5jd"/>
                         <outlet property="deleteBarButton" destination="Vzr-Ex-L2Y" id="PmK-tP-oRd"/>
                         <outlet property="memoTextView" destination="MwI-pI-6nh" id="E8U-DG-tsV"/>
@@ -282,7 +282,7 @@
             <color red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="sD9D9D9">
-            <color red="0.85098039215686272" green="0.85098039215686272" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.85100001096725464" green="0.85100001096725464" blue="0.85100001096725464" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="sF2F2F7">
             <color red="0.94900000095367432" green="0.94900000095367432" blue="0.96899998188018799" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
