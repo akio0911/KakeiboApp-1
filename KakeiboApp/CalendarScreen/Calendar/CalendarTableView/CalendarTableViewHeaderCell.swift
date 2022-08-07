@@ -12,7 +12,7 @@ class CalendarTableViewHeaderCell: UITableViewCell {
     @IBOutlet private weak var totalLabel: UILabel!
 
     func configure(calendarItem: CalendarItem) {
-        dateLabel.text = DateUtility.stringFromDate(date: calendarItem.date, format: "yyyy年MM月d日")
+        dateLabel.text = DateUtility.stringFromDate(date: calendarItem.date, format: "yyyy年MM月dd日")
         totalLabel.text = NumberFormatterUtility.changeToCurrencyNotation(from: calendarItem.totalBalance) ?? "0円"
         if calendarItem.totalBalance >= 0 {
             totalLabel.textColor = R.color.s00A1E4()

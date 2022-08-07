@@ -51,8 +51,8 @@ final class CardCollectionViewCell: UICollectionViewCell {
                 calendarCollectionView.deselectItem(at: indexPath, animated: false)
             }
         }
-        // 表示ItemにselectedItemがあれば選択状態にする
-        if let index = items.firstIndex(where: { $0 == selectedItem }) {
+        // 表示Itemに同じ日付があれば選択状態にする
+        if let index = items.firstIndex(where: { $0.date == selectedItem.date }) {
             calendarCollectionView.selectItem(
                 at: IndexPath(row: index, section: 1),
                 animated: false,

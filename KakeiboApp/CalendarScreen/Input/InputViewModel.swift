@@ -9,26 +9,20 @@ import RxSwift
 import RxCocoa
 
 protocol InputViewModelInput {
-    func onViewDidLoad()
-    func didTapSaveButton(balanceText: String, memo: String)
-    func didTapCancelButton()
-    func didTapNextDayButton()
-    func didTapLastDayButton()
-    func didChangeDatePicker(date: Date)
-    func didChangeSegmentControl(index: Int)
-    func didSelectCategory(name: String?)
+    func setMode(mode: InputViewModel.Mode)
+    func didTapSaveButton(dateText: String, segmentIndex: Int, balanceText: String, categoryData: CategoryData, memo: String)
+    func didTapDeleteButton()
 }
 
 protocol InputViewModelOutput {
     var event: Driver<InputViewModel.Event> { get }
     var date: Driver<String> { get }
-    var category: Driver<String?> { get }
+    var category: Driver<([[CategoryData]], selectedIndexPath: IndexPath)> { get }
     var segmentIndex: Driver<Int> { get }
     var balance: Driver<String> { get }
     var memo: Driver<String> { get }
     var isAnimatedIndicator: Driver<Bool> { get }
-    var incomeCategoryDataArray: [CategoryData] { get }
-    var expenseCategoryDataArray: [CategoryData] { get }
+    var isHiddenDeleteButton: Driver<Bool> { get }
 }
 
 protocol InputViewModelType {
@@ -38,10 +32,9 @@ protocol InputViewModelType {
 
 final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     enum Event {
-        case dismiss
         case showDismissAlert(String, String)
         case showErrorAlert
-        case showAlert(String, String)
+        case showAlert(String, String?)
     }
 
     enum Mode {
@@ -49,34 +42,42 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         case edit(KakeiboData, CategoryData)
     }
 
-    private let mode: Mode
+    private var mode: Mode = .add(Date()) {
+        didSet {
+            switch mode {
+            case .add(let date):
+                setupAddMode(date: date)
+            case .edit(let kakeiboData, let categoryData):
+                setupEditMode(kakeiboData: kakeiboData, categoryData: categoryData)
+            }
+        }
+    }
     private let kakeiboModel: KakeiboModelProtocol
     private let categoryModel: CategoryModelProtocol
     private let authType: AuthTypeProtocol
     private let disposeBag = DisposeBag()
     private let eventRelay = PublishRelay<Event>()
-    private let dateRelay = BehaviorRelay<String>(value: "")
-    private let categoryRelay = BehaviorRelay<String?>(
-        value: R.string.localizable.consumptionExpenses()
-    )
-    private let segmentIndexRelay = BehaviorRelay<Int>(value: 0)
+    private let dateRelay = PublishRelay<String>()
+    private let categoryRelay = PublishRelay<([[CategoryData]], selectedIndexPath: IndexPath)>()
+    private let segmentIndexRelay = PublishRelay<Int>()
     private let balanceRelay = BehaviorRelay<String>(value: "")
     private let memoRelay = BehaviorRelay<String>(value: "")
     private let isAnimatedIndicatorRelay = PublishRelay<Bool>()
+    private let isHiddenDeleteButtonRelay = PublishRelay<Bool>()
 
-    private(set) var incomeCategoryDataArray: [CategoryData]
-    private(set) var expenseCategoryDataArray: [CategoryData]
+    private var balanceCategoryDataArray: [[CategoryData]] {
+        return [
+            categoryModel.expenseCategoryDataArray,
+            categoryModel.incomeCategoryDataArray
+        ]
+    }
 
     init(kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
          categoryModel: CategoryModelProtocol = ModelLocator.shared.categoryModel,
-         mode: Mode,
          authType: AuthTypeProtocol = ModelLocator.shared.authType) {
         self.kakeiboModel = kakeiboModel
         self.categoryModel = categoryModel
-        self.mode = mode
         self.authType = authType
-        incomeCategoryDataArray = categoryModel.incomeCategoryDataArray
-        expenseCategoryDataArray = categoryModel.expenseCategoryDataArray
     }
 
     var event: Driver<Event> {
@@ -84,15 +85,15 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     }
 
     var date: Driver<String> {
-        dateRelay.asDriver()
+        dateRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    var category: Driver<String?> {
-        categoryRelay.asDriver()
+    var category: Driver<([[CategoryData]], selectedIndexPath: IndexPath)> {
+        categoryRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var segmentIndex: Driver<Int> {
-        segmentIndexRelay.asDriver()
+        segmentIndexRelay.asDriver(onErrorDriveWith: .empty())
     }
 
     var balance: Driver<String> {
@@ -107,16 +108,15 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         isAnimatedIndicatorRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func onViewDidLoad() {
-        switch mode {
-        case .add(let date):
-            setupAddMode(date: date)
-        case .edit(let kakeiboData, let categoryData):
-            setupEditMode(kakeiboData: kakeiboData, categoryData: categoryData)
-        }
+    var isHiddenDeleteButton: Driver<Bool> {
+        isHiddenDeleteButtonRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func didTapSaveButton(balanceText: String, memo: String) {
+    func setMode(mode: Mode) {
+        self.mode = mode
+    }
+
+    func didTapSaveButton(dateText: String, segmentIndex: Int, balanceText: String, categoryData: CategoryData, memo: String) {
         guard let userInfo = authType.userInfo else {
             let alertTitle = R.string.localizable.userNotFoundErrorTitle()
             let message = R.string.localizable.dataSaveErrorOnNonLogin()
@@ -124,33 +124,31 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
             return
         }
 
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
+        let date = DateUtility.dateFromString(stringDate: dateText, format: "yyyy年MM月dd日")
         let categoryId: CategoryId
         let balance: Balance
-        switch segmentIndexRelay.value {
+        switch segmentIndex {
         case 0:
             // 支出
-            guard let categoryDataId = expenseCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
-                  let balanceInt = Int(balanceText) else {
+            guard let balanceInt = Int(balanceText.filter { Int(String($0)) != nil }) else {
                 eventRelay.accept(.showAlert(
                         R.string.localizable.categoryOrBalanceValidationErrorTitle(),
                         R.string.localizable.categoryOrBalanceValidationErrorMessage()
                 ))
                 return
             }
-            categoryId = CategoryId.expense(categoryDataId)
+            categoryId = CategoryId.expense(categoryData.id)
             balance = Balance.expense(balanceInt)
         case 1:
             // 収入
-            guard let categoryDataId = incomeCategoryDataArray.first(where: { $0.name == categoryRelay.value })?.id,
-                  let balanceInt = Int(balanceText) else {
+            guard let balanceInt = Int(balanceText.filter { Int(String($0)) != nil }) else {
                 eventRelay.accept(.showAlert(
                         R.string.localizable.categoryOrBalanceValidationErrorTitle(),
                         R.string.localizable.categoryOrBalanceValidationErrorMessage()
                 ))
                 return
             }
-            categoryId = CategoryId.income(categoryDataId)
+            categoryId = CategoryId.income(categoryData.id)
             balance = Balance.income(balanceInt)
         default:
             fatalError("想定していないIndex")
@@ -165,6 +163,9 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 if error != nil {
                     self?.eventRelay.accept(.showErrorAlert)
                     return
+                } else {
+                    self?.eventRelay.accept(.showAlert(R.string.localizable.saveComplete(), nil))
+                    self?.mode = .add(date)
                 }
             }
         case .edit(var beforeData, _):
@@ -178,67 +179,64 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 if error != nil {
                     self?.eventRelay.accept(.showErrorAlert)
                     return
+                } else {
+                    self?.eventRelay.accept(.showAlert(R.string.localizable.saveComplete(), nil))
+                    self?.mode = .add(Date())
                 }
             }
         }
-        eventRelay.accept(.dismiss)
     }
 
-    func didTapCancelButton() {
-        eventRelay.accept(.dismiss)
-    }
-
-    func didTapNextDayButton() {
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
-        let carendar = Calendar(identifier: .gregorian)
-        guard let nextDay = carendar.date(
-            byAdding: .day, value: 1, to: date
-        ) else { return }
-        dateRelay.accept(DateUtility.stringFromDate(date: nextDay, format: "yyyy年MM月dd日"))
-    }
-
-    func didTapLastDayButton() {
-        let date = DateUtility.dateFromString(stringDate: dateRelay.value, format: "yyyy年MM月dd日")
-        let carendar = Calendar(identifier: .gregorian)
-        guard let lastDay = carendar.date(
-            byAdding: .day, value: -1, to: date
-        ) else { return }
-        dateRelay.accept(DateUtility.stringFromDate(date: lastDay, format: "yyyy年MM月dd日"))
-    }
-
-    func didChangeDatePicker(date: Date) {
-        dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
-    }
-
-    func didChangeSegmentControl(index: Int) {
-        segmentIndexRelay.accept(index)
-        switch index {
-        case 0:
-            // 支出
-            categoryRelay.accept(expenseCategoryDataArray.first?.name ?? "")
-        case 1:
-            // 収入
-            categoryRelay.accept(incomeCategoryDataArray.first?.name ?? "")
-        default:
+    func didTapDeleteButton() {
+        guard let userInfo = authType.userInfo else { return }
+        switch mode {
+        case .add:
             break
+        case .edit(let kakeiboData, _):
+            isAnimatedIndicatorRelay.accept(true)
+            kakeiboModel.deleateData(userId: userInfo.id, data: kakeiboData) { [weak self] error in
+                self?.isAnimatedIndicatorRelay.accept(false)
+                if error != nil {
+                    self?.eventRelay.accept(.showErrorAlert)
+                } else {
+                    self?.eventRelay.accept(.showAlert(R.string.localizable.deletedTitle(), nil))
+                    self?.mode = .add(Date())
+                }
+            }
         }
-    }
-
-    func didSelectCategory(name: String?) {
-        categoryRelay.accept(name)
     }
 
     // MARK: - misc
     private func setupAddMode(date: Date) {
         dateRelay.accept(DateUtility.stringFromDate(date: date, format: "yyyy年MM月dd日"))
+        categoryRelay.accept(
+            (balanceCategoryDataArray, selectedIndexPath: [0, 0])
+        )
+        segmentIndexRelay.accept(0)
+        balanceRelay.accept("0")
+        memoRelay.accept("")
+        isHiddenDeleteButtonRelay.accept(true)
+        segmentIndexRelay.accept(0)
     }
 
     private func setupEditMode(kakeiboData: KakeiboData, categoryData: CategoryData) {
         dateRelay.accept(DateUtility.stringFromDate(date: kakeiboData.date, format: "yyyy年MM月dd日"))
-        categoryRelay.accept(categoryData.name)
+        switch kakeiboData.categoryId {
+        case .expense:
+            categoryRelay.accept(
+                (balanceCategoryDataArray, selectedIndexPath: [0, categoryData.displayOrder])
+            )
+            segmentIndexRelay.accept(0)
+        case .income:
+            categoryRelay.accept(
+                (balanceCategoryDataArray, selectedIndexPath: [1, categoryData.displayOrder])
+            )
+            segmentIndexRelay.accept(1)
+        }
         segmentIndexRelay.accept(kakeiboData.categoryId.rawValue)
-        balanceRelay.accept(String(kakeiboData.balance.fetchValue))
+        balanceRelay.accept(NumberFormatterUtility.changeToDecimal(from: kakeiboData.balance.fetchValue) ?? "0")
         memoRelay.accept(kakeiboData.memo)
+        isHiddenDeleteButtonRelay.accept(false)
     }
 }
 

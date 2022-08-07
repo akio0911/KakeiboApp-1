@@ -17,6 +17,10 @@ final class BalanceSegmentedControlView: UIView {
     private var segmentedControl: UISegmentedControl!
     private var bottomBar: UIView!
 
+    var segmentedSegmentIndex: Int {
+        segmentedControl.selectedSegmentIndex
+    }
+
     // MARK: - init(frame:)
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,7 +63,9 @@ final class BalanceSegmentedControlView: UIView {
 
     // MARK: - init?(coder:)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setupSegmentedControl()
+        setupBottomBar()
     }
 
     // MARK: - layoutSubviews()
@@ -104,5 +110,6 @@ final class BalanceSegmentedControlView: UIView {
 
     func configureSelectedSegmentIndex(index: Int) {
         segmentedControl.selectedSegmentIndex = index
+        segmentedControl.sendActions(for: .valueChanged)
     }
 }

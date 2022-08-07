@@ -20,6 +20,7 @@ final class CalendarViewController: UIViewController {
     @IBOutlet private weak var balanceLabel: UILabel! // 収支ラベル
     @IBOutlet private weak var footerView: UIView!
     @IBOutlet private weak var noDataLabel: UILabel!
+    @IBOutlet private weak var inputButton: UIButton!
 
     private let viewModel: CalendarViewModelType = CalendarViewModel()
     private let disposeBag = DisposeBag()
@@ -62,6 +63,12 @@ final class CalendarViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
+        inputButton.rx.tap
+            .subscribe { [weak self] _ in
+                self?.viewModel.inputs.didTapInputButton(date: self?.selectedItem?.date)
+            }
+            .disposed(by: disposeBag)
+
         viewModel.outputs.collectionViewItemsObservable
             .subscribe(onNext: { [weak self] cardCollectionViewItems in
                 guard let strongSelf = self else { return }
@@ -100,10 +107,13 @@ final class CalendarViewController: UIViewController {
         viewModel.outputs.event
             .drive { [weak self] event in
                 switch event {
-                case .presentAdd, .presentEdit:
-                    self?.presentInputVC(event: event)
+                case .selectedAdd, .selectedEdit:
+                    self?.selectedInputVC(event: event)
                 case .showErrorAlert:
                     self?.showErrorAlert()
+                case .reloadData:
+                    self?.cardCollectionView.reloadData()
+                    self?.calendarTableView.reloadData()
                 }
             }
             .disposed(by: disposeBag)
@@ -118,21 +128,20 @@ final class CalendarViewController: UIViewController {
     }
 
     // InputViewControllerへ画面遷移
-    private func presentInputVC(event: CalendarViewModel.Event) {
-        let viewModel: InputViewModel
+    private func selectedInputVC(event: CalendarViewModel.Event) {
+        guard let navigationController = tabBarController?.viewControllers?[TabBarViews.inputView.rawValue] as? UINavigationController,
+        let inputViewController = navigationController.topViewController as? InputViewController else {
+            return
+        }
+        tabBarController?.selectedIndex = TabBarViews.inputView.rawValue
         switch event {
-        case .presentAdd(let date):
-            viewModel = InputViewModel(mode: .add(date))
-        case .presentEdit(let kakeiboData, let categoryData):
-            viewModel = InputViewModel(mode: .edit(kakeiboData, categoryData))
+        case .selectedAdd(let date):
+            inputViewController.inject(mode: .add(date))
+        case .selectedEdit(let kakeiboData, let categoryData):
+            inputViewController.inject(mode: .edit(kakeiboData, categoryData))
         default:
             return
         }
-        let inputViewController = InputViewController(viewModel: viewModel)
-        let navigationController =
-        UINavigationController(rootViewController: inputViewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true, completion: nil)
     }
 
     // collectionViewの設定
@@ -246,22 +255,26 @@ extension CalendarViewController: UICollectionViewDataSource {
 // MARK: - UITableViewDelegate
 extension CalendarViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: cellが選択された時の処理を実装
-        viewModel.inputs.didSelectRowAt(indexPath: indexPath)
+        guard let selectedItem = selectedItem else {
+            return
+        }
+        let didSelectData = viewModel.outputs.loadCalendarItem(date: selectedItem.date).dataArray[indexPath.row - 1]
+        viewModel.inputs.didSelectRowAt(kakeiboData: didSelectData.1, categoryData: didSelectData.0)
     }
 }
 
 // MARK: - UITableViewDataSource
 extension CalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let dataArray = selectedItem?.dataArray, !dataArray.isEmpty else {
+        guard let selectedItem = selectedItem,
+              !viewModel.outputs.loadCalendarItem(date: selectedItem.date).dataArray.isEmpty else {
             noDataLabel.isHidden = false
-            footerView.frame.size.height = 76
+            footerView.frame.size.height = 91
             return 0
         }
         noDataLabel.isHidden = true
-        footerView.frame.size.height = 42
-        return (dataArray.count) + 1
+        footerView.frame.size.height = 57
+        return (viewModel.outputs.loadCalendarItem(date: selectedItem.date).dataArray.count) + 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -272,7 +285,7 @@ extension CalendarViewController: UITableViewDataSource {
                   let selectedItem = selectedItem else {
                 return UITableViewCell()
             }
-            cell.configure(calendarItem: selectedItem)
+            cell.configure(calendarItem: viewModel.outputs.loadCalendarItem(date: selectedItem.date))
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(
@@ -281,7 +294,7 @@ extension CalendarViewController: UITableViewDataSource {
                   let selectedItem = selectedItem else {
                 return UITableViewCell()
             }
-            cell.configure(data: selectedItem.dataArray[indexPath.row - 1])
+            cell.configure(data: viewModel.outputs.loadCalendarItem(date: selectedItem.date).dataArray[indexPath.row - 1])
             return cell
         }
     }
@@ -296,9 +309,9 @@ extension CalendarViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // TODO: 削除処理を実装
-            viewModel.inputs.didDeleateCell(indexPath: indexPath)
+        if editingStyle == .delete, let selectedItem = selectedItem {
+            let calendarItem = viewModel.outputs.loadCalendarItem(date: selectedItem.date)
+            viewModel.inputs.didDeleateCell(kakeiboData: calendarItem.dataArray[indexPath.row - 1].1)
         }
     }
 }
