@@ -18,7 +18,7 @@ protocol GraphViewModelInput {
 
 protocol GraphViewModelOutput {
     var graphData: Observable<[GraphData]> { get }
-    var navigationTitle: Driver<String> { get }
+    var dateTitle: Driver<String> { get }
     var event: Driver<GraphViewModel.Event> { get }
 }
 
@@ -38,7 +38,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private var balanceSegmentIndex: Int = 0
     private let disposeBag = DisposeBag()
     private let graphDataArrayRelay = BehaviorRelay<[GraphData]>(value: [])
-    private let navigationTitleRelay =
+    private let dateTitleRelay =
     BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
     private let eventRelay = PublishRelay<Event>()
     private var displayDate = Date()
@@ -113,8 +113,8 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         graphDataArrayRelay.asObservable()
     }
 
-    var navigationTitle: Driver<String> {
-        navigationTitleRelay.asDriver()
+    var dateTitle: Driver<String> {
+        dateTitleRelay.asDriver()
     }
 
     var event: Driver<Event> {
@@ -129,7 +129,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: 1, to: displayDate) {
             self.displayDate = displayDate
             acceptGraphData()
-            navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
         }
     }
 
@@ -137,7 +137,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: -1, to: displayDate) {
             self.displayDate = displayDate
             acceptGraphData()
-            navigationTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
         }
     }
 

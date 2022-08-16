@@ -63,8 +63,10 @@ extension TabBarViews {
         return inputViewController
     }
 
-    private func instantiateGraphViewController() -> UIViewController {
-        let graphViewController = GraphViewController()
+    private func instantiateGraphViewController() -> UIViewController? {
+        guard let graphViewController = R.storyboard.graph.instantiateInitialViewController() else {
+            return nil
+        }
         var graphTabBarItem: UITabBarItem {
             let graphTabBarItem = UITabBarItem(
                 title: R.string.localizable.graph(),

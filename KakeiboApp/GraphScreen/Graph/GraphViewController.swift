@@ -10,28 +10,18 @@ import RxSwift
 import RxCocoa
 
 final class GraphViewController: UIViewController, UITableViewDelegate, BalanceSegmentedControlViewDelegate {
-    @IBOutlet private weak var graphNavigationBar: UINavigationBar!
-    @IBOutlet private weak var graphNavigationItem: UINavigationItem!
-    @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
-    @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var dateTitleLabel: UILabel!
+    @IBOutlet private weak var nextMonthButton: UIButton!
+    @IBOutlet private weak var lastMonthButton: UIButton!
     @IBOutlet private weak var pieChartView: PieChartView!
     @IBOutlet private weak var graphView: UIView!
     @IBOutlet private weak var graphTableView: UITableView!
 
-    private let viewModel: GraphViewModelType
+    private let viewModel: GraphViewModelType = GraphViewModel()
     private let disposeBag = DisposeBag()
     private let graphTableViewDataSource = GraphTableViewDataSource()
     private var pieChartData = [GraphData]()
     private var segmentedControlView: BalanceSegmentedControlView!
-
-    init(viewModel: GraphViewModelType = GraphViewModel()) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -67,16 +57,16 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
     }
 
     private func setupBinding() {
-        nextBarButtonItem.rx.tap
+        nextMonthButton.rx.tap
             .subscribe(onNext: viewModel.inputs.didActionNextMonth)
             .disposed(by: disposeBag)
 
-        lastBarButtonItem.rx.tap
+        lastMonthButton.rx.tap
             .subscribe(onNext: viewModel.inputs.didActionLastMonth)
             .disposed(by: disposeBag)
 
-        viewModel.outputs.navigationTitle
-            .drive(graphNavigationItem.rx.title)
+        viewModel.outputs.dateTitle
+            .drive(dateTitleLabel.rx.text)
             .disposed(by: disposeBag)
 
         viewModel.outputs.graphData
