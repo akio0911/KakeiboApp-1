@@ -48,7 +48,6 @@
 		47793EF826E76ABE0004E5F6 /* InputViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF726E76ABE0004E5F6 /* InputViewModel.swift */; };
 		47793EFA26E781FB0004E5F6 /* DateUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EF926E781FB0004E5F6 /* DateUtility.swift */; };
 		47793EFD26E83FAC0004E5F6 /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */; };
-		47793F0826E8770E0004E5F6 /* GraphTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793F0726E8770E0004E5F6 /* GraphTableViewDataSource.swift */; };
 		47793F0E26E8A3210004E5F6 /* GraphData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47793F0D26E8A3210004E5F6 /* GraphData.swift */; };
 		477C3F2726E5E3B400FFCB64 /* CalendarColor.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 477C3F2626E5E3B400FFCB64 /* CalendarColor.xcassets */; };
 		47815702266128C8005E1020 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47815701266128C8005E1020 /* AppDelegate.swift */; };
@@ -163,7 +162,6 @@
 		47793EF726E76ABE0004E5F6 /* InputViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputViewModel.swift; sourceTree = "<group>"; };
 		47793EF926E781FB0004E5F6 /* DateUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtility.swift; sourceTree = "<group>"; };
 		47793EFC26E83FAC0004E5F6 /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
-		47793F0726E8770E0004E5F6 /* GraphTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableViewDataSource.swift; sourceTree = "<group>"; };
 		47793F0D26E8A3210004E5F6 /* GraphData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphData.swift; sourceTree = "<group>"; };
 		477C3F2626E5E3B400FFCB64 /* CalendarColor.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = CalendarColor.xcassets; sourceTree = "<group>"; };
 		478156FE266128C8005E1020 /* KakeiboApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KakeiboApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -428,23 +426,6 @@
 			path = Graph;
 			sourceTree = "<group>";
 		};
-		47793F0426E876B10004E5F6 /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */,
-				47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
-		47793F0626E876D80004E5F6 /* DataSource */ = {
-			isa = PBXGroup;
-			children = (
-				47793F0726E8770E0004E5F6 /* GraphTableViewDataSource.swift */,
-			);
-			path = DataSource;
-			sourceTree = "<group>";
-		};
 		478156F5266128C8005E1020 = {
 			isa = PBXGroup;
 			children = (
@@ -647,8 +628,8 @@
 		47DC3EE826E44D5600693980 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				47793F0626E876D80004E5F6 /* DataSource */,
-				47793F0426E876B10004E5F6 /* Cell */,
+				47EB81F726900D3E008FA088 /* GraphTableViewCell.swift */,
+				47EB81F826900D3E008FA088 /* GraphTableViewCell.xib */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -965,7 +946,6 @@
 				47DC3EE726E3928F00693980 /* MainTabBarController.swift in Sources */,
 				478F93EA2731766500D58719 /* UserInfo.swift in Sources */,
 				47EBC576271BE8A500BA64F6 /* CategoryModel.swift in Sources */,
-				47793F0826E8770E0004E5F6 /* GraphTableViewDataSource.swift in Sources */,
 				472EFDC62704324C00A80640 /* AccountViewController.swift in Sources */,
 				478F50482864B0B600983DA1 /* CardCollectionViewCell.swift in Sources */,
 				47EE95BC288525EE00A645EC /* CategoryCollectionViewCell.swift in Sources */,

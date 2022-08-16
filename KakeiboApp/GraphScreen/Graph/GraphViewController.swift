@@ -19,8 +19,7 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
 
     private let viewModel: GraphViewModelType = GraphViewModel()
     private let disposeBag = DisposeBag()
-    private let graphTableViewDataSource = GraphTableViewDataSource()
-    private var pieChartData = [GraphData]()
+    private var graphDataArray: [GraphData] = []
     private var segmentedControlView: BalanceSegmentedControlView!
 
     // MARK: - viewDidLoad
@@ -70,7 +69,12 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
             .disposed(by: disposeBag)
 
         viewModel.outputs.graphData
-            .bind(to: graphTableView.rx.items(dataSource: graphTableViewDataSource))
+            .subscribe(
+                onNext: { [weak self] graphDataArray in
+                    self?.graphDataArray = graphDataArray
+                    self?.graphTableView.reloadData()
+                }
+            )
             .disposed(by: disposeBag)
 
         viewModel.outputs.graphData
@@ -93,9 +97,12 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
     }
 
     private func setupGraphTableView() {
-        graphTableView.register(GraphTableViewCell.nib,
-                                forCellReuseIdentifier: GraphTableViewCell.identifier)
-        graphTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        graphTableView.register(
+            GraphTableViewCell.nib,
+            forCellReuseIdentifier: GraphTableViewCell.identifier
+        )
+        graphTableView.dataSource = self
+        graphTableView.delegate = self
     }
 
     private func setupSegmentedControlView() {
@@ -136,5 +143,23 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
     // MARK: - BalanceSegmentedControlViewDelegate
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
+    }
+}
+
+// MARK: - UITableViewDataSource
+extension GraphViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        graphDataArray.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: GraphTableViewCell.identifier,
+            for: indexPath
+        ) as? GraphTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.configure(data: graphDataArray[indexPath.row])
+        return cell
     }
 }
