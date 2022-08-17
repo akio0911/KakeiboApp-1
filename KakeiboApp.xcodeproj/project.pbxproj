@@ -90,6 +90,8 @@
 		47C2910026844FDE0029403B /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */; };
 		47C2910126844FDE0029403B /* CalendarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */; };
 		47CC1FEA28ABC5DC00F2F49E /* Graph.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47CC1FE928ABC5DC00F2F49E /* Graph.storyboard */; };
+		47CC1FEE28AD194100F2F49E /* GraphCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC1FEC28AD194100F2F49E /* GraphCardCollectionViewCell.swift */; };
+		47CC1FEF28AD194100F2F49E /* GraphCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC1FED28AD194100F2F49E /* GraphCardCollectionViewCell.xib */; };
 		47CC9A6D26F759E600126467 /* CategoryTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A6C26F759E600126467 /* CategoryTableViewDataSource.swift */; };
 		47CC9A7026F75BD600126467 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CC9A6E26F75BD600126467 /* CategoryTableViewCell.swift */; };
 		47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */; };
@@ -208,6 +210,8 @@
 		47C290FE26844FDE0029403B /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		47C290FF26844FDE0029403B /* CalendarTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CalendarTableViewCell.xib; sourceTree = "<group>"; };
 		47CC1FE928ABC5DC00F2F49E /* Graph.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Graph.storyboard; sourceTree = "<group>"; };
+		47CC1FEC28AD194100F2F49E /* GraphCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphCardCollectionViewCell.swift; sourceTree = "<group>"; };
+		47CC1FED28AD194100F2F49E /* GraphCardCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GraphCardCollectionViewCell.xib; sourceTree = "<group>"; };
 		47CC9A6C26F759E600126467 /* CategoryTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewDataSource.swift; sourceTree = "<group>"; };
 		47CC9A6E26F75BD600126467 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		47CC9A6F26F75BD600126467 /* CategoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryTableViewCell.xib; sourceTree = "<group>"; };
@@ -421,6 +425,7 @@
 				47CC1FE928ABC5DC00F2F49E /* Graph.storyboard */,
 				47EB81F1268EFD96008FA088 /* GraphViewController.swift */,
 				47AF02B32717BF6A00085804 /* PieChartView.swift */,
+				47CC1FEB28AD18EF00F2F49E /* CollectionView */,
 				47DC3EE826E44D5600693980 /* TableView */,
 			);
 			path = Graph;
@@ -545,6 +550,15 @@
 				47A6BFEE2710531900698113 /* HowToUseTableViewCell.xib */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		47CC1FEB28AD18EF00F2F49E /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				47CC1FEC28AD194100F2F49E /* GraphCardCollectionViewCell.swift */,
+				47CC1FED28AD194100F2F49E /* GraphCardCollectionViewCell.xib */,
+			);
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 		47CC7D1D26E9F8590049C488 /* Assets */ = {
@@ -776,6 +790,7 @@
 				478C23172725315300BABDC1 /* AuthFormViewController.xib in Resources */,
 				4773CC25270D24BC00C52DE0 /* CategoryInputViewController.xib in Resources */,
 				47A6BFDA270FDCC700698113 /* HowToUseViewController.xib in Resources */,
+				47CC1FEF28AD194100F2F49E /* GraphCardCollectionViewCell.xib in Resources */,
 				47CC9A7126F75BD600126467 /* CategoryTableViewCell.xib in Resources */,
 				4781570B266128C8005E1020 /* Assets.xcassets in Resources */,
 				477C3F2726E5E3B400FFCB64 /* CalendarColor.xcassets in Resources */,
@@ -999,6 +1014,7 @@
 				474D6B7A273F834600563B1C /* EmailLinkAuthSuccessViewModel.swift in Sources */,
 				472F6F542725996A00DB44E9 /* AuthType.swift in Sources */,
 				4739958626927F0400BD1286 /* ExtensionUICollectionViewCell.swift in Sources */,
+				47CC1FEE28AD194100F2F49E /* GraphCardCollectionViewCell.swift in Sources */,
 				478F5060286F4FCE00983DA1 /* R.generated.swift in Sources */,
 				478734A927335CA70028A0AD /* ExtensionArray.swift in Sources */,
 				478F504F286635DE00983DA1 /* ExtensionCALayer.swift in Sources */,
