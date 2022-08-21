@@ -109,7 +109,9 @@ final class BalanceSegmentedControlView: UIView {
     }
 
     func configureSelectedSegmentIndex(index: Int) {
-        segmentedControl.selectedSegmentIndex = index
-        segmentedControl.sendActions(for: .valueChanged)
+        if segmentedControl.selectedSegmentIndex != index {
+            segmentedControl.selectedSegmentIndex = index
+            segmentedControl.sendActions(for: .valueChanged)
+        }
     }
 }

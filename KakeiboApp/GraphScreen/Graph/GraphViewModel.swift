@@ -17,7 +17,7 @@ protocol GraphViewModelInput {
 }
 
 protocol GraphViewModelOutput {
-    var graphData: Observable<[GraphData]> { get }
+    var graphData: Observable<([GraphData], SegmentIndex: Int)> { get }
     var dateTitle: Driver<String> { get }
     var event: Driver<GraphViewModel.Event> { get }
 }
@@ -37,7 +37,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let categoryModel: CategoryModelProtocol
     private var balanceSegmentIndex: Int = 0
     private let disposeBag = DisposeBag()
-    private let graphDataArrayRelay = BehaviorRelay<[GraphData]>(value: [])
+    private let graphDataArrayRelay = BehaviorRelay<([GraphData], SegmentIndex: Int)>(value: ([], SegmentIndex: 0))
     private let dateTitleRelay =
     BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
     private let eventRelay = PublishRelay<Event>()
@@ -106,10 +106,10 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         default:
             fatalError("想定していないsegmentIndex")
         }
-        graphDataArrayRelay.accept(graphDataArray)
+        graphDataArrayRelay.accept((graphDataArray, balanceSegmentIndex))
     }
 
-    var graphData: Observable<[GraphData]> {
+    var graphData: Observable<([GraphData], SegmentIndex: Int)> {
         graphDataArrayRelay.asObservable()
     }
 
@@ -144,7 +144,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     func didSelectRowAt(indexPath: IndexPath) {
         let graphDataArray = graphDataArrayRelay.value
         eventRelay.accept(
-            .presentCategoryVC(categoryData: graphDataArray[indexPath.row].categoryData, displayDate: displayDate)
+            .presentCategoryVC(categoryData: graphDataArray.0[indexPath.row].categoryData, displayDate: displayDate)
         )
     }
 
