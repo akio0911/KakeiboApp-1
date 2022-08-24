@@ -9,16 +9,18 @@ import RxSwift
 import RxCocoa
 
 protocol GraphViewModelInput {
-    func onViewWillAppear()
+    func onViewDidAppear()
     func didActionNextMonth()
     func didActionLastMonth()
     func didSelectRowAt(indexPath: IndexPath)
     func didChangeSegmentIndex(index: Int)
+    func didTapTermButton()
 }
 
 protocol GraphViewModelOutput {
-    var graphData: Observable<([GraphData], SegmentIndex: Int)> { get }
+    var graphData: Observable<([GraphData], SegmentIndex: Int, animated: Bool)> { get }
     var dateTitle: Driver<String> { get }
+    var leftBarButtonTitle: Driver<String> { get }
     var event: Driver<GraphViewModel.Event> { get }
 }
 
@@ -30,6 +32,16 @@ protocol GraphViewModelType {
 final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     enum Event {
         case presentCategoryVC(categoryData: CategoryData, displayDate: Date)
+        case setTerm(
+            selectedCardIndexPath: IndexPath,
+            selectedSegmentIndex: Int,
+            cardCount: Int
+        )
+    }
+
+    enum Term {
+        case yearly
+        case monthly
     }
 
     private let calendarDate: CalendarDateProtocol
@@ -37,11 +49,13 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private let categoryModel: CategoryModelProtocol
     private var balanceSegmentIndex: Int = 0
     private let disposeBag = DisposeBag()
-    private let graphDataArrayRelay = BehaviorRelay<([GraphData], SegmentIndex: Int)>(value: ([], SegmentIndex: 0))
+    private let graphDataArrayRelay = BehaviorRelay<([GraphData], SegmentIndex: Int, animated: Bool)>(value: ([], SegmentIndex: 0, animated: true))
     private let dateTitleRelay =
     BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
+    private let leftBarButtonTitleRelay = PublishRelay<String>()
     private let eventRelay = PublishRelay<Event>()
     private var displayDate = Date()
+    fileprivate var term: Term = .monthly
 
     init(calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
@@ -55,15 +69,20 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     private func setupBinding() {
         EventBus.setupData.asObservable()
             .subscribe { [weak self] _ in
-                self?.acceptGraphData()
+                self?.acceptGraphData(animated: false)
             }
             .disposed(by: disposeBag)
     }
 
-    private func acceptGraphData() {
+    private func acceptGraphData(animated: Bool) {
         var graphDataArray: [GraphData] = []
-
-        let kakeiboData = kakeiboModel.loadMonthData(date: displayDate)
+        let kakeiboData: [KakeiboData]
+        switch term {
+        case .yearly:
+            kakeiboData = kakeiboModel.loadYearData(date: displayDate)
+        case .monthly:
+            kakeiboData = kakeiboModel.loadMonthData(date: displayDate)
+        }
         switch balanceSegmentIndex {
         case 0:
             // 支出
@@ -106,10 +125,10 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         default:
             fatalError("想定していないsegmentIndex")
         }
-        graphDataArrayRelay.accept((graphDataArray, balanceSegmentIndex))
+        graphDataArrayRelay.accept((graphDataArray, balanceSegmentIndex, animated))
     }
 
-    var graphData: Observable<([GraphData], SegmentIndex: Int)> {
+    var graphData: Observable<([GraphData], SegmentIndex: Int, animated: Bool)> {
         graphDataArrayRelay.asObservable()
     }
 
@@ -117,27 +136,57 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
         dateTitleRelay.asDriver()
     }
 
+    var leftBarButtonTitle: Driver<String> {
+        leftBarButtonTitleRelay.asDriver(onErrorDriveWith: .empty())
+    }
+
     var event: Driver<Event> {
         eventRelay.asDriver(onErrorDriveWith: .empty())
     }
 
-    func onViewWillAppear() {
-        acceptGraphData()
+    func onViewDidAppear() {
+        acceptGraphData(animated: false)
+        switch term {
+        case .yearly:
+            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年"))
+            leftBarButtonTitleRelay.accept(R.string.localizable.yearly())
+        case .monthly:
+            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+            leftBarButtonTitleRelay.accept(R.string.localizable.monthly())
+        }
     }
 
     func didActionNextMonth() {
-        if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: 1, to: displayDate) {
-            self.displayDate = displayDate
-            acceptGraphData()
-            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+        switch term {
+        case .yearly:
+            if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .year, value: 1, to: displayDate) {
+                self.displayDate = displayDate
+                acceptGraphData(animated: true)
+                dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年"))
+            }
+        case .monthly:
+            if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: 1, to: displayDate) {
+                self.displayDate = displayDate
+                acceptGraphData(animated: true)
+                dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+            }
         }
     }
 
     func didActionLastMonth() {
-        if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: -1, to: displayDate) {
-            self.displayDate = displayDate
-            acceptGraphData()
-            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+        switch term {
+        case .yearly:
+            if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .year, value: -1, to: displayDate) {
+                self.displayDate = displayDate
+                acceptGraphData(animated: true)
+                dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年"))
+            }
+        case .monthly:
+            if let displayDate = Calendar(identifier: .gregorian).date(byAdding: .month, value: -1, to: displayDate) {
+                self.displayDate = displayDate
+                acceptGraphData(animated: true)
+                dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+            }
         }
     }
 
@@ -150,7 +199,42 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
 
     func didChangeSegmentIndex(index: Int) {
         balanceSegmentIndex = index
-        acceptGraphData()
+        acceptGraphData(animated: true)
+    }
+
+    func didTapTermButton() {
+        term.toggle()
+        acceptTerm()
+        acceptGraphData(animated: true)
+    }
+
+    private func acceptTerm() {
+        balanceSegmentIndex = 0
+        displayDate = Date()
+        switch term {
+        case .yearly:
+            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年"))
+            leftBarButtonTitleRelay.accept(R.string.localizable.yearly())
+            eventRelay.accept(
+                .setTerm(
+                    selectedCardIndexPath: .init(row: 10, section: 0),
+                    selectedSegmentIndex: balanceSegmentIndex,
+                    cardCount: 20
+                )
+            )
+            acceptGraphData(animated: false)
+        case .monthly:
+            dateTitleRelay.accept(DateUtility.stringFromDate(date: displayDate, format: "yyyy年MM月"))
+            leftBarButtonTitleRelay.accept(R.string.localizable.monthly())
+            eventRelay.accept(
+                .setTerm(
+                    selectedCardIndexPath: .init(row: 120, section: 0),
+                    selectedSegmentIndex: balanceSegmentIndex,
+                    cardCount: 240
+                )
+            )
+            acceptGraphData(animated: false)
+        }
     }
 }
 
@@ -162,5 +246,17 @@ extension GraphViewModel: GraphViewModelType {
 
     var outputs: GraphViewModelOutput {
         return self
+    }
+}
+
+// MARK: - TermExtension
+extension GraphViewModel.Term {
+    mutating func toggle() {
+        switch self {
+        case .yearly:
+            self = .monthly
+        case .monthly:
+            self = .yearly
+        }
     }
 }

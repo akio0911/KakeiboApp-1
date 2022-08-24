@@ -15,13 +15,14 @@ final class GraphViewController: UIViewController {
     @IBOutlet private weak var lastMonthButton: UIButton!
     @IBOutlet private weak var graphCardCollectionView: UICollectionView!
     @IBOutlet private weak var graphTableView: UITableView!
+    @IBOutlet private weak var termButton: UIBarButtonItem!
 
     private let viewModel: GraphViewModelType = GraphViewModel()
     private let disposeBag = DisposeBag()
     private var graphDataArray: [GraphData] = []
     private var selectedCardIndexPath = IndexPath(row: 120, section: 0)
     private var selectedSegmentIndex: Int = 0
-    private let twentyYearsMonth = 240
+    private var cardCount = 240
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
@@ -31,18 +32,9 @@ final class GraphViewController: UIViewController {
         setupGraphCardCollectionView()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.inputs.onViewWillAppear()
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        graphCardCollectionView.scrollToItem(
-            at: self.selectedCardIndexPath,
-            at: .centeredHorizontally,
-            animated: false
-        )
+        viewModel.inputs.onViewDidAppear()
     }
 
     private func setupBinding() {
@@ -58,7 +50,16 @@ final class GraphViewController: UIViewController {
             .drive(dateTitleLabel.rx.text)
             .disposed(by: disposeBag)
 
+        viewModel.outputs.leftBarButtonTitle
+            .drive(termButton.rx.title)
+            .disposed(by: disposeBag)
+
+        termButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapTermButton)
+            .disposed(by: disposeBag)
+
         viewModel.outputs.graphData
+            .skip(1) // 初期値をスキップ
             .subscribe(
                 onNext: { [weak self] graphData in
                     guard let self = self else { return }
@@ -66,6 +67,8 @@ final class GraphViewController: UIViewController {
                     self.selectedSegmentIndex = graphData.SegmentIndex
                     self.graphTableView.reloadData()
                     self.graphCardCollectionView.reloadData()
+                    self.scrollCurrentCard(animated: graphData.animated)
+                    self.setBarButtonItem()
                 }
             )
             .disposed(by: disposeBag)
@@ -80,6 +83,12 @@ final class GraphViewController: UIViewController {
                     )
                     categoryViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(categoryViewController, animated: true)
+                case .setTerm(selectedCardIndexPath: let selectedCardIndexPath,
+                              selectedSegmentIndex: let selectedSegmentIndex,
+                              cardCount: let cardCount):
+                    self.selectedCardIndexPath = selectedCardIndexPath
+                    self.selectedSegmentIndex = selectedSegmentIndex
+                    self.cardCount = cardCount
                 }
             })
             .disposed(by: disposeBag)
@@ -109,28 +118,16 @@ final class GraphViewController: UIViewController {
 
     private func showNextMonth() {
         selectedCardIndexPath.formIndex(&selectedCardIndexPath.row, offsetBy: 1)
-        graphCardCollectionView.scrollToItem(
-            at: selectedCardIndexPath,
-            at: .centeredHorizontally,
-            animated: true
-        )
-        setBarButtonItem()
         viewModel.inputs.didActionNextMonth()
     }
 
     private func showLastMonth() {
         selectedCardIndexPath.formIndex(&selectedCardIndexPath.row, offsetBy: -1)
-        graphCardCollectionView.scrollToItem(
-            at: selectedCardIndexPath,
-            at: .centeredHorizontally,
-            animated: true
-        )
-        setBarButtonItem()
         viewModel.inputs.didActionLastMonth()
     }
 
     private func setBarButtonItem() {
-        if selectedCardIndexPath.row == twentyYearsMonth - 1 {
+        if selectedCardIndexPath.row == cardCount - 1 {
             nextMonthButton.isHidden = true
         } else {
             nextMonthButton.isHidden = false
@@ -141,6 +138,14 @@ final class GraphViewController: UIViewController {
         } else {
             lastMonthButton.isHidden = false
         }
+    }
+
+    private func scrollCurrentCard(animated: Bool) {
+        graphCardCollectionView.scrollToItem(
+            at: self.selectedCardIndexPath,
+            at: .centeredHorizontally,
+            animated: animated
+        )
     }
 }
 
@@ -165,7 +170,7 @@ extension GraphViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UICollectionViewDataSource
 extension GraphViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return twentyYearsMonth
+        return cardCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

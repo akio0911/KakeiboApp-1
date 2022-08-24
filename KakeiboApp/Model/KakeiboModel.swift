@@ -14,6 +14,7 @@ protocol KakeiboModelProtocol {
     func setupData(userId: String, completion: @escaping KakeiboModelCompletion)
     func loadDayData(date: Date) -> [KakeiboData]
     func loadMonthData(date: Date) -> [KakeiboData]
+    func loadYearData(date: Date) -> [KakeiboData]
     func setData(userId: String, data: KakeiboData, completion: @escaping KakeiboModelCompletion)
     func deleateData(userId: String, data: KakeiboData, completion: @escaping KakeiboModelCompletion)
 }
@@ -50,6 +51,13 @@ final class KakeiboModel: KakeiboModelProtocol {
         let calendar = Calendar(identifier: .gregorian)
         return kakeiboDataArray.filter { kakeiboData in
             calendar.isDate(kakeiboData.date, equalTo: date, toGranularity: .month)
+        }
+    }
+
+    func loadYearData(date: Date) -> [KakeiboData] {
+        let calendar = Calendar(identifier: .gregorian)
+        return kakeiboDataArray.filter { kakeiboData in
+            calendar.isDate(kakeiboData.date, equalTo: date, toGranularity: .year)
         }
     }
 

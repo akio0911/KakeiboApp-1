@@ -103,3 +103,5 @@
 "yen" = "円";
 "deletedTitle" = "データを削除しました。";
 "saveComplete" = "データを保存しました。";
+"yearly" = "年別";
+"monthly" = "月別";

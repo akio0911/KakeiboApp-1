@@ -115,6 +115,7 @@
                         <outlet property="graphTableView" destination="L5C-fI-7e3" id="dpD-uq-ag5"/>
                         <outlet property="lastMonthButton" destination="na1-Jl-TKW" id="bJs-qd-deN"/>
                         <outlet property="nextMonthButton" destination="1K2-cG-p0f" id="phN-LF-JT1"/>
+                        <outlet property="termButton" destination="7xG-sZ-p3M" id="ssQ-Du-a4O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
