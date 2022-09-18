@@ -32,7 +32,7 @@ protocol InputViewModelType {
 
 final class InputViewModel: InputViewModelInput, InputViewModelOutput {
     enum Event {
-        case showDismissAlert(String, String)
+        case showPopViewAlert(String, String?)
         case showErrorAlert
         case showAlert(String, String?)
     }
@@ -120,7 +120,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
         guard let userInfo = authType.userInfo else {
             let alertTitle = R.string.localizable.userNotFoundErrorTitle()
             let message = R.string.localizable.dataSaveErrorOnNonLogin()
-            eventRelay.accept(.showDismissAlert(alertTitle, message))
+            eventRelay.accept(.showPopViewAlert(alertTitle, message))
             return
         }
 
@@ -164,7 +164,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                     self?.eventRelay.accept(.showErrorAlert)
                     return
                 } else {
-                    self?.eventRelay.accept(.showAlert(R.string.localizable.saveComplete(), nil))
+                    self?.eventRelay.accept(.showPopViewAlert(R.string.localizable.saveComplete(), nil))
                     self?.mode = .add(date)
                 }
             }
@@ -180,7 +180,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                     self?.eventRelay.accept(.showErrorAlert)
                     return
                 } else {
-                    self?.eventRelay.accept(.showAlert(R.string.localizable.saveComplete(), nil))
+                    self?.eventRelay.accept(.showPopViewAlert(R.string.localizable.saveComplete(), nil))
                     self?.mode = .add(Date())
                 }
             }
@@ -199,7 +199,7 @@ final class InputViewModel: InputViewModelInput, InputViewModelOutput {
                 if error != nil {
                     self?.eventRelay.accept(.showErrorAlert)
                 } else {
-                    self?.eventRelay.accept(.showAlert(R.string.localizable.deletedTitle(), nil))
+                    self?.eventRelay.accept(.showPopViewAlert(R.string.localizable.deletedTitle(), nil))
                     self?.mode = .add(Date())
                 }
             }
