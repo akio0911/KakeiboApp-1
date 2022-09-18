@@ -100,18 +100,22 @@ final class BalanceSegmentedControlView: UIView {
     }
 
     @objc private func segmentedControlValueChanged(_ sender: UISegmentedControl) {
-        UIView.animate(withDuration: 0.05) { [weak self] in
-            guard let self = self else { return }
-            self.bottomBar.frame.origin.x =
-            (sender.frame.width / CGFloat(sender.numberOfSegments)) * CGFloat(sender.selectedSegmentIndex)
-        }
+        animateBottomBar()
         delegate?.segmentedControlValueChanged(selectedSegmentIndex: sender.selectedSegmentIndex)
     }
 
     func configureSelectedSegmentIndex(index: Int) {
         if segmentedControl.selectedSegmentIndex != index {
             segmentedControl.selectedSegmentIndex = index
-            segmentedControl.sendActions(for: .valueChanged)
+            animateBottomBar()
+        }
+    }
+
+    private func animateBottomBar() {
+        UIView.animate(withDuration: 0.05) { [weak self] in
+            guard let self = self else { return }
+            self.bottomBar.frame.origin.x =
+            (self.segmentedControl.frame.width / CGFloat(self.segmentedControl.numberOfSegments)) * CGFloat(self.segmentedControl.selectedSegmentIndex)
         }
     }
 }
