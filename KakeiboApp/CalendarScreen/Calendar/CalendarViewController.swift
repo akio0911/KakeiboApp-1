@@ -10,9 +10,9 @@ import RxSwift
 import RxCocoa
 
 final class CalendarViewController: UIViewController {
-    @IBOutlet private weak var calendarNavigationItem: UINavigationItem!
-    @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
-    @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
+    @IBOutlet private weak var dateTitle: UILabel!
+    @IBOutlet private weak var nextMonthButton: UIButton!
+    @IBOutlet private weak var lastMonthButton: UIButton!
     @IBOutlet private weak var cardCollectionView: UICollectionView!
     @IBOutlet private weak var calendarTableView: UITableView!
     @IBOutlet private weak var incomeLabel: UILabel! // 収入ラベル
@@ -44,7 +44,7 @@ final class CalendarViewController: UIViewController {
 
     // swiftlint:disable:next function_body_length
     private func setupBinding() {
-        nextBarButtonItem.rx.tap
+        nextMonthButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 // 次のカードがない場合、何もしない
                 guard let self = self,
@@ -55,7 +55,7 @@ final class CalendarViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        lastBarButtonItem.rx.tap
+        lastMonthButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 // 前のカードがない場合、何もしない
                 guard let self = self, self.selectedCardIndexPath.row != 0 else { return }
@@ -85,7 +85,7 @@ final class CalendarViewController: UIViewController {
             .disposed(by: disposeBag)
 
         viewModel.outputs.navigationTitle
-            .drive(calendarNavigationItem.rx.title)
+            .drive(dateTitle.rx.text)
             .disposed(by: disposeBag)
 
         viewModel.outputs.incomeText
@@ -196,19 +196,15 @@ final class CalendarViewController: UIViewController {
 
     private func setBarButtonItem() {
         if selectedCardIndexPath.row == cardCollectionViewItems.count - 1 {
-            nextBarButtonItem.isEnabled = false
-            nextBarButtonItem.tintColor = .clear
+            nextMonthButton.isHidden = true
         } else {
-            nextBarButtonItem.isEnabled = true
-            nextBarButtonItem.tintColor = R.color.s333333()
+            nextMonthButton.isHidden = false
         }
 
         if selectedCardIndexPath.row == 0 {
-            lastBarButtonItem.isEnabled = false
-            lastBarButtonItem.tintColor = .clear
+            lastMonthButton.isHidden = true
         } else {
-            lastBarButtonItem.isEnabled = true
-            lastBarButtonItem.tintColor = R.color.s333333()
+            lastMonthButton.isHidden = false
         }
     }
 }
