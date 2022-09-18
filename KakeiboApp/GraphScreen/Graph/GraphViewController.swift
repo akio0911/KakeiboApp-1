@@ -9,82 +9,68 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class GraphViewController: UIViewController, UITableViewDelegate, BalanceSegmentedControlViewDelegate {
-    @IBOutlet private weak var graphNavigationBar: UINavigationBar!
-    @IBOutlet private weak var graphNavigationItem: UINavigationItem!
-    @IBOutlet private weak var nextBarButtonItem: UIBarButtonItem!
-    @IBOutlet private weak var lastBarButtonItem: UIBarButtonItem!
-    @IBOutlet private weak var pieChartView: PieChartView!
-    @IBOutlet private weak var graphView: UIView!
+final class GraphViewController: UIViewController {
+    @IBOutlet private weak var dateTitleLabel: UILabel!
+    @IBOutlet private weak var nextMonthButton: UIButton!
+    @IBOutlet private weak var lastMonthButton: UIButton!
+    @IBOutlet private weak var graphCardCollectionView: UICollectionView!
     @IBOutlet private weak var graphTableView: UITableView!
+    @IBOutlet private weak var termButton: UIBarButtonItem!
 
-    private let viewModel: GraphViewModelType
+    private let viewModel: GraphViewModelType = GraphViewModel()
     private let disposeBag = DisposeBag()
-    private let graphTableViewDataSource = GraphTableViewDataSource()
-    private var pieChartData = [GraphData]()
-    private var segmentedControlView: BalanceSegmentedControlView!
-
-    init(viewModel: GraphViewModelType = GraphViewModel()) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private var graphDataArray: [GraphData] = []
+    private var selectedCardIndexPath = IndexPath(row: 120, section: 0)
+    private var selectedSegmentIndex: Int = 0
+    private var cardCount = 241
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        setupSwipeGestureRecognizer()
         setupGraphTableView()
-        setupSegmentedControlView()
-        navigationItem.title = R.string.localizable.graph()
+        setupGraphCardCollectionView()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.inputs.onViewWillAppear()
-    }
-
-    private func setupSwipeGestureRecognizer() {
-        // 左スワイプの実装
-        let leftSwipeRecognizer = UISwipeGestureRecognizer(
-            target: self,
-            action: #selector(viewSwipeGesture(sender:))
-        )
-        leftSwipeRecognizer.direction = .left
-        graphView.addGestureRecognizer(leftSwipeRecognizer)
-
-        // 右スワイプの実装
-        let rightSwipeRecognizer = UISwipeGestureRecognizer(
-            target: self,
-            action: #selector(viewSwipeGesture(sender:))
-        )
-        rightSwipeRecognizer.direction = .right
-        graphView.addGestureRecognizer(rightSwipeRecognizer)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.inputs.onViewDidAppear()
     }
 
     private func setupBinding() {
-        nextBarButtonItem.rx.tap
-            .subscribe(onNext: viewModel.inputs.didActionNextMonth)
+        nextMonthButton.rx.tap
+            .subscribe(onNext: showNextMonth)
             .disposed(by: disposeBag)
 
-        lastBarButtonItem.rx.tap
-            .subscribe(onNext: viewModel.inputs.didActionLastMonth)
+        lastMonthButton.rx.tap
+            .subscribe(onNext: showLastMonth)
             .disposed(by: disposeBag)
 
-        viewModel.outputs.navigationTitle
-            .drive(graphNavigationItem.rx.title)
+        viewModel.outputs.dateTitle
+            .drive(dateTitleLabel.rx.text)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.leftBarButtonTitle
+            .drive(termButton.rx.title)
+            .disposed(by: disposeBag)
+
+        termButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapTermButton)
             .disposed(by: disposeBag)
 
         viewModel.outputs.graphData
-            .bind(to: graphTableView.rx.items(dataSource: graphTableViewDataSource))
-            .disposed(by: disposeBag)
-
-        viewModel.outputs.graphData
-            .subscribe(onNext: pieChartView.setupPieChartView)
+            .skip(1) // 初期値をスキップ
+            .subscribe(
+                onNext: { [weak self] graphData in
+                    guard let self = self else { return }
+                    self.graphDataArray = graphData.0
+                    self.selectedSegmentIndex = graphData.SegmentIndex
+                    self.graphTableView.reloadData()
+                    self.graphCardCollectionView.reloadData()
+                    self.scrollCurrentCard(animated: graphData.animated)
+                    self.setBarButtonItem()
+                }
+            )
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
@@ -97,53 +83,152 @@ final class GraphViewController: UIViewController, UITableViewDelegate, BalanceS
                     )
                     categoryViewController.hidesBottomBarWhenPushed = true
                     self.navigationController?.pushViewController(categoryViewController, animated: true)
+                case .setTerm(selectedCardIndexPath: let selectedCardIndexPath,
+                              selectedSegmentIndex: let selectedSegmentIndex,
+                              cardCount: let cardCount):
+                    self.selectedCardIndexPath = selectedCardIndexPath
+                    self.selectedSegmentIndex = selectedSegmentIndex
+                    self.cardCount = cardCount
                 }
             })
             .disposed(by: disposeBag)
     }
 
     private func setupGraphTableView() {
-        graphTableView.register(GraphTableViewCell.nib,
-                                forCellReuseIdentifier: GraphTableViewCell.identifier)
-        graphTableView.rx.setDelegate(self).disposed(by: disposeBag)
+        graphTableView.register(
+            GraphTableViewCell.nib,
+            forCellReuseIdentifier: GraphTableViewCell.identifier
+        )
+        graphTableView.dataSource = self
+        graphTableView.delegate = self
     }
 
-    private func setupSegmentedControlView() {
-        segmentedControlView = BalanceSegmentedControlView()
-        segmentedControlView.translatesAutoresizingMaskIntoConstraints = false
-        segmentedControlView.delegate = self
-        graphView.addSubview(segmentedControlView)
+    private func setupGraphCardCollectionView() {
+        graphCardCollectionView.register(
+            GraphCardCollectionViewCell.nib,
+            forCellWithReuseIdentifier: GraphCardCollectionViewCell.identifier
+        )
+        graphCardCollectionView.dataSource = self
+        graphCardCollectionView.delegate = self
+        let layout = CardCollectionViewFlowLayout()
+        layout.delegate = self
+        graphCardCollectionView.collectionViewLayout = layout
+        graphCardCollectionView.decelerationRate = .fast
     }
 
-    // MARK: - @objc(SwipeGestureRecognizer)
-    @objc private func viewSwipeGesture(sender: UISwipeGestureRecognizer) {
-        switch sender.direction {
-        case UISwipeGestureRecognizer.Direction.right:
-            viewModel.inputs.didActionLastMonth()
-        case UISwipeGestureRecognizer.Direction.left:
-            viewModel.inputs.didActionNextMonth()
-        default:
-            break
+    private func showNextMonth() {
+        selectedCardIndexPath.formIndex(&selectedCardIndexPath.row, offsetBy: 1)
+        viewModel.inputs.didActionNextMonth()
+    }
+
+    private func showLastMonth() {
+        selectedCardIndexPath.formIndex(&selectedCardIndexPath.row, offsetBy: -1)
+        viewModel.inputs.didActionLastMonth()
+    }
+
+    private func setBarButtonItem() {
+        if selectedCardIndexPath.row == cardCount - 1 {
+            nextMonthButton.isHidden = true
+        } else {
+            nextMonthButton.isHidden = false
+        }
+
+        if selectedCardIndexPath.row == 0 {
+            lastMonthButton.isHidden = true
+        } else {
+            lastMonthButton.isHidden = false
         }
     }
 
-    // MARK: - viewDidLayoutSubviews
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        NSLayoutConstraint.activate([
-            segmentedControlView.leadingAnchor.constraint(equalTo: graphView.leadingAnchor, constant: 70),
-            segmentedControlView.rightAnchor.constraint(equalTo: graphView.rightAnchor, constant: -70),
-            segmentedControlView.topAnchor.constraint(equalTo: graphView.topAnchor, constant: 8),
-            segmentedControlView.heightAnchor.constraint(equalToConstant: 30)
-        ])
+    private func scrollCurrentCard(animated: Bool) {
+        graphCardCollectionView.scrollToItem(
+            at: self.selectedCardIndexPath,
+            at: .centeredHorizontally,
+            animated: animated
+        )
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension GraphViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let cardWidth: CGFloat = collectionView.frame.width - 52
+        return CGSize(width: cardWidth, height: 270)
     }
 
-    // MARK: - UITableViewDelegate
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        guard let collectionView = scrollView as? UICollectionView,
+              let layout = collectionView.collectionViewLayout as? CardCollectionViewFlowLayout else {
+            return
+        }
+        layout.prepareForPaging()
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension GraphViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return cardCount
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: GraphCardCollectionViewCell.identifier,
+            for: indexPath
+        ) as? GraphCardCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.delegate = self
+        if indexPath == selectedCardIndexPath {
+            cell.configure(data: graphDataArray, segmentIndex: selectedSegmentIndex)
+        } else {
+            cell.hidePieChartView(segmentIndex: selectedSegmentIndex)
+        }
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension GraphViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.inputs.didSelectRowAt(indexPath: indexPath)
     }
+}
 
-    // MARK: - BalanceSegmentedControlViewDelegate
+// MARK: - UITableViewDataSource
+extension GraphViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        graphDataArray.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: GraphTableViewCell.identifier,
+            for: indexPath
+        ) as? GraphTableViewCell else {
+            return UITableViewCell()
+        }
+        cell.configure(data: graphDataArray[indexPath.row])
+        return cell
+    }
+}
+
+// MARK: - CardCollectionViewFlowLayoutDelegate
+extension GraphViewController: CardCollectionViewFlowLayoutDelegate {
+    func didSwipeCard(displayCardIndexPath: IndexPath) {
+        let distance = selectedCardIndexPath.distance(from: selectedCardIndexPath.row, to: displayCardIndexPath.row)
+        if distance > 0 {
+            showNextMonth()
+        } else if distance < 0 {
+            showLastMonth()
+        }
+    }
+}
+
+// MARK: - GraphCardCollectionViewCellDelegate
+extension GraphViewController: GraphCardCollectionViewCellDelegate {
     func segmentedControlValueChanged(selectedSegmentIndex: Int) {
         viewModel.inputs.didChangeSegmentIndex(index: selectedSegmentIndex)
     }

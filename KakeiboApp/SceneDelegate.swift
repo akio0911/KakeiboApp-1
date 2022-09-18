@@ -25,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
         UINavigationBar.appearance().barTintColor = R.color.s333333()
+        UINavigationBar.appearance().tintColor = R.color.sFF9B00()
 
         // TabBarの設定
         let tabBarAppearance = UITabBarAppearance()
