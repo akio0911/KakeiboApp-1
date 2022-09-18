@@ -219,7 +219,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
                 .setTerm(
                     selectedCardIndexPath: .init(row: 10, section: 0),
                     selectedSegmentIndex: balanceSegmentIndex,
-                    cardCount: 20
+                    cardCount: 21
                 )
             )
             acceptGraphData(animated: false)
@@ -230,7 +230,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
                 .setTerm(
                     selectedCardIndexPath: .init(row: 120, section: 0),
                     selectedSegmentIndex: balanceSegmentIndex,
-                    cardCount: 240
+                    cardCount: 241
                 )
             )
             acceptGraphData(animated: false)

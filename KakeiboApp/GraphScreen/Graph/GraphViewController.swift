@@ -22,7 +22,7 @@ final class GraphViewController: UIViewController {
     private var graphDataArray: [GraphData] = []
     private var selectedCardIndexPath = IndexPath(row: 120, section: 0)
     private var selectedSegmentIndex: Int = 0
-    private var cardCount = 240
+    private var cardCount = 241
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
