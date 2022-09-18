@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tvj-Bf-xF9">
-                                <rect key="frame" x="0.0" y="44" width="320" height="475"/>
+                                <rect key="frame" x="0.0" y="44" width="320" height="480"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4yU-cF-yZB">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="707.5"/>
@@ -237,32 +237,58 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="n3W-WX-AdX"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="vdB-00-d9P"/>
                             </scrollView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="oc7-yY-8T9">
+                                <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                                <subviews>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7pR-FE-kxJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="btD-4Y-5tp"/>
+                                        </constraints>
+                                        <items>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="JEt-Ux-vBd"/>
+                                            <barButtonItem title="削除" id="3Be-ij-ZG9">
+                                                <color key="tintColor" name="sFF9B00"/>
+                                            </barButtonItem>
+                                        </items>
+                                        <color key="barTintColor" name="sFFFFFF"/>
+                                    </toolbar>
+                                </subviews>
+                            </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="15M-K3-RN0">
+                                <rect key="frame" x="0.0" y="568" width="320" height="0.0"/>
+                                <color key="backgroundColor" name="sFFFFFF"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZBl-7h-kzk"/>
                         <color key="backgroundColor" name="sF2F2F7"/>
                         <constraints>
-                            <constraint firstItem="ZBl-7h-kzk" firstAttribute="bottom" secondItem="tvj-Bf-xF9" secondAttribute="bottom" id="4QX-pu-Vtd"/>
+                            <constraint firstItem="oc7-yY-8T9" firstAttribute="leading" secondItem="ZBl-7h-kzk" secondAttribute="leading" id="1yk-mw-HdQ"/>
+                            <constraint firstItem="oc7-yY-8T9" firstAttribute="top" secondItem="tvj-Bf-xF9" secondAttribute="bottom" id="5q6-z3-OaM"/>
+                            <constraint firstItem="ZBl-7h-kzk" firstAttribute="bottom" secondItem="oc7-yY-8T9" secondAttribute="bottom" id="KHe-Wx-kzB"/>
+                            <constraint firstItem="15M-K3-RN0" firstAttribute="leading" secondItem="Kiq-5a-hAv" secondAttribute="leading" id="KaI-hx-eSm"/>
+                            <constraint firstItem="15M-K3-RN0" firstAttribute="top" secondItem="ZBl-7h-kzk" secondAttribute="bottom" id="Lyh-h2-bXG"/>
+                            <constraint firstAttribute="bottom" secondItem="15M-K3-RN0" secondAttribute="bottom" id="Twg-mJ-gr6"/>
                             <constraint firstItem="tvj-Bf-xF9" firstAttribute="leading" secondItem="ZBl-7h-kzk" secondAttribute="leading" id="b2n-FA-C3h"/>
                             <constraint firstItem="ZBl-7h-kzk" firstAttribute="trailing" secondItem="tvj-Bf-xF9" secondAttribute="trailing" id="d1u-LL-Vpl"/>
                             <constraint firstItem="tvj-Bf-xF9" firstAttribute="top" secondItem="ZBl-7h-kzk" secondAttribute="top" id="eRB-sM-GAe"/>
+                            <constraint firstAttribute="trailing" secondItem="15M-K3-RN0" secondAttribute="trailing" id="u0a-fy-oGW"/>
+                            <constraint firstItem="ZBl-7h-kzk" firstAttribute="trailing" secondItem="oc7-yY-8T9" secondAttribute="trailing" id="vDb-MB-ZaX"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="収支入力" id="Ds9-s0-Kzs">
-                        <barButtonItem key="leftBarButtonItem" title="削除" id="Vzr-Ex-L2Y">
-                            <color key="tintColor" name="sFF9B00"/>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="保存" id="nql-2x-NIx">
                             <color key="tintColor" name="sFF9B00"/>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="balanceCategoryCollectionView" destination="Xdj-XP-cDQ" id="Sdh-Td-NmL"/>
                         <outlet property="balanceLabel" destination="lmj-3k-d5d" id="f9B-hu-yQ2"/>
                         <outlet property="balanceTextField" destination="wJX-e3-9ps" id="Clc-rf-mTV"/>
+                        <outlet property="buttomToolbar" destination="7pR-FE-kxJ" id="FW5-sJ-gdY"/>
                         <outlet property="dateTextField" destination="OJ9-eN-9Df" id="evR-F1-5jd"/>
-                        <outlet property="deleteBarButton" destination="Vzr-Ex-L2Y" id="PmK-tP-oRd"/>
+                        <outlet property="deleteBarButton" destination="3Be-ij-ZG9" id="f8s-nO-xai"/>
                         <outlet property="memoTextView" destination="MwI-pI-6nh" id="E8U-DG-tsV"/>
                         <outlet property="saveBarButton" destination="nql-2x-NIx" id="lHs-XH-xiA"/>
                         <outlet property="saveButton" destination="bwu-Nz-yTp" id="zgf-rU-LOw"/>
@@ -271,7 +297,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eEx-fx-M4I" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828.125" y="105"/>
+            <point key="canvasLocation" x="1828.125" y="104.5774647887324"/>
         </scene>
     </scenes>
     <resources>

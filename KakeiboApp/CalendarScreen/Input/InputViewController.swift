@@ -19,27 +19,31 @@ final class InputViewController: UIViewController {
     @IBOutlet private weak var balanceCategoryCollectionView: UICollectionView!
     @IBOutlet private weak var memoTextView: BorderTextView!
     @IBOutlet private weak var saveButton: UIButton!
+    @IBOutlet private weak var buttomToolbar: UIToolbar!
 
     private let viewModel: InputViewModelType = InputViewModel()
     private let disposeBag = DisposeBag()
     private var balanceCategoryDataArray: [[CategoryData]] = []
     private var selectedIndexPath: IndexPath = [0, 0]
     private var mode: InputViewModel.Mode = .add(Date())
+    private var isHiddenButtomToolbar: Bool = true
 
-    func inject(mode: InputViewModel.Mode) {
+    func inject(mode: InputViewModel.Mode, isHiddenButtomToolbar: Bool = true) {
         self.mode = mode
+        self.isHiddenButtomToolbar = isHiddenButtomToolbar
     }
 
     // MARK: - viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        buttomToolbar.isHidden = isHiddenButtomToolbar
         segmentedControlView.delegate = self
         setupCategoryCollectionView()
         setupBinding()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.inputs.setMode(mode: mode)
         switch mode {
         case .add(let date):

@@ -129,19 +129,19 @@ final class CalendarViewController: UIViewController {
 
     // InputViewControllerへ画面遷移
     private func selectedInputVC(event: CalendarViewModel.Event) {
-        guard let navigationController = tabBarController?.viewControllers?[TabBarViews.inputView.rawValue] as? UINavigationController,
-        let inputViewController = navigationController.topViewController as? InputViewController else {
+        guard let inputViewController = R.storyboard.input().instantiateInitialViewController() as? InputViewController else {
             return
         }
-        tabBarController?.selectedIndex = TabBarViews.inputView.rawValue
         switch event {
         case .selectedAdd(let date):
             inputViewController.inject(mode: .add(date))
         case .selectedEdit(let kakeiboData, let categoryData):
-            inputViewController.inject(mode: .edit(kakeiboData, categoryData))
+            inputViewController.inject(mode: .edit(kakeiboData, categoryData), isHiddenButtomToolbar: false)
         default:
             return
         }
+        inputViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(inputViewController, animated: true)
     }
 
     // collectionViewの設定
