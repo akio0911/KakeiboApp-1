@@ -36,6 +36,7 @@ final class CategoryModel: CategoryModelProtocol {
         guard let userId = userId else {
             incomeCategoryDataArray = []
             expenseCategoryDataArray = []
+            completion(nil)
             return
         }
         repository.loadCategoryData(userId: userId) { [weak self] result in

@@ -30,6 +30,7 @@ final class KakeiboModel: KakeiboModelProtocol {
     func setupData(userId: String?, completion: @escaping KakeiboModelCompletion) {
         guard let userId = userId else {
             kakeiboDataArray = []
+            completion(nil)
             return
         }
         repository.loadData(userId: userId) { [weak self] result in
