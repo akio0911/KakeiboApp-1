@@ -43,23 +43,20 @@ final class MainTabBarController: UITabBarController {
     }
 
     private func setupData() {
-        guard let userId = authType.userInfo?.id else {
-            return
-        }
         showProgress()
-        kakeiboModel.setupData(userId: userId) { [weak self] error in
-            if error != nil {
+        kakeiboModel.setupData(userId: authType.userInfo?.id) { [weak self] error in
+            guard error == nil else {
                 self?.hideProgress()
                 self?.showErrorAlert()
-            } else {
-                self?.categoryModel.setupData(userId: userId) { [weak self] error in
-                    self?.hideProgress()
-                    if error != nil {
-                        self?.showErrorAlert()
-                    } else {
-                        EventBus.setupData.post()
-                    }
+                return
+            }
+            self?.categoryModel.setupData(userId: self?.authType.userInfo?.id) { [weak self] error in
+                self?.hideProgress()
+                guard error == nil else {
+                    self?.showErrorAlert()
+                    return
                 }
+                EventBus.setupData.post()
             }
         }
     }
@@ -67,9 +64,9 @@ final class MainTabBarController: UITabBarController {
     private func setupTabBarController() {
         let viewControllers = TabBarViews.allCases.compactMap { $0.viewController }
         let navigationControllers =
-            viewControllers.map {
-                UINavigationController(rootViewController: $0)
-            }
+        viewControllers.map {
+            UINavigationController(rootViewController: $0)
+        }
         setViewControllers(navigationControllers, animated: false)
     }
 }

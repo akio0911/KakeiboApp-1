@@ -19,6 +19,7 @@ protocol AuthTypeProtocol {
     func sendPasswordReset(email: String, completion: @escaping AuthCompletion)
     func currentUserLink(password: String, completion: @escaping AuthCompletion)
     func sendSignInLink(email: String, completion: @escaping AuthCompletion)
+    func accountDelete(completion: @escaping AuthCompletion)
 }
 
 final class AuthType: AuthTypeProtocol {
@@ -122,6 +123,21 @@ final class AuthType: AuthTypeProtocol {
                 completion(AuthError(error: error))
             } else {
                 // 送信に成功
+                completion(nil)
+            }
+        }
+    }
+
+    func accountDelete(completion: @escaping AuthCompletion) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        currentUser.delete { [weak self] error in
+            if let error = error {
+                // アカウント削除に失敗
+                completion(AuthError(error: error))
+            } else {
+                // アカウント削除に成功
+                self?.userInfo = nil
+                EventBus.updatedUserInfo.post()
                 completion(nil)
             }
         }

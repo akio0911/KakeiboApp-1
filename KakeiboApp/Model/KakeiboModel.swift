@@ -11,7 +11,7 @@ import RxRelay
 typealias KakeiboModelCompletion = (Error?) -> Void
 
 protocol KakeiboModelProtocol {
-    func setupData(userId: String, completion: @escaping KakeiboModelCompletion)
+    func setupData(userId: String?, completion: @escaping KakeiboModelCompletion)
     func loadDayData(date: Date) -> [KakeiboData]
     func loadMonthData(date: Date) -> [KakeiboData]
     func loadYearData(date: Date) -> [KakeiboData]
@@ -27,8 +27,12 @@ final class KakeiboModel: KakeiboModelProtocol {
         self.repository = repository
     }
 
-    func setupData(userId: String, completion: @escaping KakeiboModelCompletion) {
-        repository.loadData(userId: userId) {[weak self] result in
+    func setupData(userId: String?, completion: @escaping KakeiboModelCompletion) {
+        guard let userId = userId else {
+            kakeiboDataArray = []
+            return
+        }
+        repository.loadData(userId: userId) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .success(let kakeiboDataArray):

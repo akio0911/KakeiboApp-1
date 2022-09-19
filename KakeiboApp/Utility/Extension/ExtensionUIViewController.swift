@@ -20,6 +20,17 @@ extension UIViewController {
         present(alert, animated: true)
     }
 
+    func showDestructiveAlert(title: String, message: String?, destructiveTitle: String, onDestructive: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let destructiveAction = UIAlertAction(title: destructiveTitle, style: .destructive) { _ in
+            onDestructive?()
+        }
+        let cancelAction = UIAlertAction(title: R.string.localizable.cancel(), style: .cancel)
+        alert.addAction(cancelAction)
+        alert.addAction(destructiveAction)
+        present(alert, animated: true)
+    }
+
     // TODO: エラーから文言を設定するよう修正
     func showErrorAlert(onError: (() -> Void)? = nil) {
         let alert = UIAlertController(
