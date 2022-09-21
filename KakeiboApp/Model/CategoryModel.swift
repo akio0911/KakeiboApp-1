@@ -34,8 +34,8 @@ final class CategoryModel: CategoryModelProtocol {
 
     func setupData(userId: String?, completion: @escaping CategoryModelCompletion) {
         guard let userId = userId else {
-            incomeCategoryDataArray = []
-            expenseCategoryDataArray = []
+            incomeCategoryDataArray = repository.createInitialIncomeCategory()
+            expenseCategoryDataArray = repository.createInitialExpenseCategory()
             completion(nil)
             return
         }

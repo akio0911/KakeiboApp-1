@@ -15,6 +15,8 @@ protocol CategoryDataRepositoryProtocol {
     func setExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping (Error?) -> Void)
     func deleteIncomeCategoryData(userId: String, deleteData: CategoryData, data: [CategoryData], completion: @escaping (Error?) -> Void)
     func deleteExpenseCategoryData(userId: String, deleteData: CategoryData, data: [CategoryData], completion: @escaping (Error?) -> Void)
+    func createInitialIncomeCategory() -> [CategoryData]
+    func createInitialExpenseCategory() -> [CategoryData]
 }
 
 final class CategoryDataRepository: CategoryDataRepositoryProtocol {
@@ -256,7 +258,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         }
     }
 
-    private func createInitialIncomeCategory() -> [CategoryData] {
+    func createInitialIncomeCategory() -> [CategoryData] {
         let incomeCategory: [(String, UIColor)] = [
             (R.string.localizable.salary(), UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)),
             (R.string.localizable.allowance(), UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)),
@@ -275,7 +277,7 @@ final class CategoryDataRepository: CategoryDataRepositoryProtocol {
         }
     }
 
-    private func createInitialExpenseCategory() -> [CategoryData] {
+    func createInitialExpenseCategory() -> [CategoryData] {
         let expenseCategory: [(String, UIColor)] = [
             (R.string.localizable.consumptionExpenses(), UIColor(red: 219 / 255, green: 83 / 255, blue: 117 / 255, alpha: 1)),
             (R.string.localizable.lifeExpenses(), UIColor(red: 114 / 255, green: 158 / 255, blue: 161 / 255, alpha: 1)),
