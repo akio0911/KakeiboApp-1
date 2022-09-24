@@ -16,13 +16,13 @@
                 <outlet property="accountIconView" destination="IJ3-9r-gOb" id="NRc-ts-rVi"/>
                 <outlet property="accountStackView" destination="Gqc-Bj-AQ0" id="g4O-V2-fZN"/>
                 <outlet property="appStackView" destination="05r-fS-bd4" id="0DU-vx-eUH"/>
+                <outlet property="authButton" destination="anB-Fe-tsa" id="yj4-HN-E34"/>
                 <outlet property="categoryEditButton" destination="lep-y7-PNY" id="pJI-pR-ge1"/>
                 <outlet property="howToUseButton" destination="6gI-3e-JjT" id="wCe-1I-Zwd"/>
                 <outlet property="passcodeSwitch" destination="3i2-RZ-MRs" id="jUL-kY-Ufu"/>
                 <outlet property="reviewButton" destination="gaf-0T-fSE" id="lta-KQ-a41"/>
                 <outlet property="settingStackView" destination="hgC-Nj-nuR" id="80s-6v-Bpg"/>
                 <outlet property="shareButton" destination="keu-uR-9rf" id="5oo-b6-ZWr"/>
-                <outlet property="signupButton" destination="anB-Fe-tsa" id="xx1-yq-2Ye"/>
                 <outlet property="userNameLabel" destination="ftp-Ig-4Nm" id="VOz-hO-No5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="mZI-9b-wmv"/>
             </connections>
@@ -383,10 +383,9 @@
                                             </subviews>
                                         </stackView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anB-Fe-tsa">
-                                            <rect key="frame" x="80" y="155" width="70" height="27"/>
+                                            <rect key="frame" x="96" y="155" width="54" height="27"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="27" id="K79-P4-Uod"/>
-                                                <constraint firstAttribute="width" constant="70" id="wM1-Dr-XHO"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                             <color key="tintColor" name="sFF9B00"/>

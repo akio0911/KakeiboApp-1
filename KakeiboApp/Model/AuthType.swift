@@ -19,6 +19,7 @@ protocol AuthTypeProtocol {
     func sendPasswordReset(email: String, completion: @escaping AuthCompletion)
     func currentUserLink(password: String, completion: @escaping AuthCompletion)
     func sendSignInLink(email: String, completion: @escaping AuthCompletion)
+    func accountDelete(completion: @escaping AuthCompletion)
 }
 
 final class AuthType: AuthTypeProtocol {
@@ -52,6 +53,8 @@ final class AuthType: AuthTypeProtocol {
                 completion(AuthError(error: error))
             } else {
                 // ユーザー名の設定に成功
+                let currentUser = Auth.auth().currentUser
+                strongSelf.userInfo = UserInfo(user: currentUser)
                 strongSelf.sendSignInLink(email: email, completion: completion)
             }
         }
@@ -122,6 +125,35 @@ final class AuthType: AuthTypeProtocol {
                 completion(AuthError(error: error))
             } else {
                 // 送信に成功
+                completion(nil)
+            }
+        }
+    }
+
+    func accountDelete(completion: @escaping AuthCompletion) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        currentUser.delete { [weak self] error in
+            if let error = error {
+                // アカウント削除に失敗
+                completion(AuthError(error: error))
+            } else {
+                // アカウント削除に成功
+                self?.signInAnonymously(completion: completion)
+            }
+        }
+    }
+
+    func signInAnonymously(completion: @escaping AuthCompletion) {
+        Auth.auth().signInAnonymously { [weak self] userResult, error in
+            // 匿名認証の処理が返ってきた
+            if let error = error {
+                print("Error 匿名認証に失敗しました \(error)")
+                completion(AuthError(error: error))
+            } else if let user = userResult?.user {
+                let uid = user.uid
+                print("匿名認証に成功しました \(uid)")
+                self?.userInfo = UserInfo(user: user)
+                EventBus.updatedUserInfo.post()
                 completion(nil)
             }
         }

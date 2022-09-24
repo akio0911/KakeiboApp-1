@@ -21,7 +21,7 @@ final class AccountViewController: UIViewController {
     @IBOutlet private weak var accountIconView: UIView!
     @IBOutlet private weak var userNameLabel: UILabel!
     @IBOutlet private weak var accountEnterButton: UIButton!
-    @IBOutlet private weak var signupButton: UIButton!
+    @IBOutlet private weak var authButton: UIButton!
 
     private let viewModel: AccountViewModelType
     private let disposeBag = DisposeBag()
@@ -55,8 +55,8 @@ final class AccountViewController: UIViewController {
             .subscribe(onNext: viewModel.inputs.didTapAccountEnterButton)
             .disposed(by: disposeBag)
 
-        signupButton.rx.tap
-            .subscribe(onNext: viewModel.inputs.didTapSignupButton)
+        authButton.rx.tap
+            .subscribe(onNext: viewModel.inputs.didTapAuthButton)
             .disposed(by: disposeBag)
 
         passcodeSwitch.rx.value
@@ -91,8 +91,15 @@ final class AccountViewController: UIViewController {
             })
             .disposed(by: disposeBag)
 
-        viewModel.outputs.isHiddenSignupButton
-            .drive(signupButton.rx.isHidden)
+        viewModel.outputs.authButtonTitle
+            .drive(onNext: { [weak self] title in
+                guard let strongSelf = self else { return }
+                strongSelf.authButton.setTitle(title, for: .normal)
+            })
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.isHiddenAuthButton
+            .drive(authButton.rx.isHidden)
             .disposed(by: disposeBag)
 
         viewModel.outputs.isHiddenAccountEnterButton
@@ -101,6 +108,10 @@ final class AccountViewController: UIViewController {
 
         viewModel.outputs.isOnPasscode
             .drive(passcodeSwitch.rx.value)
+            .disposed(by: disposeBag)
+
+        viewModel.outputs.isAnimatedIndicator
+            .drive(onNext: animateActivityIndicatorView(isAnimated:))
             .disposed(by: disposeBag)
 
         viewModel.outputs.event
@@ -121,9 +132,23 @@ final class AccountViewController: UIViewController {
                     strongSelf.presentActivityVC(items: items)
                 case .applicationSharedOpen(let url):
                     strongSelf.applicationSharedOpen(url: url)
+                case .showDestructiveAlert(title: let title, message: let message, destructiveTitle: let destructiveTitle, onDestructive: let onDestructive):
+                    strongSelf.showDestructiveAlert(title: title, message: message, destructiveTitle: destructiveTitle, onDestructive: onDestructive)
+                case .showAlert(title: let title, message: let message):
+                    strongSelf.showAlert(title: title, messege: message)
+                case .showErrorAlert:
+                    strongSelf.showErrorAlert()
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    private func animateActivityIndicatorView(isAnimated: Bool) {
+        if isAnimated {
+            showProgress()
+        } else {
+            hideProgress()
+        }
     }
 
     private func pushAuthFormVC(viewModel: AuthFormViewModelType) {

@@ -41,16 +41,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if firebaseAuth.currentUser == nil {
             // ログアウト中
             // FireBaseの匿名認証
-            Auth.auth().signInAnonymously(completion: { [weak self] userResult, error in
+            ModelLocator.shared.authType.signInAnonymously { [weak self] _ in
                 // 匿名認証の処理が返ってきた
                 guard let strongSelf = self else { return }
-                if let error = error {
-                    print("Error 匿名認証に失敗しました \(error)")
-                } else if let user = userResult?.user {
-                    let uid = user.uid
-                    print("匿名認証に成功しました \(uid)")
-                }
-
                 // 画面を表示する
                 guard let windowScene = (scene as? UIWindowScene) else { return }
                 strongSelf.window = UIWindow(windowScene: windowScene)
@@ -67,7 +60,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         passcodeViewController, animated: false, completion: nil
                     )
                 }
-            })
+            }
         } else {
             // ログイン中
             // 画面を表示する
@@ -89,6 +82,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // DynamicLinksからアプリを起動した時
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard let _ = ModelLocator.shared.authType.userInfo?.name else { return }
         let authFormViewController = AuthFormViewController(
             viewModel: AuthFormViewModel(mode: .setPassword)
         )

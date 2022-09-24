@@ -13,8 +13,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AuthFormViewController" customModule="KakeiboApp" customModuleProvider="target">
             <connections>
                 <outlet property="authFormImageView" destination="IPI-6w-VKM" id="Lwq-5Z-Bua"/>
-                <outlet property="baseScrollView" destination="xL1-Cr-Uzi" id="Xlw-gL-NNg"/>
-                <outlet property="contentsView" destination="Lag-kc-g9r" id="3S6-M9-2w8"/>
                 <outlet property="enterButton" destination="R1v-ym-drK" id="abx-CK-bZC"/>
                 <outlet property="forgotPasswordButton" destination="GdU-Ml-CR4" id="cRI-Qo-wE4"/>
                 <outlet property="mailStackView" destination="wic-RL-35e" id="jPU-Qj-rWd"/>

@@ -12,7 +12,7 @@ import RxRelay
 typealias CategoryModelCompletion = (Error?) -> Void
 
 protocol CategoryModelProtocol {
-    func setupData(userId: String, completion: @escaping CategoryModelCompletion)
+    func setupData(userId: String?, completion: @escaping CategoryModelCompletion)
     func addIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
     func addExpenseCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
     func editIncomeCategoryData(userId: String, data: CategoryData, completion: @escaping CategoryModelCompletion)
@@ -32,7 +32,13 @@ final class CategoryModel: CategoryModelProtocol {
         self.repository = repository
     }
 
-    func setupData(userId: String, completion: @escaping CategoryModelCompletion) {
+    func setupData(userId: String?, completion: @escaping CategoryModelCompletion) {
+        guard let userId = userId else {
+            incomeCategoryDataArray = repository.createInitialIncomeCategory()
+            expenseCategoryDataArray = repository.createInitialExpenseCategory()
+            completion(nil)
+            return
+        }
         repository.loadCategoryData(userId: userId) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
