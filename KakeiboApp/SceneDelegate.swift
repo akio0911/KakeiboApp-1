@@ -89,6 +89,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     // DynamicLinksからアプリを起動した時
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        guard let _ = ModelLocator.shared.authType.userInfo?.name else { return }
         let authFormViewController = AuthFormViewController(
             viewModel: AuthFormViewModel(mode: .setPassword)
         )

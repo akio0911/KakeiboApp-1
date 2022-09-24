@@ -53,6 +53,8 @@ final class AuthType: AuthTypeProtocol {
                 completion(AuthError(error: error))
             } else {
                 // ユーザー名の設定に成功
+                let currentUser = Auth.auth().currentUser
+                strongSelf.userInfo = UserInfo(user: currentUser)
                 strongSelf.sendSignInLink(email: email, completion: completion)
             }
         }
