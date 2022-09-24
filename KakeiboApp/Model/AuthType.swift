@@ -138,7 +138,21 @@ final class AuthType: AuthTypeProtocol {
                 completion(AuthError(error: error))
             } else {
                 // アカウント削除に成功
-                self?.userInfo = nil
+                self?.signInAnonymously(completion: completion)
+            }
+        }
+    }
+
+    func signInAnonymously(completion: @escaping AuthCompletion) {
+        Auth.auth().signInAnonymously { [weak self] userResult, error in
+            // 匿名認証の処理が返ってきた
+            if let error = error {
+                print("Error 匿名認証に失敗しました \(error)")
+                completion(AuthError(error: error))
+            } else if let user = userResult?.user {
+                let uid = user.uid
+                print("匿名認証に成功しました \(uid)")
+                self?.userInfo = UserInfo(user: user)
                 EventBus.updatedUserInfo.post()
                 completion(nil)
             }
