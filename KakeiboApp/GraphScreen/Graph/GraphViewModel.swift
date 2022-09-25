@@ -31,7 +31,7 @@ protocol GraphViewModelType {
 
 final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     enum Event {
-        case presentCategoryVC(categoryData: CategoryData, displayDate: Date)
+        case presentCategoryVC(categoryData: CategoryData, displayDate: Date, term: Term)
         case setTerm(
             selectedCardIndexPath: IndexPath,
             selectedSegmentIndex: Int,
@@ -193,7 +193,7 @@ final class GraphViewModel: GraphViewModelInput, GraphViewModelOutput {
     func didSelectRowAt(indexPath: IndexPath) {
         let graphDataArray = graphDataArrayRelay.value
         eventRelay.accept(
-            .presentCategoryVC(categoryData: graphDataArray.0[indexPath.row].categoryData, displayDate: displayDate)
+            .presentCategoryVC(categoryData: graphDataArray.0[indexPath.row].categoryData, displayDate: displayDate, term: term)
         )
     }
 

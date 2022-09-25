@@ -9,6 +9,6 @@ import Foundation
 
 struct CategoryItem {
     let date: Date // 日付
-    let totalBalance: Int
-    let dataArray: [KakeiboData]
+    var totalBalance: Int
+    var dataArray: [KakeiboData]
 }
