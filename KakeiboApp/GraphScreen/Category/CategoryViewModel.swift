@@ -30,36 +30,47 @@ final class CategoryViewModel: CategoryViewModelInput, CategoryViewModelOutput {
     private let disposeBag = DisposeBag()
     private let categoryItemRelay =  BehaviorRelay<[CategoryItem]>(value: [])
     private let navigationTitleRelay = BehaviorRelay<String>(value: DateUtility.stringFromDate(date: Date(), format: "yyyy年MM月"))
+    private let term: GraphViewModel.Term
 
     init(categoryData: CategoryData,
          calendarDate: CalendarDateProtocol = ModelLocator.shared.calendarDate,
          kakeiboModel: KakeiboModelProtocol = ModelLocator.shared.kakeiboModel,
-         displayDate: Date) {
+         displayDate: Date,
+         term: GraphViewModel.Term) {
         self.categoryData = categoryData
         self.calendarDate = calendarDate
         self.kakeiboModel = kakeiboModel
         self.displayDate = displayDate
+        self.term = term
     }
 
     private func acceptTableViewData() {
-        guard let year = Int(DateUtility.stringFromDate(date: displayDate, format: "yyyy")),
-              let month = Int(DateUtility.stringFromDate(date: displayDate, format: "MM")) else {
-            return
-        }
         var categoryItemArray: [CategoryItem] = []
-
-        let kakeiboDataArray = kakeiboModel.loadMonthData(date: displayDate)
-        let monthDateArray = calendarDate.loadCalendarDate(year: year, month: month, isContainOtherMonth: false)
-        monthDateArray.forEach { date in
-            let filterData = kakeiboDataArray.filter { kakeiboData in
-                kakeiboData.categoryId.fetchId == categoryData.id && kakeiboData.date == date
-            }
-            guard !filterData.isEmpty else { return }
-            let totalBalance = filterData.reduce(0) { $0 + $1.balance.fetchValue }
-            categoryItemArray.append(
-                CategoryItem(date: date, totalBalance: totalBalance, dataArray: filterData)
-            )
+        let kakeiboDataArray: [KakeiboData]
+        switch term {
+        case .yearly:
+            kakeiboDataArray = kakeiboModel.loadYearData(date: displayDate)
+        case .monthly:
+            kakeiboDataArray = kakeiboModel.loadMonthData(date: displayDate)
         }
+
+        let sortedKakeiboDataArray = kakeiboDataArray.sorted { $0.date < $1.date }
+    top: for kakeiboData in sortedKakeiboDataArray {
+        guard kakeiboData.categoryId.fetchId == categoryData.id else { continue }
+        for (index, value) in categoryItemArray.enumerated() {
+            guard kakeiboData.date == value.date else { continue }
+            categoryItemArray[index].dataArray.append(kakeiboData)
+            categoryItemArray[index].totalBalance += kakeiboData.balance.fetchValue
+            continue top
+        }
+        categoryItemArray.append(
+            CategoryItem(
+                date: kakeiboData.date,
+                totalBalance: kakeiboData.balance.fetchValue,
+                dataArray: [kakeiboData]
+            )
+        )
+    }
         categoryItemRelay.accept(categoryItemArray)
     }
 
